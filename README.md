@@ -40,36 +40,34 @@ It shows:
 
 ## 2. Get your map in from QGIS
 
-The dashboard now accepts **either** of these straight from QGIS:
+The dashboard accepts GeoJSON in **either** coordinate system straight from QGIS:
 
 - **WGS84 lat/long (EPSG:4326)** — the native web-map system, used as-is.
 - **GDA94 / MGA Zone 56 (EPSG:28356)** — your QGIS project's grid. The dashboard
-  **reprojects it to lat/long automatically on load** (using proj4), so you can export
-  without changing your project.
+  **reprojects it to lat/long automatically** on load. Only 4326 and 28356 are wired in
+  (Zone 56 covers your whole patch); the map tells you if it hits an unsupported CRS.
 
-By default the CRS is **auto-detected**: it reads the `crs` tag QGIS writes into the
-file, and falls back to checking the coordinate values (metres vs degrees). If a file
-ever loads in the wrong spot, open **Settings** and force the *Imported GeoJSON
-coordinate system* to either 4326 or 28356.
+By default the CRS is **auto-detected** (it reads the tag QGIS writes and checks the
+coordinate values). To force it, use **Settings → Imported GeoJSON coordinate system**.
 
-To export from QGIS:
+**Two ways to get features onto the map:**
 
-1. Right-click your layer → **Export → Save Features As…**
-2. Format: **GeoJSON**
-3. CRS: leave it as your project's **EPSG:28356 - GDA94 / MGA zone 56**, *or* pick
-   **EPSG:4326 - WGS 84** — both work.
-4. Save as **`workarea.geojson`** into the repo's **`data/`** folder, replacing the sample.
+1. **Base layer (auto-loads for everyone):** export your main layer as
+   **`data/workarea.geojson`** in the repo. It loads on every visit as "Work area".
+   - QGIS: Right-click layer → **Export → Save Features As…** → Format **GeoJSON** →
+     CRS **EPSG:28356** (or 4326) → save as `data/workarea.geojson`.
+2. **Add more layers in the app:** click **Add layers** on the map toolbar and select
+   **one or more** GeoJSON files at once. Each becomes its own named, colour-coded layer
+   with a show/hide/remove panel top-right of the map. These layers are **saved with the
+   board and published to the supervisor** when you hit Publish — so they see the full
+   map too, no repo editing needed.
 
-To preview an export without committing it, use the **Load GeoJSON** button on the map
-toolbar — the status line under the map confirms which CRS was detected and whether it
-was reprojected.
+> Tip: uploaded layers travel inside `data.json`, so keep them sensibly sized (simplify
+> dense layers in QGIS first). A very large permanent base map is lighter committed as
+> `data/workarea.geojson`.
 
-Any attribute columns (Asset, Stage, Status, etc.) show up in the feature pop-up
-automatically. A column named `Asset` or `name` is used as the heading.
-
-> Note: only **EPSG:4326** and **EPSG:28356** are wired in (that's your region — Zone 56
-> covers ~150–156°E). A different MGA zone would need its definition added; the map will
-> tell you if it hits an unsupported CRS.
+Attribute columns (Asset, Stage, Status, etc.) appear in each feature's pop-up. A column
+named `Asset` or `name` is used as the heading.
 
 ---
 
@@ -85,22 +83,47 @@ automatically. A column named `Asset` or `name` is used as the heading.
 
 ---
 
-## 4. Saving your data — read this
+## 4. Live sharing — you edit, the supervisor views
 
-Everything you add (markers, notes, lists, stats) is saved in **this browser's local
-storage**. That means:
+The board is shared through a `data.json` file committed to this repo:
 
-- It persists across refreshes and restarts **on this device + browser**.
-- It does **not** sync to other computers or phones on its own.
+- **You (editor)** make changes, then hit **Publish**. That commits `data.json`.
+- **The supervisor (viewer)** just opens the URL. Their screen is **read-only** and
+  **auto-refreshes every ~45 seconds**, so your published changes appear within about a
+  minute. They never need a token or an account — only the link.
 
-To back up or move data:
+Until you connect a token, the dashboard is in read-only view mode (that's exactly what
+the supervisor sees). Connecting a token unlocks editing and the Publish button **on your
+machine only**.
 
-- **Export** downloads a `.json` backup file.
-- **Import** loads one back in (on any device).
+### One-time setup: connect your GitHub token
 
-If you want the data to be the same for everyone who opens the site, **Export** the
-JSON and commit it to the repo, and load it on each device via **Import**. (True
-multi-user live sync would need a backend, which is outside a static GitHub Pages site.)
+1. On GitHub: click your avatar → **Settings** → **Developer settings** (bottom of the
+   left menu) → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**.
+2. Name it (e.g. `OCE-OPS publish`), pick an expiry (e.g. 90 days).
+3. **Resource owner:** your account. **Repository access:** *Only select repositories* →
+   choose **OCE-OPS**.
+4. **Permissions → Repository permissions → Contents → Read and write.** (Leave the rest.)
+5. **Generate token**, copy it (starts with `github_pat_…`).
+6. In the dashboard: **Settings** → paste it into *GitHub access token*, check the
+   owner/repo/branch are right (they auto-fill from the URL), **Save**.
+7. The **Publish** button is now live. Make your edits, click **Publish**.
+
+### Token safety
+
+- The token is stored **only in your browser**, never in the repo and never inside
+  `data.json` (Publish/Export deliberately exclude it).
+- It's scoped to **just this one repo's contents** — it can't touch anything else in your
+  account. Give it an expiry, and if it ever leaks, revoke it on GitHub and make a new one.
+- Because the repo is **public**, `data.json` (daily works, deliveries, subbies) is
+  readable by anyone with the link. Fine for most site info; if it's sensitive, a private
+  repo with Pages needs a paid GitHub plan.
+
+### Notes on timing
+
+This is *near* real-time, not instant-to-the-second: after you Publish, the supervisor
+sees it on their next refresh (within ~45s), give or take a few seconds for GitHub's
+cache. **Export/Import** still works as a manual backup if you ever want a local snapshot.
 
 ---
 

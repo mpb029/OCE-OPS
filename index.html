@@ -444,8 +444,98 @@ input, textarea, select { font-family: inherit; }
   #map { height: 360px; }
 }
 
-/* focus visibility (a11y floor) */
-:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+/* =========================  LIVE SYNC UI  =============================== */
+.sync-pill {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 12px; font-family: var(--font-mono);
+  padding: 5px 11px; border-radius: 20px;
+  background: var(--ink-2); border: 1px solid #2b3b48; color: #cdd6dc;
+  white-space: nowrap;
+}
+.sync-pill i { font-size: 9px; }
+.sync-pill.clean { color: #8ce0bd; border-color: #2a5a47; }
+.sync-pill.clean i { color: var(--go); font-size: 11px; }
+.sync-pill.dirty { color: #ffd98a; border-color: #6b5320; }
+.sync-pill.dirty i { color: var(--amber); }
+.sync-pill.live  { color: #ffc9b8; border-color: #6b3326; }
+.sync-pill.live  i { color: var(--orange); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
+
+#btnPublish.pub-dirty { background: var(--amber); color: var(--ink); border-color: var(--amber); font-weight: 600; }
+#btnPublish.pub-dirty:hover { background: var(--amber-deep); border-color: var(--amber-deep); color: var(--ink); }
+#btnPublish.pub-clean { background: var(--ink-2); color: #8ce0bd; border-color: #2a5a47; }
+#btnPublish.pub-clean:hover { background: var(--go); color: #fff; border-color: var(--go); }
+#btnPublish.pub-connect { background: var(--ink-2); color: var(--amber); border-color: #6b5320; }
+#btnPublish.pub-busy { opacity: .7; cursor: progress; }
+
+.set-section {
+  font-family: var(--font-display); text-transform: uppercase; letter-spacing: .6px;
+  font-weight: 600; font-size: 14px; color: var(--ink);
+  border-top: 1px solid var(--hairline); padding-top: 14px; margin-top: 4px;
+}
+
+.toast {
+  position: fixed; left: 50%; bottom: 24px; transform: translate(-50%, 80px);
+  background: var(--ink); color: #fff; padding: 12px 20px; border-radius: 8px;
+  font-size: 14px; box-shadow: var(--shadow-lg); z-index: 3000; opacity: 0;
+  transition: transform .25s ease, opacity .25s ease; max-width: 90vw; text-align: center;
+  border-left: 4px solid var(--go);
+}
+.toast.show { transform: translate(-50%, 0); opacity: 1; }
+.toast.err { border-left-color: var(--stop); }
+
+/* ---- Read-only viewer mode (no token = supervisor view) -------------- */
+body.viewer #btnAddMode,
+body.viewer #catSelect,
+body.viewer #btnLoadGeo,
+body.viewer #btnImport,
+body.viewer .card-head .add,
+body.viewer .list .row-act,
+body.viewer .stat .x,
+body.viewer [data-empty-add],
+body.viewer #emptyStat,
+body.viewer #addStat { display: none !important; }
+body.viewer .map-toolbar .sep { display: none; }
+body.viewer .layer-ctl .lc-remove,
+body.viewer .layer-ctl .lc-clear { display: none !important; }
+
+/* =========================  MAP LAYER CONTROL  ========================= */
+.layer-ctl {
+  background: var(--surface);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(20,32,43,.18);
+  font-family: var(--font-body);
+  min-width: 178px; max-width: 230px;
+  overflow: hidden;
+}
+.layer-ctl .lc-head {
+  display: flex; align-items: center; gap: 7px;
+  font-family: var(--font-display); text-transform: uppercase; letter-spacing: .5px;
+  font-size: 12px; font-weight: 600; color: var(--ink);
+  padding: 8px 10px; background: var(--paper); border-bottom: 1px solid var(--hairline-2);
+}
+.layer-ctl .lc-head i { color: var(--muted); font-size: 11px; }
+.layer-ctl .lc-clear {
+  margin-left: auto; border: 1px solid var(--hairline); background: var(--surface);
+  color: var(--muted); border-radius: 5px; font-size: 10.5px; padding: 2px 7px;
+  text-transform: none; letter-spacing: 0; font-family: var(--font-body);
+}
+.layer-ctl .lc-clear:hover { border-color: var(--stop); color: var(--stop); }
+.layer-ctl .lc-row {
+  display: flex; align-items: center; gap: 8px;
+  padding: 7px 10px; font-size: 13px; cursor: pointer; border-bottom: 1px solid var(--hairline-2);
+}
+.layer-ctl .lc-row:last-child { border-bottom: none; }
+.layer-ctl .lc-row:hover { background: var(--paper); }
+.layer-ctl input[type="checkbox"] { accent-color: var(--orange); width: 15px; height: 15px; flex: 0 0 auto; }
+.layer-ctl .lc-swatch { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.15); }
+.layer-ctl .lc-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.layer-ctl .lc-remove {
+  border: none; background: transparent; color: var(--faint); font-size: 15px; line-height: 1;
+  width: 20px; height: 20px; border-radius: 4px; flex: 0 0 auto;
+}
+.layer-ctl .lc-remove:hover { background: var(--surface); color: var(--stop); }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
@@ -465,12 +555,14 @@ input, textarea, select { font-family: inherit; }
       </div>
     </div>
     <div class="topbar-spacer"></div>
+    <div id="syncPill" class="sync-pill" style="display:none"></div>
     <div class="clock">
       <div class="day" id="clockDay">&mdash;</div>
       <div class="date" id="clockDate">&mdash;</div>
     </div>
     <div class="topbar-actions">
-      <button class="icon-btn" id="btnSettings" title="Project &amp; weather location"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
+      <button class="icon-btn pub-connect" id="btnPublish" title="Publish your changes so the site supervisor can see them"><i class="fa-solid fa-cloud-arrow-up"></i><span>Connect</span></button>
+      <button class="icon-btn" id="btnSettings" title="Project, weather location &amp; publishing"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
       <button class="icon-btn" id="btnExport" title="Download all dashboard data as a backup file"><i class="fa-solid fa-download"></i><span>Export</span></button>
       <button class="icon-btn" id="btnImport" title="Load a previously exported backup file"><i class="fa-solid fa-upload"></i><span>Import</span></button>
       <input type="file" id="fileImport" class="hidden-file" accept="application/json,.json" />
@@ -501,8 +593,8 @@ input, textarea, select { font-family: inherit; }
           </div>
           <div class="sep"></div>
           <div class="grp">
-            <button class="tool-btn" id="btnLoadGeo" title="Load a GeoJSON exported from QGIS"><i class="fa-solid fa-file-import"></i><span class="lbl">Load GeoJSON</span></button>
-            <input type="file" id="fileGeo" class="hidden-file" accept=".geojson,.json,application/geo+json,application/json" />
+            <button class="tool-btn" id="btnLoadGeo" title="Add one or more GeoJSON layers exported from QGIS"><i class="fa-solid fa-file-import"></i><span class="lbl">Add layers</span></button>
+            <input type="file" id="fileGeo" class="hidden-file" accept=".geojson,.json,application/geo+json,application/json" multiple />
           </div>
         </div>
         <div id="map"></div>
@@ -652,7 +744,28 @@ input, textarea, select { font-family: inherit; }
             <option value="28356">GDA94 / MGA Zone 56 — EPSG:28356</option>
           </select>
         </div>
-        <p style="font-size:12px;color:var(--muted);margin:0">Tip: grab coordinates by right-clicking a spot in Google Maps. Negative latitude = southern hemisphere.</p>
+        <p style="font-size:12px;color:var(--muted);margin:0 0 14px">Tip: grab coordinates by right-clicking a spot in Google Maps. Negative latitude = southern hemisphere.</p>
+
+        <div class="set-section">Live sharing (publish to the site)</div>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 12px">Connect once with a GitHub token to unlock the <b>Publish</b> button. Anyone with the link sees a read-only live view. The token is stored only in this browser &mdash; never in the repo, never published.</p>
+        <div class="field">
+          <label>GitHub access token</label>
+          <input type="password" id="setToken" placeholder="github_pat_… (leave blank to stay read-only)" autocomplete="off" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Repo owner</label>
+            <input type="text" id="setOwner" placeholder="mpb029" />
+          </div>
+          <div class="field">
+            <label>Repo name</label>
+            <input type="text" id="setRepo" placeholder="OCE-OPS" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Branch</label>
+          <input type="text" id="setBranch" placeholder="main" />
+        </div>
       </div>
       <div class="modal-foot">
         <button class="btn btn-ghost" data-close>Cancel</button>
@@ -671,6 +784,11 @@ input, textarea, select { font-family: inherit; }
   "use strict";
 
   const STORE_KEY = "offaly_ops_v1";
+  const DIRTY_KEY = "offaly_ops_dirty";
+  const TOKEN_KEY = "offaly_ops_token";
+  const REPO_KEY  = "offaly_ops_repo";
+  const DATA_PATH = "data.json";        // shared state file committed to the repo
+  const POLL_MS   = 45000;              // how often viewers check for updates
 
   /* ---------- Projection: GDA94 / MGA Zone 56 -> WGS84 ------------------ */
   if (window.proj4) {
@@ -689,6 +807,7 @@ input, textarea, select { font-family: inherit; }
     { id: "dig",      label: "Excavation",       icon: "fa-person-digging",     color: "#8a5a1e" },
     { id: "delivery", label: "Delivery / stockpile", icon: "fa-truck",          color: "#1e9e6a" },
     { id: "plant",    label: "Plant / equipment", icon: "fa-truck-front",       color: "#3a4a55" },
+    { id: "compound", label: "Site compound",     icon: "fa-warehouse",          color: "#0f9b8e" },
     { id: "traffic",  label: "Traffic control",  icon: "fa-traffic-light",      color: "#e8542a" },
     { id: "hazard",   label: "Hazard",           icon: "fa-triangle-exclamation", color: "#d2342b" },
     { id: "survey",   label: "Survey / setout",  icon: "fa-location-crosshairs", color: "#14202b" }
@@ -701,7 +820,9 @@ input, textarea, select { font-family: inherit; }
     { id: "deliveries",    title: "Incoming Deliveries",    icon: "fa-truck-ramp-box",  color: "#1e9e6a", span: false, mainLbl: "Item",     subLbl: "Supplier / ETA / qty" },
     { id: "upcoming",      title: "Upcoming Works",         icon: "fa-calendar-week",   color: "#2f6fb0", span: false, mainLbl: "Task",     subLbl: "When / detail" },
     { id: "subbiesToday",  title: "Subcontractors Onsite",  icon: "fa-people-group",    color: "#e8542a", span: false, mainLbl: "Subbie",   subLbl: "Scope / contact" },
-    { id: "subbiesTomorrow", title: "Subbies Onsite Tomorrow", icon: "fa-user-clock",  color: "#7b4fb0", span: false, mainLbl: "Subbie",   subLbl: "Scope / contact" }
+    { id: "subbiesTomorrow", title: "Subbies Onsite Tomorrow", icon: "fa-user-clock",  color: "#7b4fb0", span: false, mainLbl: "Subbie",   subLbl: "Scope / contact" },
+    { id: "staffAway",     title: "Staff Away",             icon: "fa-user-xmark",      color: "#b0395e", span: false, mainLbl: "Who",      subLbl: "Dates / reason" },
+    { id: "plantTransport", title: "Plant Transport",       icon: "fa-trailer",         color: "#8a5a1e", span: false, mainLbl: "Plant / item", subLbl: "From → to / date / float" }
   ];
   const panelById = (id) => PANELS.find((p) => p.id === id);
 
@@ -755,8 +876,11 @@ input, textarea, select { font-family: inherit; }
         deliveries: [],
         upcoming: [],
         subbiesToday: [],
-        subbiesTomorrow: []
-      }
+        subbiesTomorrow: [],
+        staffAway: [],
+        plantTransport: []
+      },
+      mapLayers: []
     };
   }
 
@@ -775,7 +899,8 @@ input, textarea, select { font-family: inherit; }
         base: parsed.base || d.base,
         markers: parsed.markers || [],
         stats: parsed.stats || d.stats,
-        panels: Object.assign({}, d.panels, parsed.panels)
+        panels: Object.assign({}, d.panels, parsed.panels),
+        mapLayers: parsed.mapLayers || []
       };
     } catch (e) {
       console.warn("Could not read saved data, starting fresh.", e);
@@ -783,9 +908,11 @@ input, textarea, select { font-family: inherit; }
     }
   }
 
+  let applyingRemote = false;
   function save() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
     catch (e) { console.warn("Save failed", e); }
+    if (!applyingRemote) markDirty();
   }
 
   const uid = () => Math.random().toString(36).slice(2, 9);
@@ -797,6 +924,10 @@ input, textarea, select { font-family: inherit; }
      ======================================================================= */
   let map, geoLayer, markerLayer, baseStreet, baseSat;
   let addMode = false;
+  let userLayers = {};       // id -> Leaflet layer for uploaded QGIS files
+  let repoVisible = true;    // is the repo work-area layer shown
+  let layerCtlEl = null;     // the on-map layer control container
+  const LAYER_COLORS = ["#7b4fb0", "#1e9e6a", "#2f6fb0", "#e8542a", "#d98c00", "#0f9b8e", "#b0395e", "#5c6f2f", "#3a4a55"];
 
   function initMap() {
     const { lat, lng } = state.settings.loc;
@@ -828,7 +959,9 @@ input, textarea, select { font-family: inherit; }
     });
 
     renderMarkers();
+    makeLayerControl();
     loadWorkArea();           // try repo file first
+    renderUserLayers();       // any uploaded layers from saved/shared state
     setMapHint(`<b>Tip:</b> click <b>Add marker</b>, pick a type, then click the map to drop a pin.`);
   }
 
@@ -839,10 +972,22 @@ input, textarea, select { font-family: inherit; }
     b.querySelector(".lbl").textContent = sat ? "Street" : "Satellite";
   }
 
+  function applyBase() {
+    if (!map) return;
+    if (state.base === "sat") {
+      if (map.hasLayer && map.hasLayer(baseStreet)) map.removeLayer(baseStreet);
+      baseSat.addTo(map);
+    } else {
+      if (map.hasLayer && map.hasLayer(baseSat)) map.removeLayer(baseSat);
+      baseStreet.addTo(map);
+    }
+    syncBaseBtn();
+  }
+
   function toggleBase() {
-    if (state.base === "sat") { map.removeLayer(baseSat); baseStreet.addTo(map); state.base = "street"; }
-    else { map.removeLayer(baseStreet); baseSat.addTo(map); state.base = "sat"; }
-    syncBaseBtn(); save();
+    state.base = (state.base === "sat") ? "street" : "sat";
+    applyBase();
+    save();
   }
 
   function pinIcon(cat) {
@@ -889,13 +1034,6 @@ input, textarea, select { font-family: inherit; }
   }
 
   /* ---- GeoJSON (QGIS export) ------------------------------------------- */
-  function styleFeature(f) {
-    const t = f.geometry && f.geometry.type;
-    if (t === "LineString" || t === "MultiLineString")
-      return { color: "#e8542a", weight: 4, opacity: 0.9 };
-    return { color: "#2f6fb0", weight: 2, fillColor: "#2f6fb0", fillOpacity: 0.12 };
-  }
-
   function onEachFeature(f, layer) {
     const p = f.properties || {};
     const keys = Object.keys(p);
@@ -907,8 +1045,20 @@ input, textarea, select { font-family: inherit; }
     layer.bindPopup(`<div class="feat-pop"><div class="feat-ttl">${esc(ttl)}</div><dl>${rows}</dl></div>`);
   }
 
-  function pointToLayer(f, latlng) {
-    return L.circleMarker(latlng, { radius: 6, color: "#fff", weight: 2, fillColor: "#2f6fb0", fillOpacity: 1 });
+  // Build a Leaflet GeoJSON layer. If a colour is given (uploaded layers),
+  // all geometry takes that colour; otherwise the repo layer's default scheme.
+  function buildGeoLayer(data, color) {
+    const lineCol = color || "#e8542a";
+    const fillCol = color || "#2f6fb0";
+    return L.geoJSON(data, {
+      style: (f) => {
+        const t = f.geometry && f.geometry.type;
+        if (t === "LineString" || t === "MultiLineString") return { color: lineCol, weight: 4, opacity: 0.9 };
+        return { color: fillCol, weight: 2, fillColor: fillCol, fillOpacity: 0.12 };
+      },
+      pointToLayer: (f, ll) => L.circleMarker(ll, { radius: 6, color: "#fff", weight: 2, fillColor: fillCol, fillOpacity: 1 }),
+      onEachFeature
+    });
   }
 
   /* ---- CRS detection + reprojection (QGIS exports) --------------------- */
@@ -971,9 +1121,125 @@ input, textarea, select { font-family: inherit; }
     if (geoLayer) { map.removeLayer(geoLayer); geoLayer = null; }
     const from = detectSourceCRS(data);
     const r = reproject(data, from);
-    geoLayer = L.geoJSON(r.data, { style: styleFeature, onEachFeature, pointToLayer }).addTo(map);
+    geoLayer = buildGeoLayer(r.data);
+    repoVisible = true;
+    geoLayer.addTo(map);
+    renderLayerControl();
     if (fitTo) fitFeatures();
     return r;
+  }
+
+  /* ---- Multiple uploaded QGIS layers ----------------------------------- */
+  // Add one uploaded GeoJSON as its own named, toggleable layer.
+  function addUserLayer(name, raw) {
+    const from = detectSourceCRS(raw);
+    const r = reproject(raw, from);
+    if (!r.ok) return r;
+    const color = LAYER_COLORS[state.mapLayers.length % LAYER_COLORS.length];
+    state.mapLayers.push({
+      id: uid(),
+      name: String(name).replace(/\.(geo)?json$/i, "") || "Layer",
+      color, visible: true, data: r.data
+    });
+    save();                 // persists + flags unpublished changes
+    renderUserLayers();
+    return r;
+  }
+
+  function renderUserLayers() {
+    if (!map) return;
+    Object.keys(userLayers).forEach((id) => { if (userLayers[id]) map.removeLayer(userLayers[id]); });
+    userLayers = {};
+    (state.mapLayers || []).forEach((ml) => {
+      const lyr = buildGeoLayer(ml.data, ml.color);
+      userLayers[ml.id] = lyr;
+      if (ml.visible !== false) lyr.addTo(map);
+    });
+    renderLayerControl();
+  }
+
+  function toggleUserLayer(id, show) {
+    const ml = (state.mapLayers || []).find((x) => x.id === id);
+    if (!ml) return;
+    ml.visible = show;
+    if (userLayers[id]) { show ? userLayers[id].addTo(map) : map.removeLayer(userLayers[id]); }
+    save();
+  }
+
+  function removeUserLayer(id) {
+    if (userLayers[id]) { map.removeLayer(userLayers[id]); delete userLayers[id]; }
+    state.mapLayers = (state.mapLayers || []).filter((x) => x.id !== id);
+    save();
+    renderLayerControl();
+  }
+
+  function clearUserLayers() {
+    Object.keys(userLayers).forEach((id) => { if (userLayers[id]) map.removeLayer(userLayers[id]); });
+    userLayers = {};
+    state.mapLayers = [];
+    save();
+    renderLayerControl();
+  }
+
+  function toggleRepoLayer(show) {
+    repoVisible = show;
+    if (!geoLayer) return;
+    show ? geoLayer.addTo(map) : map.removeLayer(geoLayer);
+  }
+
+  /* ---- On-map layer control -------------------------------------------- */
+  function makeLayerControl() {
+    layerCtlEl = document.createElement("div");
+    layerCtlEl.className = "layer-ctl";
+    if (L.control && L.DomUtil) {
+      const c = L.control({ position: "topright" });
+      c.onAdd = () => {
+        if (L.DomEvent) {
+          L.DomEvent.disableClickPropagation(layerCtlEl);
+          if (L.DomEvent.disableScrollPropagation) L.DomEvent.disableScrollPropagation(layerCtlEl);
+        }
+        return layerCtlEl;
+      };
+      c.addTo(map);
+    }
+    renderLayerControl();
+  }
+
+  function layerRow(id, name, visible, color, removable) {
+    return `<label class="lc-row">
+      <input type="checkbox" data-lc-toggle="${id}" ${visible ? "checked" : ""} />
+      <span class="lc-swatch" style="background:${color}"></span>
+      <span class="lc-name">${esc(name)}</span>
+      ${removable ? `<button class="lc-remove" data-lc-remove="${id}" title="Remove layer">&times;</button>` : ""}
+    </label>`;
+  }
+
+  function renderLayerControl() {
+    if (!layerCtlEl) return;
+    const layers = state.mapLayers || [];
+    const hasRepo = !!geoLayer;
+    if (!hasRepo && !layers.length) { layerCtlEl.style.display = "none"; return; }
+    layerCtlEl.style.display = "block";
+
+    let html = `<div class="lc-head"><i class="fa-solid fa-layer-group"></i> Map layers`
+      + (layers.length ? `<button class="lc-clear" data-lc-clear="1" title="Remove all uploaded layers">Clear</button>` : "")
+      + `</div>`;
+    if (hasRepo) html += layerRow("__repo__", "Work area (repo)", repoVisible, "#e8542a", false);
+    layers.forEach((ml) => { html += layerRow(ml.id, ml.name, ml.visible !== false, ml.color, true); });
+    layerCtlEl.innerHTML = html;
+
+    layerCtlEl.querySelectorAll("[data-lc-toggle]").forEach((cb) => {
+      cb.onchange = () => {
+        const id = cb.getAttribute("data-lc-toggle");
+        if (id === "__repo__") toggleRepoLayer(cb.checked);
+        else toggleUserLayer(id, cb.checked);
+      };
+    });
+    layerCtlEl.querySelectorAll("[data-lc-remove]").forEach((b) => {
+      b.onclick = () => removeUserLayer(b.getAttribute("data-lc-remove"));
+    });
+    const clr = layerCtlEl.querySelector("[data-lc-clear]");
+    if (clr) clr.onclick = clearUserLayers;
   }
 
   function reportGeo(r, label) {
@@ -996,7 +1262,8 @@ input, textarea, select { font-family: inherit; }
 
   function fitFeatures() {
     const groups = [];
-    if (geoLayer) groups.push(geoLayer);
+    if (geoLayer && repoVisible) groups.push(geoLayer);
+    Object.keys(userLayers).forEach((id) => { if (userLayers[id]) groups.push(userLayers[id]); });
     if (markerLayer && markerLayer.getLayers().length) groups.push(markerLayer);
     if (!groups.length) return;
     const fg = L.featureGroup(groups);
@@ -1278,6 +1545,12 @@ input, textarea, select { font-family: inherit; }
     document.getElementById("setLat").value = s.loc.lat;
     document.getElementById("setLng").value = s.loc.lng;
     document.getElementById("setCRS").value = s.geojsonCRS || "auto";
+    // GitHub publishing fields
+    const r = detectRepo();
+    document.getElementById("setOwner").value = sync.owner || r.owner || "";
+    document.getElementById("setRepo").value = sync.repo || r.repo || "";
+    document.getElementById("setBranch").value = sync.branch || r.branch || "main";
+    document.getElementById("setToken").value = getToken();
     openModal("settingsModal");
   }
 
@@ -1291,11 +1564,28 @@ input, textarea, select { font-family: inherit; }
     if (!isNaN(lng)) s.loc.lng = lng;
     const prevCRS = s.geojsonCRS;
     s.geojsonCRS = document.getElementById("setCRS").value;
+
+    // GitHub publishing config
+    const token = document.getElementById("setToken").value.trim();
+    try { token ? localStorage.setItem(TOKEN_KEY, token) : localStorage.removeItem(TOKEN_KEY); } catch (e) {}
+    const repoCfg = {
+      owner: document.getElementById("setOwner").value.trim(),
+      repo: document.getElementById("setRepo").value.trim(),
+      branch: document.getElementById("setBranch").value.trim() || "main"
+    };
+    try { localStorage.setItem(REPO_KEY, JSON.stringify(repoCfg)); } catch (e) {}
+    Object.assign(sync, repoCfg);
+
     save();
     renderHeader();
     loadWeather();
     if (map) map.setView([s.loc.lat, s.loc.lng]);
-    if (s.geojsonCRS !== prevCRS) loadWorkArea(); // re-read with the new CRS interpretation
+    if (s.geojsonCRS !== prevCRS) loadWorkArea();
+
+    setViewerMode(!hasToken());
+    updatePublishUI();
+    setSyncStatus();
+    if (!sync.dirty) loadShared();   // pick up the latest if we just connected
     closeModal("settingsModal");
   }
 
@@ -1322,10 +1612,12 @@ input, textarea, select { font-family: inherit; }
           base: parsed.base || "street",
           markers: parsed.markers || [],
           stats: parsed.stats || [],
-          panels: Object.assign(defaultState().panels, parsed.panels)
+          panels: Object.assign(defaultState().panels, parsed.panels),
+          mapLayers: parsed.mapLayers || []
         };
         save();
         renderHeader(); renderStats(); renderPanels(); renderMarkers();
+        if (map) renderUserLayers();
         loadWeather();
         if (map) map.setView([state.settings.loc.lat, state.settings.loc.lng]);
       } catch (e) {
@@ -1333,6 +1625,220 @@ input, textarea, select { font-family: inherit; }
       }
     };
     fr.readAsText(file);
+  }
+
+  /* =======================================================================
+     LIVE SYNC — GitHub as the shared source of truth
+     Editor (has token): edits locally, clicks Publish -> commits data.json.
+     Viewer (no token): read-only, auto-refreshes from the repo.
+     ======================================================================= */
+  const sync = { owner: "", repo: "", branch: "main", lastPublishedAt: null, dirty: false, busy: false };
+
+  function detectRepo() {
+    // saved override wins
+    try {
+      const saved = JSON.parse(localStorage.getItem(REPO_KEY) || "null");
+      if (saved && saved.owner && saved.repo) return saved;
+    } catch (e) {}
+    // infer from a GitHub Pages URL: owner.github.io/repo/
+    const loc = window.location;
+    const host = loc.hostname || "";
+    const owner = host.endsWith(".github.io") ? host.split(".")[0] : "";
+    const seg = loc.pathname.split("/").filter(Boolean);
+    const repo = seg.length ? seg[0] : (owner ? owner + ".github.io" : "");
+    return { owner, repo, branch: "main" };
+  }
+
+  function getToken() { try { return localStorage.getItem(TOKEN_KEY) || ""; } catch (e) { return ""; } }
+  function hasToken() { return !!getToken(); }
+
+  function b64utf8(str) { return btoa(unescape(encodeURIComponent(str))); }
+
+  function shareableState() {
+    return {
+      settings: state.settings,
+      base: state.base,
+      markers: state.markers,
+      stats: state.stats,
+      panels: state.panels,
+      mapLayers: state.mapLayers || [],
+      publishedAt: new Date().toISOString()
+    };
+  }
+
+  function markDirty() {
+    sync.dirty = true;
+    try { localStorage.setItem(DIRTY_KEY, "1"); } catch (e) {}
+    updatePublishUI(); setSyncStatus();
+  }
+  function markClean() {
+    sync.dirty = false;
+    try { localStorage.removeItem(DIRTY_KEY); } catch (e) {}
+    updatePublishUI(); setSyncStatus();
+  }
+
+  function applyShared(obj) {
+    const d = defaultState();
+    const prevLoc = JSON.stringify(state.settings.loc);
+    const prevBase = state.base;
+    applyingRemote = true;
+    state.settings = Object.assign({}, d.settings, obj.settings || {});
+    state.base = obj.base || d.base;
+    state.markers = obj.markers || [];
+    state.stats = obj.stats || [];
+    state.panels = Object.assign({}, d.panels, obj.panels || {});
+    state.mapLayers = obj.mapLayers || [];
+    save();                 // persists locally without flagging dirty
+    applyingRemote = false;
+    sync.lastPublishedAt = obj.publishedAt || null;
+
+    renderHeader(); renderStats(); renderPanels();
+    if (markerLayer) renderMarkers();
+    if (map) renderUserLayers();
+    if (map && state.base !== prevBase) applyBase();
+    if (JSON.stringify(state.settings.loc) !== prevLoc) {
+      loadWeather();
+      if (map) map.setView([state.settings.loc.lat, state.settings.loc.lng]);
+    }
+    markClean();
+  }
+
+  function rawURL() {
+    return `https://raw.githubusercontent.com/${sync.owner}/${sync.repo}/${sync.branch}/${DATA_PATH}?t=${Date.now()}`;
+  }
+
+  // Fetch the shared file. Returns parsed object, or null if none / unreadable.
+  function fetchShared() {
+    if (!sync.owner || !sync.repo) return Promise.resolve(null);
+    return fetch(rawURL(), { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null);
+  }
+
+  // Initial load: apply the repo's data unless the editor has unpublished edits.
+  function loadShared() {
+    return fetchShared().then((obj) => {
+      if (!obj) { setSyncStatus(); return; }
+      if (sync.dirty) { sync.lastPublishedAt = obj.publishedAt || null; setSyncStatus(); return; }
+      applyShared(obj);
+      setSyncStatus();
+    });
+  }
+
+  // Poll for updates (viewers, and editors who aren't mid-edit).
+  function startPolling() {
+    setInterval(() => {
+      if (sync.dirty || sync.busy) return;
+      fetchShared().then((obj) => {
+        if (obj && obj.publishedAt && obj.publishedAt !== sync.lastPublishedAt) {
+          applyShared(obj);
+          toast("Updated to the latest published version");
+        }
+        setSyncStatus();
+      });
+    }, POLL_MS);
+  }
+
+  // Commit the current board to the repo via the GitHub Contents API.
+  function publish() {
+    const token = getToken();
+    if (!token) { openSettings(); toast("Connect GitHub first to publish"); return; }
+    if (!sync.owner || !sync.repo) { openSettings(); toast("Set the repo owner/name in Settings"); return; }
+    if (sync.busy) return;
+    sync.busy = true; updatePublishUI();
+
+    const api = `https://api.github.com/repos/${sync.owner}/${sync.repo}/contents/${DATA_PATH}`;
+    const headers = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
+    const payload = shareableState();
+    const body = b64utf8(JSON.stringify(payload, null, 2));
+
+    // Get current sha (needed to update; 404 = file doesn't exist yet -> create)
+    const getSha = fetch(api + "?ref=" + sync.branch + "&t=" + Date.now(), { headers, cache: "no-store" })
+      .then((r) => (r.status === 404 ? null : r.json().then((j) => j.sha)));
+
+    const put = (sha) => fetch(api, {
+      method: "PUT", headers: Object.assign({ "Content-Type": "application/json" }, headers),
+      body: JSON.stringify({
+        message: "Update site board — " + new Date().toLocaleString("en-AU"),
+        content: body, branch: sync.branch, sha: sha || undefined
+      })
+    });
+
+    getSha
+      .then(put)
+      .then((r) => {
+        if (r.status === 409) {            // someone else committed; refetch sha and retry once
+          return getSha.then(put);
+        }
+        return r;
+      })
+      .then((r) => {
+        if (!r.ok) return r.text().then((t) => { throw new Error(r.status + " " + t.slice(0, 140)); });
+        sync.busy = false;
+        sync.lastPublishedAt = payload.publishedAt;
+        markClean();
+        setSyncStatus();
+        toast("Published — the site supervisor will see it within a minute");
+      })
+      .catch((e) => {
+        sync.busy = false; updatePublishUI();
+        console.warn("publish failed", e);
+        const msg = /401|403/.test(String(e))
+          ? "Publish failed — the access token was rejected. Check it in Settings."
+          : "Publish failed — " + String(e.message || e);
+        toast(msg, true);
+      });
+  }
+
+  function setViewerMode(isViewer) {
+    document.body.classList.toggle("viewer", isViewer);
+  }
+
+  function updatePublishUI() {
+    const btn = document.getElementById("btnPublish");
+    if (!btn) return;
+    const label = btn.querySelector("span");
+    if (!hasToken()) { label.textContent = "Connect"; btn.className = "icon-btn pub-connect"; btn.disabled = false; return; }
+    if (sync.busy) { label.textContent = "Publishing…"; btn.className = "icon-btn pub-busy"; btn.disabled = true; return; }
+    if (sync.dirty) { label.textContent = "Publish changes"; btn.className = "icon-btn pub-dirty"; btn.disabled = false; return; }
+    label.textContent = "Published"; btn.className = "icon-btn pub-clean"; btn.disabled = false;
+  }
+
+  function setSyncStatus() {
+    const el = document.getElementById("syncPill");
+    if (!el) return;
+    if (!sync.owner || !sync.repo) { el.style.display = "none"; return; }
+    el.style.display = "inline-flex";
+    if (!hasToken()) {
+      const when = sync.lastPublishedAt ? new Date(sync.lastPublishedAt).toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit" }) : "—";
+      el.className = "sync-pill live";
+      el.innerHTML = `<i class="fa-solid fa-circle"></i> Live view · read-only · updated ${when}`;
+      return;
+    }
+    if (sync.dirty) { el.className = "sync-pill dirty"; el.innerHTML = `<i class="fa-solid fa-circle"></i> Unpublished changes`; return; }
+    const when = sync.lastPublishedAt ? new Date(sync.lastPublishedAt).toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit" }) : "—";
+    el.className = "sync-pill clean"; el.innerHTML = `<i class="fa-solid fa-check"></i> Published ${when}`;
+  }
+
+  function setupSync() {
+    Object.assign(sync, detectRepo());
+    try { sync.dirty = localStorage.getItem(DIRTY_KEY) === "1"; } catch (e) {}
+    setViewerMode(!hasToken());
+    updatePublishUI();
+    setSyncStatus();
+    loadShared();
+    startPolling();
+  }
+
+  /* ---- toast ----------------------------------------------------------- */
+  let toastTimer = null;
+  function toast(msg, isError) {
+    let t = document.getElementById("toast");
+    if (!t) { t = document.createElement("div"); t.id = "toast"; document.body.appendChild(t); }
+    t.textContent = msg;
+    t.className = "toast show" + (isError ? " err" : "");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => { t.className = "toast"; }, isError ? 6000 : 3500);
   }
 
   /* =======================================================================
@@ -1403,13 +1909,29 @@ input, textarea, select { font-family: inherit; }
     document.getElementById("btnFit").onclick = fitFeatures;
     document.getElementById("btnLoadGeo").onclick = () => document.getElementById("fileGeo").click();
     document.getElementById("fileGeo").onchange = (e) => {
-      const f = e.target.files[0]; if (!f) return;
-      const fr = new FileReader();
-      fr.onload = () => {
-        try { reportGeo(addGeoJSON(JSON.parse(fr.result), true), f.name); }
-        catch (err) { alert("That file isn't valid GeoJSON. Export from QGIS as GeoJSON (EPSG:4326 or EPSG:28356)."); }
-      };
-      fr.readAsText(f);
+      const files = Array.from(e.target.files || []);
+      if (!files.length) return;
+      let done = 0, ok = 0, failed = [];
+      files.forEach((f) => {
+        const fr = new FileReader();
+        fr.onload = () => {
+          try {
+            const r = addUserLayer(f.name, JSON.parse(fr.result));
+            if (r && r.ok) ok++; else failed.push(f.name + " (unsupported CRS)");
+          } catch (err) { failed.push(f.name + " (not valid GeoJSON)"); }
+          if (++done === files.length) finishLoad();
+        };
+        fr.onerror = () => { failed.push(f.name + " (couldn't read)"); if (++done === files.length) finishLoad(); };
+        fr.readAsText(f);
+      });
+      function finishLoad() {
+        if (ok) fitFeatures();
+        const parts = [];
+        if (ok) parts.push(`${ok} layer${ok > 1 ? "s" : ""} added`);
+        if (failed.length) parts.push(`${failed.length} skipped: ${failed.join(", ")}`);
+        setMapHint(parts.join(" &middot; ") || "Nothing loaded");
+        if (failed.length) toast(failed.join("; "), true);
+      }
       e.target.value = "";
     };
 
@@ -1436,6 +1958,10 @@ input, textarea, select { font-family: inherit; }
 
     // settings
     document.getElementById("setSave").onclick = saveSettings;
+
+    // live sync
+    document.getElementById("btnPublish").onclick = publish;
+    setupSync();
   }
 
   if (document.readyState === "loading")
