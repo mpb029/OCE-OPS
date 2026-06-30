@@ -459,6 +459,8 @@ input, textarea, select { font-family: inherit; }
 .sync-pill.dirty i { color: var(--amber); }
 .sync-pill.live  { color: #ffc9b8; border-color: #6b3326; }
 .sync-pill.live  i { color: var(--orange); animation: pulse 2s infinite; }
+.sync-pill.connect { color: #cdd6dc; border-color: #2b3b48; }
+.sync-pill.connect i { color: var(--amber); }
 @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: .35; } }
 
 #btnPublish.pub-dirty { background: var(--amber); color: var(--ink); border-color: var(--amber); font-weight: 600; }
@@ -489,6 +491,8 @@ body.viewer #btnAddMode,
 body.viewer #catSelect,
 body.viewer #btnLoadGeo,
 body.viewer #btnImport,
+body.viewer #btnPublish,
+body.viewer #btnSettings,
 body.viewer .card-head .add,
 body.viewer .list .row-act,
 body.viewer .stat .x,
@@ -1582,7 +1586,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     if (map) map.setView([s.loc.lat, s.loc.lng]);
     if (s.geojsonCRS !== prevCRS) loadWorkArea();
 
-    setViewerMode(!hasToken());
+    setViewerMode(isViewerURL());
     updatePublishUI();
     setSyncStatus();
     if (!sync.dirty) loadShared();   // pick up the latest if we just connected
@@ -1791,12 +1795,21 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   }
 
   function setViewerMode(isViewer) {
+    sync.viewer = isViewer;
     document.body.classList.toggle("viewer", isViewer);
+  }
+
+  // The supervisor opens the site with ?view (or #view) for the read-only board.
+  function isViewerURL() {
+    try { if (new URLSearchParams(window.location.search).has("view")) return true; } catch (e) {}
+    return (window.location.hash || "").indexOf("view") !== -1;
   }
 
   function updatePublishUI() {
     const btn = document.getElementById("btnPublish");
     if (!btn) return;
+    if (sync.viewer) { btn.style.display = "none"; return; }
+    btn.style.display = "";
     const label = btn.querySelector("span");
     if (!hasToken()) { label.textContent = "Connect"; btn.className = "icon-btn pub-connect"; btn.disabled = false; return; }
     if (sync.busy) { label.textContent = "Publishing…"; btn.className = "icon-btn pub-busy"; btn.disabled = true; return; }
@@ -1809,21 +1822,25 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     if (!el) return;
     if (!sync.owner || !sync.repo) { el.style.display = "none"; return; }
     el.style.display = "inline-flex";
-    if (!hasToken()) {
-      const when = sync.lastPublishedAt ? new Date(sync.lastPublishedAt).toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit" }) : "—";
+    const when = sync.lastPublishedAt ? new Date(sync.lastPublishedAt).toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit" }) : "—";
+    if (sync.viewer) {
       el.className = "sync-pill live";
       el.innerHTML = `<i class="fa-solid fa-circle"></i> Live view · read-only · updated ${when}`;
       return;
     }
+    if (!hasToken()) {
+      el.className = "sync-pill connect";
+      el.innerHTML = `<i class="fa-solid fa-circle"></i> Local only · connect to publish`;
+      return;
+    }
     if (sync.dirty) { el.className = "sync-pill dirty"; el.innerHTML = `<i class="fa-solid fa-circle"></i> Unpublished changes`; return; }
-    const when = sync.lastPublishedAt ? new Date(sync.lastPublishedAt).toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit" }) : "—";
     el.className = "sync-pill clean"; el.innerHTML = `<i class="fa-solid fa-check"></i> Published ${when}`;
   }
 
   function setupSync() {
     Object.assign(sync, detectRepo());
     try { sync.dirty = localStorage.getItem(DIRTY_KEY) === "1"; } catch (e) {}
-    setViewerMode(!hasToken());
+    setViewerMode(isViewerURL());
     updatePublishUI();
     setSyncStatus();
     loadShared();
@@ -1960,7 +1977,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     document.getElementById("setSave").onclick = saveSettings;
 
     // live sync
-    document.getElementById("btnPublish").onclick = publish;
+    document.getElementById("btnPublish").onclick = () => { hasToken() ? publish() : openSettings(); };
     setupSync();
   }
 

@@ -87,27 +87,29 @@ named `Asset` or `name` is used as the heading.
 
 The board is shared through a `data.json` file committed to this repo:
 
-- **You (editor)** make changes, then hit **Publish**. That commits `data.json`.
-- **The supervisor (viewer)** just opens the URL. Their screen is **read-only** and
-  **auto-refreshes every ~45 seconds**, so your published changes appear within about a
-  minute. They never need a token or an account — only the link.
+- **You (editor):** open the normal URL — `https://mpb029.github.io/OCE-OPS/`. Everything
+  is editable straight away. To share changes, connect a token once (below) and hit
+  **Publish**.
+- **The supervisor (viewer):** send them the **read-only link** — the same URL with
+  **`?view`** on the end:
+  `https://mpb029.github.io/OCE-OPS/?view`
+  That opens a locked-down, read-only board that **auto-refreshes every ~45 seconds**, so
+  your published changes show up within about a minute. No token, no account — just the link.
 
-Until you connect a token, the dashboard is in read-only view mode (that's exactly what
-the supervisor sees). Connecting a token unlocks editing and the Publish button **on your
-machine only**.
+You can edit and use the whole dashboard **without** connecting a token; your changes just
+stay on your machine until you connect and Publish.
 
-### One-time setup: connect your GitHub token
+### One-time setup: connect your GitHub token (only needed to Publish)
 
-1. On GitHub: click your avatar → **Settings** → **Developer settings** (bottom of the
-   left menu) → **Personal access tokens** → **Fine-grained tokens** → **Generate new token**.
-2. Name it (e.g. `OCE-OPS publish`), pick an expiry (e.g. 90 days).
+1. On GitHub: avatar → **Settings** → **Developer settings** → **Personal access tokens**
+   → **Fine-grained tokens** → **Generate new token**.
+2. Name it (e.g. `OCE-OPS publish`), pick an expiry.
 3. **Resource owner:** your account. **Repository access:** *Only select repositories* →
-   choose **OCE-OPS**.
-4. **Permissions → Repository permissions → Contents → Read and write.** (Leave the rest.)
-5. **Generate token**, copy it (starts with `github_pat_…`).
-6. In the dashboard: **Settings** → paste it into *GitHub access token*, check the
-   owner/repo/branch are right (they auto-fill from the URL), **Save**.
-7. The **Publish** button is now live. Make your edits, click **Publish**.
+   **OCE-OPS**.
+4. **Permissions → Repository permissions → Contents → Read and write.**
+5. **Generate token**, copy it (`github_pat_…`).
+6. In the dashboard: click **Connect** (or **Settings**) → paste it into *GitHub access
+   token* → **Save**. The **Publish** button goes live.
 
 ### Token safety
 
