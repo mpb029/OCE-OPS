@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Offaly Civil — Site Operations Dashboard</title>
+
+  <!-- Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <!-- proj4 — reprojects GDA94/MGA exports to lat/long -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"></script>
+
+  <!-- Font Awesome (solid glyphs for map pins + UI) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+
+  <!-- ============================ HEADER ============================ -->
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark">OC</div>
+      <div class="brand-text">
+        <h1 id="brandTitle">Offaly Civil</h1>
+        <div class="proj">Site Operations &mdash; <b id="brandProj">Set project name</b></div>
+      </div>
+    </div>
+    <div class="topbar-spacer"></div>
+    <div class="clock">
+      <div class="day" id="clockDay">&mdash;</div>
+      <div class="date" id="clockDate">&mdash;</div>
+    </div>
+    <div class="topbar-actions">
+      <button class="icon-btn" id="btnSettings" title="Project &amp; weather location"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
+      <button class="icon-btn" id="btnExport" title="Download all dashboard data as a backup file"><i class="fa-solid fa-download"></i><span>Export</span></button>
+      <button class="icon-btn" id="btnImport" title="Load a previously exported backup file"><i class="fa-solid fa-upload"></i><span>Import</span></button>
+      <input type="file" id="fileImport" class="hidden-file" accept="application/json,.json" />
+    </div>
+  </header>
+  <div class="hazard"></div>
+
+  <!-- ============================ BODY ============================ -->
+  <div class="wrap">
+
+    <div class="grid-main">
+
+      <!-- ---------- MAP ---------- -->
+      <section class="card map-card">
+        <div class="card-head">
+          <span class="ttl"><span class="tag" style="background:var(--orange)"><i class="fa-solid fa-location-dot"></i></span>Work Area Map</span>
+          <span class="spacer"></span>
+        </div>
+        <div class="map-toolbar">
+          <div class="grp">
+            <button class="tool-btn" id="btnAddMode"><i class="fa-solid fa-thumbtack"></i><span class="lbl">Add marker</span></button>
+            <select class="cat-select" id="catSelect" title="Marker type to place"></select>
+          </div>
+          <div class="sep"></div>
+          <div class="grp">
+            <button class="tool-btn" id="btnBase" title="Toggle satellite / street base map"><i class="fa-solid fa-layer-group"></i><span class="lbl">Satellite</span></button>
+            <button class="tool-btn" id="btnFit" title="Zoom to features"><i class="fa-solid fa-expand"></i><span class="lbl">Fit</span></button>
+          </div>
+          <div class="sep"></div>
+          <div class="grp">
+            <button class="tool-btn" id="btnLoadGeo" title="Load a GeoJSON exported from QGIS"><i class="fa-solid fa-file-import"></i><span class="lbl">Load GeoJSON</span></button>
+            <input type="file" id="fileGeo" class="hidden-file" accept=".geojson,.json,application/geo+json,application/json" />
+          </div>
+        </div>
+        <div id="map"></div>
+        <div class="map-hint" id="mapHint"></div>
+      </section>
+
+      <!-- ---------- RIGHT COLUMN: weather + stats ---------- -->
+      <div>
+        <section class="card" style="margin-bottom:18px">
+          <div class="card-head">
+            <span class="ttl"><span class="tag" style="background:var(--info)"><i class="fa-solid fa-cloud-sun"></i></span>Weather Forecast</span>
+            <span class="spacer"></span>
+            <span class="count" id="wxLoc">&mdash;</span>
+          </div>
+          <div class="card-body">
+            <div id="wxNow" class="wx-loading">Loading forecast&hellip;</div>
+            <div id="wxDays" class="wx-days"></div>
+          </div>
+        </section>
+
+        <section class="card">
+          <div class="card-head">
+            <span class="ttl"><span class="tag" style="background:var(--go)"><i class="fa-solid fa-chart-column"></i></span>Production Stats</span>
+            <span class="spacer"></span>
+            <button class="add" id="addStat" title="Add a stat"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <div class="card-body">
+            <div class="stat-grid" id="statGrid"></div>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ---------- LIST PANELS ---------- -->
+    <div class="grid-panels" id="panelsGrid"><!-- rendered by JS --></div>
+
+    <div class="foot" id="footNote"></div>
+  </div>
+
+  <!-- ============================ ITEM MODAL ============================ -->
+  <div class="modal-back" id="itemModal">
+    <div class="modal">
+      <div class="modal-head"><i class="fa-solid fa-pen" id="itemModalIcon"></i><span id="itemModalTitle">Add item</span></div>
+      <div class="modal-body">
+        <div class="field">
+          <label id="lblMain">Description</label>
+          <input type="text" id="fMain" placeholder="" />
+        </div>
+        <div class="field">
+          <label id="lblSub">Detail (date, supplier, qty, notes&hellip;)</label>
+          <input type="text" id="fSub" placeholder="optional" />
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close>Cancel</button>
+        <button class="btn btn-primary" id="itemSave"><i class="fa-solid fa-check"></i>Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ MARKER MODAL ============================ -->
+  <div class="modal-back" id="markerModal">
+    <div class="modal">
+      <div class="modal-head"><i class="fa-solid fa-map-pin"></i><span id="markerModalTitle">Marker</span></div>
+      <div class="modal-body">
+        <div class="field">
+          <label>Type</label>
+          <select id="mkCat"></select>
+        </div>
+        <div class="field">
+          <label>Title</label>
+          <input type="text" id="mkTitle" placeholder="e.g. Tie-in TI-03" />
+        </div>
+        <div class="field">
+          <label>Notes</label>
+          <textarea id="mkNotes" placeholder="Anything relevant — depth, status, instructions, hazards&hellip;"></textarea>
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-danger" id="mkDelete"><i class="fa-solid fa-trash"></i>Delete</button>
+        <span style="flex:1"></span>
+        <button class="btn btn-ghost" data-close>Cancel</button>
+        <button class="btn btn-primary" id="mkSave"><i class="fa-solid fa-check"></i>Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ STAT MODAL ============================ -->
+  <div class="modal-back" id="statModal">
+    <div class="modal">
+      <div class="modal-head"><i class="fa-solid fa-chart-column"></i><span id="statModalTitle">Stat</span></div>
+      <div class="modal-body">
+        <div class="field">
+          <label>Label</label>
+          <input type="text" id="sLabel" placeholder="e.g. Pipe laid" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Value</label>
+            <input type="text" id="sValue" placeholder="e.g. 184" />
+          </div>
+          <div class="field">
+            <label>Unit</label>
+            <input type="text" id="sUnit" placeholder="e.g. m" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Target (optional — shows a progress bar)</label>
+          <input type="number" id="sTarget" placeholder="e.g. 320" />
+        </div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close>Cancel</button>
+        <button class="btn btn-primary" id="sSave"><i class="fa-solid fa-check"></i>Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================ SETTINGS MODAL ============================ -->
+  <div class="modal-back" id="settingsModal">
+    <div class="modal">
+      <div class="modal-head"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
+      <div class="modal-body">
+        <div class="field">
+          <label>Project name</label>
+          <input type="text" id="setProj" placeholder="e.g. Rainbow Beach STP — Bio-Solid Drying Bed" />
+        </div>
+        <div class="field">
+          <label>Weather location name</label>
+          <input type="text" id="setLocName" placeholder="e.g. Rainbow Beach, QLD" />
+        </div>
+        <div class="field-row">
+          <div class="field">
+            <label>Latitude</label>
+            <input type="number" step="0.0001" id="setLat" placeholder="-25.9060" />
+          </div>
+          <div class="field">
+            <label>Longitude</label>
+            <input type="number" step="0.0001" id="setLng" placeholder="153.0880" />
+          </div>
+        </div>
+        <div class="field">
+          <label>Imported GeoJSON coordinate system</label>
+          <select id="setCRS">
+            <option value="auto">Auto-detect (recommended)</option>
+            <option value="4326">WGS84 lat/long — EPSG:4326</option>
+            <option value="28356">GDA94 / MGA Zone 56 — EPSG:28356</option>
+          </select>
+        </div>
+        <p style="font-size:12px;color:var(--muted);margin:0">Tip: grab coordinates by right-clicking a spot in Google Maps. Negative latitude = southern hemisphere.</p>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close>Cancel</button>
+        <button class="btn btn-primary" id="setSave"><i class="fa-solid fa-check"></i>Save</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

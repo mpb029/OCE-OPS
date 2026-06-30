@@ -1,0 +1,62 @@
+{
+  "type": "FeatureCollection",
+  "name": "workarea_sample",
+  "crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "Asset": "DN100 PVC-O Watermain (renewal)",
+        "Stage": "Lay & connect",
+        "Status": "In progress"
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [153.0838, -25.9046],
+          [153.0861, -25.9051],
+          [153.0884, -25.9054],
+          [153.0902, -25.9059]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Asset": "Hydrant HYD-07",
+        "Type": "DN100 hydrant assembly",
+        "Status": "Installed"
+      },
+      "geometry": { "type": "Point", "coordinates": [153.0861, -25.9051] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Asset": "Tie-in TI-02",
+        "Type": "Connection to existing main",
+        "Status": "Pending"
+      },
+      "geometry": { "type": "Point", "coordinates": [153.0902, -25.9059] }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "Asset": "Work area / TMP zone",
+        "Type": "Site compound + lay-down",
+        "Status": "Active"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [153.0828, -25.9040],
+            [153.0846, -25.9040],
+            [153.0846, -25.9050],
+            [153.0828, -25.9050],
+            [153.0828, -25.9040]
+          ]
+        ]
+      }
+    }
+  ]
+}
