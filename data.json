@@ -698,7 +698,11 @@
     "stakeholders": {
       "site": true,
       "client": true
+    },
+    "documents": {
+      "site": true,
+      "client": true
     }
   },
-  "publishedAt": "2026-07-01T05:37:45.093Z"
+  "publishedAt": "2026-07-01T05:39:06.240Z"
 }
