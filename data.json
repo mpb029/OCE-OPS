@@ -20,7 +20,7 @@
       "ts": 1782883431306,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
       "letter": "A"
     },
@@ -34,7 +34,7 @@
       "ts": 1782883442942,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
       "letter": "B"
     },
@@ -680,5 +680,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T05:28:15.624Z"
+  "publishedAt": "2026-07-01T05:30:59.158Z"
 }
