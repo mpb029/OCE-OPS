@@ -79,7 +79,10 @@ named `Asset` or `name` is used as the heading.
 - **Panels:** each has a **+** to add and pen/bin icons on hover to edit/remove. Special
   panels: **Punch List** and **Meetings/Site Visits** take a **due date** (overdue items
   flag red); **Work Packages** take a **% complete** and show a progress bar; **Material
-  Pickup** records item + pickup location.
+  Pickup** records item + pickup location. Status panels show a coloured badge:
+  **Quality & Testing** (item, date → Pass / Fail / Results pending), **Design Changes**
+  (Approved / Pending), **Variations** (number, description, date → Approved / Pending),
+  and **Potential Issues & Delays** (issue + mitigation).
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
   (green = shown):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a

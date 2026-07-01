@@ -402,6 +402,18 @@ input, textarea, select { font-family: inherit; }
 .list .pbar { display: block; height: 7px; border-radius: 4px; background: var(--hairline-2); overflow: hidden; margin: 6px 0 3px; }
 .list .pbar > span { display: block; height: 100%; background: var(--go); border-radius: 4px; }
 
+.stbadge {
+  flex: 0 0 auto; display: inline-flex; align-items: center;
+  font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+  color: #fff; padding: 3px 8px; border-radius: 5px; white-space: nowrap;
+  font-family: var(--font-display);
+}
+.list .main .ref {
+  display: inline-block; font-family: var(--font-mono); font-size: 11px; font-weight: 600;
+  color: var(--muted); background: var(--paper); border: 1px solid var(--hairline);
+  border-radius: 4px; padding: 0 5px; margin-right: 2px;
+}
+
 /* percentage picker + checkbox lines in modals */
 .pct-row { display: flex; align-items: center; gap: 10px; }
 .pct-row input[type="range"] { flex: 1; accent-color: var(--orange); }
@@ -687,6 +699,10 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     <div class="modal">
       <div class="modal-head"><i class="fa-solid fa-pen" id="itemModalIcon"></i><span id="itemModalTitle">Add item</span></div>
       <div class="modal-body">
+        <div class="field" id="fldRef" style="display:none">
+          <label id="lblRef">Reference</label>
+          <input type="text" id="fRef" placeholder="e.g. V-012" />
+        </div>
         <div class="field">
           <label id="lblMain">Description</label>
           <input type="text" id="fMain" placeholder="" />
@@ -706,6 +722,10 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
             <input type="number" id="fPct" min="0" max="100" value="0" />
             <span class="pct-unit">%</span>
           </div>
+        </div>
+        <div class="field" id="fldStatus" style="display:none">
+          <label id="lblStatus">Status</label>
+          <select id="fStatus"></select>
         </div>
         <div class="field vis-field">
           <label>Visible to</label>
@@ -908,10 +928,18 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     { id: "punchlist",     title: "Punch List",             icon: "fa-list-check",      color: "#d2342b", kind: "dated",    mainLbl: "Item / defect",   subLbl: "Notes / location",     dueLbl: "Due date" },
     { id: "materialPickup", title: "Material Pickup",        icon: "fa-box-open",        color: "#0f9b8e", kind: "list",     mainLbl: "Item ready",      subLbl: "Pickup location / yard" },
     { id: "meetings",      title: "Meetings / Site Visits",  icon: "fa-handshake",       color: "#2f6fb0", kind: "dated",    mainLbl: "Meeting / site visit", subLbl: "Location / attendees", dueLbl: "When" },
-    { id: "workPackages",  title: "Work Packages",           icon: "fa-diagram-project", color: "#f7a600", kind: "progress", mainLbl: "Work package",    pctLbl: "% complete" }
+    { id: "workPackages",  title: "Work Packages",           icon: "fa-diagram-project", color: "#f7a600", kind: "progress", mainLbl: "Work package",    pctLbl: "% complete" },
+    { id: "qualityTesting", title: "Quality & Testing",       icon: "fa-flask-vial",      color: "#0f9b8e", kind: "dated", mainLbl: "Test / item",     subLbl: "Result detail (optional)", dueLbl: "Date",
+      statuses: [ { value:"pass", label:"Pass", color:"#1e9e6a" }, { value:"fail", label:"Fail", color:"#d2342b" }, { value:"pending", label:"Results pending", color:"#e8a100" } ] },
+    { id: "designChanges", title: "Design Changes",           icon: "fa-compass-drafting", color: "#7b4fb0", kind: "list", mainLbl: "Change",           subLbl: "Detail / notes (optional)",
+      statuses: [ { value:"approved", label:"Approved", color:"#1e9e6a" }, { value:"pending", label:"Pending", color:"#e8a100" } ] },
+    { id: "variations",    title: "Variations",               icon: "fa-file-invoice-dollar", color: "#8a5a1e", kind: "dated", mainLbl: "Description",  subLbl: "Detail (optional)", dueLbl: "Date", hasRef: true, refLbl: "Variation no.",
+      statuses: [ { value:"approved", label:"Approved", color:"#1e9e6a" }, { value:"pending", label:"Pending", color:"#e8a100" } ] },
+    { id: "issuesDelays",  title: "Potential Issues & Delays", icon: "fa-triangle-exclamation", color: "#d2342b", kind: "list", mainLbl: "Issue / potential delay", subLbl: "Mitigation" }
   ];
   const panelById = (id) => PANELS.find((p) => p.id === id);
   const panelKind = (p) => p.kind || "list";
+  const statusDef = (p, value) => (p.statuses || []).find((s) => s.value === value);
 
   // Default visibility for items/markers (site sees ops by default; client is opt-in).
   const defVis = () => ({ site: true, client: false });      // markers + panels: client is opt-in
@@ -976,7 +1004,11 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         punchlist: [],
         materialPickup: [],
         meetings: [],
-        workPackages: []
+        workPackages: [],
+        qualityTesting: [],
+        designChanges: [],
+        variations: [],
+        issuesDelays: []
       },
       mapLayers: [],
       panelVis: {}
@@ -1605,17 +1637,23 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
            </span>` : "";
       const rows = items.map((it) => {
         const v = itemVis(it);
+        const refTag = (p.hasRef && it.ref) ? `<span class="ref">${esc(it.ref)}</span> ` : "";
         let txt;
         if (kind === "progress") {
           const pct = Math.max(0, Math.min(100, parseInt(it.pct, 10) || 0));
-          txt = `<span class="txt"><span class="main">${esc(it.main)}</span>`
+          txt = `<span class="txt"><span class="main">${refTag}${esc(it.main)}</span>`
               + `<span class="pbar"><span style="width:${pct}%"></span></span>`
               + `<span class="sub">${pct}% complete</span></span>`;
         } else {
-          txt = `<span class="txt"><span class="main">${esc(it.main)}</span>`
+          txt = `<span class="txt"><span class="main">${refTag}${esc(it.main)}</span>`
               + `${it.sub ? `<span class="sub">${esc(it.sub)}</span>` : ""}</span>`;
         }
         const due = kind === "dated" ? dueBadge(it.due) : "";
+        let stat = "";
+        if (p.statuses && it.status) {
+          const sd = statusDef(p, it.status);
+          if (sd) stat = `<span class="stbadge" style="background:${sd.color}">${esc(sd.label)}</span>`;
+        }
         const chips = editor
           ? `<span class="vis">
                <button class="vchip ${v.site ? "on" : ""}" data-vis="site:${p.id}:${it.id}" title="Show to site supervisor">S</button>
@@ -1626,7 +1664,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
                <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
                <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
              </span>` : "";
-        return `<li><span class="marker" style="background:${p.color}"></span>${txt}${due}${chips}${acts}</li>`;
+        return `<li><span class="marker" style="background:${p.color}"></span>${txt}${due}${stat}${chips}${acts}</li>`;
       }).join("");
       const body = items.length
         ? `<ul class="list">${rows}</ul>`
@@ -1682,6 +1720,12 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     const it = itemId ? state.panels[panelId].find((x) => x.id === itemId) : { main: "", sub: "", due: "", pct: 0, vis: itemDefVis() };
     document.getElementById("itemModalTitle").textContent = (itemId ? "Edit — " : "Add to — ") + p.title;
     document.getElementById("itemModalIcon").className = "fa-solid " + p.icon;
+
+    const showRef = !!p.hasRef;
+    document.getElementById("fldRef").style.display = showRef ? "" : "none";
+    document.getElementById("lblRef").textContent = p.refLbl || "Reference";
+    document.getElementById("fRef").value = it.ref || "";
+
     document.getElementById("lblMain").textContent = p.mainLbl;
     document.getElementById("fMain").value = it.main || "";
 
@@ -1701,12 +1745,20 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     document.getElementById("fPct").value = pv;
     document.getElementById("fPctRange").value = pv;
 
-    const v = it.vis || defVis();
+    const showStatus = !!(p.statuses && p.statuses.length);
+    document.getElementById("fldStatus").style.display = showStatus ? "" : "none";
+    if (showStatus) {
+      const sel = document.getElementById("fStatus");
+      sel.innerHTML = p.statuses.map((s) => `<option value="${s.value}">${esc(s.label)}</option>`).join("");
+      sel.value = it.status || p.statuses[p.statuses.length - 1].value; // default to last (usually "pending")
+    }
+
+    const v = it.vis || itemDefVis();
     document.getElementById("fVisSite").checked = !!v.site;
     document.getElementById("fVisClient").checked = !!v.client;
 
     openModal("itemModal");
-    setTimeout(() => document.getElementById("fMain").focus(), 30);
+    setTimeout(() => document.getElementById(showRef ? "fRef" : "fMain").focus(), 30);
   }
 
   function saveItem() {
@@ -1722,6 +1774,8 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     if (kind === "progress") data.pct = Math.max(0, Math.min(100, parseInt(document.getElementById("fPct").value, 10) || 0));
     else data.sub = document.getElementById("fSub").value.trim();
     if (kind === "dated") data.due = document.getElementById("fDue").value;
+    if (p.hasRef) data.ref = document.getElementById("fRef").value.trim();
+    if (p.statuses && p.statuses.length) data.status = document.getElementById("fStatus").value;
 
     if (id) { const it = state.panels[panel].find((x) => x.id === id); Object.assign(it, data); }
     else { state.panels[panel].push(Object.assign({ id: uid() }, data)); }
