@@ -79,6 +79,22 @@
     "punchlist": [],
     "materialPickup": [],
     "meetings": [],
+    "documents": [
+      {
+        "id": "gs3ebg5",
+        "name": "Tarwhine_PNI_DAY 1 & 2_Reduced.pdf",
+        "path": "files/kg554hf-Tarwhine_PNI_DAY_1_2_Reduced.pdf",
+        "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/kg554hf-Tarwhine_PNI_DAY_1_2_Reduced.pdf",
+        "sha": "095ebbcad4b5c585452eaec9030a4469901b773a",
+        "size": 4622843,
+        "mime": "application/pdf",
+        "uploadedAt": "2026-07-01T05:37:35.377Z",
+        "vis": {
+          "site": true,
+          "client": true
+        }
+      }
+    ],
     "workPackages": [],
     "qualityTesting": [],
     "designChanges": [],
@@ -684,5 +700,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T05:34:22.139Z"
+  "publishedAt": "2026-07-01T05:37:45.093Z"
 }
