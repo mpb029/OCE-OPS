@@ -584,7 +584,7 @@
       "client": false
     },
     "staffAway": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "subbiesTomorrow": {
@@ -596,7 +596,7 @@
       "client": false
     },
     "plantTransport": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "punchlist": {
@@ -612,7 +612,7 @@
       "client": true
     },
     "meetings": {
-      "site": true,
+      "site": false,
       "client": true
     },
     "variations": {
@@ -624,13 +624,13 @@
       "client": true
     },
     "qualityTesting": {
-      "site": true,
+      "site": false,
       "client": true
     },
     "designChanges": {
-      "site": true,
+      "site": false,
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T04:49:35.210Z"
+  "publishedAt": "2026-07-01T04:50:15.708Z"
 }
