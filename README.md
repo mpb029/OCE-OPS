@@ -73,28 +73,40 @@ named `Asset` or `name` is used as the heading.
 
 ## 3. Using the dashboard
 
-- **Add marker:** click *Add marker*, pick a type, click the spot on the map. A pin
-  drops and the notes box opens. Click any pin later to read, **Edit**, or **Delete** it.
-- **Satellite / Street:** toggles aerial imagery vs street map.
-- **Fit:** zooms to show all features and markers.
-- **Lists:** each panel has a **+** to add and pen/bin icons on hover to edit/remove.
-- **Production Stats:** click a tile to edit; add a target to get a progress bar.
-- **Settings:** set the project name and the weather location (lat/long).
+- **Add marker:** click *Add marker*, pick a type (incl. **Plant** and **Site compound**),
+  click the spot on the map. A pin drops and the notes box opens. Click any pin later to
+  read, **Edit**, or **Delete**, and to set who can see it.
+- **Panels:** each has a **+** to add and pen/bin icons on hover to edit/remove. Special
+  panels: **Punch List** and **Meetings/Site Visits** take a **due date** (overdue items
+  flag red); **Work Packages** take a **% complete** and show a progress bar; **Material
+  Pickup** records item + pickup location.
+- **Who-sees-what:** every panel item and marker has two chips — **S** (site supervisor)
+  and **C** (client). Tap to toggle. Green = shown to that audience. New items default to
+  site-on, client-off.
+- **Satellite / Street**, **Fit**, **Add layers** (multiple QGIS files), **Production Stats**
+  (click a tile to edit; add a target for a bar).
+- **Settings:** project name, weather location, publishing token, and the **share links**.
 
 ---
 
-## 4. Live sharing — you edit, the supervisor views
+## 4. Live sharing — you edit, site + client view
 
-The board is shared through a `data.json` file committed to this repo:
+The board is shared through a `data.json` file committed to this repo. There are three
+ways to open it:
 
-- **You (editor):** open the normal URL — `https://mpb029.github.io/OCE-OPS/`. Everything
-  is editable straight away. To share changes, connect a token once (below) and hit
-  **Publish**.
-- **The supervisor (viewer):** send them the **read-only link** — the same URL with
-  **`?view`** on the end:
-  `https://mpb029.github.io/OCE-OPS/?view`
-  That opens a locked-down, read-only board that **auto-refreshes every ~45 seconds**, so
-  your published changes show up within about a minute. No token, no account — just the link.
+- **You (editor):** the normal URL — `https://mpb029.github.io/OCE-OPS/`. Fully editable.
+  Connect a token once (below) and hit **Publish** to share.
+- **Site supervisor (read-only):** `https://mpb029.github.io/OCE-OPS/?view=site`
+- **Client (read-only):** `https://mpb029.github.io/OCE-OPS/?view=client`
+
+Both read-only links auto-refresh every ~45 seconds and need no token or account — just
+the link. Each shows **only the items and markers you've flagged for that audience** (the
+S / C chips). You'll find both links ready to copy in **Settings → Share links**.
+
+> **Important — this is a display filter, not a lock.** Because the repo is public, the
+> raw `data.json` is readable by anyone who knows the URL. Hiding an item from the client
+> keeps it off their *page*, but a technical person could still read the underlying file.
+> Fine for keeping the client's view tidy; don't rely on it for anything truly sensitive.
 
 You can edit and use the whole dashboard **without** connecting a token; your changes just
 stay on your machine until you connect and Publish.

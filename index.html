@@ -375,6 +375,46 @@ input, textarea, select { font-family: inherit; }
 /* Two-deep stack for the today/tomorrow subbie pair span */
 .span-2 { grid-column: span 2; }
 
+/* ---- visibility chips, due badges, in-row progress -------------------- */
+.list li .vis { display: flex; gap: 3px; flex: 0 0 auto; }
+.vchip {
+  width: 20px; height: 20px; border-radius: 5px; font-size: 10.5px; font-weight: 700;
+  border: 1px solid var(--hairline); background: var(--surface); color: var(--faint);
+  font-family: var(--font-mono); line-height: 1;
+}
+.vchip.on { background: var(--go); border-color: var(--go); color: #fff; }
+.vchip[data-vis^="client"].on { background: var(--info); border-color: var(--info); }
+.vchip:hover { border-color: var(--muted); }
+
+.due {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-family: var(--font-mono); padding: 2px 7px; border-radius: 5px;
+  background: var(--paper); color: var(--muted); border: 1px solid var(--hairline-2);
+  white-space: nowrap;
+}
+.due i { font-size: 10px; }
+.due.overdue   { background: #fbe6e4; color: var(--stop); border-color: #f0c4c1; font-weight: 600; }
+.due.due-today { background: #fff2d6; color: #a8760a; border-color: #f0d79a; font-weight: 600; }
+.due.due-soon  { background: #fff7e6; color: #a8760a; border-color: #f2e2b8; }
+
+.list .pbar { display: block; height: 7px; border-radius: 4px; background: var(--hairline-2); overflow: hidden; margin: 6px 0 3px; }
+.list .pbar > span { display: block; height: 100%; background: var(--go); border-radius: 4px; }
+
+/* percentage picker + checkbox lines in modals */
+.pct-row { display: flex; align-items: center; gap: 10px; }
+.pct-row input[type="range"] { flex: 1; accent-color: var(--orange); }
+.pct-row input[type="number"] { width: 72px; }
+.pct-unit { color: var(--muted); font-size: 13px; }
+.vis-field .chkline {
+  display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink);
+  text-transform: none; letter-spacing: 0; font-weight: 400; margin: 4px 0 0;
+}
+.vis-field .chkline input { width: 16px; height: 16px; accent-color: var(--go); }
+.linkrow { display: flex; gap: 8px; }
+.linkrow input { flex: 1; font-family: var(--font-mono); font-size: 12.5px; background: var(--paper); }
+.mk-vis { font-size: 11.5px; color: var(--muted); margin-bottom: 7px; }
+.mk-vis .on { color: var(--go); font-weight: 600; }
+
 /* =========================  MODAL  ===================================== */
 .modal-back {
   position: fixed; inset: 0; background: rgba(20,32,43,.5);
@@ -647,9 +687,26 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
           <label id="lblMain">Description</label>
           <input type="text" id="fMain" placeholder="" />
         </div>
-        <div class="field">
-          <label id="lblSub">Detail (date, supplier, qty, notes&hellip;)</label>
+        <div class="field" id="fldSub">
+          <label id="lblSub">Detail</label>
           <input type="text" id="fSub" placeholder="optional" />
+        </div>
+        <div class="field" id="fldDue" style="display:none">
+          <label id="lblDue">Due date</label>
+          <input type="date" id="fDue" />
+        </div>
+        <div class="field" id="fldPct" style="display:none">
+          <label id="lblPct">% complete</label>
+          <div class="pct-row">
+            <input type="range" id="fPctRange" min="0" max="100" step="5" value="0" />
+            <input type="number" id="fPct" min="0" max="100" value="0" />
+            <span class="pct-unit">%</span>
+          </div>
+        </div>
+        <div class="field vis-field">
+          <label>Visible to</label>
+          <label class="chkline"><input type="checkbox" id="fVisSite" /> Site supervisor</label>
+          <label class="chkline"><input type="checkbox" id="fVisClient" /> Client</label>
         </div>
       </div>
       <div class="modal-foot">
@@ -675,6 +732,11 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         <div class="field">
           <label>Notes</label>
           <textarea id="mkNotes" placeholder="Anything relevant — depth, status, instructions, hazards&hellip;"></textarea>
+        </div>
+        <div class="field vis-field">
+          <label>Visible to</label>
+          <label class="chkline"><input type="checkbox" id="mkVisSite" /> Site supervisor</label>
+          <label class="chkline"><input type="checkbox" id="mkVisClient" /> Client</label>
         </div>
       </div>
       <div class="modal-foot">
@@ -770,6 +832,17 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
           <label>Branch</label>
           <input type="text" id="setBranch" placeholder="main" />
         </div>
+
+        <div class="set-section">Share links (read-only)</div>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 12px">Give these out after you Publish. Each shows only what you've flagged for that audience.</p>
+        <div class="field">
+          <label>Site supervisor link</label>
+          <div class="linkrow"><input type="text" id="linkSite" readonly /><button type="button" class="btn" data-copy="linkSite">Copy</button></div>
+        </div>
+        <div class="field">
+          <label>Client link</label>
+          <div class="linkrow"><input type="text" id="linkClient" readonly /><button type="button" class="btn" data-copy="linkClient">Copy</button></div>
+        </div>
       </div>
       <div class="modal-foot">
         <button class="btn btn-ghost" data-close>Cancel</button>
@@ -826,9 +899,19 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     { id: "subbiesToday",  title: "Subcontractors Onsite",  icon: "fa-people-group",    color: "#e8542a", span: false, mainLbl: "Subbie",   subLbl: "Scope / contact" },
     { id: "subbiesTomorrow", title: "Subbies Onsite Tomorrow", icon: "fa-user-clock",  color: "#7b4fb0", span: false, mainLbl: "Subbie",   subLbl: "Scope / contact" },
     { id: "staffAway",     title: "Staff Away",             icon: "fa-user-xmark",      color: "#b0395e", span: false, mainLbl: "Who",      subLbl: "Dates / reason" },
-    { id: "plantTransport", title: "Plant Transport",       icon: "fa-trailer",         color: "#8a5a1e", span: false, mainLbl: "Plant / item", subLbl: "From → to / date / float" }
+    { id: "plantTransport", title: "Plant Transport",       icon: "fa-trailer",         color: "#8a5a1e", span: false, mainLbl: "Plant / item", subLbl: "From → to / date / float" },
+    { id: "punchlist",     title: "Punch List",             icon: "fa-list-check",      color: "#d2342b", kind: "dated",    mainLbl: "Item / defect",   subLbl: "Notes / location",     dueLbl: "Due date" },
+    { id: "materialPickup", title: "Material Pickup",        icon: "fa-box-open",        color: "#0f9b8e", kind: "list",     mainLbl: "Item ready",      subLbl: "Pickup location / yard" },
+    { id: "meetings",      title: "Meetings / Site Visits",  icon: "fa-handshake",       color: "#2f6fb0", kind: "dated",    mainLbl: "Meeting / site visit", subLbl: "Location / attendees", dueLbl: "When" },
+    { id: "workPackages",  title: "Work Packages",           icon: "fa-diagram-project", color: "#f7a600", kind: "progress", mainLbl: "Work package",    pctLbl: "% complete" }
   ];
   const panelById = (id) => PANELS.find((p) => p.id === id);
+  const panelKind = (p) => p.kind || "list";
+
+  // Default visibility for items/markers (site sees ops by default; client is opt-in).
+  const defVis = () => ({ site: true, client: false });
+  const itemVis = (it) => it.vis || defVis();
+  const markerVis = (m) => m.vis || defVis();
 
   /* ---------- WMO weather codes ----------------------------------------- */
   const WX = {
@@ -882,7 +965,11 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         subbiesToday: [],
         subbiesTomorrow: [],
         staffAway: [],
-        plantTransport: []
+        plantTransport: [],
+        punchlist: [],
+        materialPickup: [],
+        meetings: [],
+        workPackages: []
       },
       mapLayers: []
     };
@@ -954,7 +1041,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     map.on("click", (e) => {
       if (!addMode) return;
       const catId = document.getElementById("catSelect").value;
-      const m = { id: uid(), lat: e.latlng.lat, lng: e.latlng.lng, category: catId, title: "", notes: "", ts: Date.now() };
+      const m = { id: uid(), lat: e.latlng.lat, lng: e.latlng.lng, category: catId, title: "", notes: "", ts: Date.now(), vis: defVis() };
       state.markers.push(m);
       save();
       drawMarkers();
@@ -1007,18 +1094,24 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   function renderMarkers() {
     markerLayer.clearLayers();
     state.markers.forEach((m) => {
+      if (sync.audience !== "editor" && !markerVis(m)[sync.audience]) return; // hidden for this audience
       const cat = catById(m.category);
       const lm = L.marker([m.lat, m.lng], { icon: pinIcon(cat) }).addTo(markerLayer);
       const notes = m.notes ? esc(m.notes) : "No notes yet.";
+      const v = markerVis(m);
+      const editorBits = sync.audience === "editor"
+        ? `<div class="mk-vis">Shown to: ${v.site ? '<span class="on">Site</span>' : '<span>Site</span>'} ${v.client ? '<span class="on">Client</span>' : '<span>Client</span>'}</div>
+           <div class="mk-actions">
+             <button class="edit" data-mk-edit="${m.id}"><i class="fa-solid fa-pen"></i>Edit</button>
+             <button class="del"  data-mk-del="${m.id}"><i class="fa-solid fa-trash"></i>Delete</button>
+           </div>`
+        : "";
       lm.bindPopup(
         `<div class="mk-pop">
            <div class="mk-cat"><span class="dot" style="background:${cat.color}"></span>${esc(cat.label)}</div>
            <h4>${esc(m.title || "(untitled)")}</h4>
            <div class="mk-notes ${m.notes ? "" : "empty"}">${notes}</div>
-           <div class="mk-actions">
-             <button class="edit" data-mk-edit="${m.id}"><i class="fa-solid fa-pen"></i>Edit</button>
-             <button class="del"  data-mk-del="${m.id}"><i class="fa-solid fa-trash"></i>Delete</button>
-           </div>
+           ${editorBits}
          </div>`
       );
     });
@@ -1302,6 +1395,9 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     sel.value = m.category;
     document.getElementById("mkTitle").value = m.title || "";
     document.getElementById("mkNotes").value = m.notes || "";
+    const v = markerVis(m);
+    document.getElementById("mkVisSite").checked = !!v.site;
+    document.getElementById("mkVisClient").checked = !!v.client;
     document.getElementById("markerModalTitle").textContent = isNew ? "New marker" : "Edit marker";
     openModal("markerModal");
     setTimeout(() => document.getElementById("mkTitle").focus(), 30);
@@ -1313,6 +1409,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     m.category = document.getElementById("mkCat").value;
     m.title = document.getElementById("mkTitle").value.trim();
     m.notes = document.getElementById("mkNotes").value.trim();
+    m.vis = { site: document.getElementById("mkVisSite").checked, client: document.getElementById("mkVisClient").checked };
     save(); renderMarkers(); closeModal("markerModal");
   }
 
@@ -1463,24 +1560,61 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   /* =======================================================================
      LIST PANELS
      ======================================================================= */
+  function visiblePanelItems(pid) {
+    const items = state.panels[pid] || [];
+    if (sync.audience === "editor") return items;
+    return items.filter((it) => itemVis(it)[sync.audience]);
+  }
+
+  function dueBadge(due) {
+    if (!due) return "";
+    const d = new Date(due + "T00:00:00");
+    if (isNaN(d.getTime())) return "";
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const days = Math.round((d - today) / 86400000);
+    const nice = d.toLocaleDateString("en-AU", { day: "2-digit", month: "short" });
+    let cls, label;
+    if (days < 0) { cls = "overdue"; label = "Overdue " + nice; }
+    else if (days === 0) { cls = "due-today"; label = "Due today"; }
+    else if (days <= 3) { cls = "due-soon"; label = nice; }
+    else { cls = "due-ok"; label = nice; }
+    return `<span class="due ${cls}"><i class="fa-solid fa-calendar-day"></i> ${label}</span>`;
+  }
+
   function renderPanels() {
     const grid = document.getElementById("panelsGrid");
+    const editor = sync.audience === "editor";
     grid.innerHTML = PANELS.map((p) => {
-      const items = state.panels[p.id] || [];
+      const items = visiblePanelItems(p.id);
+      const kind = panelKind(p);
+      const rows = items.map((it) => {
+        const v = itemVis(it);
+        let txt;
+        if (kind === "progress") {
+          const pct = Math.max(0, Math.min(100, parseInt(it.pct, 10) || 0));
+          txt = `<span class="txt"><span class="main">${esc(it.main)}</span>`
+              + `<span class="pbar"><span style="width:${pct}%"></span></span>`
+              + `<span class="sub">${pct}% complete</span></span>`;
+        } else {
+          txt = `<span class="txt"><span class="main">${esc(it.main)}</span>`
+              + `${it.sub ? `<span class="sub">${esc(it.sub)}</span>` : ""}</span>`;
+        }
+        const due = kind === "dated" ? dueBadge(it.due) : "";
+        const chips = editor
+          ? `<span class="vis">
+               <button class="vchip ${v.site ? "on" : ""}" data-vis="site:${p.id}:${it.id}" title="Show to site supervisor">S</button>
+               <button class="vchip ${v.client ? "on" : ""}" data-vis="client:${p.id}:${it.id}" title="Show to client">C</button>
+             </span>` : "";
+        const acts = editor
+          ? `<span class="row-act">
+               <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
+               <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
+             </span>` : "";
+        return `<li><span class="marker" style="background:${p.color}"></span>${txt}${due}${chips}${acts}</li>`;
+      }).join("");
       const body = items.length
-        ? `<ul class="list">${items.map((it) => `
-            <li>
-              <span class="marker" style="background:${p.color}"></span>
-              <span class="txt">
-                <span class="main">${esc(it.main)}</span>
-                ${it.sub ? `<span class="sub">${esc(it.sub)}</span>` : ""}
-              </span>
-              <span class="row-act">
-                <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
-              </span>
-            </li>`).join("")}</ul>`
-        : `<div class="empty">Nothing listed. <button data-empty-add="${p.id}">Add the first one</button></div>`;
+        ? `<ul class="list">${rows}</ul>`
+        : `<div class="empty">Nothing listed.${editor ? ` <button data-empty-add="${p.id}">Add the first one</button>` : ""}</div>`;
       return `<section class="card">
         <div class="card-head">
           <span class="ttl"><span class="tag" style="background:${p.color}"><i class="fa-solid ${p.icon}"></i></span>${esc(p.title)}</span>
@@ -1497,14 +1631,20 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     grid.querySelectorAll("[data-empty-add]").forEach((b) =>
       b.addEventListener("click", () => openItemModal(b.getAttribute("data-empty-add"), null)));
     grid.querySelectorAll("[data-edit]").forEach((b) =>
-      b.addEventListener("click", () => {
-        const [pid, iid] = b.getAttribute("data-edit").split(":");
-        openItemModal(pid, iid);
-      }));
+      b.addEventListener("click", () => { const [pid, iid] = b.getAttribute("data-edit").split(":"); openItemModal(pid, iid); }));
     grid.querySelectorAll("[data-del]").forEach((b) =>
       b.addEventListener("click", () => {
         const [pid, iid] = b.getAttribute("data-del").split(":");
         state.panels[pid] = state.panels[pid].filter((x) => x.id !== iid);
+        save(); renderPanels();
+      }));
+    grid.querySelectorAll("[data-vis]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const [who, pid, iid] = b.getAttribute("data-vis").split(":");
+        const it = (state.panels[pid] || []).find((x) => x.id === iid);
+        if (!it) return;
+        it.vis = it.vis || defVis();
+        it.vis[who] = !it.vis[who];
         save(); renderPanels();
       }));
   }
@@ -1513,29 +1653,54 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
 
   function openItemModal(panelId, itemId) {
     const p = panelById(panelId);
+    const kind = panelKind(p);
     editingItem = { panel: panelId, id: itemId };
-    const it = itemId ? state.panels[panelId].find((x) => x.id === itemId) : { main: "", sub: "" };
+    const it = itemId ? state.panels[panelId].find((x) => x.id === itemId) : { main: "", sub: "", due: "", pct: 0, vis: defVis() };
     document.getElementById("itemModalTitle").textContent = (itemId ? "Edit — " : "Add to — ") + p.title;
     document.getElementById("itemModalIcon").className = "fa-solid " + p.icon;
     document.getElementById("lblMain").textContent = p.mainLbl;
-    document.getElementById("lblSub").textContent = p.subLbl;
     document.getElementById("fMain").value = it.main || "";
+
+    const showSub = kind !== "progress";
+    document.getElementById("fldSub").style.display = showSub ? "" : "none";
+    document.getElementById("lblSub").textContent = p.subLbl || "Detail";
     document.getElementById("fSub").value = it.sub || "";
+
+    const showDue = kind === "dated";
+    document.getElementById("fldDue").style.display = showDue ? "" : "none";
+    document.getElementById("lblDue").textContent = p.dueLbl || "Due";
+    document.getElementById("fDue").value = it.due || "";
+
+    const showPct = kind === "progress";
+    document.getElementById("fldPct").style.display = showPct ? "" : "none";
+    const pv = Math.max(0, Math.min(100, parseInt(it.pct, 10) || 0));
+    document.getElementById("fPct").value = pv;
+    document.getElementById("fPctRange").value = pv;
+
+    const v = it.vis || defVis();
+    document.getElementById("fVisSite").checked = !!v.site;
+    document.getElementById("fVisClient").checked = !!v.client;
+
     openModal("itemModal");
     setTimeout(() => document.getElementById("fMain").focus(), 30);
   }
 
   function saveItem() {
-    const main = document.getElementById("fMain").value.trim();
-    const sub = document.getElementById("fSub").value.trim();
-    if (!main) { document.getElementById("fMain").focus(); return; }
     const { panel, id } = editingItem;
-    if (id) {
-      const it = state.panels[panel].find((x) => x.id === id);
-      it.main = main; it.sub = sub;
-    } else {
-      state.panels[panel].push({ id: uid(), main, sub });
-    }
+    const p = panelById(panel);
+    const kind = panelKind(p);
+    const main = document.getElementById("fMain").value.trim();
+    if (!main) { document.getElementById("fMain").focus(); return; }
+    const data = {
+      main,
+      vis: { site: document.getElementById("fVisSite").checked, client: document.getElementById("fVisClient").checked }
+    };
+    if (kind === "progress") data.pct = Math.max(0, Math.min(100, parseInt(document.getElementById("fPct").value, 10) || 0));
+    else data.sub = document.getElementById("fSub").value.trim();
+    if (kind === "dated") data.due = document.getElementById("fDue").value;
+
+    if (id) { const it = state.panels[panel].find((x) => x.id === id); Object.assign(it, data); }
+    else { state.panels[panel].push(Object.assign({ id: uid() }, data)); }
     save(); renderPanels(); closeModal("itemModal");
   }
 
@@ -1555,6 +1720,9 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     document.getElementById("setRepo").value = sync.repo || r.repo || "";
     document.getElementById("setBranch").value = sync.branch || r.branch || "main";
     document.getElementById("setToken").value = getToken();
+    const base = window.location.origin + window.location.pathname;
+    document.getElementById("linkSite").value = base + "?view=site";
+    document.getElementById("linkClient").value = base + "?view=client";
     openModal("settingsModal");
   }
 
@@ -1586,7 +1754,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     if (map) map.setView([s.loc.lat, s.loc.lng]);
     if (s.geojsonCRS !== prevCRS) loadWorkArea();
 
-    setViewerMode(isViewerURL());
+    setViewerMode(detectAudience());
     updatePublishUI();
     setSyncStatus();
     if (!sync.dirty) loadShared();   // pick up the latest if we just connected
@@ -1636,7 +1804,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
      Editor (has token): edits locally, clicks Publish -> commits data.json.
      Viewer (no token): read-only, auto-refreshes from the repo.
      ======================================================================= */
-  const sync = { owner: "", repo: "", branch: "main", lastPublishedAt: null, dirty: false, busy: false };
+  const sync = { owner: "", repo: "", branch: "main", lastPublishedAt: null, dirty: false, busy: false, viewer: false, audience: "editor" };
 
   function detectRepo() {
     // saved override wins
@@ -1794,15 +1962,24 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       });
   }
 
-  function setViewerMode(isViewer) {
-    sync.viewer = isViewer;
-    document.body.classList.toggle("viewer", isViewer);
+  function setViewerMode(audience) {
+    sync.audience = audience;
+    sync.viewer = audience !== "editor";
+    document.body.classList.toggle("viewer", sync.viewer);
+    document.body.classList.toggle("client", audience === "client");
   }
 
-  // The supervisor opens the site with ?view (or #view) for the read-only board.
-  function isViewerURL() {
-    try { if (new URLSearchParams(window.location.search).has("view")) return true; } catch (e) {}
-    return (window.location.hash || "").indexOf("view") !== -1;
+  // ?view or ?view=site -> site board; ?view=client or ?client -> client board.
+  function detectAudience() {
+    try {
+      const p = new URLSearchParams(window.location.search);
+      if (p.has("view")) return (p.get("view") || "").toLowerCase() === "client" ? "client" : "site";
+      if (p.has("client")) return "client";
+    } catch (e) {}
+    const h = (window.location.hash || "").toLowerCase();
+    if (h.indexOf("client") !== -1) return "client";
+    if (h.indexOf("view") !== -1) return "site";
+    return "editor";
   }
 
   function updatePublishUI() {
@@ -1825,7 +2002,8 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     const when = sync.lastPublishedAt ? new Date(sync.lastPublishedAt).toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit" }) : "—";
     if (sync.viewer) {
       el.className = "sync-pill live";
-      el.innerHTML = `<i class="fa-solid fa-circle"></i> Live view · read-only · updated ${when}`;
+      const who = sync.audience === "client" ? "Client view" : "Site view";
+      el.innerHTML = `<i class="fa-solid fa-circle"></i> ${who} · read-only · updated ${when}`;
       return;
     }
     if (!hasToken()) {
@@ -1840,7 +2018,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   function setupSync() {
     Object.assign(sync, detectRepo());
     try { sync.dirty = localStorage.getItem(DIRTY_KEY) === "1"; } catch (e) {}
-    setViewerMode(isViewerURL());
+    setViewerMode(detectAudience());
     updatePublishUI();
     setSyncStatus();
     loadShared();
@@ -1968,6 +2146,18 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     document.getElementById("itemSave").onclick = saveItem;
     document.getElementById("fMain").addEventListener("keydown", (e) => { if (e.key === "Enter") saveItem(); });
     document.getElementById("fSub").addEventListener("keydown", (e) => { if (e.key === "Enter") saveItem(); });
+    const pr = document.getElementById("fPctRange"), pn = document.getElementById("fPct");
+    if (pr && pn) { pr.oninput = () => { pn.value = pr.value; }; pn.oninput = () => { pr.value = pn.value; }; }
+
+    // copy-link buttons
+    document.querySelectorAll("[data-copy]").forEach((b) => {
+      b.onclick = () => {
+        const el = document.getElementById(b.getAttribute("data-copy"));
+        el.select();
+        try { navigator.clipboard.writeText(el.value); } catch (e) { try { document.execCommand("copy"); } catch (e2) {} }
+        toast("Link copied");
+      };
+    });
 
     // marker modal
     document.getElementById("mkSave").onclick = saveMarker;
