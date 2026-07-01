@@ -80,9 +80,13 @@ named `Asset` or `name` is used as the heading.
   panels: **Punch List** and **Meetings/Site Visits** take a **due date** (overdue items
   flag red); **Work Packages** take a **% complete** and show a progress bar; **Material
   Pickup** records item + pickup location.
-- **Who-sees-what:** every panel item and marker has two chips — **S** (site supervisor)
-  and **C** (client). Tap to toggle. Green = shown to that audience. New items default to
-  site-on, client-off.
+- **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
+  (green = shown):
+  - **Whole panel** — chips in each panel's header. Master switch per audience: turn a
+    panel's **C** on to let the client see it, off to hide the whole panel. Site sees
+    every panel by default; the client sees a panel only once you switch its **C** on.
+  - **Individual rows** — chips on each item, to hide a specific line inside a panel that's
+    otherwise shown. Markers have the same two options in their edit box.
 - **Satellite / Street**, **Fit**, **Add layers** (multiple QGIS files), **Production Stats**
   (click a tile to edit; add a target for a bar).
 - **Settings:** project name, weather location, publishing token, and the **share links**.

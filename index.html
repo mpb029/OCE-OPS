@@ -377,6 +377,8 @@ input, textarea, select { font-family: inherit; }
 
 /* ---- visibility chips, due badges, in-row progress -------------------- */
 .list li .vis { display: flex; gap: 3px; flex: 0 0 auto; }
+.card-head .pvis { display: flex; gap: 3px; align-items: center; margin-right: 2px; }
+.card-head .pvis .vchip { width: 22px; height: 22px; }
 .vchip {
   width: 20px; height: 20px; border-radius: 5px; font-size: 10.5px; font-weight: 700;
   border: 1px solid var(--hairline); background: var(--surface); color: var(--faint);
@@ -909,9 +911,11 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   const panelKind = (p) => p.kind || "list";
 
   // Default visibility for items/markers (site sees ops by default; client is opt-in).
-  const defVis = () => ({ site: true, client: false });
-  const itemVis = (it) => it.vis || defVis();
+  const defVis = () => ({ site: true, client: false });      // markers + panels: client is opt-in
+  const itemDefVis = () => ({ site: true, client: true });   // items inherit whatever panel shows them
+  const itemVis = (it) => it.vis || itemDefVis();
   const markerVis = (m) => m.vis || defVis();
+  const panelVisOf = (id) => state.panelVis[id] || defVis();
 
   /* ---------- WMO weather codes ----------------------------------------- */
   const WX = {
@@ -971,7 +975,8 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         meetings: [],
         workPackages: []
       },
-      mapLayers: []
+      mapLayers: [],
+      panelVis: {}
     };
   }
 
@@ -991,7 +996,8 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         markers: parsed.markers || [],
         stats: parsed.stats || d.stats,
         panels: Object.assign({}, d.panels, parsed.panels),
-        mapLayers: parsed.mapLayers || []
+        mapLayers: parsed.mapLayers || [],
+        panelVis: parsed.panelVis || {}
       };
     } catch (e) {
       console.warn("Could not read saved data, starting fresh.", e);
@@ -1585,8 +1591,15 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     const grid = document.getElementById("panelsGrid");
     const editor = sync.audience === "editor";
     grid.innerHTML = PANELS.map((p) => {
+      if (!editor && !panelVisOf(p.id)[sync.audience]) return ""; // whole panel hidden for this audience
       const items = visiblePanelItems(p.id);
       const kind = panelKind(p);
+      const pv = panelVisOf(p.id);
+      const pchips = editor
+        ? `<span class="pvis">
+             <button class="vchip ${pv.site ? "on" : ""}" data-pvis="site:${p.id}" title="Show this whole panel to the site supervisor">S</button>
+             <button class="vchip ${pv.client ? "on" : ""}" data-pvis="client:${p.id}" title="Show this whole panel to the client">C</button>
+           </span>` : "";
       const rows = items.map((it) => {
         const v = itemVis(it);
         let txt;
@@ -1619,6 +1632,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         <div class="card-head">
           <span class="ttl"><span class="tag" style="background:${p.color}"><i class="fa-solid ${p.icon}"></i></span>${esc(p.title)}</span>
           <span class="spacer"></span>
+          ${pchips}
           <span class="count">${items.length}</span>
           <button class="add" data-add="${p.id}" title="Add"><i class="fa-solid fa-plus"></i></button>
         </div>
@@ -1647,6 +1661,13 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         it.vis[who] = !it.vis[who];
         save(); renderPanels();
       }));
+    grid.querySelectorAll("[data-pvis]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const [who, pid] = b.getAttribute("data-pvis").split(":");
+        state.panelVis[pid] = state.panelVis[pid] || defVis();
+        state.panelVis[pid][who] = !state.panelVis[pid][who];
+        save(); renderPanels();
+      }));
   }
 
   let editingItem = { panel: null, id: null };
@@ -1655,7 +1676,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     const p = panelById(panelId);
     const kind = panelKind(p);
     editingItem = { panel: panelId, id: itemId };
-    const it = itemId ? state.panels[panelId].find((x) => x.id === itemId) : { main: "", sub: "", due: "", pct: 0, vis: defVis() };
+    const it = itemId ? state.panels[panelId].find((x) => x.id === itemId) : { main: "", sub: "", due: "", pct: 0, vis: itemDefVis() };
     document.getElementById("itemModalTitle").textContent = (itemId ? "Edit — " : "Add to — ") + p.title;
     document.getElementById("itemModalIcon").className = "fa-solid " + p.icon;
     document.getElementById("lblMain").textContent = p.mainLbl;
@@ -1785,7 +1806,8 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
           markers: parsed.markers || [],
           stats: parsed.stats || [],
           panels: Object.assign(defaultState().panels, parsed.panels),
-          mapLayers: parsed.mapLayers || []
+          mapLayers: parsed.mapLayers || [],
+          panelVis: parsed.panelVis || {}
         };
         save();
         renderHeader(); renderStats(); renderPanels(); renderMarkers();
@@ -1834,6 +1856,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       stats: state.stats,
       panels: state.panels,
       mapLayers: state.mapLayers || [],
+      panelVis: state.panelVis || {},
       publishedAt: new Date().toISOString()
     };
   }
@@ -1860,6 +1883,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     state.stats = obj.stats || [];
     state.panels = Object.assign({}, d.panels, obj.panels || {});
     state.mapLayers = obj.mapLayers || [];
+    state.panelVis = obj.panelVis || {};
     save();                 // persists locally without flagging dirty
     applyingRemote = false;
     sync.lastPublishedAt = obj.publishedAt || null;
