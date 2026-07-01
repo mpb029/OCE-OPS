@@ -209,6 +209,18 @@ input, textarea, select { font-family: inherit; }
   transition: all .15s;
 }
 .card-head .add:hover { border-color: var(--amber); color: var(--amber-deep); border-style: solid; }
+.card-head .pbtn {
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--faint);
+  border-radius: var(--r-sm);
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  font-size: 12px; cursor: pointer;
+  transition: all .15s;
+}
+.card-head .pbtn:hover { color: var(--amber-deep); border-color: var(--hairline); }
+body.client .card-head .pbtn { display: none; }
 .card-body { padding: 6px 15px 14px; }
 
 /* =========================  MAP  ======================================== */
@@ -621,6 +633,57 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   * { transition: none !important; }
 }
 
+/* =========================  PRINT  ===================================== */
+.print-only { display: none; }
+
+@media print {
+  :root { --paper: #fff; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html, body { background: #fff !important; }
+
+  /* strip interactive chrome */
+  .topbar, .hazard, .map-toolbar, .map-hint, .weather-card,
+  #toast, .modal-back, .icon-btn, .tool-btn,
+  .card-head .add, .card-head .pbtn, .card-head .count,
+  .pvis, .list li .vis, .stat-vis, .row-act, .file-dl,
+  .stat .x, [data-empty-add], #addStat, #emptyStat,
+  .layer-ctl, .leaflet-control-container { display: none !important; }
+
+  .wrap { padding: 0 !important; margin: 0 !important; max-width: none !important; }
+  .grid-main { display: block !important; }
+
+  /* print report header */
+  .print-only { display: block; }
+  #printHeader { margin: 0 0 10px; padding: 0 0 8px; border-bottom: 2px solid var(--ink); }
+  #printHeader .ph-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ink); }
+  #printHeader .ph-meta { font-family: var(--font-mono); font-size: 10px; color: #555; margin-top: 3px; }
+
+  /* clean, ink-friendly cards */
+  .card { box-shadow: none !important; border: 1px solid #bbb !important; break-inside: avoid; margin: 0 0 8px; }
+  .card-head { border-bottom: 1px solid #ddd; }
+  .list li { break-inside: avoid; border-bottom: 1px solid #eee; }
+  .stbadge, .file-ico, .marker, .tag { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  a { color: #000; text-decoration: none; }
+
+  @page { margin: 12mm; }
+
+  /* ---- single panel ---- */
+  body[data-print="panel"] .grid-main > *:not(#panelsGrid),
+  body[data-print="panel"] #panelsGrid .card:not(.print-this) { display: none !important; }
+  body[data-print="panel"] #panelsGrid { display: block !important; }
+  body[data-print="panel"] .card.print-this { width: 100% !important; }
+
+  /* ---- full report ---- */
+  body[data-print="report"] #panelsGrid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  body[data-print="report"] .map-card { break-inside: avoid; margin-bottom: 8px; }
+  body[data-print="report"] #map { height: 95mm !important; }
+  body[data-print="report"] #prodStatsCard { break-inside: avoid; }
+}
+
 </style>
 </head>
 <body>
@@ -641,6 +704,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       <div class="date" id="clockDate">&mdash;</div>
     </div>
     <div class="topbar-actions">
+      <button class="icon-btn" id="btnPrint" title="Print the dashboard as a report"><i class="fa-solid fa-print"></i><span>Print</span></button>
       <button class="icon-btn pub-connect" id="btnPublish" title="Publish your changes so the site supervisor can see them"><i class="fa-solid fa-cloud-arrow-up"></i><span>Connect</span></button>
       <button class="icon-btn" id="btnSettings" title="Project, weather location &amp; publishing"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
       <button class="icon-btn" id="btnExport" title="Download all dashboard data as a backup file"><i class="fa-solid fa-download"></i><span>Export</span></button>
@@ -649,6 +713,12 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     </div>
   </header>
   <div class="hazard"></div>
+
+  <!-- Only shown on the printed page -->
+  <div id="printHeader" class="print-only">
+    <div class="ph-title" id="phTitle">Offaly Civil Engineering</div>
+    <div class="ph-meta" id="phMeta"></div>
+  </div>
 
   <!-- ============================ BODY ============================ -->
   <div class="wrap">
@@ -1838,12 +1908,13 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         ? `<ul class="list">${rows}</ul>`
         : `<div class="empty">${emptyMsg}</div>`;
       const addTitle = kind === "files" ? "Attach a file" : "Add";
-      return `<section class="card">
+      return `<section class="card" data-card="${p.id}">
         <div class="card-head">
           <span class="ttl"><span class="tag" style="background:${p.color}"><i class="fa-solid ${p.icon}"></i></span>${esc(p.title)}</span>
           <span class="spacer"></span>
           ${pchips}
           <span class="count">${items.length}</span>
+          <button class="pbtn" data-print-panel="${p.id}" title="Print this panel"><i class="fa-solid fa-print"></i></button>
           <button class="add" data-add="${p.id}" title="${addTitle}"><i class="fa-solid fa-plus"></i></button>
         </div>
         <div class="card-body">${body}</div>
@@ -1855,6 +1926,8 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       b.addEventListener("click", () => addOrAttach(b.getAttribute("data-add"))));
     grid.querySelectorAll("[data-empty-add]").forEach((b) =>
       b.addEventListener("click", () => addOrAttach(b.getAttribute("data-empty-add"))));
+    grid.querySelectorAll("[data-print-panel]").forEach((b) =>
+      b.addEventListener("click", () => printPanel(b.getAttribute("data-print-panel"))));
     grid.querySelectorAll("[data-dl]").forEach((b) =>
       b.addEventListener("click", () => { const [pid, iid] = b.getAttribute("data-dl").split(":"); downloadAttachment(pid, iid); }));
     grid.querySelectorAll("[data-fdel]").forEach((b) =>
@@ -2367,6 +2440,43 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       .catch(() => window.open(it.url, "_blank", "noopener"));
   }
 
+  /* =======================================================================
+     PRINTING  (native print + a dedicated print stylesheet)
+     ======================================================================= */
+  function printMeta(extra) {
+    const proj = state.settings.projectName || "";
+    const when = new Date().toLocaleString("en-AU", { dateStyle: "medium", timeStyle: "short" });
+    return [proj, extra, when].filter(Boolean).join("  \u00b7  ");
+  }
+
+  function printPanel(pid) {
+    const p = panelById(pid);
+    const card = document.querySelector(`.card[data-card="${pid}"]`);
+    if (!p || !card) return;
+    document.querySelectorAll(".card.print-this").forEach((c) => c.classList.remove("print-this"));
+    card.classList.add("print-this");
+    document.getElementById("phTitle").textContent = p.title;
+    document.getElementById("phMeta").textContent = printMeta("Offaly Civil Engineering");
+    document.body.setAttribute("data-print", "panel");
+    setTimeout(() => window.print(), 30);
+  }
+
+  function printReport() {
+    const audienceLabel = sync.audience === "client" ? "Client report"
+      : sync.audience === "site" ? "Site report" : "Dashboard report";
+    document.getElementById("phTitle").textContent = "Offaly Civil Engineering \u2014 " + audienceLabel;
+    document.getElementById("phMeta").textContent = printMeta();
+    document.body.setAttribute("data-print", "report");
+    // give the map a chance to re-tile at its current size before printing
+    if (map && map.invalidateSize) { try { map.invalidateSize(); } catch (e) {} }
+    setTimeout(() => window.print(), 350);
+  }
+
+  function endPrint() {
+    document.body.removeAttribute("data-print");
+    document.querySelectorAll(".card.print-this").forEach((c) => c.classList.remove("print-this"));
+  }
+
   function setViewerMode(audience) {
     sync.audience = audience;
     sync.viewer = audience !== "editor";
@@ -2577,6 +2687,8 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     document.getElementById("mkDelete").onclick = deleteMarkerFromModal;
     document.getElementById("mkCat").onchange = updateMarkerLetterField;
     document.getElementById("fileAttach").onchange = onFilePicked;
+    document.getElementById("btnPrint").onclick = printReport;
+    window.addEventListener("afterprint", endPrint);
 
     // settings
     document.getElementById("setSave").onclick = saveSettings;

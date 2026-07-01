@@ -100,6 +100,14 @@ named `Asset` or `name` is used as the heading.
   still need to **Publish** for it to appear on the site/client pages. Max 25 MB per file.
   Because the repo is public, attached files are reachable by anyone with the link — the S / C
   toggle hides them from view but is not access control (same caveat as the rest of the board).
+- **Printing:**
+  - **One panel** — the small printer icon in any panel's header prints just that panel and
+    its items, clean and ink-friendly, ready to pin up on site. (Use your browser's "Save as
+    PDF" in the print dialog for a PDF.)
+  - **Whole report** — the **Print** button in the top bar lays the map, stats, and every
+    visible panel out as a tidy report with a heading, project name, and date/time. On the
+    **client page** it prints exactly what the client can see at that moment — a keepable
+    snapshot for their file.
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
   (green = shown):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a
