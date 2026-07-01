@@ -8,7 +8,7 @@
     },
     "geojsonCRS": "auto"
   },
-  "base": "street",
+  "base": "sat",
   "markers": [],
   "stats": [],
   "panels": {
@@ -588,11 +588,11 @@
       "client": false
     },
     "subbiesTomorrow": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "subbiesToday": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "plantTransport": {
@@ -632,5 +632,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T04:32:01.754Z"
+  "publishedAt": "2026-07-01T04:49:35.210Z"
 }
