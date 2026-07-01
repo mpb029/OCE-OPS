@@ -605,12 +605,12 @@
     },
     "workPackages": {
       "site": true,
-      "client": false
+      "client": true
     },
     "meetings": {
       "site": true,
-      "client": false
+      "client": true
     }
   },
-  "publishedAt": "2026-07-01T03:57:03.910Z"
+  "publishedAt": "2026-07-01T04:04:15.948Z"
 }
