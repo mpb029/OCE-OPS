@@ -568,49 +568,49 @@
   ],
   "panelVis": {
     "dailyWorks": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "deliveries": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "upcoming": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "staffAway": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "subbiesTomorrow": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "subbiesToday": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "plantTransport": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "punchlist": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "materialPickup": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "workPackages": {
-      "site": false,
+      "site": true,
       "client": false
     },
     "meetings": {
-      "site": false,
+      "site": true,
       "client": false
     }
   },
-  "publishedAt": "2026-07-01T03:56:30.894Z"
+  "publishedAt": "2026-07-01T03:57:03.910Z"
 }
