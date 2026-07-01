@@ -569,15 +569,15 @@
   "panelVis": {
     "dailyWorks": {
       "site": true,
-      "client": false
+      "client": true
     },
     "deliveries": {
       "site": true,
-      "client": false
+      "client": true
     },
     "upcoming": {
       "site": true,
-      "client": false
+      "client": true
     },
     "staffAway": {
       "site": true,
@@ -612,5 +612,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T04:05:24.280Z"
+  "publishedAt": "2026-07-01T04:13:34.687Z"
 }
