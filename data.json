@@ -9,26 +9,73 @@
     "geojsonCRS": "auto"
   },
   "base": "sat",
-  "markers": [],
+  "markers": [
+    {
+      "id": "j40fawl",
+      "lat": -25.91601239047849,
+      "lng": 153.00148646223744,
+      "category": "tie",
+      "title": "Dolphin Ave Connection 1",
+      "notes": "",
+      "ts": 1782883431306,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "A"
+    },
+    {
+      "id": "2lo8ruz",
+      "lat": -25.916962901586864,
+      "lng": 153.0029718881664,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1782883442942,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "B"
+    },
+    {
+      "id": "4nu4mfa",
+      "lat": -25.925102243841053,
+      "lng": 152.99726539998102,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1782883454140,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "A"
+    },
+    {
+      "id": "7qz1ldq",
+      "lat": -25.916354961354994,
+      "lng": 153.0013529836945,
+      "category": "plant",
+      "title": "3t Digger",
+      "notes": "",
+      "ts": 1782883513647,
+      "vis": {
+        "site": true,
+        "client": false
+      }
+    }
+  ],
   "stats": [],
   "panels": {
     "dailyWorks": [],
     "deliveries": [],
+    "trafficControl": [],
     "upcoming": [],
-    "subbiesToday": [
-      {
-        "id": "mzoodqo",
-        "main": "Avada - Tarwhine and Drummer St",
-        "sub": "",
-        "vis": {
-          "site": false,
-          "client": false
-        }
-      }
-    ],
-    "subbiesTomorrow": [],
+    "subbiesToday": [],
     "staffAway": [],
     "plantTransport": [],
+    "stakeholders": [],
     "punchlist": [],
     "materialPickup": [],
     "meetings": [],
@@ -36,7 +83,8 @@
     "qualityTesting": [],
     "designChanges": [],
     "variations": [],
-    "issuesDelays": []
+    "issuesDelays": [],
+    "subbiesTomorrow": []
   },
   "mapLayers": [
     {
@@ -632,5 +680,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T04:50:15.708Z"
+  "publishedAt": "2026-07-01T05:28:15.624Z"
 }
