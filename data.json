@@ -2,7 +2,7 @@
   "settings": {
     "projectName": "Regionwide Watermain Renewal",
     "loc": {
-      "name": "Rainbow Beach, QLD",
+      "name": "Gympie, QLD",
       "lat": -25.906,
       "lng": 153.088
     },
@@ -10,15 +10,7 @@
   },
   "base": "street",
   "markers": [],
-  "stats": [
-    {
-      "id": "vc8vdpq",
-      "label": "Pipe laid",
-      "value": "0",
-      "unit": "m",
-      "target": null
-    }
-  ],
+  "stats": [],
   "panels": {
     "dailyWorks": [],
     "deliveries": [],
@@ -32,7 +24,11 @@
     ],
     "subbiesTomorrow": [],
     "staffAway": [],
-    "plantTransport": []
+    "plantTransport": [],
+    "punchlist": [],
+    "materialPickup": [],
+    "meetings": [],
+    "workPackages": []
   },
   "mapLayers": [
     {
@@ -566,5 +562,5 @@
       }
     }
   ],
-  "publishedAt": "2026-06-30T01:30:11.141Z"
+  "publishedAt": "2026-07-01T03:37:47.654Z"
 }
