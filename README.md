@@ -7,7 +7,7 @@ database, or build step.
 It shows:
 
 - An interactive **work-area map** (Leaflet) that loads features exported from QGIS
-- **Add / remove map markers** (hydrants, valves, tie-ins, hazards, deliveries, etc.)
+- **Add / remove map markers** (tie-ins, open excavations, deliveries, laydown areas, plant, traffic control, hazards, etc.)
   with **notes that pop up when you click the pin**
 - **Daily Works**, **Incoming Deliveries**, **Upcoming Works**,
   **Subcontractors Onsite**, **Subbies Onsite Tomorrow**
@@ -73,9 +73,12 @@ named `Asset` or `name` is used as the heading.
 
 ## 3. Using the dashboard
 
-- **Add marker:** click *Add marker*, pick a type (incl. **Plant** and **Site compound**),
-  click the spot on the map. A pin drops and the notes box opens. Click any pin later to
-  read, **Edit**, or **Delete**, and to set who can see it.
+- **Add marker:** click *Add marker*, pick a type, click the spot on the map. A pin drops
+  and the notes box opens. Marker types: General note, **Tie-in / connection** (shows a
+  **user-assigned letter** on the pin — A, B, C… auto-suggested), **Open Excavation**,
+  **Delivery**, **Laydown Area**, **Plant / equipment** (excavator), **Site compound**,
+  **Traffic control** (cone), and **Hazard**. Click any pin later to read, **Edit**, or
+  **Delete**, and to set who can see it.
 - **Panels:** each has a **+** to add and pen/bin icons on hover to edit/remove. Special
   panels: **Punch List** takes a **due date** plus a **priority** (High / Medium / Low badge);
   **Meetings/Site Visits** take a **due date** (overdue items flag red); **Work Packages**
