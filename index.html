@@ -337,6 +337,19 @@ input, textarea, select { font-family: inherit; }
 .stat .bar { height: 6px; border-radius: 4px; background: var(--hairline-2); overflow: hidden; margin-top: 8px; }
 .stat .bar > span { display: block; height: 100%; background: var(--go); border-radius: 4px; }
 .stbadge.prio { letter-spacing: .3px; }
+
+/* file attachment rows */
+.list li.file-row { align-items: center; gap: 10px; }
+.file-ico {
+  flex: 0 0 auto; width: 30px; height: 30px; border-radius: 7px;
+  display: grid; place-items: center; color: #fff; font-size: 14px;
+}
+.file-dl {
+  flex: 0 0 auto; border: 1px solid var(--hairline); background: var(--surface);
+  color: var(--amber-deep); width: 30px; height: 30px; border-radius: 7px; cursor: pointer;
+  display: grid; place-items: center; font-size: 13px;
+}
+.file-dl:hover { background: var(--amber); color: #fff; border-color: var(--amber); }
 .stat .freq { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 4px; }
 .stat .tgt { font-family: var(--font-mono); font-size: 10.5px; color: var(--faint); margin-top: 4px; }
 .stat .stat-vis { display: flex; gap: 3px; margin-top: 9px; }
@@ -662,6 +675,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
           <div class="grp">
             <button class="tool-btn" id="btnLoadGeo" title="Add one or more GeoJSON layers exported from QGIS"><i class="fa-solid fa-file-import"></i><span class="lbl">Add layers</span></button>
             <input type="file" id="fileGeo" class="hidden-file" accept=".geojson,.json,application/geo+json,application/json" multiple />
+            <input type="file" id="fileAttach" class="hidden-file" />
           </div>
         </div>
         <div id="map"></div>
@@ -972,6 +986,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       priorities: [ { value:"high", label:"High", color:"#d2342b" }, { value:"med", label:"Medium", color:"#e8a100" }, { value:"low", label:"Low", color:"#5b636b" } ] },
     { id: "materialPickup", title: "Material Pickup",        icon: "fa-box-open",        color: "#0f9b8e", kind: "list",     mainLbl: "Item ready",      subLbl: "Pickup location / yard" },
     { id: "meetings",      title: "Meetings / Site Visits",  icon: "fa-handshake",       color: "#2f6fb0", kind: "dated",    mainLbl: "Meeting / site visit", subLbl: "Location / attendees", dueLbl: "When" },
+    { id: "documents",     title: "Documents & Files",       icon: "fa-paperclip",       color: "#1f6bad", kind: "files" },
     { id: "workPackages",  title: "Work Packages",           icon: "fa-diagram-project", color: "#f7a600", kind: "progress", mainLbl: "Work package",    pctLbl: "% complete" },
     { id: "qualityTesting", title: "Quality & Testing",       icon: "fa-flask-vial",      color: "#0f9b8e", kind: "dated", mainLbl: "Test / item",     subLbl: "Result detail (optional)", dueLbl: "Date",
       statuses: [ { value:"pass", label:"Pass", color:"#1e9e6a" }, { value:"fail", label:"Fail", color:"#d2342b" }, { value:"pending", label:"Results pending", color:"#e8a100" } ] },
@@ -1050,6 +1065,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         punchlist: [],
         materialPickup: [],
         meetings: [],
+        documents: [],
         workPackages: [],
         qualityTesting: [],
         designChanges: [],
@@ -1762,6 +1778,20 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
            </span>` : "";
       const rows = items.map((it) => {
         const v = itemVis(it);
+        if (kind === "files") {
+          const dl = `<button class="file-dl" data-dl="${p.id}:${it.id}" title="Download"><i class="fa-solid fa-download"></i></button>`;
+          const chips = editor
+            ? `<span class="vis">
+                 <button class="vchip ${v.site ? "on" : ""}" data-vis="site:${p.id}:${it.id}" title="Show to site supervisor">S</button>
+                 <button class="vchip ${v.client ? "on" : ""}" data-vis="client:${p.id}:${it.id}" title="Show to client">C</button>
+               </span>` : "";
+          const del = editor ? `<span class="row-act"><button class="d" data-fdel="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button></span>` : "";
+          return `<li class="file-row">
+            <span class="file-ico" style="background:${p.color}"><i class="fa-solid ${fileIcon(it.mime, it.name)}"></i></span>
+            <span class="txt"><span class="main">${esc(it.name)}</span><span class="sub">${humanSize(it.size)}</span></span>
+            ${dl}${chips}${del}
+          </li>`;
+        }
         const refTag = (p.hasRef && it.ref) ? `<span class="ref">${esc(it.ref)}</span> ` : "";
         // detail line = optional sub + any filled extra fields
         const xparts = (p.extras || [])
@@ -1801,25 +1831,34 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
              </span>` : "";
         return `<li><span class="marker" style="background:${p.color}"></span>${txt}${due}${prio}${stat}${chips}${acts}</li>`;
       }).join("");
+      const emptyMsg = kind === "files"
+        ? `No files yet.${editor ? ` <button data-empty-add="${p.id}">Attach a file</button>` : ""}`
+        : `Nothing listed.${editor ? ` <button data-empty-add="${p.id}">Add the first one</button>` : ""}`;
       const body = items.length
         ? `<ul class="list">${rows}</ul>`
-        : `<div class="empty">Nothing listed.${editor ? ` <button data-empty-add="${p.id}">Add the first one</button>` : ""}</div>`;
+        : `<div class="empty">${emptyMsg}</div>`;
+      const addTitle = kind === "files" ? "Attach a file" : "Add";
       return `<section class="card">
         <div class="card-head">
           <span class="ttl"><span class="tag" style="background:${p.color}"><i class="fa-solid ${p.icon}"></i></span>${esc(p.title)}</span>
           <span class="spacer"></span>
           ${pchips}
           <span class="count">${items.length}</span>
-          <button class="add" data-add="${p.id}" title="Add"><i class="fa-solid fa-plus"></i></button>
+          <button class="add" data-add="${p.id}" title="${addTitle}"><i class="fa-solid fa-plus"></i></button>
         </div>
         <div class="card-body">${body}</div>
       </section>`;
     }).join("");
 
+    const addOrAttach = (pid) => (panelKind(panelById(pid)) === "files" ? pickFileFor(pid) : openItemModal(pid, null));
     grid.querySelectorAll("[data-add]").forEach((b) =>
-      b.addEventListener("click", () => openItemModal(b.getAttribute("data-add"), null)));
+      b.addEventListener("click", () => addOrAttach(b.getAttribute("data-add"))));
     grid.querySelectorAll("[data-empty-add]").forEach((b) =>
-      b.addEventListener("click", () => openItemModal(b.getAttribute("data-empty-add"), null)));
+      b.addEventListener("click", () => addOrAttach(b.getAttribute("data-empty-add"))));
+    grid.querySelectorAll("[data-dl]").forEach((b) =>
+      b.addEventListener("click", () => { const [pid, iid] = b.getAttribute("data-dl").split(":"); downloadAttachment(pid, iid); }));
+    grid.querySelectorAll("[data-fdel]").forEach((b) =>
+      b.addEventListener("click", () => { const [pid, iid] = b.getAttribute("data-fdel").split(":"); deleteAttachment(pid, iid); }));
     grid.querySelectorAll("[data-edit]").forEach((b) =>
       b.addEventListener("click", () => { const [pid, iid] = b.getAttribute("data-edit").split(":"); openItemModal(pid, iid); }));
     grid.querySelectorAll("[data-del]").forEach((b) =>
@@ -2220,6 +2259,114 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       });
   }
 
+  /* =======================================================================
+     FILE ATTACHMENTS  (uploaded to repo /files, linked from the board)
+     ======================================================================= */
+  function ghContents(path) { return `https://api.github.com/repos/${sync.owner}/${sync.repo}/contents/${path}`; }
+  function ghAuthHeaders() { return { Authorization: "Bearer " + getToken(), Accept: "application/vnd.github+json" }; }
+
+  function fileToBase64(file) {
+    return new Promise((res, rej) => {
+      const fr = new FileReader();
+      fr.onload = () => { const s = String(fr.result); const i = s.indexOf(","); res(i >= 0 ? s.slice(i + 1) : s); };
+      fr.onerror = () => rej(new Error("could not read file"));
+      fr.readAsDataURL(file);
+    });
+  }
+
+  function humanSize(n) {
+    n = +n || 0;
+    if (n < 1024) return n + " B";
+    if (n < 1048576) return (n / 1024).toFixed(n < 10240 ? 1 : 0) + " KB";
+    return (n / 1048576).toFixed(1) + " MB";
+  }
+
+  function fileIcon(mime, name) {
+    const ext = String(name || "").split(".").pop().toLowerCase();
+    if (/pdf/.test(mime) || ext === "pdf") return "fa-file-pdf";
+    if (/(word|msword|officedocument.wordprocessing)/.test(mime) || ["doc", "docx"].indexOf(ext) !== -1) return "fa-file-word";
+    if (/(excel|spreadsheet)/.test(mime) || ["xls", "xlsx", "csv"].indexOf(ext) !== -1) return "fa-file-excel";
+    if (/(powerpoint|presentation)/.test(mime) || ["ppt", "pptx"].indexOf(ext) !== -1) return "fa-file-powerpoint";
+    if (/image/.test(mime) || ["png", "jpg", "jpeg", "gif", "webp", "svg", "heic"].indexOf(ext) !== -1) return "fa-file-image";
+    if (/(zip|compressed|rar|7z)/.test(mime) || ["zip", "rar", "7z"].indexOf(ext) !== -1) return "fa-file-zipper";
+    if (["dwg", "dxf"].indexOf(ext) !== -1) return "fa-compass-drafting";
+    return "fa-file-lines";
+  }
+
+  let filePanelTarget = null;
+  function pickFileFor(pid) {
+    if (!sync.owner || !sync.repo) { openSettings(); toast("Set the repo in Settings before attaching files", true); return; }
+    if (!hasToken()) { openSettings(); toast("Connect a GitHub token in Settings to attach files", true); return; }
+    filePanelTarget = pid;
+    const inp = document.getElementById("fileAttach");
+    inp.value = ""; inp.click();
+  }
+  function onFilePicked(e) {
+    const f = (e.target.files || [])[0];
+    if (f) uploadAttachment(f);
+    e.target.value = "";
+  }
+
+  function uploadAttachment(file) {
+    const MAX = 25 * 1024 * 1024;
+    if (file.size > MAX) { toast("That file is too big (25 MB max)", true); return; }
+    const pid = filePanelTarget;
+    toast("Uploading " + file.name + "\u2026");
+    fileToBase64(file).then((content) => {
+      const safe = file.name.replace(/[^A-Za-z0-9._-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 80) || "file";
+      const path = "files/" + uid() + "-" + safe;
+      return fetch(ghContents(path), {
+        method: "PUT",
+        headers: Object.assign({ "Content-Type": "application/json" }, ghAuthHeaders()),
+        body: JSON.stringify({ message: "Attach " + file.name, content: content, branch: sync.branch })
+      }).then((r) => {
+        if (!r.ok) return r.text().then((t) => { throw new Error(r.status + " " + t.slice(0, 120)); });
+        return r.json();
+      }).then((j) => {
+        const it = {
+          id: uid(), name: file.name, path: path,
+          url: (j.content && j.content.download_url) || `https://raw.githubusercontent.com/${sync.owner}/${sync.repo}/${sync.branch}/${path}`,
+          sha: j.content && j.content.sha, size: file.size, mime: file.type || "",
+          uploadedAt: new Date().toISOString(), vis: itemDefVis()
+        };
+        state.panels[pid] = state.panels[pid] || [];
+        state.panels[pid].push(it);
+        save(); renderPanels();
+        toast("Attached \u2014 hit Publish to share it");
+      });
+    }).catch((e) => {
+      console.warn("attach failed", e);
+      toast(/401|403/.test(String(e)) ? "Upload failed \u2014 token rejected. Check Settings." : "Upload failed \u2014 " + (e.message || e), true);
+    });
+  }
+
+  function deleteAttachment(pid, iid) {
+    const it = (state.panels[pid] || []).find((x) => x.id === iid);
+    if (!it) return;
+    const done = () => { state.panels[pid] = state.panels[pid].filter((x) => x.id !== iid); save(); renderPanels(); };
+    if (hasToken() && it.path && it.sha && sync.owner) {
+      fetch(ghContents(it.path), {
+        method: "DELETE",
+        headers: Object.assign({ "Content-Type": "application/json" }, ghAuthHeaders()),
+        body: JSON.stringify({ message: "Remove " + it.name, sha: it.sha, branch: sync.branch })
+      }).catch(() => {}).then(done);   // best-effort; drop the reference either way
+    } else { done(); }
+  }
+
+  function downloadAttachment(pid, iid) {
+    const it = (state.panels[pid] || []).find((x) => x.id === iid);
+    if (!it || !it.url) return;
+    fetch(it.url, { cache: "no-store" })
+      .then((r) => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+      .then((blob) => {
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob); a.download = it.name || "download";
+        document.body.appendChild(a); a.click(); a.remove();
+        setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+      })
+      .catch(() => window.open(it.url, "_blank", "noopener"));
+  }
+
   function setViewerMode(audience) {
     sync.audience = audience;
     sync.viewer = audience !== "editor";
@@ -2429,6 +2576,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     document.getElementById("mkSave").onclick = saveMarker;
     document.getElementById("mkDelete").onclick = deleteMarkerFromModal;
     document.getElementById("mkCat").onchange = updateMarkerLetterField;
+    document.getElementById("fileAttach").onchange = onFilePicked;
 
     // settings
     document.getElementById("setSave").onclick = saveSettings;

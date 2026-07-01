@@ -92,6 +92,14 @@ named `Asset` or `name` is used as the heading.
 - **Production Stats:** two types — **Value & target** (shows a progress bar toward a target)
   and **Count** (a headline number with a frequency label, e.g. "14 per day"). Each tile has
   its own S / C visibility toggles.
+- **Documents & Files:** attach files (PDFs, drawings, spreadsheets, photos, etc.) that the
+  site supervisor and client can download straight from the board. Hit **+** on the panel,
+  pick a file, and it uploads to a `files/` folder in your repo (needs your GitHub token, same
+  as publishing). The board only stores the download link, so it stays fast. Each file has S / C
+  toggles like everything else. **Note:** the file uploads to the repo immediately, but you
+  still need to **Publish** for it to appear on the site/client pages. Max 25 MB per file.
+  Because the repo is public, attached files are reachable by anyone with the link — the S / C
+  toggle hides them from view but is not access control (same caveat as the rest of the board).
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
   (green = shown):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a
