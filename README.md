@@ -73,6 +73,9 @@ named `Asset` or `name` is used as the heading.
 
 ## 3. Using the dashboard
 
+- **Map layers:** the layer box (top-right of the map) lists the work area and any uploaded
+  layers, each with a checkbox to show/hide and a **zoom** icon to fit the map to that layer's
+  extent. The **Fit** button in the map toolbar zooms out to show everything at once.
 - **Add marker:** click *Add marker*, pick a type, click the spot on the map. A pin drops
   and the notes box opens. Marker types: General note, **Tie-in / connection** (shows a
   **user-assigned letter** on the pin — A, B, C… auto-suggested), **Open Excavation**,

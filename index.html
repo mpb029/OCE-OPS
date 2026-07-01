@@ -590,6 +590,7 @@ body.viewer .list li .vis { display: none !important; }
 body.viewer .map-toolbar .sep { display: none; }
 body.viewer .layer-ctl .lc-remove,
 body.viewer .layer-ctl .lc-clear { display: none !important; }
+body.viewer .map-hint { display: none !important; }
 
 /* =========================  MAP LAYER CONTROL  ========================= */
 .layer-ctl {
@@ -628,6 +629,11 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   width: 20px; height: 20px; border-radius: 4px; flex: 0 0 auto;
 }
 .layer-ctl .lc-remove:hover { background: var(--surface); color: var(--stop); }
+.layer-ctl .lc-zoom {
+  border: none; background: transparent; color: var(--faint); font-size: 12px; line-height: 1;
+  width: 20px; height: 20px; border-radius: 4px; flex: 0 0 auto; cursor: pointer;
+}
+.layer-ctl .lc-zoom:hover { background: var(--surface); color: var(--amber-deep); }
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
@@ -1500,6 +1506,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       <input type="checkbox" data-lc-toggle="${id}" ${visible ? "checked" : ""} />
       <span class="lc-swatch" style="background:${color}"></span>
       <span class="lc-name">${esc(name)}</span>
+      <button class="lc-zoom" data-lc-zoom="${id}" title="Zoom to this layer"><i class="fa-solid fa-magnifying-glass-location"></i></button>
       ${removable ? `<button class="lc-remove" data-lc-remove="${id}" title="Remove layer">&times;</button>` : ""}
     </label>`;
   }
@@ -1525,6 +1532,9 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         else toggleUserLayer(id, cb.checked);
       };
     });
+    layerCtlEl.querySelectorAll("[data-lc-zoom]").forEach((b) => {
+      b.onclick = (e) => { e.preventDefault(); zoomToLayer(b.getAttribute("data-lc-zoom")); };
+    });
     layerCtlEl.querySelectorAll("[data-lc-remove]").forEach((b) => {
       b.onclick = () => removeUserLayer(b.getAttribute("data-lc-remove"));
     });
@@ -1548,6 +1558,15 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       .catch(() => {
         setMapHint(`No <b>data/workarea.geojson</b> loaded yet — use <b>Load GeoJSON</b> to open your QGIS export, or drop the file into the repo's <b>data/</b> folder.`);
       });
+  }
+
+  function zoomToLayer(id) {
+    const layer = id === "__repo__" ? geoLayer : userLayers[id];
+    if (!layer || !map) return;
+    try {
+      const b = layer.getBounds();
+      if (b && b.isValid && b.isValid()) map.fitBounds(b.pad(0.15));
+    } catch (e) {}
   }
 
   function fitFeatures() {
