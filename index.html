@@ -865,6 +865,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   const STORE_KEY = "offaly_ops_v1";
   const DIRTY_KEY = "offaly_ops_dirty";
   const TOKEN_KEY = "offaly_ops_token";
+  const PUB_KEY   = "offaly_ops_pub";   // last-published timestamp (survives reload)
   const REPO_KEY  = "offaly_ops_repo";
   const DATA_PATH = "data.json";        // shared state file committed to the repo
   const POLL_MS   = 45000;              // how often viewers check for updates
@@ -1886,7 +1887,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     state.panelVis = obj.panelVis || {};
     save();                 // persists locally without flagging dirty
     applyingRemote = false;
-    sync.lastPublishedAt = obj.publishedAt || null;
+    setLastPublished(obj.publishedAt || null);
 
     renderHeader(); renderStats(); renderPanels();
     if (markerLayer) renderMarkers();
@@ -1897,6 +1898,17 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       if (map) map.setView([state.settings.loc.lat, state.settings.loc.lng]);
     }
     markClean();
+  }
+
+  function setLastPublished(ts) {
+    sync.lastPublishedAt = ts || null;
+    try { ts ? localStorage.setItem(PUB_KEY, ts) : localStorage.removeItem(PUB_KEY); } catch (e) {}
+  }
+
+  // Only accept a remote copy that is strictly newer than what we last published/applied.
+  // (GitHub's raw file lags a few seconds behind a commit, so an equal/older copy is stale.)
+  function remoteIsNewer(obj) {
+    return !!(obj && obj.publishedAt && (!sync.lastPublishedAt || obj.publishedAt > sync.lastPublishedAt));
   }
 
   function rawURL() {
@@ -1911,12 +1923,13 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       .catch(() => null);
   }
 
-  // Initial load: apply the repo's data unless the editor has unpublished edits.
+  // Initial load: apply the repo's data unless we have unpublished edits, and never
+  // roll backwards to a stale copy that lags behind our own last publish.
   function loadShared() {
     return fetchShared().then((obj) => {
       if (!obj) { setSyncStatus(); return; }
-      if (sync.dirty) { sync.lastPublishedAt = obj.publishedAt || null; setSyncStatus(); return; }
-      applyShared(obj);
+      if (sync.dirty) { if (remoteIsNewer(obj)) setLastPublished(obj.publishedAt); setSyncStatus(); return; }
+      if (remoteIsNewer(obj)) applyShared(obj);
       setSyncStatus();
     });
   }
@@ -1926,7 +1939,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     setInterval(() => {
       if (sync.dirty || sync.busy) return;
       fetchShared().then((obj) => {
-        if (obj && obj.publishedAt && obj.publishedAt !== sync.lastPublishedAt) {
+        if (remoteIsNewer(obj)) {
           applyShared(obj);
           toast("Updated to the latest published version");
         }
@@ -1971,7 +1984,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       .then((r) => {
         if (!r.ok) return r.text().then((t) => { throw new Error(r.status + " " + t.slice(0, 140)); });
         sync.busy = false;
-        sync.lastPublishedAt = payload.publishedAt;
+        setLastPublished(payload.publishedAt);
         markClean();
         setSyncStatus();
         toast("Published — the site supervisor will see it within a minute");
@@ -2042,6 +2055,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   function setupSync() {
     Object.assign(sync, detectRepo());
     try { sync.dirty = localStorage.getItem(DIRTY_KEY) === "1"; } catch (e) {}
+    try { sync.lastPublishedAt = localStorage.getItem(PUB_KEY) || null; } catch (e) {}
     setViewerMode(detectAudience());
     updatePublishUI();
     setSyncStatus();
