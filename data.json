@@ -81,7 +81,30 @@
     "meetings": [],
     "documents": [],
     "workPackages": [],
-    "qualityTesting": [],
+    "qualityTesting": [
+      {
+        "id": "cnbsx7i",
+        "main": "Drummer Street Hydrostatic Test",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "TBC",
+        "due": "2026-07-08",
+        "status": "pending"
+      },
+      {
+        "id": "bdl0w8v",
+        "main": "Gympie Rd - Hydrostatic test",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-07-10",
+        "status": "pending"
+      }
+    ],
     "designChanges": [],
     "variations": [],
     "issuesDelays": [],
@@ -673,7 +696,7 @@
       "client": true
     },
     "qualityTesting": {
-      "site": false,
+      "site": true,
       "client": true
     },
     "designChanges": {
@@ -689,5 +712,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T05:40:02.250Z"
+  "publishedAt": "2026-07-01T05:52:18.552Z"
 }
