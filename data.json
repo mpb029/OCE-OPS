@@ -19,7 +19,11 @@
       {
         "id": "mzoodqo",
         "main": "Avada - Tarwhine and Drummer St",
-        "sub": ""
+        "sub": "",
+        "vis": {
+          "site": false,
+          "client": false
+        }
       }
     ],
     "subbiesTomorrow": [],
@@ -563,14 +567,50 @@
     }
   ],
   "panelVis": {
-    "meetings": {
-      "site": true,
-      "client": true
+    "dailyWorks": {
+      "site": false,
+      "client": false
+    },
+    "deliveries": {
+      "site": false,
+      "client": false
+    },
+    "upcoming": {
+      "site": false,
+      "client": false
+    },
+    "staffAway": {
+      "site": false,
+      "client": false
+    },
+    "subbiesTomorrow": {
+      "site": false,
+      "client": false
+    },
+    "subbiesToday": {
+      "site": false,
+      "client": false
+    },
+    "plantTransport": {
+      "site": false,
+      "client": false
+    },
+    "punchlist": {
+      "site": false,
+      "client": false
+    },
+    "materialPickup": {
+      "site": false,
+      "client": false
     },
     "workPackages": {
-      "site": true,
-      "client": true
+      "site": false,
+      "client": false
+    },
+    "meetings": {
+      "site": false,
+      "client": false
     }
   },
-  "publishedAt": "2026-07-01T03:55:40.804Z"
+  "publishedAt": "2026-07-01T03:56:30.894Z"
 }
