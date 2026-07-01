@@ -974,9 +974,9 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         </div>
 
         <div class="set-section">Share links (read-only)</div>
-        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 12px">Give these out after you Publish. Each shows only what you've flagged for that audience.</p>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 12px">Give these out after you Publish. Each shows only what you've flagged for that audience. The site link has a private code &mdash; only send it to your supervisor; the client can't reach the site page from their own link.</p>
         <div class="field">
-          <label>Site supervisor link</label>
+          <label>Site supervisor link (keep private)</label>
           <div class="linkrow"><input type="text" id="linkSite" readonly /><button type="button" class="btn" data-copy="linkSite">Copy</button></div>
         </div>
         <div class="field">
@@ -1107,13 +1107,17 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
   const wxInfo = (code) => WX[code] || ["—", "fa-cloud"];
 
   /* ---------- Default state --------------------------------------------- */
+  // Random slug for the site link so it can't be reached by editing the client URL.
+  const genKey = () => Math.random().toString(36).slice(2, 6) + Math.random().toString(36).slice(2, 6);
+
   function defaultState() {
     const uid = () => Math.random().toString(36).slice(2, 9);
     return {
       settings: {
         projectName: "Rainbow Beach STP — Bio-Solid Drying Bed",
         loc: { name: "Rainbow Beach, QLD", lat: -25.9060, lng: 153.0880 },
-        geojsonCRS: "auto"
+        geojsonCRS: "auto",
+        siteKey: genKey()
       },
       base: "street", // or "sat"
       markers: [],
@@ -1157,7 +1161,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
       const parsed = JSON.parse(raw);
       const d = defaultState();
       // shallow-merge to tolerate older saves
-      return {
+      const merged = {
         settings: Object.assign({}, d.settings, parsed.settings),
         base: parsed.base || d.base,
         markers: parsed.markers || [],
@@ -1166,6 +1170,11 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
         mapLayers: parsed.mapLayers || [],
         panelVis: parsed.panelVis || {}
       };
+      if (!merged.settings.siteKey) {
+        merged.settings.siteKey = genKey();
+        try { localStorage.setItem(STORE_KEY, JSON.stringify(merged)); } catch (e) {}
+      }
+      return merged;
     } catch (e) {
       console.warn("Could not read saved data, starting fresh.", e);
       return defaultState();
@@ -2076,7 +2085,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     document.getElementById("setBranch").value = sync.branch || r.branch || "main";
     document.getElementById("setToken").value = getToken();
     const base = window.location.origin + window.location.pathname;
-    document.getElementById("linkSite").value = base + "?view=site";
+    document.getElementById("linkSite").value = base + "?crew=" + (s.siteKey || "");
     document.getElementById("linkClient").value = base + "?view=client";
     openModal("settingsModal");
   }
@@ -2484,16 +2493,18 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     document.body.classList.toggle("client", audience === "client");
   }
 
-  // ?view or ?view=site -> site board; ?view=client or ?client -> client board.
+  // Site board uses an unguessable key: ?crew=<siteKey>. It can't be reached by trimming
+  // the client link. Any "view"/"client" param resolves to the (least-privileged) client
+  // board, so a client editing their own URL can never escalate to the site or editor view.
   function detectAudience() {
     try {
       const p = new URLSearchParams(window.location.search);
-      if (p.has("view")) return (p.get("view") || "").toLowerCase() === "client" ? "client" : "site";
-      if (p.has("client")) return "client";
+      if (p.has("crew")) return "site";
+      if (p.has("view") || p.has("client")) return "client";
     } catch (e) {}
     const h = (window.location.hash || "").toLowerCase();
-    if (h.indexOf("client") !== -1) return "client";
-    if (h.indexOf("view") !== -1) return "site";
+    if (h.indexOf("crew") !== -1) return "site";
+    if (h.indexOf("client") !== -1 || h.indexOf("view") !== -1) return "client";
     return "editor";
   }
 

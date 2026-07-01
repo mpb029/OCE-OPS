@@ -128,8 +128,15 @@ ways to open it:
 
 - **You (editor):** the normal URL — `https://mpb029.github.io/OCE-OPS/`. Fully editable.
   Connect a token once (below) and hit **Publish** to share.
-- **Site supervisor (read-only):** `https://mpb029.github.io/OCE-OPS/?view=site`
+- **Site supervisor (read-only):** `https://mpb029.github.io/OCE-OPS/?crew=XXXX` — the
+  `crew` value is a private code unique to your board (copy the exact link from
+  **Settings → Share links**). Keep this one to the supervisor.
 - **Client (read-only):** `https://mpb029.github.io/OCE-OPS/?view=client`
+
+The site link deliberately uses a private code so the **client can't reach the site page by
+editing their own link** — trimming `?view=client` just lands them back on the client page,
+never the site or editor view. (Old `?view=site` links now open the client page, so re-send
+the supervisor the new link from Settings.)
 
 Both read-only links auto-refresh every ~45 seconds and need no token or account — just
 the link. Each shows **only the items and markers you've flagged for that audience** (the
