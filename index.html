@@ -540,7 +540,9 @@ body.viewer .list .row-act,
 body.viewer .stat .x,
 body.viewer [data-empty-add],
 body.viewer #emptyStat,
-body.viewer #addStat { display: none !important; }
+body.viewer #addStat,
+body.viewer .pvis,
+body.viewer .list li .vis { display: none !important; }
 body.viewer .map-toolbar .sep { display: none; }
 body.viewer .layer-ctl .lc-remove,
 body.viewer .layer-ctl .lc-clear { display: none !important; }
@@ -2052,13 +2054,18 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
     el.className = "sync-pill clean"; el.innerHTML = `<i class="fa-solid fa-check"></i> Published ${when}`;
   }
 
-  function setupSync() {
+  // Runs BEFORE the first render so panels/markers filter by the right audience.
+  function setupSyncEarly() {
     Object.assign(sync, detectRepo());
     try { sync.dirty = localStorage.getItem(DIRTY_KEY) === "1"; } catch (e) {}
     try { sync.lastPublishedAt = localStorage.getItem(PUB_KEY) || null; } catch (e) {}
     setViewerMode(detectAudience());
     updatePublishUI();
     setSyncStatus();
+  }
+
+  // Network side — run after the initial render.
+  function startSync() {
     loadShared();
     startPolling();
   }
@@ -2124,6 +2131,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
      WIRE-UP
      ======================================================================= */
   function init() {
+    setupSyncEarly();   // determine audience (editor/site/client) BEFORE first render
     renderHeader();
     tickClock(); setInterval(tickClock, 30000);
 
@@ -2206,7 +2214,7 @@ body.viewer .layer-ctl .lc-clear { display: none !important; }
 
     // live sync
     document.getElementById("btnPublish").onclick = () => { hasToken() ? publish() : openSettings(); };
-    setupSync();
+    startSync();
   }
 
   if (document.readyState === "loading")
