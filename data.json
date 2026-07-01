@@ -573,11 +573,11 @@
     },
     "deliveries": {
       "site": true,
-      "client": false
+      "client": true
     },
     "upcoming": {
       "site": true,
-      "client": false
+      "client": true
     },
     "staffAway": {
       "site": true,
@@ -612,5 +612,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T04:14:59.752Z"
+  "publishedAt": "2026-07-01T04:16:16.125Z"
 }
