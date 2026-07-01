@@ -32,7 +32,11 @@
     "punchlist": [],
     "materialPickup": [],
     "meetings": [],
-    "workPackages": []
+    "workPackages": [],
+    "qualityTesting": [],
+    "designChanges": [],
+    "variations": [],
+    "issuesDelays": []
   },
   "mapLayers": [
     {
@@ -610,7 +614,23 @@
     "meetings": {
       "site": true,
       "client": true
+    },
+    "variations": {
+      "site": false,
+      "client": true
+    },
+    "issuesDelays": {
+      "site": false,
+      "client": true
+    },
+    "qualityTesting": {
+      "site": true,
+      "client": true
+    },
+    "designChanges": {
+      "site": true,
+      "client": true
     }
   },
-  "publishedAt": "2026-07-01T04:27:37.104Z"
+  "publishedAt": "2026-07-01T04:32:01.754Z"
 }
