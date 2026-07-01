@@ -77,12 +77,18 @@ named `Asset` or `name` is used as the heading.
   click the spot on the map. A pin drops and the notes box opens. Click any pin later to
   read, **Edit**, or **Delete**, and to set who can see it.
 - **Panels:** each has a **+** to add and pen/bin icons on hover to edit/remove. Special
-  panels: **Punch List** and **Meetings/Site Visits** take a **due date** (overdue items
-  flag red); **Work Packages** take a **% complete** and show a progress bar; **Material
-  Pickup** records item + pickup location. Status panels show a coloured badge:
-  **Quality & Testing** (item, date → Pass / Fail / Results pending), **Design Changes**
-  (Approved / Pending), **Variations** (number, description, date → Approved / Pending),
-  and **Potential Issues & Delays** (issue + mitigation).
+  panels: **Punch List** takes a **due date** plus a **priority** (High / Medium / Low badge);
+  **Meetings/Site Visits** take a **due date** (overdue items flag red); **Work Packages**
+  take a **% complete** and show a progress bar. Multi-field panels: **Incoming Deliveries**
+  (item details, date, expected time, supplier, contact), **Traffic Control** (location, date,
+  no. of traffic controllers, no. of utes), **Subcontractors** (name, works, date onsite,
+  time onsite, contact), **Stakeholders** (details, date, action required, contact). Status
+  panels show a coloured badge: **Quality & Testing** (Pass / Fail / Results pending),
+  **Design Changes** (Approved / Pending), **Variations** (number + Approved / Pending), and
+  **Potential Issues & Delays** (issue + mitigation).
+- **Production Stats:** two types — **Value & target** (shows a progress bar toward a target)
+  and **Count** (a headline number with a frequency label, e.g. "14 per day"). Each tile has
+  its own S / C visibility toggles.
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
   (green = shown):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a
