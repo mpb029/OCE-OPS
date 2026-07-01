@@ -8,7 +8,7 @@
     },
     "geojsonCRS": "auto"
   },
-  "base": "sat",
+  "base": "street",
   "markers": [],
   "stats": [],
   "panels": {
@@ -563,14 +563,14 @@
     }
   ],
   "panelVis": {
-    "meetings": {
+    "workPackages": {
       "site": true,
       "client": true
     },
-    "workPackages": {
+    "meetings": {
       "site": true,
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T03:52:00.544Z"
+  "publishedAt": "2026-07-01T03:52:40.889Z"
 }
