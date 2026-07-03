@@ -146,7 +146,7 @@
       "ts": 1783040107222,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
       "letter": "C"
     },
@@ -160,7 +160,7 @@
       "ts": 1783040128018,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
       "letter": "D"
     },
@@ -174,7 +174,7 @@
       "ts": 1783040137215,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
       "letter": "E"
     },
@@ -188,7 +188,7 @@
       "ts": 1783040148490,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
       "letter": "F"
     }
@@ -906,5 +906,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-03T00:58:55.422Z"
+  "publishedAt": "2026-07-03T02:58:20.715Z"
 }
