@@ -65,6 +65,132 @@
         "site": true,
         "client": false
       }
+    },
+    {
+      "id": "slddn7q",
+      "lat": -25.925082945531805,
+      "lng": 152.99734573725254,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040024549,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "B"
+    },
+    {
+      "id": "qjwnqwd",
+      "lat": -25.92545926199206,
+      "lng": 152.99781764151876,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040038865,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "C"
+    },
+    {
+      "id": "4u62h8k",
+      "lat": -25.925888647254737,
+      "lng": 152.99849868517572,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040052359,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "D"
+    },
+    {
+      "id": "qgu7a5f",
+      "lat": -25.926433819547768,
+      "lng": 152.9993942307719,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040058459,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "E"
+    },
+    {
+      "id": "9lhf0fc",
+      "lat": -25.92670399249297,
+      "lng": 152.9999197605229,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040080020,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "F"
+    },
+    {
+      "id": "j7fva7k",
+      "lat": -25.91854546145784,
+      "lng": 153.00158464674058,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040107222,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "C"
+    },
+    {
+      "id": "bwpfbfx",
+      "lat": -25.918955572592836,
+      "lng": 152.99935181459742,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040128018,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "D"
+    },
+    {
+      "id": "2s4v7ym",
+      "lat": -25.919307784546557,
+      "lng": 152.99914231438365,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040137215,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "E"
+    },
+    {
+      "id": "8j02029",
+      "lat": -25.919770965788032,
+      "lng": 152.99880447382938,
+      "category": "tie",
+      "title": "",
+      "notes": "",
+      "ts": 1783040148490,
+      "vis": {
+        "site": true,
+        "client": false
+      },
+      "letter": "F"
     }
   ],
   "stats": [],
@@ -77,7 +203,74 @@
     "staffAway": [],
     "plantTransport": [],
     "stakeholders": [],
-    "punchlist": [],
+    "punchlist": [
+      {
+        "id": "46uk0xv",
+        "main": "Cooloola Sludge pad - sikaflex joints",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "",
+        "due": "",
+        "priority": "med"
+      },
+      {
+        "id": "j1n5cvl",
+        "main": "Cooloola Sludge pad - New MH Install",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "",
+        "due": "",
+        "priority": "med"
+      },
+      {
+        "id": "zl0073u",
+        "main": "Cooloola Sludge Pad - Ramp - Material will be needed",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "",
+        "due": "",
+        "priority": "med"
+      },
+      {
+        "id": "3vb9plo",
+        "main": "Cooloola Sludge Pad - Fill in Seepage Drain",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "",
+        "due": "",
+        "priority": "med"
+      },
+      {
+        "id": "lrvsboi",
+        "main": "Cooloola Sludge Pad - Reinstate perimeter fence - materials onsite",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "",
+        "due": "",
+        "priority": "med"
+      },
+      {
+        "id": "nvkqvld",
+        "main": "Cooloola Sludge Pad - Reinstatement - stockpiles should be able to be lost onsite",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "",
+        "due": "",
+        "priority": "med"
+      }
+    ],
     "materialPickup": [],
     "meetings": [],
     "documents": [],
@@ -713,5 +906,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-01T06:33:23.920Z"
+  "publishedAt": "2026-07-03T00:58:55.422Z"
 }
