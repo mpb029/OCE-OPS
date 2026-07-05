@@ -123,6 +123,16 @@ named `Asset` or `name` is used as the heading.
 - **Recently changed panels float to the top:** whenever you add, edit, remove, or re-flag
   something in a panel and Publish, that panel moves to the top of the **site and client**
   pages, so viewers see what's new first. Your own editor layout stays in its fixed order.
+- **Projects:** run several jobs off one board. Add your projects in **Settings → Projects**
+  (each with a **Client** tick that controls whether the client can see it). A **project
+  dropdown** in the top bar filters the whole board — panels, items and map markers — to the
+  selected project, or **All projects**. When adding any item or marker you pick which project
+  it belongs to (it defaults to whatever's selected). The client only ever sees projects you've
+  ticked as client-visible, and their dropdown only lists those.
+- **Edit-page password (optional):** set one in **Settings → Edit-page password**. Opening the
+  editor URL then shows the client view until you tap **Unlock** and enter it. **This is a
+  casual gate, not real security** — the repo is public. The real protection is your GitHub
+  token (it never leaves your browser), so nobody can change the board without it regardless.
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
   (green = shown):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a

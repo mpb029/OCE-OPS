@@ -130,6 +130,27 @@ input, textarea, select { font-family: inherit; }
 .topbar .clock .date { font-size: 17px; color: #fff; font-weight: 500; }
 
 .topbar-actions { display: flex; gap: 8px; }
+
+/* project picker (header) */
+.proj-picker { display: flex; align-items: center; gap: 6px; margin: 0 10px; }
+.proj-picker label { color: var(--accent-light); font-size: 13px; }
+.proj-picker select {
+  background: var(--ink-2); color: #fff; border: 1px solid rgba(255,255,255,.16);
+  border-radius: var(--r-sm); padding: 5px 8px; font-size: 13px; font-family: var(--font-body);
+  max-width: 220px;
+}
+body.viewer .proj-picker select { max-width: 180px; }
+
+/* project manager (settings) */
+.proj-list { display: flex; flex-direction: column; gap: 6px; }
+.proj-row { display: flex; align-items: center; gap: 8px; }
+.proj-row .proj-name { flex: 1; min-width: 0; }
+.proj-row .chkline { flex: 0 0 auto; white-space: nowrap; font-size: 12.5px; }
+.proj-row .proj-del {
+  flex: 0 0 auto; border: 1px solid var(--hairline); background: var(--surface);
+  color: var(--faint); width: 28px; height: 28px; border-radius: var(--r-sm); cursor: pointer; font-size: 16px;
+}
+.proj-row .proj-del:hover { color: var(--stop); border-color: var(--stop); }
 .icon-btn {
   background: var(--ink-2);
   color: #cdd6dc;
@@ -756,6 +777,10 @@ body.viewer .map-hint { display: none !important; }
         <div class="proj">Site Operations &mdash; <b id="brandProj">Set project name</b></div>
       </div>
     </div>
+    <div class="proj-picker">
+      <label for="projSelect" title="Project"><i class="fa-solid fa-folder-tree"></i></label>
+      <select id="projSelect" title="Select project"></select>
+    </div>
     <div class="topbar-spacer"></div>
     <div id="syncPill" class="sync-pill" style="display:none"></div>
     <div class="clock">
@@ -763,6 +788,7 @@ body.viewer .map-hint { display: none !important; }
       <div class="date" id="clockDate">&mdash;</div>
     </div>
     <div class="topbar-actions">
+      <button class="icon-btn" id="btnUnlock" title="Unlock editing" style="display:none"><i class="fa-solid fa-lock"></i><span>Unlock</span></button>
       <button class="icon-btn" id="btnPrint" title="Print the dashboard as a report"><i class="fa-solid fa-print"></i><span>Print</span></button>
       <button class="icon-btn pub-connect" id="btnPublish" title="Publish your changes so the site supervisor can see them"><i class="fa-solid fa-cloud-arrow-up"></i><span>Connect</span></button>
       <button class="icon-btn" id="btnSettings" title="Project, weather location &amp; publishing"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
@@ -850,6 +876,10 @@ body.viewer .map-hint { display: none !important; }
     <div class="modal">
       <div class="modal-head"><i class="fa-solid fa-pen" id="itemModalIcon"></i><span id="itemModalTitle">Add item</span></div>
       <div class="modal-body">
+        <div class="field" id="fldProject">
+          <label>Project</label>
+          <select id="fProject"></select>
+        </div>
         <div class="field" id="fldRef" style="display:none">
           <label id="lblRef">Reference</label>
           <input type="text" id="fRef" placeholder="e.g. V-012" />
@@ -906,6 +936,10 @@ body.viewer .map-hint { display: none !important; }
     <div class="modal">
       <div class="modal-head"><i class="fa-solid fa-map-pin"></i><span id="markerModalTitle">Marker</span></div>
       <div class="modal-body">
+        <div class="field" id="fldMkProject">
+          <label>Project</label>
+          <select id="mkProject"></select>
+        </div>
         <div class="field">
           <label>Type</label>
           <select id="mkCat"></select>
@@ -989,9 +1023,26 @@ body.viewer .map-hint { display: none !important; }
     <div class="modal">
       <div class="modal-head"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
       <div class="modal-body">
+        <div class="set-section">Projects</div>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 8px">Add the projects you're running. Tick <b>Client</b> to let the client see that project. Assign items and markers to a project when you add them.</p>
+        <div id="projList" class="proj-list"></div>
+        <div class="linkrow" style="margin-top:8px">
+          <input type="text" id="newProjName" placeholder="New project name" />
+          <button type="button" class="btn" id="addProjBtn"><i class="fa-solid fa-plus"></i> Add</button>
+        </div>
+
+        <div class="set-section" style="margin-top:16px">Edit-page password (optional)</div>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 8px">Sets a password to open the editor view. This is a <b>casual gate only</b> — the repo is public, so it's not real security. What truly protects your board is your GitHub token (below), which never leaves this browser. Leave blank to remove.</p>
         <div class="field">
-          <label>Project name</label>
-          <input type="text" id="setProj" placeholder="e.g. Rainbow Beach STP — Bio-Solid Drying Bed" />
+          <label>Set / change password</label>
+          <input type="password" id="setPass" placeholder="Leave blank to keep / clear" autocomplete="new-password" />
+          <label class="chkline" id="clearPassRow" style="display:none"><input type="checkbox" id="clearPass" /> Remove existing password</label>
+        </div>
+
+        <div class="set-section" style="margin-top:16px">Board</div>
+        <div class="field">
+          <label>Board / heading name</label>
+          <input type="text" id="setProj" placeholder="e.g. Regionwide Watermain Renewal" />
         </div>
         <div class="field">
           <label>Weather location name</label>
@@ -1158,6 +1209,42 @@ body.viewer .map-hint { display: none !important; }
     return (p && p.clientDefault) ? { site: true, client: true } : defVis();
   };
 
+  /* ---- projects -------------------------------------------------------- */
+  const DEFAULT_PROJ = "default";
+  const projects = () => state.projects || [];
+  const projById = (id) => projects().find((p) => p.id === id);
+  const effProj = (x) => (x && x.project) || DEFAULT_PROJ;   // items/markers with no project fall to the default
+  function projName(id) { const p = projById(id); return p ? p.name : ""; }
+  function projClientVisible(id) {
+    const p = projById(id);
+    return p ? p.client !== false : true;     // unknown/legacy project -> visible
+  }
+  function visibleProjects() {
+    return sync.audience === "client" ? projects().filter((p) => p.client !== false) : projects();
+  }
+  // A project id is in scope if it matches the current dropdown selection and (for client) is client-visible.
+  function projInScope(pid) {
+    if (sync.audience === "client" && !projClientVisible(pid)) return false;
+    if (currentProject !== "all" && pid !== currentProject) return false;
+    return true;
+  }
+  let currentProject = "all";
+  const PROJ_KEY = "offaly_ops_proj";
+
+  /* ---- lightweight edit-page passphrase (casual gate, not real security) */
+  function cyrb53(str) {
+    let h1 = 0xdeadbeef, h2 = 0x41c6ce57;
+    for (let i = 0, ch; i < str.length; i++) {
+      ch = str.charCodeAt(i);
+      h1 = Math.imul(h1 ^ ch, 2654435761);
+      h2 = Math.imul(h2 ^ ch, 1597334677);
+    }
+    h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+    h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+    return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
+  }
+  let editLocked = false;
+
   /* ---------- WMO weather codes ----------------------------------------- */
   const WX = {
     0:  ["Clear",            "fa-sun"],
@@ -1197,8 +1284,10 @@ body.viewer .map-hint { display: none !important; }
         projectName: "Rainbow Beach STP — Bio-Solid Drying Bed",
         loc: { name: "Rainbow Beach, QLD", lat: -25.9060, lng: 153.0880 },
         geojsonCRS: "auto",
-        siteKey: genKey()
+        siteKey: genKey(),
+        editPass: ""
       },
+      projects: [ { id: DEFAULT_PROJ, name: "Main project", client: true } ],
       base: "street", // or "sat"
       markers: [],
       stats: [
@@ -1233,6 +1322,12 @@ body.viewer .map-hint { display: none !important; }
     };
   }
 
+  function ensureProjects() {
+    if (!state.projects || !state.projects.length) {
+      state.projects = [ { id: DEFAULT_PROJ, name: state.settings.projectName || "Main project", client: true } ];
+    }
+  }
+
   /* ---------- State load / save ----------------------------------------- */
   let state = load();
 
@@ -1245,6 +1340,8 @@ body.viewer .map-hint { display: none !important; }
       // shallow-merge to tolerate older saves
       const merged = {
         settings: Object.assign({}, d.settings, parsed.settings),
+        projects: (parsed.projects && parsed.projects.length) ? parsed.projects
+          : [ { id: DEFAULT_PROJ, name: (parsed.settings && parsed.settings.projectName) || "Main project", client: true } ],
         base: parsed.base || d.base,
         markers: parsed.markers || [],
         stats: parsed.stats || d.stats,
@@ -1306,7 +1403,7 @@ body.viewer .map-hint { display: none !important; }
     map.on("click", (e) => {
       if (!addMode) return;
       const catId = document.getElementById("catSelect").value;
-      const m = { id: uid(), lat: e.latlng.lat, lng: e.latlng.lng, category: catId, title: "", notes: "", ts: Date.now(), vis: defVis() };
+      const m = { id: uid(), lat: e.latlng.lat, lng: e.latlng.lng, category: catId, title: "", notes: "", ts: Date.now(), vis: defVis(), project: currentProject !== "all" ? currentProject : DEFAULT_PROJ };
       state.markers.push(m);
       save();
       drawMarkers();
@@ -1370,7 +1467,8 @@ body.viewer .map-hint { display: none !important; }
   function renderMarkers() {
     markerLayer.clearLayers();
     state.markers.forEach((m) => {
-      if (sync.audience !== "editor" && !markerVis(m)[sync.audience]) return; // hidden for this audience
+      if (!projInScope(effProj(m))) return;                                    // not in the selected/allowed project
+      if (sync.audience !== "editor" && !markerVis(m)[sync.audience]) return;  // hidden for this audience
       const cat = catById(m.category);
       const lm = L.marker([m.lat, m.lng], { icon: pinIcon(cat, m) }).addTo(markerLayer);
       const notes = m.notes ? esc(m.notes) : "No notes yet.";
@@ -1679,6 +1777,10 @@ body.viewer .map-hint { display: none !important; }
     const m = state.markers.find((x) => x.id === id);
     if (!m) return;
     editingMarkerId = id; newMarkerPending = isNew;
+    const psel = document.getElementById("mkProject");
+    psel.innerHTML = projects().map((pr) => `<option value="${pr.id}">${esc(pr.name)}</option>`).join("");
+    psel.value = m.project || (currentProject !== "all" ? currentProject : ((projects()[0] || {}).id || DEFAULT_PROJ));
+    document.getElementById("fldMkProject").style.display = projects().length > 1 ? "" : "none";
     const sel = document.getElementById("mkCat");
     sel.innerHTML = CATEGORIES.map((c) => `<option value="${c.id}">${esc(c.label)}</option>`).join("");
     sel.value = m.category;
@@ -1709,6 +1811,7 @@ body.viewer .map-hint { display: none !important; }
     const m = state.markers.find((x) => x.id === editingMarkerId);
     if (!m) return;
     m.category = document.getElementById("mkCat").value;
+    m.project = document.getElementById("mkProject").value;
     m.title = document.getElementById("mkTitle").value.trim();
     m.notes = document.getElementById("mkNotes").value.trim();
     if (m.category === "tie") {
@@ -1918,7 +2021,7 @@ body.viewer .map-hint { display: none !important; }
      LIST PANELS
      ======================================================================= */
   function visiblePanelItems(pid) {
-    const items = state.panels[pid] || [];
+    const items = (state.panels[pid] || []).filter((it) => projInScope(effProj(it)));
     if (sync.audience === "editor") return items;
     return items.filter((it) => itemVis(it)[sync.audience]);
   }
@@ -1973,6 +2076,78 @@ body.viewer .map-hint { display: none !important; }
       if (tb) return 1;
       return a.i - b.i;                                              // untouched keep default order
     }).map((x) => x.p);
+  }
+
+  /* ---- project picker + manager --------------------------------------- */
+  function renderProjectSelect() {
+    const sel = document.getElementById("projSelect");
+    const picker = document.querySelector(".proj-picker");
+    if (!sel || !picker) return;
+    const list = visibleProjects();
+    if (sync.audience === "client" && currentProject !== "all" && !list.some((p) => p.id === currentProject)) currentProject = "all";
+    sel.innerHTML = [`<option value="all">All projects</option>`]
+      .concat(list.map((p) => `<option value="${p.id}">${esc(p.name)}</option>`)).join("");
+    sel.value = currentProject;
+    const count = (sync.audience === "client") ? list.length : projects().length;
+    picker.style.display = count > 1 ? "" : "none";
+  }
+
+  function renderProjList() {
+    const wrap = document.getElementById("projList");
+    if (!wrap) return;
+    wrap.innerHTML = projects().map((p) => `
+      <div class="proj-row" data-proj="${p.id}">
+        <input type="text" class="proj-name" value="${esc(p.name)}" data-proj-name="${p.id}" />
+        <label class="chkline"><input type="checkbox" data-proj-client="${p.id}" ${p.client !== false ? "checked" : ""} /> Client</label>
+        <button type="button" class="proj-del" data-proj-del="${p.id}" title="Remove project">&times;</button>
+      </div>`).join("");
+    wrap.querySelectorAll("[data-proj-name]").forEach((el) => el.onchange = () => {
+      const pr = projById(el.getAttribute("data-proj-name")); if (pr) { pr.name = el.value.trim() || pr.name; }
+      save(); renderProjectSelect();
+    });
+    wrap.querySelectorAll("[data-proj-client]").forEach((el) => el.onchange = () => {
+      const pr = projById(el.getAttribute("data-proj-client")); if (pr) { pr.client = el.checked; }
+      save(); renderProjectSelect();
+    });
+    wrap.querySelectorAll("[data-proj-del]").forEach((el) => el.onclick = () => removeProject(el.getAttribute("data-proj-del")));
+  }
+
+  function addProject(name) {
+    name = (name || "").trim();
+    if (!name) return;
+    state.projects = state.projects || [];
+    state.projects.push({ id: "p" + uid(), name: name, client: false });
+    save(); renderProjList(); renderProjectSelect();
+  }
+
+  function removeProject(id) {
+    if (projects().length <= 1) { toast("Keep at least one project", true); return; }
+    Object.keys(state.panels).forEach((pid) => (state.panels[pid] || []).forEach((it) => { if (it.project === id) it.project = DEFAULT_PROJ; }));
+    state.markers.forEach((m) => { if (m.project === id) m.project = DEFAULT_PROJ; });
+    state.projects = projects().filter((p) => p.id !== id);
+    ensureProjects();
+    if (currentProject === id) currentProject = "all";
+    save(); renderProjList(); renderProjectSelect(); renderPanels(); renderMarkers();
+  }
+
+  /* ---- edit-page lock -------------------------------------------------- */
+  function unlockGet() { try { return window.sessionStorage.getItem("offaly_ops_unlock"); } catch (e) { return null; } }
+  function unlockSet(v) { try { window.sessionStorage.setItem("offaly_ops_unlock", v); } catch (e) {} }
+  function updateUnlockUI() {
+    const b = document.getElementById("btnUnlock");
+    if (b) b.style.display = editLocked ? "" : "none";
+  }
+  function tryUnlock() {
+    const pass = window.prompt("Enter the edit password:");
+    if (pass == null) return;
+    if (cyrb53(pass) === state.settings.editPass) {
+      unlockSet(state.settings.editPass);
+      editLocked = false;
+      setViewerMode("editor");
+      updateUnlockUI();
+      renderHeader(); renderStats(); renderPanels(); renderMarkers(); renderProjectSelect();
+      updatePublishUI(); setSyncStatus();
+    } else { toast("Wrong password", true); }
   }
 
   function renderPanels() {
@@ -2134,6 +2309,11 @@ body.viewer .map-hint { display: none !important; }
     document.getElementById("itemModalTitle").textContent = (itemId ? "Edit — " : "Add to — ") + p.title;
     document.getElementById("itemModalIcon").className = "fa-solid " + p.icon;
 
+    const psel = document.getElementById("fProject");
+    psel.innerHTML = projects().map((pr) => `<option value="${pr.id}">${esc(pr.name)}</option>`).join("");
+    psel.value = it.project || (currentProject !== "all" ? currentProject : ((projects()[0] || {}).id || DEFAULT_PROJ));
+    document.getElementById("fldProject").style.display = projects().length > 1 ? "" : "none";
+
     const showRef = !!p.hasRef;
     document.getElementById("fldRef").style.display = showRef ? "" : "none";
     document.getElementById("lblRef").textContent = p.refLbl || "Reference";
@@ -2209,6 +2389,7 @@ body.viewer .map-hint { display: none !important; }
     if (!main) { document.getElementById("fMain").focus(); return; }
     const data = {
       main,
+      project: document.getElementById("fProject").value,
       vis: { site: document.getElementById("fVisSite").checked, client: document.getElementById("fVisClient").checked }
     };
     if (kind === "progress") data.pct = Math.max(0, Math.min(100, parseInt(document.getElementById("fPct").value, 10) || 0));
@@ -2238,6 +2419,10 @@ body.viewer .map-hint { display: none !important; }
      ======================================================================= */
   function openSettings() {
     const s = state.settings;
+    renderProjList();
+    document.getElementById("setPass").value = "";
+    const clearRow = document.getElementById("clearPassRow");
+    if (clearRow) { clearRow.style.display = s.editPass ? "" : "none"; document.getElementById("clearPass").checked = false; }
     document.getElementById("setProj").value = s.projectName || "";
     document.getElementById("setLocName").value = s.loc.name || "";
     document.getElementById("setLat").value = s.loc.lat;
@@ -2266,6 +2451,12 @@ body.viewer .map-hint { display: none !important; }
     const prevCRS = s.geojsonCRS;
     s.geojsonCRS = document.getElementById("setCRS").value;
 
+    // edit-page password (stored as a non-reversible hash; casual gate only)
+    const clearEl = document.getElementById("clearPass");
+    const newPass = document.getElementById("setPass").value;
+    if (clearEl && clearEl.checked) { s.editPass = ""; try { window.sessionStorage.removeItem("offaly_ops_unlock"); } catch (e) {} }
+    else if (newPass) { s.editPass = cyrb53(newPass); unlockSet(s.editPass); }
+
     // GitHub publishing config
     const token = document.getElementById("setToken").value.trim();
     try { token ? localStorage.setItem(TOKEN_KEY, token) : localStorage.removeItem(TOKEN_KEY); } catch (e) {}
@@ -2279,6 +2470,9 @@ body.viewer .map-hint { display: none !important; }
 
     save();
     renderHeader();
+    renderProjectSelect();
+    renderPanels();
+    renderMarkers();
     loadWeather();
     if (map) map.setView([s.loc.lat, s.loc.lng]);
     if (s.geojsonCRS !== prevCRS) loadWorkArea();
@@ -2361,6 +2555,7 @@ body.viewer .map-hint { display: none !important; }
   function shareableState() {
     return {
       settings: state.settings,
+      projects: state.projects || [],
       base: state.base,
       markers: state.markers,
       stats: state.stats,
@@ -2389,6 +2584,7 @@ body.viewer .map-hint { display: none !important; }
     const prevBase = state.base;
     applyingRemote = true;
     state.settings = Object.assign({}, d.settings, obj.settings || {});
+    state.projects = (obj.projects && obj.projects.length) ? obj.projects : state.projects;
     state.base = obj.base || d.base;
     state.markers = obj.markers || [];
     state.stats = obj.stats || [];
@@ -2399,8 +2595,9 @@ body.viewer .map-hint { display: none !important; }
     save();                 // persists locally without flagging dirty
     applyingRemote = false;
     setLastPublished(obj.publishedAt || null);
+    ensureProjects();
 
-    renderHeader(); renderStats(); renderPanels();
+    renderHeader(); renderStats(); renderPanels(); renderProjectSelect();
     if (markerLayer) renderMarkers();
     if (map) renderUserLayers();
     if (map && state.base !== prevBase) applyBase();
@@ -2751,7 +2948,15 @@ body.viewer .map-hint { display: none !important; }
     Object.assign(sync, detectRepo());
     try { sync.dirty = localStorage.getItem(DIRTY_KEY) === "1"; } catch (e) {}
     try { sync.lastPublishedAt = localStorage.getItem(PUB_KEY) || null; } catch (e) {}
+    try { const cp = localStorage.getItem(PROJ_KEY); if (cp) currentProject = cp; } catch (e) {}
+    ensureProjects();
     setViewerMode(detectAudience());
+    // edit-page password gate (casual): lock the editor view to client until unlocked
+    if (sync.audience === "editor" && state.settings.editPass && unlockGet() !== state.settings.editPass) {
+      editLocked = true;
+      setViewerMode("client");
+    }
+    updateUnlockUI();
     updatePublishUI();
     setSyncStatus();
   }
@@ -2834,6 +3039,7 @@ body.viewer .map-hint { display: none !important; }
     initMap();
     renderStats();
     renderPanels();
+    renderProjectSelect();
     loadWeather();
 
     // toolbar
@@ -2907,6 +3113,16 @@ body.viewer .map-hint { display: none !important; }
     document.getElementById("btnAddPhoto").onclick = pickItemPhoto;
     document.getElementById("btnPrint").onclick = printReport;
     window.addEventListener("afterprint", endPrint);
+    document.getElementById("projSelect").onchange = (e) => {
+      currentProject = e.target.value;
+      try { localStorage.setItem(PROJ_KEY, currentProject); } catch (err) {}
+      renderPanels(); renderMarkers();
+    };
+    document.getElementById("btnUnlock").onclick = tryUnlock;
+    document.getElementById("addProjBtn").onclick = () => {
+      const el = document.getElementById("newProjName");
+      addProject(el.value); el.value = "";
+    };
 
     // settings
     document.getElementById("setSave").onclick = saveSettings;
