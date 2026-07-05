@@ -515,13 +515,15 @@ body.viewer .stat-vis { display: none !important; }
 .modal {
   background: var(--surface); border-radius: var(--r); width: 100%; max-width: 440px;
   box-shadow: var(--shadow-lg); overflow: hidden;
+  display: flex; flex-direction: column; max-height: calc(100vh - 32px);
 }
 .modal-head {
+  flex: 0 0 auto;
   background: var(--ink); color: #fff; padding: 13px 18px;
   font-family: var(--font-display); text-transform: uppercase; letter-spacing: .6px;
   font-size: 17px; font-weight: 600; display: flex; align-items: center; gap: 9px;
 }
-.modal-body { padding: 16px 18px; }
+.modal-body { padding: 16px 18px; overflow-y: auto; flex: 1 1 auto; }
 .field { margin-bottom: 13px; }
 .field label {
   display: block; font-size: 11.5px; text-transform: uppercase; letter-spacing: .5px;
@@ -536,7 +538,7 @@ body.viewer .stat-vis { display: none !important; }
 }
 .field textarea { resize: vertical; min-height: 84px; }
 .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 11px; }
-.modal-foot { display: flex; gap: 9px; justify-content: flex-end; padding: 0 18px 18px; }
+.modal-foot { flex: 0 0 auto; display: flex; gap: 9px; justify-content: flex-end; padding: 12px 18px 18px; }
 .btn {
   border-radius: var(--r-sm); padding: 9px 16px; font-size: 14px; font-weight: 500;
   border: 1px solid var(--hairline); background: var(--surface); color: var(--ink);
@@ -1780,7 +1782,7 @@ body.viewer .map-hint { display: none !important; }
     const psel = document.getElementById("mkProject");
     psel.innerHTML = projects().map((pr) => `<option value="${pr.id}">${esc(pr.name)}</option>`).join("");
     psel.value = m.project || (currentProject !== "all" ? currentProject : ((projects()[0] || {}).id || DEFAULT_PROJ));
-    document.getElementById("fldMkProject").style.display = projects().length > 1 ? "" : "none";
+    document.getElementById("fldMkProject").style.display = "";
     const sel = document.getElementById("mkCat");
     sel.innerHTML = CATEGORIES.map((c) => `<option value="${c.id}">${esc(c.label)}</option>`).join("");
     sel.value = m.category;
@@ -2312,7 +2314,7 @@ body.viewer .map-hint { display: none !important; }
     const psel = document.getElementById("fProject");
     psel.innerHTML = projects().map((pr) => `<option value="${pr.id}">${esc(pr.name)}</option>`).join("");
     psel.value = it.project || (currentProject !== "all" ? currentProject : ((projects()[0] || {}).id || DEFAULT_PROJ));
-    document.getElementById("fldProject").style.display = projects().length > 1 ? "" : "none";
+    document.getElementById("fldProject").style.display = "";
 
     const showRef = !!p.hasRef;
     document.getElementById("fldRef").style.display = showRef ? "" : "none";
