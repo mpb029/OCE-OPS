@@ -362,6 +362,26 @@ body.client .card-head .pbtn { display: none; }
   display: grid; place-items: center; font-size: 13px;
 }
 .file-dl:hover { background: var(--amber); color: #fff; border-color: var(--amber); }
+
+/* photos on items */
+.list li .photos { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.list li .photos .photo { display: block; width: 60px; height: 60px; border-radius: 6px; overflow: hidden; border: 1px solid var(--hairline); }
+.list li .photos .photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.list li .photos.gallery .photo { width: 96px; height: 96px; }
+.photo-item .txt .main { font-weight: 600; }
+
+/* photo strip in the item modal */
+.photo-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+.photo-strip .thumb { position: relative; width: 64px; height: 64px; border-radius: 6px; overflow: hidden; border: 1px solid var(--hairline); }
+.photo-strip .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.photo-strip .thumb-x {
+  position: absolute; top: 2px; right: 2px; width: 18px; height: 18px; border-radius: 50%;
+  border: none; background: rgba(20,20,20,.72); color: #fff; font-size: 13px; line-height: 1; cursor: pointer;
+  display: grid; place-items: center;
+}
+
+/* print-only tick + comments sheet (punch list) */
+.print-sheet { display: none; }
 .stat .freq { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 4px; }
 .stat .tgt { font-family: var(--font-mono); font-size: 10.5px; color: var(--faint); margin-top: 4px; }
 .stat .stat-vis { display: flex; gap: 3px; margin-top: 9px; }
@@ -377,9 +397,11 @@ body.viewer .stat-vis { display: none !important; }
 /* =========================  LIST PANELS  ================================ */
 .list { list-style: none; margin: 0; padding: 0; }
 .list li {
-  display: flex; align-items: flex-start; gap: 10px;
+  display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap;
   padding: 9px 2px; border-bottom: 1px solid var(--hairline-2);
 }
+.list li .photos, .list li .print-sheet { flex-basis: 100%; }
+.list li .txt { flex: 1 1 auto; min-width: 0; }
 .list li:last-child { border-bottom: none; }
 .list .marker {
   flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%;
@@ -688,6 +710,17 @@ body.viewer .map-hint { display: none !important; }
   body[data-print="report"] .map-card { break-inside: avoid; margin-bottom: 8px; }
   body[data-print="report"] #map { height: 95mm !important; }
   body[data-print="report"] #prodStatsCard { break-inside: avoid; }
+
+  /* photos print with their item */
+  .list li .photos { gap: 6px; margin-top: 6px; }
+  .list li .photos .photo { width: 34mm !important; height: 34mm !important; border: 1px solid #ccc; }
+  .list li .photos.gallery .photo { width: 46mm !important; height: 46mm !important; }
+  .photo-item { break-inside: avoid; }
+
+  /* punch-list tick box + comments line (print only) */
+  .print-sheet { display: flex !important; align-items: center; gap: 8px; flex-basis: 100%; margin-top: 6px; }
+  .print-sheet .tickbox { width: 14px; height: 14px; border: 1.5px solid #333; border-radius: 2px; flex: 0 0 auto; }
+  .print-sheet .cmt-line { flex: 1; color: #555; font-size: 11px; border-bottom: 1px dotted #999; padding-bottom: 10px; }
 }
 
 </style>
@@ -752,6 +785,7 @@ body.viewer .map-hint { display: none !important; }
             <button class="tool-btn" id="btnLoadGeo" title="Add one or more GeoJSON layers exported from QGIS"><i class="fa-solid fa-file-import"></i><span class="lbl">Add layers</span></button>
             <input type="file" id="fileGeo" class="hidden-file" accept=".geojson,.json,application/geo+json,application/json" multiple />
             <input type="file" id="fileAttach" class="hidden-file" />
+            <input type="file" id="photoAttach" class="hidden-file" accept="image/*" multiple />
           </div>
         </div>
         <div id="map"></div>
@@ -828,6 +862,11 @@ body.viewer .map-hint { display: none !important; }
         <div class="field" id="fldStatus" style="display:none">
           <label id="lblStatus">Status</label>
           <select id="fStatus"></select>
+        </div>
+        <div class="field" id="fldPhotos" style="display:none">
+          <label>Photos</label>
+          <div class="photo-strip" id="photoStrip"></div>
+          <button type="button" class="btn" id="btnAddPhoto"><i class="fa-solid fa-camera"></i> Add photo</button>
         </div>
         <div class="field vis-field">
           <label>Visible to</label>
@@ -1012,6 +1051,10 @@ body.viewer .map-hint { display: none !important; }
   const PUB_KEY   = "offaly_ops_pub";   // last-published timestamp (survives reload)
   const REPO_KEY  = "offaly_ops_repo";
   const DATA_PATH = "data.json";        // shared state file committed to the repo
+  // Where the live board data lives. Used as a fallback when the page is NOT served from
+  // the mpb029.github.io/OCE-OPS URL (e.g. a company-website domain). Editor can still
+  // override this in Settings.
+  const REPO_DEFAULT = { owner: "mpb029", repo: "OCE-OPS", branch: "main" };
   const POLL_MS   = 45000;              // how often viewers check for updates
 
   /* ---------- Projection: GDA94 / MGA Zone 56 -> WGS84 ------------------ */
@@ -1058,11 +1101,12 @@ body.viewer .map-hint { display: none !important; }
     { id: "plantTransport", title: "Plant Transport",       icon: "fa-trailer",         color: "#8a5a1e", mainLbl: "Plant / item", subLbl: "From → to / date / float" },
     { id: "stakeholders",  title: "Stakeholders",           icon: "fa-users-line",      color: "#0f9b8e", kind: "dated", mainLbl: "Details", dueLbl: "Date", noSub: true,
       extras: [ { key:"action", label:"Action required", type:"text" }, { key:"contact", label:"Contact details", type:"text" } ] },
-    { id: "punchlist",     title: "Punch List",             icon: "fa-list-check",      color: "#d2342b", kind: "dated",    mainLbl: "Item / defect",   subLbl: "Notes / location",     dueLbl: "Due date",
+    { id: "punchlist",     title: "Punch List",             icon: "fa-list-check",      color: "#d2342b", kind: "dated",    mainLbl: "Item / defect",   subLbl: "Notes / location",     dueLbl: "Due date", photos: true, printSheet: true,
       priorities: [ { value:"high", label:"High", color:"#d2342b" }, { value:"med", label:"Medium", color:"#e8a100" }, { value:"low", label:"Low", color:"#5b636b" } ] },
     { id: "materialPickup", title: "Material Pickup",        icon: "fa-box-open",        color: "#0f9b8e", kind: "list",     mainLbl: "Item ready",      subLbl: "Pickup location / yard" },
     { id: "meetings",      title: "Meetings / Site Visits",  icon: "fa-handshake",       color: "#2f6fb0", kind: "dated",    mainLbl: "Meeting / site visit", subLbl: "Location / attendees", dueLbl: "When" },
     { id: "documents",     title: "Documents & Files",       icon: "fa-paperclip",       color: "#1f6bad", kind: "files" },
+    { id: "weeklyPhotos",  title: "Weekly Update Photos",    icon: "fa-camera-retro",    color: "#0f9b8e", kind: "photos", mainLbl: "Title", photos: true, clientDefault: true },
     { id: "workPackages",  title: "Work Packages",           icon: "fa-diagram-project", color: "#f7a600", kind: "progress", mainLbl: "Work package",    pctLbl: "% complete" },
     { id: "qualityTesting", title: "Quality & Testing",       icon: "fa-flask-vial",      color: "#0f9b8e", kind: "dated", mainLbl: "Test / item",     subLbl: "Result detail (optional)", dueLbl: "Date",
       statuses: [ { value:"pass", label:"Pass", color:"#1e9e6a" }, { value:"fail", label:"Fail", color:"#d2342b" }, { value:"pending", label:"Results pending", color:"#e8a100" } ] },
@@ -1077,12 +1121,22 @@ body.viewer .map-hint { display: none !important; }
   const statusDef = (p, value) => (p.statuses || []).find((s) => s.value === value);
   const priorityDef = (p, value) => (p.priorities || []).find((s) => s.value === value);
 
+  // Mark a panel as recently changed (viewer pages float recently-changed panels to the top).
+  function touchPanel(pid) {
+    state.panelMeta = state.panelMeta || {};
+    state.panelMeta[pid] = { updated: new Date().toISOString() };
+  }
+
   // Default visibility for items/markers (site sees ops by default; client is opt-in).
   const defVis = () => ({ site: true, client: false });      // markers + panels: client is opt-in
   const itemDefVis = () => ({ site: true, client: true });   // items inherit whatever panel shows them
   const itemVis = (it) => it.vis || itemDefVis();
   const markerVis = (m) => m.vis || defVis();
-  const panelVisOf = (id) => state.panelVis[id] || defVis();
+  const panelVisOf = (id) => {
+    if (state.panelVis[id]) return state.panelVis[id];
+    const p = panelById(id);
+    return (p && p.clientDefault) ? { site: true, client: true } : defVis();
+  };
 
   /* ---------- WMO weather codes ----------------------------------------- */
   const WX = {
@@ -1146,6 +1200,7 @@ body.viewer .map-hint { display: none !important; }
         materialPickup: [],
         meetings: [],
         documents: [],
+        weeklyPhotos: [],
         workPackages: [],
         qualityTesting: [],
         designChanges: [],
@@ -1153,7 +1208,8 @@ body.viewer .map-hint { display: none !important; }
         issuesDelays: []
       },
       mapLayers: [],
-      panelVis: {}
+      panelVis: {},
+      panelMeta: {}
     };
   }
 
@@ -1174,7 +1230,8 @@ body.viewer .map-hint { display: none !important; }
         stats: parsed.stats || d.stats,
         panels: Object.assign({}, d.panels, parsed.panels),
         mapLayers: parsed.mapLayers || [],
-        panelVis: parsed.panelVis || {}
+        panelVis: parsed.panelVis || {},
+        panelMeta: parsed.panelMeta || {}
       };
       if (!merged.settings.siteKey) {
         merged.settings.siteKey = genKey();
@@ -1861,10 +1918,30 @@ body.viewer .map-hint { display: none !important; }
     return `<span class="due ${cls}"><i class="fa-solid fa-calendar-day"></i> ${label}</span>`;
   }
 
+  function itemPhotosHtml(it, cls) {
+    if (!it.photos || !it.photos.length) return "";
+    return `<span class="photos ${cls || ""}">` + it.photos.map((ph) =>
+      `<a class="photo" href="${ph.url}" target="_blank" rel="noopener"><img src="${ph.url}" alt="${esc(ph.name || "")}" loading="lazy" /></a>`
+    ).join("") + `</span>`;
+  }
+
+  function orderedPanels() {
+    if (sync.audience === "editor") return PANELS;   // editor keeps a stable layout
+    const meta = state.panelMeta || {};
+    const t = (p) => (meta[p.id] && meta[p.id].updated) || "";
+    return PANELS.map((p, i) => ({ p, i })).sort((a, b) => {
+      const ta = t(a.p), tb = t(b.p);
+      if (ta && tb) return ta < tb ? 1 : (ta > tb ? -1 : a.i - b.i); // newer first
+      if (ta) return -1;
+      if (tb) return 1;
+      return a.i - b.i;                                              // untouched keep default order
+    }).map((x) => x.p);
+  }
+
   function renderPanels() {
     const grid = document.getElementById("panelsGrid");
     const editor = sync.audience === "editor";
-    grid.innerHTML = PANELS.map((p) => {
+    grid.innerHTML = orderedPanels().map((p) => {
       if (!editor && !panelVisOf(p.id)[sync.audience]) return ""; // whole panel hidden for this audience
       const items = visiblePanelItems(p.id);
       const kind = panelKind(p);
@@ -1888,6 +1965,23 @@ body.viewer .map-hint { display: none !important; }
             <span class="file-ico" style="background:${p.color}"><i class="fa-solid ${fileIcon(it.mime, it.name)}"></i></span>
             <span class="txt"><span class="main">${esc(it.name)}</span><span class="sub">${humanSize(it.size)}</span></span>
             ${dl}${chips}${del}
+          </li>`;
+        }
+        if (kind === "photos") {
+          const chips = editor
+            ? `<span class="vis">
+                 <button class="vchip ${v.site ? "on" : ""}" data-vis="site:${p.id}:${it.id}" title="Show to site supervisor">S</button>
+                 <button class="vchip ${v.client ? "on" : ""}" data-vis="client:${p.id}:${it.id}" title="Show to client">C</button>
+               </span>` : "";
+          const acts = editor
+            ? `<span class="row-act">
+                 <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
+                 <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
+               </span>` : "";
+          return `<li class="photo-item">
+            <span class="txt"><span class="main">${esc(it.main || "Untitled")}</span></span>
+            ${chips}${acts}
+            ${itemPhotosHtml(it, "gallery")}
           </li>`;
         }
         const refTag = (p.hasRef && it.ref) ? `<span class="ref">${esc(it.ref)}</span> ` : "";
@@ -1927,15 +2021,21 @@ body.viewer .map-hint { display: none !important; }
                <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
                <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
              </span>` : "";
-        return `<li><span class="marker" style="background:${p.color}"></span>${txt}${due}${prio}${stat}${chips}${acts}</li>`;
+        const photos = p.photos ? itemPhotosHtml(it) : "";
+        const sheet = p.printSheet
+          ? `<span class="print-sheet print-only"><span class="tickbox"></span><span class="cmt-line">Comments:</span></span>`
+          : "";
+        return `<li><span class="marker" style="background:${p.color}"></span>${txt}${due}${prio}${stat}${chips}${acts}${photos}${sheet}</li>`;
       }).join("");
       const emptyMsg = kind === "files"
         ? `No files yet.${editor ? ` <button data-empty-add="${p.id}">Attach a file</button>` : ""}`
+        : kind === "photos"
+        ? `No photos yet.${editor ? ` <button data-empty-add="${p.id}">Add photos</button>` : ""}`
         : `Nothing listed.${editor ? ` <button data-empty-add="${p.id}">Add the first one</button>` : ""}`;
       const body = items.length
         ? `<ul class="list">${rows}</ul>`
         : `<div class="empty">${emptyMsg}</div>`;
-      const addTitle = kind === "files" ? "Attach a file" : "Add";
+      const addTitle = kind === "files" ? "Attach a file" : kind === "photos" ? "Add photos" : "Add";
       return `<section class="card" data-card="${p.id}">
         <div class="card-head">
           <span class="ttl"><span class="tag" style="background:${p.color}"><i class="fa-solid ${p.icon}"></i></span>${esc(p.title)}</span>
@@ -1966,7 +2066,7 @@ body.viewer .map-hint { display: none !important; }
       b.addEventListener("click", () => {
         const [pid, iid] = b.getAttribute("data-del").split(":");
         state.panels[pid] = state.panels[pid].filter((x) => x.id !== iid);
-        save(); renderPanels();
+        touchPanel(pid); save(); renderPanels();
       }));
     grid.querySelectorAll("[data-vis]").forEach((b) =>
       b.addEventListener("click", () => {
@@ -1975,14 +2075,14 @@ body.viewer .map-hint { display: none !important; }
         if (!it) return;
         it.vis = it.vis || defVis();
         it.vis[who] = !it.vis[who];
-        save(); renderPanels();
+        touchPanel(pid); save(); renderPanels();
       }));
     grid.querySelectorAll("[data-pvis]").forEach((b) =>
       b.addEventListener("click", () => {
         const [who, pid] = b.getAttribute("data-pvis").split(":");
         state.panelVis[pid] = state.panelVis[pid] || defVis();
         state.panelVis[pid][who] = !state.panelVis[pid][who];
-        save(); renderPanels();
+        touchPanel(pid); save(); renderPanels();
       }));
   }
 
@@ -2004,7 +2104,7 @@ body.viewer .map-hint { display: none !important; }
     document.getElementById("lblMain").textContent = p.mainLbl;
     document.getElementById("fMain").value = it.main || "";
 
-    const showSub = kind !== "progress" && !p.noSub;
+    const showSub = kind !== "progress" && kind !== "photos" && !p.noSub;
     document.getElementById("fldSub").style.display = showSub ? "" : "none";
     document.getElementById("lblSub").textContent = p.subLbl || "Detail";
     document.getElementById("fSub").value = it.sub || "";
@@ -2053,6 +2153,12 @@ body.viewer .map-hint { display: none !important; }
     document.getElementById("fVisSite").checked = !!v.site;
     document.getElementById("fVisClient").checked = !!v.client;
 
+    // photos (punch list, weekly photos)
+    const showPhotos = !!p.photos;
+    document.getElementById("fldPhotos").style.display = showPhotos ? "" : "none";
+    modalPhotos = showPhotos ? (it.photos || []).map((x) => Object.assign({}, x)) : [];
+    renderModalPhotos();
+
     openModal("itemModal");
     setTimeout(() => document.getElementById(showRef ? "fRef" : "fMain").focus(), 30);
   }
@@ -2082,9 +2188,11 @@ body.viewer .map-hint { display: none !important; }
       data.x = x;
     }
 
+    if (p.photos) data.photos = modalPhotos.slice();
+
     if (id) { const it = state.panels[panel].find((x) => x.id === id); Object.assign(it, data); }
     else { state.panels[panel].push(Object.assign({ id: uid() }, data)); }
-    save(); renderPanels(); closeModal("itemModal");
+    touchPanel(panel); save(); renderPanels(); closeModal("itemModal");
   }
 
   /* =======================================================================
@@ -2202,7 +2310,9 @@ body.viewer .map-hint { display: none !important; }
     const owner = host.endsWith(".github.io") ? host.split(".")[0] : "";
     const seg = loc.pathname.split("/").filter(Boolean);
     const repo = seg.length ? seg[0] : (owner ? owner + ".github.io" : "");
-    return { owner, repo, branch: "main" };
+    if (owner && repo) return { owner, repo, branch: "main" };
+    // served from a custom domain / company website -> use the baked-in default
+    return { owner: REPO_DEFAULT.owner, repo: REPO_DEFAULT.repo, branch: REPO_DEFAULT.branch };
   }
 
   function getToken() { try { return localStorage.getItem(TOKEN_KEY) || ""; } catch (e) { return ""; } }
@@ -2219,6 +2329,7 @@ body.viewer .map-hint { display: none !important; }
       panels: state.panels,
       mapLayers: state.mapLayers || [],
       panelVis: state.panelVis || {},
+      panelMeta: state.panelMeta || {},
       publishedAt: new Date().toISOString()
     };
   }
@@ -2246,6 +2357,7 @@ body.viewer .map-hint { display: none !important; }
     state.panels = Object.assign({}, d.panels, obj.panels || {});
     state.mapLayers = obj.mapLayers || [];
     state.panelVis = obj.panelVis || {};
+    state.panelMeta = obj.panelMeta || {};
     save();                 // persists locally without flagging dirty
     applyingRemote = false;
     setLastPublished(obj.publishedAt || null);
@@ -2408,43 +2520,79 @@ body.viewer .map-hint { display: none !important; }
     e.target.value = "";
   }
 
+  // Shared: upload one file to the repo under <folder>/, resolve with its metadata.
+  function ghUploadFile(file, folder) {
+    return fileToBase64(file).then((content) => {
+      const safe = file.name.replace(/[^A-Za-z0-9._-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 80) || "file";
+      const path = folder + "/" + uid() + "-" + safe;
+      return fetch(ghContents(path), {
+        method: "PUT",
+        headers: Object.assign({ "Content-Type": "application/json" }, ghAuthHeaders()),
+        body: JSON.stringify({ message: "Add " + file.name, content: content, branch: sync.branch })
+      }).then((r) => {
+        if (!r.ok) return r.text().then((t) => { throw new Error(r.status + " " + t.slice(0, 120)); });
+        return r.json();
+      }).then((j) => ({
+        name: file.name, path: path,
+        url: (j.content && j.content.download_url) || `https://raw.githubusercontent.com/${sync.owner}/${sync.repo}/${sync.branch}/${path}`,
+        sha: j.content && j.content.sha, size: file.size, mime: file.type || ""
+      }));
+    });
+  }
+
   function uploadAttachment(file) {
     const MAX = 25 * 1024 * 1024;
     if (file.size > MAX) { toast("That file is too big (25 MB max)", true); return; }
     const pid = filePanelTarget;
     toast("Uploading " + file.name + "\u2026");
-    fileToBase64(file).then((content) => {
-      const safe = file.name.replace(/[^A-Za-z0-9._-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 80) || "file";
-      const path = "files/" + uid() + "-" + safe;
-      return fetch(ghContents(path), {
-        method: "PUT",
-        headers: Object.assign({ "Content-Type": "application/json" }, ghAuthHeaders()),
-        body: JSON.stringify({ message: "Attach " + file.name, content: content, branch: sync.branch })
-      }).then((r) => {
-        if (!r.ok) return r.text().then((t) => { throw new Error(r.status + " " + t.slice(0, 120)); });
-        return r.json();
-      }).then((j) => {
-        const it = {
-          id: uid(), name: file.name, path: path,
-          url: (j.content && j.content.download_url) || `https://raw.githubusercontent.com/${sync.owner}/${sync.repo}/${sync.branch}/${path}`,
-          sha: j.content && j.content.sha, size: file.size, mime: file.type || "",
-          uploadedAt: new Date().toISOString(), vis: itemDefVis()
-        };
-        state.panels[pid] = state.panels[pid] || [];
-        state.panels[pid].push(it);
-        save(); renderPanels();
-        toast("Attached \u2014 hit Publish to share it");
-      });
+    ghUploadFile(file, "files").then((meta) => {
+      const it = Object.assign({ id: uid(), uploadedAt: new Date().toISOString(), vis: itemDefVis() }, meta);
+      state.panels[pid] = state.panels[pid] || [];
+      state.panels[pid].push(it);
+      touchPanel(pid); save(); renderPanels();
+      toast("Attached \u2014 hit Publish to share it");
     }).catch((e) => {
       console.warn("attach failed", e);
       toast(/401|403/.test(String(e)) ? "Upload failed \u2014 token rejected. Check Settings." : "Upload failed \u2014 " + (e.message || e), true);
     });
   }
 
+  /* ---- photos attached to an item (punch list, weekly photos) ---------- */
+  let modalPhotos = [];                 // staged photos for the item modal
+  function pickItemPhoto() {
+    if (!sync.owner || !sync.repo) { toast("Set the repo in Settings before adding photos", true); return; }
+    if (!hasToken()) { toast("Connect a GitHub token in Settings to add photos", true); return; }
+    const inp = document.getElementById("photoAttach");
+    inp.value = ""; inp.click();
+  }
+  function onPhotoPicked(e) {
+    const files = Array.from(e.target.files || []);
+    e.target.value = "";
+    files.forEach((f) => {
+      if (!/^image\//.test(f.type)) { toast("Photos must be image files", true); return; }
+      if (f.size > 15 * 1024 * 1024) { toast("Photo too big (15 MB max)", true); return; }
+      toast("Uploading " + f.name + "\u2026");
+      ghUploadFile(f, "files/photos").then((meta) => {
+        modalPhotos.push(meta);
+        renderModalPhotos();
+        toast("Photo added");
+      }).catch((err) => toast("Photo upload failed \u2014 " + (err.message || err), true));
+    });
+  }
+  function renderModalPhotos() {
+    const wrap = document.getElementById("photoStrip");
+    if (!wrap) return;
+    wrap.innerHTML = modalPhotos.map((ph, i) =>
+      `<span class="thumb"><img src="${ph.url}" alt="${esc(ph.name || "")}" /><button type="button" class="thumb-x" data-ph-del="${i}" title="Remove">&times;</button></span>`
+    ).join("");
+    wrap.querySelectorAll("[data-ph-del]").forEach((b) =>
+      b.addEventListener("click", () => { modalPhotos.splice(+b.getAttribute("data-ph-del"), 1); renderModalPhotos(); }));
+  }
+
   function deleteAttachment(pid, iid) {
     const it = (state.panels[pid] || []).find((x) => x.id === iid);
     if (!it) return;
-    const done = () => { state.panels[pid] = state.panels[pid].filter((x) => x.id !== iid); save(); renderPanels(); };
+    const done = () => { state.panels[pid] = state.panels[pid].filter((x) => x.id !== iid); touchPanel(pid); save(); renderPanels(); };
     if (hasToken() && it.path && it.sha && sync.owner) {
       fetch(ghContents(it.path), {
         method: "DELETE",
@@ -2717,6 +2865,8 @@ body.viewer .map-hint { display: none !important; }
     document.getElementById("mkDelete").onclick = deleteMarkerFromModal;
     document.getElementById("mkCat").onchange = updateMarkerLetterField;
     document.getElementById("fileAttach").onchange = onFilePicked;
+    document.getElementById("photoAttach").onchange = onPhotoPicked;
+    document.getElementById("btnAddPhoto").onclick = pickItemPhoto;
     document.getElementById("btnPrint").onclick = printReport;
     window.addEventListener("afterprint", endPrint);
 

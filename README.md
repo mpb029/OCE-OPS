@@ -111,6 +111,16 @@ named `Asset` or `name` is used as the heading.
     visible panel out as a tidy report with a heading, project name, and date/time. On the
     **client page** it prints exactly what the client can see at that moment — a keepable
     snapshot for their file.
+- **Punch List photos & field sheet:** each punch-list item can carry **instruction photos**
+  (open the item, hit *Add photo*). They show on the item and print alongside it. When you
+  print the punch list, every item also gets a **tick box** and a **Comments:** line so the
+  crew can mark it off and write notes by hand on the printed sheet.
+- **Weekly Update Photos:** a titled photo-gallery panel — add an entry, give it a title
+  (e.g. "Week 12 — headwall pour"), and attach photos. This panel shows for the client by
+  default and its photos appear in the client's printed report.
+- **Recently changed panels float to the top:** whenever you add, edit, remove, or re-flag
+  something in a panel and Publish, that panel moves to the top of the **site and client**
+  pages, so viewers see what's new first. Your own editor layout stays in its fixed order.
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
   (green = shown):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a
