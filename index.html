@@ -382,6 +382,8 @@ body.client .card-head .pbtn { display: none; }
 
 /* print-only tick + comments sheet (punch list) */
 .print-sheet { display: none; }
+.pl-num { display: none; }
+.photo-appendix { display: none; }
 .stat .freq { font-family: var(--font-mono); font-size: 11px; color: var(--muted); margin-top: 4px; }
 .stat .tgt { font-family: var(--font-mono); font-size: 10.5px; color: var(--faint); margin-top: 4px; }
 .stat .stat-vis { display: flex; gap: 3px; margin-top: 9px; }
@@ -715,7 +717,25 @@ body.viewer .map-hint { display: none !important; }
   .list li .photos { gap: 6px; margin-top: 6px; }
   .list li .photos .photo { width: 34mm !important; height: 34mm !important; border: 1px solid #ccc; }
   .list li .photos.gallery .photo { width: 46mm !important; height: 46mm !important; }
+  .list li .photos.inline { display: none !important; }   /* punch-list photos move to the appendix */
   .photo-item { break-inside: avoid; }
+
+  /* punch-list print numbering + labelled photo appendix (large, after the list) */
+  .pl-num { display: inline !important; font-weight: 700; margin-right: 3px; }
+  .photo-appendix { display: block !important; margin-top: 12px; }
+  .photo-appendix .ap-head {
+    font-family: var(--font-display); font-weight: 700; font-size: 13px;
+    border-top: 1.5px solid #333; padding-top: 8px; margin-bottom: 6px;
+  }
+  .photo-appendix .ap-group { break-inside: avoid; margin: 0 0 12px; }
+  .photo-appendix .ap-label { font-weight: 700; font-size: 12px; margin-bottom: 5px; }
+  .photo-appendix .ap-photos { display: flex; flex-wrap: wrap; gap: 6mm; }
+  .photo-appendix .ap-photo img {
+    width: 82mm; max-width: 100%; height: auto; max-height: 95mm; object-fit: contain;
+    border: 1px solid #bbb; border-radius: 4px; display: block;
+  }
+  /* in the two-column report, keep appendix photos within the column */
+  body[data-print="report"] .photo-appendix .ap-photo img { width: 100%; max-height: 70mm; }
 
   /* punch-list tick box + comments line (print only) */
   .print-sheet { display: flex !important; align-items: center; gap: 8px; flex-basis: 100%; margin-top: 6px; }
@@ -1918,6 +1938,23 @@ body.viewer .map-hint { display: none !important; }
     return `<span class="due ${cls}"><i class="fa-solid fa-calendar-day"></i> ${label}</span>`;
   }
 
+  // Print-only: a labelled, larger gallery placed after a printSheet panel's list, so photo
+  // detail is legible and each photo is clearly tied to its numbered item.
+  function photoAppendix(p, items) {
+    if (!p.printSheet || !p.photos) return "";
+    const groups = items
+      .map((it, idx) => ({ it, idx }))
+      .filter((o) => o.it.photos && o.it.photos.length);
+    if (!groups.length) return "";
+    const body = groups.map(({ it, idx }) =>
+      `<div class="ap-group">
+         <div class="ap-label">${idx + 1}. ${esc(it.main)}</div>
+         <div class="ap-photos">${it.photos.map((ph) => `<span class="ap-photo"><img src="${ph.url}" alt="${esc(ph.name || "")}" /></span>`).join("")}</div>
+       </div>`
+    ).join("");
+    return `<div class="photo-appendix print-only"><div class="ap-head">${esc(p.title)} — photos</div>${body}</div>`;
+  }
+
   function itemPhotosHtml(it, cls) {
     if (!it.photos || !it.photos.length) return "";
     return `<span class="photos ${cls || ""}">` + it.photos.map((ph) =>
@@ -1951,7 +1988,7 @@ body.viewer .map-hint { display: none !important; }
              <button class="vchip ${pv.site ? "on" : ""}" data-pvis="site:${p.id}" title="Show this whole panel to the site supervisor">S</button>
              <button class="vchip ${pv.client ? "on" : ""}" data-pvis="client:${p.id}" title="Show this whole panel to the client">C</button>
            </span>` : "";
-      const rows = items.map((it) => {
+      const rows = items.map((it, idx) => {
         const v = itemVis(it);
         if (kind === "files") {
           const dl = `<button class="file-dl" data-dl="${p.id}:${it.id}" title="Download"><i class="fa-solid fa-download"></i></button>`;
@@ -1985,6 +2022,7 @@ body.viewer .map-hint { display: none !important; }
           </li>`;
         }
         const refTag = (p.hasRef && it.ref) ? `<span class="ref">${esc(it.ref)}</span> ` : "";
+        const numTag = p.printSheet ? `<span class="pl-num">${idx + 1}.</span> ` : "";
         // detail line = optional sub + any filled extra fields
         const xparts = (p.extras || [])
           .filter((fx) => it.x && it.x[fx.key] !== undefined && it.x[fx.key] !== "")
@@ -1993,11 +2031,11 @@ body.viewer .map-hint { display: none !important; }
         let txt;
         if (kind === "progress") {
           const pct = Math.max(0, Math.min(100, parseInt(it.pct, 10) || 0));
-          txt = `<span class="txt"><span class="main">${refTag}${esc(it.main)}</span>`
+          txt = `<span class="txt"><span class="main">${numTag}${refTag}${esc(it.main)}</span>`
               + `<span class="pbar"><span style="width:${pct}%"></span></span>`
               + `<span class="sub">${pct}% complete</span></span>`;
         } else {
-          txt = `<span class="txt"><span class="main">${refTag}${esc(it.main)}</span>`
+          txt = `<span class="txt"><span class="main">${numTag}${refTag}${esc(it.main)}</span>`
               + `${detail ? `<span class="sub">${esc(detail)}</span>` : ""}</span>`;
         }
         const due = kind === "dated" ? dueBadge(it.due) : "";
@@ -2021,7 +2059,7 @@ body.viewer .map-hint { display: none !important; }
                <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
                <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
              </span>` : "";
-        const photos = p.photos ? itemPhotosHtml(it) : "";
+        const photos = p.photos ? itemPhotosHtml(it, p.printSheet ? "inline" : "") : "";
         const sheet = p.printSheet
           ? `<span class="print-sheet print-only"><span class="tickbox"></span><span class="cmt-line">Comments:</span></span>`
           : "";
@@ -2033,7 +2071,7 @@ body.viewer .map-hint { display: none !important; }
         ? `No photos yet.${editor ? ` <button data-empty-add="${p.id}">Add photos</button>` : ""}`
         : `Nothing listed.${editor ? ` <button data-empty-add="${p.id}">Add the first one</button>` : ""}`;
       const body = items.length
-        ? `<ul class="list">${rows}</ul>`
+        ? `<ul class="list">${rows}</ul>${photoAppendix(p, items)}`
         : `<div class="empty">${emptyMsg}</div>`;
       const addTitle = kind === "files" ? "Attach a file" : kind === "photos" ? "Add photos" : "Add";
       return `<section class="card" data-card="${p.id}">

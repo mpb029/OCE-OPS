@@ -112,9 +112,11 @@ named `Asset` or `name` is used as the heading.
     **client page** it prints exactly what the client can see at that moment — a keepable
     snapshot for their file.
 - **Punch List photos & field sheet:** each punch-list item can carry **instruction photos**
-  (open the item, hit *Add photo*). They show on the item and print alongside it. When you
-  print the punch list, every item also gets a **tick box** and a **Comments:** line so the
-  crew can mark it off and write notes by hand on the printed sheet.
+  (open the item, hit *Add photo*). On screen they show as thumbnails on the item. When you
+  **print** the punch list, the items print as a numbered checklist (each with a tick box and
+  a **Comments:** line to fill in by hand), and the photos are collected into a **labelled
+  "Photos" section after the list** — printed large for detail, with each group headed by its
+  item number and name so it's clear which item they belong to.
 - **Weekly Update Photos:** a titled photo-gallery panel — add an entry, give it a title
   (e.g. "Week 12 — headwall pour"), and attach photos. This panel shows for the client by
   default and its photos appear in the client's printed report.
