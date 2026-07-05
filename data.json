@@ -7,8 +7,21 @@
       "lng": 153.088
     },
     "geojsonCRS": "auto",
-    "siteKey": "auubeuj9"
+    "siteKey": "auubeuj9",
+    "editPass": "1cbgg1wel11"
   },
+  "projects": [
+    {
+      "id": "default",
+      "name": "Regionwide Watermain Renewal",
+      "client": true
+    },
+    {
+      "id": "pfvstolg",
+      "name": "Cooloola Cove Sludge Pads",
+      "client": true
+    }
+  ],
   "base": "sat",
   "markers": [
     {
@@ -216,77 +229,43 @@
     "staffAway": [],
     "plantTransport": [],
     "stakeholders": [],
-    "punchlist": [
-      {
-        "id": "46uk0xv",
-        "main": "Cooloola Sludge pad - sikaflex joints",
-        "vis": {
-          "site": true,
-          "client": false
-        },
-        "sub": "",
-        "due": "",
-        "priority": "med"
-      },
-      {
-        "id": "j1n5cvl",
-        "main": "Cooloola Sludge pad - New MH Install",
-        "vis": {
-          "site": true,
-          "client": false
-        },
-        "sub": "",
-        "due": "",
-        "priority": "med"
-      },
-      {
-        "id": "zl0073u",
-        "main": "Cooloola Sludge Pad - Ramp - Material will be needed",
-        "vis": {
-          "site": true,
-          "client": false
-        },
-        "sub": "",
-        "due": "",
-        "priority": "med"
-      },
-      {
-        "id": "3vb9plo",
-        "main": "Cooloola Sludge Pad - Fill in Seepage Drain",
-        "vis": {
-          "site": true,
-          "client": false
-        },
-        "sub": "",
-        "due": "",
-        "priority": "med"
-      },
-      {
-        "id": "lrvsboi",
-        "main": "Cooloola Sludge Pad - Reinstate perimeter fence - materials onsite",
-        "vis": {
-          "site": true,
-          "client": false
-        },
-        "sub": "",
-        "due": "",
-        "priority": "med"
-      },
-      {
-        "id": "nvkqvld",
-        "main": "Cooloola Sludge Pad - Reinstatement - stockpiles should be able to be lost onsite",
-        "vis": {
-          "site": true,
-          "client": false
-        },
-        "sub": "",
-        "due": "",
-        "priority": "med"
-      }
-    ],
+    "punchlist": [],
     "materialPickup": [],
     "meetings": [],
     "documents": [],
+    "weeklyPhotos": [
+      {
+        "id": "y7czdrf",
+        "main": "drummer",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": []
+      },
+      {
+        "id": "5wp3jtu",
+        "main": "drummer",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Picture1.jpg",
+            "path": "files/photos/044wlpt-Picture1.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/044wlpt-Picture1.jpg",
+            "sha": "90242c4f1e85d8484dda01bf7cd150b2423f5ae8",
+            "size": 114244,
+            "mime": "image/jpeg"
+          }
+        ]
+      }
+    ],
     "workPackages": [],
     "qualityTesting": [
       {
@@ -917,7 +896,19 @@
     "documents": {
       "site": true,
       "client": true
+    },
+    "weeklyPhotos": {
+      "site": false,
+      "client": true
     }
   },
-  "publishedAt": "2026-07-05T21:28:10.522Z"
+  "panelMeta": {
+    "punchlist": {
+      "updated": "2026-07-05T22:31:26.867Z"
+    },
+    "weeklyPhotos": {
+      "updated": "2026-07-05T23:12:55.134Z"
+    }
+  },
+  "publishedAt": "2026-07-05T23:12:57.803Z"
 }
