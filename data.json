@@ -1,6 +1,6 @@
 {
   "settings": {
-    "projectName": "Regionwide Watermain Renewal",
+    "projectName": "Gympie Region Active Projects",
     "loc": {
       "name": "Gympie, QLD",
       "lat": -25.906,
@@ -8,7 +8,7 @@
     },
     "geojsonCRS": "auto",
     "siteKey": "auubeuj9",
-    "editPass": "1cbgg1wel11"
+    "editPass": ""
   },
   "projects": [
     {
@@ -233,39 +233,7 @@
     "materialPickup": [],
     "meetings": [],
     "documents": [],
-    "weeklyPhotos": [
-      {
-        "id": "y7czdrf",
-        "main": "drummer",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": []
-      },
-      {
-        "id": "5wp3jtu",
-        "main": "drummer",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Picture1.jpg",
-            "path": "files/photos/044wlpt-Picture1.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/044wlpt-Picture1.jpg",
-            "sha": "90242c4f1e85d8484dda01bf7cd150b2423f5ae8",
-            "size": 114244,
-            "mime": "image/jpeg"
-          }
-        ]
-      }
-    ],
+    "weeklyPhotos": [],
     "workPackages": [],
     "qualityTesting": [
       {
@@ -907,8 +875,8 @@
       "updated": "2026-07-05T22:31:26.867Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-07-05T23:12:55.134Z"
+      "updated": "2026-07-05T23:44:24.461Z"
     }
   },
-  "publishedAt": "2026-07-05T23:12:57.803Z"
+  "publishedAt": "2026-07-05T23:45:09.809Z"
 }
