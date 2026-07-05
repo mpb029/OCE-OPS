@@ -141,8 +141,8 @@
       "lat": -25.91854546145784,
       "lng": 153.00158464674058,
       "category": "tie",
-      "title": "",
-      "notes": "",
+      "title": "Connection C",
+      "notes": "IFC DWG - Detail 5",
       "ts": 1783040107222,
       "vis": {
         "site": true,
@@ -191,6 +191,19 @@
         "client": true
       },
       "letter": "F"
+    },
+    {
+      "id": "thdwlsp",
+      "lat": -25.926467591199803,
+      "lng": 152.99990550661016,
+      "category": "delivery",
+      "title": "",
+      "notes": "",
+      "ts": 1783052607315,
+      "vis": {
+        "site": true,
+        "client": false
+      }
     }
   ],
   "stats": [],
@@ -906,5 +919,5 @@
       "client": true
     }
   },
-  "publishedAt": "2026-07-03T02:58:20.715Z"
+  "publishedAt": "2026-07-05T21:28:10.522Z"
 }
