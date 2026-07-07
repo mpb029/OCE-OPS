@@ -226,7 +226,28 @@
     "trafficControl": [],
     "upcoming": [],
     "subbiesToday": [],
-    "staffAway": [],
+    "staffAway": [
+      {
+        "id": "yd42b33",
+        "main": "Steve Meyer",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Friday 17th and Monday 20th July"
+      },
+      {
+        "id": "ysu5s9x",
+        "main": "Gi",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Thursday 16th and Friday 17th July"
+      }
+    ],
     "plantTransport": [],
     "stakeholders": [],
     "punchlist": [],
@@ -876,7 +897,10 @@
     },
     "weeklyPhotos": {
       "updated": "2026-07-05T23:44:24.461Z"
+    },
+    "staffAway": {
+      "updated": "2026-07-07T23:16:18.952Z"
     }
   },
-  "publishedAt": "2026-07-05T23:45:09.809Z"
+  "publishedAt": "2026-07-07T23:16:34.976Z"
 }
