@@ -647,7 +647,26 @@
       }
     ],
     "designChanges": [],
-    "variations": [],
+    "variations": [
+      {
+        "id": "1gk7u8d",
+        "main": "Pump Flowable fill into under road void",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "due": "",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "2026-07-07",
+        "dateRequired": "",
+        "wstatus": "inprogress",
+        "ref": "V#03 - Dolphin Ave - Under road Void - QUOTE PREP",
+        "status": "pending"
+      }
+    ],
     "issuesDelays": [],
     "subbiesTomorrow": []
   },
@@ -1230,7 +1249,7 @@
     },
     "variations": {
       "site": false,
-      "client": false
+      "client": true
     },
     "issuesDelays": {
       "site": false,
@@ -1290,7 +1309,7 @@
       "updated": "2026-07-08T01:11:45.481Z"
     },
     "variations": {
-      "updated": "2026-07-08T01:11:46.756Z"
+      "updated": "2026-07-08T05:40:02.935Z"
     },
     "issuesDelays": {
       "updated": "2026-07-08T01:11:49.778Z"
@@ -1320,5 +1339,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-08T05:35:00.465Z"
+  "publishedAt": "2026-07-08T05:40:07.131Z"
 }
