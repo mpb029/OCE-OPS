@@ -392,7 +392,176 @@
     "meetings": [],
     "documents": [],
     "weeklyPhotos": [],
-    "workPackages": [],
+    "workPackages": [
+      {
+        "id": "d5cnpia",
+        "main": "Tarwhine St - WM Main Alignment Install",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 100,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "d0xxr83",
+        "main": "Tarwhine St - WM Connections",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 100,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "vbd6odg",
+        "main": "Tarwhine St - Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 90,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "ghfh8or",
+        "main": "Dolphin Ave - WM Main Alignment Install",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 100,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "pni41mc",
+        "main": "Dolphin Ave - WM Connections",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "wjee2po",
+        "main": "Dolphin Ave - Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "7fyioh5",
+        "main": "Drummer St - WM Main Alignment Install",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 100,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "e8hjjb0",
+        "main": "Drummer St - WM Connections",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "ws3j4tf",
+        "main": "Drummer St - Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "a9lultz",
+        "main": "Gympie Rd - WM Main Alignment Install",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 80,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "9nxypr4",
+        "main": "Gympie Rd - WM Connections",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "9ezdj40",
+        "main": "Gympie Rd - Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      }
+    ],
     "qualityTesting": [
       {
         "id": "cnbsx7i",
@@ -1106,7 +1275,10 @@
     },
     "meetings": {
       "updated": "2026-07-08T01:26:31.152Z"
+    },
+    "workPackages": {
+      "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-08T01:38:10.873Z"
+  "publishedAt": "2026-07-08T02:26:56.044Z"
 }
