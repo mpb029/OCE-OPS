@@ -962,7 +962,7 @@
   ],
   "panelVis": {
     "dailyWorks": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "deliveries": {
@@ -982,15 +982,15 @@
       "client": false
     },
     "subbiesToday": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "plantTransport": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "punchlist": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "materialPickup": {
@@ -1002,8 +1002,8 @@
       "client": true
     },
     "meetings": {
-      "site": true,
-      "client": true
+      "site": false,
+      "client": false
     },
     "variations": {
       "site": false,
@@ -1022,21 +1022,25 @@
       "client": false
     },
     "stakeholders": {
-      "site": true,
+      "site": false,
       "client": true
     },
     "documents": {
-      "site": true,
+      "site": false,
       "client": false
     },
     "weeklyPhotos": {
       "site": false,
       "client": true
+    },
+    "trafficControl": {
+      "site": false,
+      "client": false
     }
   },
   "panelMeta": {
     "punchlist": {
-      "updated": "2026-07-05T22:31:26.867Z"
+      "updated": "2026-07-08T01:26:35.036Z"
     },
     "weeklyPhotos": {
       "updated": "2026-07-05T23:44:24.461Z"
@@ -1051,13 +1055,13 @@
       "updated": "2026-07-08T00:30:34.783Z"
     },
     "stakeholders": {
-      "updated": "2026-07-08T01:06:52.116Z"
+      "updated": "2026-07-08T01:26:27.889Z"
     },
     "deliveries": {
       "updated": "2026-07-08T00:28:10.943Z"
     },
     "documents": {
-      "updated": "2026-07-08T01:11:38.504Z"
+      "updated": "2026-07-08T01:26:36.867Z"
     },
     "designChanges": {
       "updated": "2026-07-08T01:11:45.481Z"
@@ -1073,7 +1077,22 @@
     },
     "siteInputs": {
       "updated": "2026-07-08T01:14:36.994Z"
+    },
+    "dailyWorks": {
+      "updated": "2026-07-08T01:26:16.808Z"
+    },
+    "trafficControl": {
+      "updated": "2026-07-08T01:26:18.633Z"
+    },
+    "subbiesToday": {
+      "updated": "2026-07-08T01:26:21.264Z"
+    },
+    "plantTransport": {
+      "updated": "2026-07-08T01:26:25.164Z"
+    },
+    "meetings": {
+      "updated": "2026-07-08T01:26:31.152Z"
     }
   },
-  "publishedAt": "2026-07-08T01:22:52.810Z"
+  "publishedAt": "2026-07-08T01:26:46.681Z"
 }
