@@ -780,9 +780,12 @@ body.viewer .map-hint { display: none !important; }
 
   /* ---- full report ---- */
   body[data-print="report"] #panelsGrid {
-    display: grid !important;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
+    display: block !important;
+  }
+  body[data-print="report"] #panelsGrid .card {
+    width: 100% !important;
+    margin: 0 0 10px !important;
+    break-inside: avoid;
   }
   body[data-print="report"] .map-card { break-inside: avoid; margin-bottom: 8px; }
   body[data-print="report"] #map { height: 95mm !important; }
@@ -793,7 +796,7 @@ body.viewer .map-hint { display: none !important; }
   body.client[data-print="report"] #weatherCard { display: none !important; }
 
   /* weekly update photos print large — at least ~half a page each */
-  body[data-print="report"] .card[data-card="weeklyPhotos"] { grid-column: 1 / -1; break-inside: auto; }
+  body[data-print="report"] #panelsGrid .card[data-card="weeklyPhotos"] { break-inside: auto; }
   body[data-print="report"] .photo-item .photos.gallery { display: block; }
   body[data-print="report"] .photo-item .photos.gallery .photo {
     display: block; width: 100% !important; height: auto !important; break-inside: avoid; margin: 0 0 6mm;
