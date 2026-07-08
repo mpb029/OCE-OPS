@@ -129,10 +129,13 @@ named `Asset` or `name` is used as the heading.
   selected project, or **All projects**. When adding any item or marker you pick which project
   it belongs to (it defaults to whatever's selected). The client only ever sees projects you've
   ticked as client-visible, and their dropdown only lists those.
-- **Edit-page password (optional):** set one in **Settings → Edit-page password**. Opening the
-  editor URL then shows the client view until you tap **Unlock** and enter it. **This is a
-  casual gate, not real security** — the repo is public. The real protection is your GitHub
-  token (it never leaves your browser), so nobody can change the board without it regardless.
+- **Edit-page password (optional):** set one in **Settings → Edit-page password**, then Publish.
+  After that, opening the editor URL on **any device** shows a **full-screen lock** — nothing on
+  the board is visible until the correct password is entered. It re-checks the published password
+  on every device (not just the one that set it). Site (`?crew=`) and client (`?view=`) links are
+  never locked. **This is a casual gate, not hard security** — the repo is public, so a determined
+  technical person could read the underlying data; the real protection against *changes* is your
+  GitHub token, which never leaves your browser and is required to publish.
 - **Complete / incomplete:** items on any dated panel (deliveries, works, punch list, meetings,
   etc.) have a **✓ toggle** — mark them complete any time, early or on the due date. Done items
   show a green **Done** badge (and stop flagging as overdue) and are struck through.
