@@ -282,6 +282,20 @@
         "dateAssigned": "",
         "dateRequired": "2026-07-20",
         "wstatus": ""
+      },
+      {
+        "id": "yypahvc",
+        "main": "Dolphin Ave - Connections",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-23",
+        "wstatus": ""
       }
     ],
     "subbiesToday": [],
@@ -1073,7 +1087,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-07-08T01:22:27.250Z"
+      "updated": "2026-07-08T01:34:26.165Z"
     },
     "siteInputs": {
       "updated": "2026-07-08T01:14:36.994Z"
@@ -1094,5 +1108,5 @@
       "updated": "2026-07-08T01:26:31.152Z"
     }
   },
-  "publishedAt": "2026-07-08T01:26:46.681Z"
+  "publishedAt": "2026-07-08T01:38:10.873Z"
 }
