@@ -650,7 +650,7 @@
     "variations": [
       {
         "id": "1gk7u8d",
-        "main": "Fill void as per Councils provided methodology",
+        "main": "Preparing quote to Councils provided methodology",
         "project": "default",
         "vis": {
           "site": false,
@@ -1309,7 +1309,7 @@
       "updated": "2026-07-08T01:11:45.481Z"
     },
     "variations": {
-      "updated": "2026-07-08T05:43:00.550Z"
+      "updated": "2026-07-08T05:44:56.730Z"
     },
     "issuesDelays": {
       "updated": "2026-07-08T01:11:49.778Z"
@@ -1339,5 +1339,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-08T05:43:21.275Z"
+  "publishedAt": "2026-07-08T05:45:03.127Z"
 }
