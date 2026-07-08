@@ -294,8 +294,10 @@ body.client .card-head .pbtn { display: none; }
   margin-left: -1px !important;
   margin-top: -1px !important;
   image-rendering: -webkit-optimize-contrast;
-  image-rendering: crisp-edges;
+  image-rendering: pixelated;
 }
+/* also cover the tile background so any residual sub-pixel gap shows imagery, not grey */
+.leaflet-container .leaflet-tile-pane { background: transparent; }
 .map-hint {
   position: absolute; left: 12px; bottom: 12px; z-index: 600;
   background: rgba(20,32,43,.86); color: #fff;
