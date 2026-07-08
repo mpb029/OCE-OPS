@@ -360,7 +360,7 @@
         "project": "default",
         "vis": {
           "site": true,
-          "client": false
+          "client": true
         },
         "sub": "",
         "due": "2026-07-10",
@@ -994,7 +994,7 @@
       "updated": "2026-07-08T00:28:30.149Z"
     },
     "qualityTesting": {
-      "updated": "2026-07-08T00:30:21.530Z"
+      "updated": "2026-07-08T00:30:34.783Z"
     },
     "stakeholders": {
       "updated": "2026-07-08T00:28:44.354Z"
@@ -1003,5 +1003,5 @@
       "updated": "2026-07-08T00:28:10.943Z"
     }
   },
-  "publishedAt": "2026-07-08T00:30:30.995Z"
+  "publishedAt": "2026-07-08T00:30:36.952Z"
 }
