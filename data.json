@@ -217,12 +217,42 @@
         "site": true,
         "client": false
       }
+    },
+    {
+      "id": "zi2lpgu",
+      "lat": -25.916258462617243,
+      "lng": 153.00304330853544,
+      "category": "compound",
+      "title": "TCB Compound",
+      "notes": "",
+      "ts": 1783469085666,
+      "vis": {
+        "site": true,
+        "client": true
+      },
+      "project": "default"
     }
   ],
   "stats": [],
   "panels": {
     "dailyWorks": [],
-    "deliveries": [],
+    "deliveries": [
+      {
+        "id": "j2ku1nk",
+        "main": "Drummer Cut in and Property Connection Fittings",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "due": "2026-07-10",
+        "done": false,
+        "team": "eng",
+        "x": {
+          "supplier": "Reece"
+        }
+      }
+    ],
     "trafficControl": [],
     "upcoming": [],
     "subbiesToday": [],
@@ -249,7 +279,23 @@
       }
     ],
     "plantTransport": [],
-    "stakeholders": [],
+    "stakeholders": [
+      {
+        "id": "5vr35al",
+        "main": "Service Disruption Notification Letter - Drummer Street",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-08",
+        "x": {
+          "action": "Complete"
+        },
+        "done": false,
+        "team": "admin"
+      }
+    ],
     "punchlist": [],
     "materialPickup": [
       {
@@ -260,7 +306,8 @@
           "site": true,
           "client": false
         },
-        "sub": "Aptella - Brisbane"
+        "sub": "Aptella - Brisbane",
+        "team": "site"
       },
       {
         "id": "ob5kdhc",
@@ -270,7 +317,8 @@
           "site": true,
           "client": false
         },
-        "sub": "Aptella - Brisbane"
+        "sub": "Aptella - Brisbane",
+        "team": "site"
       }
     ],
     "meetings": [],
@@ -288,7 +336,9 @@
         "sub": "",
         "due": "2026-07-07",
         "status": "pass",
-        "project": "default"
+        "project": "default",
+        "done": true,
+        "team": ""
       },
       {
         "id": "bdl0w8v",
@@ -299,6 +349,23 @@
         },
         "sub": "",
         "due": "2026-07-10",
+        "status": "pending",
+        "project": "default",
+        "done": false,
+        "team": "site"
+      },
+      {
+        "id": "pg1922x",
+        "main": "Drummer St - WQ",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "",
+        "due": "2026-07-10",
+        "done": false,
+        "team": "eng",
         "status": "pending"
       }
     ],
@@ -924,11 +991,17 @@
       "updated": "2026-07-07T23:16:18.952Z"
     },
     "materialPickup": {
-      "updated": "2026-07-07T23:34:29.443Z"
+      "updated": "2026-07-08T00:28:30.149Z"
     },
     "qualityTesting": {
-      "updated": "2026-07-07T23:35:37.626Z"
+      "updated": "2026-07-08T00:30:21.530Z"
+    },
+    "stakeholders": {
+      "updated": "2026-07-08T00:28:44.354Z"
+    },
+    "deliveries": {
+      "updated": "2026-07-08T00:28:10.943Z"
     }
   },
-  "publishedAt": "2026-07-07T23:35:52.815Z"
+  "publishedAt": "2026-07-08T00:30:30.995Z"
 }
