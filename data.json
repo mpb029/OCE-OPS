@@ -29,28 +29,30 @@
       "lat": -25.915968965930094,
       "lng": 153.00147413700734,
       "category": "tie",
-      "title": "Dolphin Ave Connection 1",
-      "notes": "",
+      "title": "Connection A",
+      "notes": "Detail 5 IFC DWG",
       "ts": 1782883431306,
       "vis": {
         "site": true,
         "client": true
       },
-      "letter": "A"
+      "letter": "A",
+      "project": "default"
     },
     {
       "id": "2lo8ruz",
       "lat": -25.916895352827,
       "lng": 153.00297617912295,
       "category": "tie",
-      "title": "",
-      "notes": "",
+      "title": "Connection B",
+      "notes": "Detail 8 IFC DWG",
       "ts": 1782883442942,
       "vis": {
         "site": true,
         "client": true
       },
-      "letter": "B"
+      "letter": "B",
+      "project": "default"
     },
     {
       "id": "4nu4mfa",
@@ -168,42 +170,45 @@
       "lat": -25.918863900815882,
       "lng": 152.99933909863148,
       "category": "tie",
-      "title": "",
-      "notes": "",
+      "title": "Connection D",
+      "notes": "Detail 3 IFC DWG",
       "ts": 1783040128018,
       "vis": {
         "site": true,
         "client": true
       },
-      "letter": "D"
+      "letter": "D",
+      "project": "default"
     },
     {
       "id": "2s4v7ym",
       "lat": -25.91921128822552,
       "lng": 152.99904937951987,
       "category": "tie",
-      "title": "",
-      "notes": "",
+      "title": "Connection E",
+      "notes": "Detail 2 IFC DWG",
       "ts": 1783040137215,
       "vis": {
         "site": true,
         "client": true
       },
-      "letter": "E"
+      "letter": "E",
+      "project": "default"
     },
     {
       "id": "8j02029",
       "lat": -25.91967446984613,
       "lng": 152.9986953228626,
       "category": "tie",
-      "title": "",
-      "notes": "",
+      "title": "Connection F",
+      "notes": "Detail 1 IFC DWG",
       "ts": 1783040148490,
       "vis": {
         "site": true,
         "client": true
       },
-      "letter": "F"
+      "letter": "F",
+      "project": "default"
     },
     {
       "id": "thdwlsp",
@@ -1315,5 +1320,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-08T04:01:02.033Z"
+  "publishedAt": "2026-07-08T04:05:29.207Z"
 }
