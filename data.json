@@ -777,13 +777,13 @@
       }
     },
     {
-      "id": "vj9qs5i",
-      "name": "test",
-      "color": "#1e9e6a",
+      "id": "1ani6e0",
+      "name": "TCB Cluster",
+      "color": "#2f6fb0",
       "visible": true,
       "data": {
         "type": "FeatureCollection",
-        "name": "test",
+        "name": "TCB Cluster",
         "features": [
           {
             "type": "Feature",
@@ -1280,5 +1280,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-08T02:26:56.044Z"
+  "publishedAt": "2026-07-08T02:42:53.395Z"
 }
