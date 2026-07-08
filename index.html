@@ -283,6 +283,12 @@ body.client .card-head .pbtn { display: none; }
 }
 
 #map { height: 560px; width: 100%; background: #dfe6e3; }
+/* Fix Leaflet's hairline "tile seams": enlarge each 256px tile by half a pixel so
+   neighbouring tiles overlap slightly and the sub-pixel gaps disappear. */
+.leaflet-container .leaflet-tile {
+  width: 256.5px !important;
+  height: 256.5px !important;
+}
 .map-hint {
   position: absolute; left: 12px; bottom: 12px; z-index: 600;
   background: rgba(20,32,43,.86); color: #fff;
@@ -1254,6 +1260,7 @@ body.viewer .map-hint { display: none !important; }
     { id: "subbiesToday",  title: "Subcontractors",         icon: "fa-people-group",    color: "#e8542a", kind: "dated", mainLbl: "Subcontractor", dueLbl: "Date onsite", noSub: true,
       extras: [ { key:"works", label:"Works", type:"text" }, { key:"time", label:"Time onsite", type:"time" }, { key:"contact", label:"Contact details", type:"text" } ] },
     { id: "staffAway",     title: "Staff Away",             icon: "fa-user-xmark",      color: "#b0395e", mainLbl: "Who",      subLbl: "Dates / reason" },
+    { id: "siteInputs",    title: "Site Inputs Required",   icon: "fa-clipboard-question", color: "#a83279", kind: "list", mainLbl: "Input / info required", subLbl: "Detail / context" },
     { id: "plantTransport", title: "Plant Transport",       icon: "fa-trailer",         color: "#8a5a1e", mainLbl: "Plant / item", subLbl: "From → to / date / float" },
     { id: "stakeholders",  title: "Stakeholders",           icon: "fa-users-line",      color: "#0f9b8e", kind: "dated", mainLbl: "Details", dueLbl: "Date", noSub: true,
       extras: [ { key:"action", label:"Action required", type:"text" }, { key:"contact", label:"Contact details", type:"text" } ] },
@@ -1418,6 +1425,7 @@ body.viewer .map-hint { display: none !important; }
         upcoming: [],
         subbiesToday: [],
         staffAway: [],
+        siteInputs: [],
         plantTransport: [],
         stakeholders: [],
         punchlist: [],
