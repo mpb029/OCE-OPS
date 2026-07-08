@@ -254,7 +254,36 @@
       }
     ],
     "trafficControl": [],
-    "upcoming": [],
+    "upcoming": [
+      {
+        "id": "8hntvv5",
+        "main": "Drummer St - Connections",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-15",
+        "wstatus": ""
+      },
+      {
+        "id": "p9exg2z",
+        "main": "Gympie Rd - Connections",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-20",
+        "wstatus": ""
+      }
+    ],
     "subbiesToday": [],
     "staffAway": [
       {
@@ -278,6 +307,22 @@
         "sub": "Thursday 16th and Friday 17th July"
       }
     ],
+    "siteInputs": [
+      {
+        "id": "eey8u09",
+        "main": "No. and size of House Connections for Drummer St",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "2026-07-08",
+        "dateRequired": "2026-07-10",
+        "wstatus": ""
+      }
+    ],
     "plantTransport": [],
     "stakeholders": [
       {
@@ -293,7 +338,10 @@
           "action": "Complete"
         },
         "done": false,
-        "team": "admin"
+        "team": "admin",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "inprogress"
       }
     ],
     "punchlist": [],
@@ -307,7 +355,10 @@
           "client": false
         },
         "sub": "Aptella - Brisbane",
-        "team": "site"
+        "team": "site",
+        "dateAssigned": "2026-07-08",
+        "dateRequired": "",
+        "wstatus": ""
       },
       {
         "id": "ob5kdhc",
@@ -318,7 +369,10 @@
           "client": false
         },
         "sub": "Aptella - Brisbane",
-        "team": "site"
+        "team": "site",
+        "dateAssigned": "2026-07-08",
+        "dateRequired": "",
+        "wstatus": ""
       }
     ],
     "meetings": [],
@@ -917,7 +971,7 @@
     },
     "upcoming": {
       "site": true,
-      "client": false
+      "client": true
     },
     "staffAway": {
       "site": true,
@@ -953,11 +1007,11 @@
     },
     "variations": {
       "site": false,
-      "client": true
+      "client": false
     },
     "issuesDelays": {
       "site": false,
-      "client": true
+      "client": false
     },
     "qualityTesting": {
       "site": true,
@@ -965,7 +1019,7 @@
     },
     "designChanges": {
       "site": false,
-      "client": true
+      "client": false
     },
     "stakeholders": {
       "site": true,
@@ -973,7 +1027,7 @@
     },
     "documents": {
       "site": true,
-      "client": true
+      "client": false
     },
     "weeklyPhotos": {
       "site": false,
@@ -991,17 +1045,35 @@
       "updated": "2026-07-07T23:16:18.952Z"
     },
     "materialPickup": {
-      "updated": "2026-07-08T00:28:30.149Z"
+      "updated": "2026-07-08T01:06:20.500Z"
     },
     "qualityTesting": {
       "updated": "2026-07-08T00:30:34.783Z"
     },
     "stakeholders": {
-      "updated": "2026-07-08T00:28:44.354Z"
+      "updated": "2026-07-08T01:06:52.116Z"
     },
     "deliveries": {
       "updated": "2026-07-08T00:28:10.943Z"
+    },
+    "documents": {
+      "updated": "2026-07-08T01:11:38.504Z"
+    },
+    "designChanges": {
+      "updated": "2026-07-08T01:11:45.481Z"
+    },
+    "variations": {
+      "updated": "2026-07-08T01:11:46.756Z"
+    },
+    "issuesDelays": {
+      "updated": "2026-07-08T01:11:49.778Z"
+    },
+    "upcoming": {
+      "updated": "2026-07-08T01:22:27.250Z"
+    },
+    "siteInputs": {
+      "updated": "2026-07-08T01:14:36.994Z"
     }
   },
-  "publishedAt": "2026-07-08T00:30:36.952Z"
+  "publishedAt": "2026-07-08T01:22:52.810Z"
 }
