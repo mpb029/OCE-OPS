@@ -578,20 +578,6 @@
         "team": ""
       },
       {
-        "id": "bdl0w8v",
-        "main": "Gympie Rd - Hydrostatic test",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "due": "2026-07-10",
-        "status": "pending",
-        "project": "default",
-        "done": false,
-        "team": "site"
-      },
-      {
         "id": "pg1922x",
         "main": "Drummer St - WQ",
         "project": "default",
@@ -603,6 +589,23 @@
         "due": "2026-07-10",
         "done": false,
         "team": "eng",
+        "status": "pending"
+      },
+      {
+        "id": "5plf5e8",
+        "main": "Gympie Rd - Disinfection and Sample",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-07-10",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-10",
+        "wstatus": "",
         "status": "pending"
       }
     ],
@@ -1235,7 +1238,7 @@
       "updated": "2026-07-08T01:06:20.500Z"
     },
     "qualityTesting": {
-      "updated": "2026-07-08T00:30:34.783Z"
+      "updated": "2026-07-08T03:21:38.782Z"
     },
     "stakeholders": {
       "updated": "2026-07-08T01:26:27.889Z"
@@ -1280,5 +1283,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-08T03:19:19.752Z"
+  "publishedAt": "2026-07-08T03:22:02.701Z"
 }
