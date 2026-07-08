@@ -92,9 +92,9 @@ named `Asset` or `name` is used as the heading.
   panels show a coloured badge: **Quality & Testing** (Pass / Fail / Results pending),
   **Design Changes** (Approved / Pending), **Variations** (number + Approved / Pending), and
   **Potential Issues & Delays** (issue + mitigation).
-- **Production Stats:** two types — **Value & target** (shows a progress bar toward a target)
-  and **Count** (a headline number with a frequency label, e.g. "14 per day"). Each tile has
-  its own S / C visibility toggles.
+- **Production Stats:** add a stat with a **title**, then optionally add any number of
+  **extra fields** (a label + value each, e.g. "Crew: Blue", "Pipe laid: 120 m") and tick
+  **Show a progress bar** to add a value/target bar. Each tile has its own S / C toggles.
 - **Documents & Files:** attach files (PDFs, drawings, spreadsheets, photos, etc.) that the
   site supervisor and client can download straight from the board. Hit **+** on the panel,
   pick a file, and it uploads to a `files/` folder in your repo (needs your GitHub token, same
@@ -138,10 +138,17 @@ named `Asset` or `name` is used as the heading.
   show a green **Done** badge (and stop flagging as overdue) and are struck through.
 - **Assign to a team:** each task can be tagged **Engineering**, **Site**, or **Administration**
   (a coloured tag on the item), chosen in the item's edit box.
+- **Optional dates & status (any item):** in an item's edit box you can toggle on a **Date
+  assigned** and/or a **Date required** (each reveals a date picker), and toggle on a **Status**
+  of **In Progress**, **Completed**, or **Cancelled**. A required date flags overdue like a due
+  date until the item is resolved; Completed/Cancelled items are dimmed (Cancelled struck
+  through). Leave a toggle off and that field simply doesn't appear on the item.
 - **Move markers:** on the editor page you can **drag any existing pin** to reposition it; the
   new location saves automatically (Publish to share it).
 - **Printing tweaks:** the **client** report leaves out the map and weather forecast by default,
   and **Weekly Update Photos** print large — at least half a page each, full width and labelled.
+  The report header carries the **Offaly Civil logo** and the title names the selected project,
+  e.g. *Offaly Civil Engineering — Client Report — Tin Can Bay Watermain*.
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
   (green = shown):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a

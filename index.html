@@ -365,6 +365,17 @@ body.client .card-head .pbtn { display: none; }
   padding: 11px 12px 12px; background: var(--surface);
 }
 .stat .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); font-weight: 600; }
+.stat .sf { display: flex; justify-content: space-between; gap: 8px; font-size: 12.5px; margin-top: 5px; border-top: 1px dashed var(--hairline-2); padding-top: 5px; }
+.stat .sf-l { color: var(--muted); }
+.stat .sf-v { font-weight: 600; color: var(--ink); text-align: right; }
+.sfields { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.sfield-row { display: flex; gap: 6px; align-items: center; }
+.sfield-row .sf-label, .sfield-row .sf-value { flex: 1 1 45%; min-width: 0; }
+.sfield-row .sf-del {
+  flex: 0 0 auto; border: 1px solid var(--hairline); background: var(--surface);
+  color: var(--faint); width: 30px; height: 30px; border-radius: var(--r-sm); cursor: pointer; font-size: 16px;
+}
+.sfield-row .sf-del:hover { color: var(--stop); border-color: var(--stop); }
 .stat .val { font-family: var(--font-display); font-size: 30px; font-weight: 600; line-height: 1; margin: 5px 0 2px; }
 .stat .val .unit { font-size: 14px; color: var(--muted); font-weight: 500; margin-left: 3px; font-family: var(--font-body); }
 .stat .bar { height: 6px; border-radius: 4px; background: var(--hairline-2); overflow: hidden; margin-top: 8px; }
@@ -378,6 +389,14 @@ body.client .card-head .pbtn { display: none; }
 }
 .list li.done .txt .main { text-decoration: line-through; color: var(--muted); }
 .list li.done { opacity: .72; }
+.list li.cancelled .txt .main { text-decoration: line-through; color: var(--muted); }
+.dt-badge {
+  flex: 0 0 auto; display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; color: var(--muted);
+  background: var(--surface-2, #eef1f4); border: 1px solid var(--hairline);
+  padding: 3px 7px; border-radius: 6px; white-space: nowrap;
+}
+.dt-badge i { font-size: 10px; opacity: .8; }
 .donebtn {
   border: 1px solid var(--hairline); background: var(--surface); color: var(--faint);
   width: 26px; height: 26px; border-radius: var(--r-sm); cursor: pointer; font-size: 12px;
@@ -437,18 +456,18 @@ body.viewer .stat-vis { display: none !important; }
 .list { list-style: none; margin: 0; padding: 0; }
 .list li {
   display: flex; align-items: flex-start; gap: 10px; flex-wrap: wrap;
-  padding: 9px 2px; border-bottom: 1px solid var(--hairline-2);
+  padding: 13px 2px; border-bottom: 1px solid var(--hairline-2);
 }
 .list li .photos, .list li .print-sheet { flex-basis: 100%; }
-.list li .txt { flex: 1 1 auto; min-width: 0; }
+.list .txt { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.list .txt .main { display: block; font-weight: 500; font-size: 14px; line-height: 1.35; }
+.list .txt .sub  { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.4; }
 .list li:last-child { border-bottom: none; }
 .list .marker {
   flex: 0 0 8px; width: 8px; height: 8px; border-radius: 50%;
   background: var(--amber); margin-top: 6px;
 }
-.list .txt { flex: 1; min-width: 0; }
-.list .txt .main { font-weight: 500; font-size: 14px; }
-.list .txt .sub  { font-size: 12.5px; color: var(--muted); margin-top: 1px; }
+
 .list .row-act { display: flex; gap: 2px; opacity: 0; transition: opacity .12s; }
 .list li:hover .row-act { opacity: 1; }
 .list .row-act button {
@@ -723,7 +742,9 @@ body.viewer .map-hint { display: none !important; }
 
   /* print report header */
   .print-only { display: block; }
-  #printHeader { margin: 0 0 10px; padding: 0 0 8px; border-bottom: 2px solid var(--ink); }
+  #printHeader { display: flex; align-items: center; gap: 12px; margin: 0 0 10px; padding: 0 0 8px; border-bottom: 2px solid var(--ink); }
+  #printHeader .ph-logo { width: 46px; height: 46px; object-fit: contain; flex: 0 0 auto; }
+  #printHeader .ph-text { flex: 1 1 auto; }
   #printHeader .ph-title { font-family: var(--font-display); font-weight: 700; font-size: 18px; color: var(--ink); }
   #printHeader .ph-meta { font-family: var(--font-mono); font-size: 10px; color: #555; margin-top: 3px; }
 
@@ -754,7 +775,7 @@ body.viewer .map-hint { display: none !important; }
 
   /* client report: leave out the map and weather by default */
   body.client[data-print="report"] .map-card,
-  body.client[data-print="report"] .weather-card { display: none !important; }
+  body.client[data-print="report"] #weatherCard { display: none !important; }
 
   /* weekly update photos print large — at least ~half a page each */
   body[data-print="report"] .card[data-card="weeklyPhotos"] { grid-column: 1 / -1; break-inside: auto; }
@@ -834,8 +855,11 @@ body.viewer .map-hint { display: none !important; }
 
   <!-- Only shown on the printed page -->
   <div id="printHeader" class="print-only">
-    <div class="ph-title" id="phTitle">Offaly Civil Engineering</div>
-    <div class="ph-meta" id="phMeta"></div>
+    <img class="ph-logo" id="phLogo" alt="" />
+    <div class="ph-text">
+      <div class="ph-title" id="phTitle">Offaly Civil Engineering</div>
+      <div class="ph-meta" id="phMeta"></div>
+    </div>
   </div>
 
   <!-- ============================ BODY ============================ -->
@@ -873,7 +897,7 @@ body.viewer .map-hint { display: none !important; }
 
       <!-- ---------- RIGHT COLUMN: weather + stats ---------- -->
       <div>
-        <section class="card" style="margin-bottom:18px">
+        <section class="card" id="weatherCard" style="margin-bottom:18px">
           <div class="card-head">
             <span class="ttl"><span class="tag" style="background:var(--info)"><i class="fa-solid fa-cloud-sun"></i></span>Weather Forecast</span>
             <span class="spacer"></span>
@@ -945,6 +969,20 @@ body.viewer .map-hint { display: none !important; }
         <div class="field" id="fldStatus" style="display:none">
           <label id="lblStatus">Status</label>
           <select id="fStatus"></select>
+        </div>
+        <div class="field" id="fldDates">
+          <label class="chkline"><input type="checkbox" id="tglAssigned" /> Date assigned</label>
+          <input type="date" id="fAssigned" style="display:none;margin-top:6px" />
+          <label class="chkline" style="margin-top:8px"><input type="checkbox" id="tglRequired" /> Date required</label>
+          <input type="date" id="fRequired" style="display:none;margin-top:6px" />
+        </div>
+        <div class="field" id="fldWStatus">
+          <label class="chkline"><input type="checkbox" id="tglWStatus" /> Status</label>
+          <select id="fWStatus" style="display:none;margin-top:6px">
+            <option value="inprogress">In Progress</option>
+            <option value="completed">Completed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
         </div>
         <div class="field" id="fldTeam">
           <label>Assign to</label>
@@ -1022,34 +1060,36 @@ body.viewer .map-hint { display: none !important; }
       <div class="modal-head"><i class="fa-solid fa-chart-column"></i><span id="statModalTitle">Stat</span></div>
       <div class="modal-body">
         <div class="field">
-          <label>Type</label>
-          <select id="sType">
-            <option value="gauge">Value &amp; target (progress bar)</option>
-            <option value="count">Count (item + frequency)</option>
-          </select>
+          <label>Title</label>
+          <input type="text" id="sLabel" placeholder="e.g. Pipe laid this week" />
         </div>
+
         <div class="field">
-          <label>Label</label>
-          <input type="text" id="sLabel" placeholder="e.g. Pipe laid" />
+          <label class="chkline"><input type="checkbox" id="sBar" /> Show a progress bar</label>
         </div>
-        <div class="field-row">
-          <div class="field">
-            <label id="lblValue">Value</label>
-            <input type="text" id="sValue" placeholder="e.g. 184" />
+        <div id="sBarGroup" style="display:none">
+          <div class="field-row">
+            <div class="field">
+              <label>Value</label>
+              <input type="text" id="sValue" placeholder="e.g. 184" />
+            </div>
+            <div class="field">
+              <label>Target</label>
+              <input type="text" id="sTarget" placeholder="e.g. 320" />
+            </div>
+            <div class="field">
+              <label>Unit</label>
+              <input type="text" id="sUnit" placeholder="e.g. m" />
+            </div>
           </div>
-          <div class="field">
-            <label>Unit</label>
-            <input type="text" id="sUnit" placeholder="e.g. m" />
-          </div>
         </div>
-        <div class="field" id="fldTarget">
-          <label>Target (optional — shows a progress bar)</label>
-          <input type="number" id="sTarget" placeholder="e.g. 320" />
+
+        <div class="field">
+          <label>Extra fields (optional)</label>
+          <div id="sFields" class="sfields"></div>
+          <button type="button" class="btn" id="sAddField"><i class="fa-solid fa-plus"></i> Add field</button>
         </div>
-        <div class="field" id="fldFreq" style="display:none">
-          <label>Frequency</label>
-          <input type="text" id="sFreq" placeholder="e.g. per day, this week" />
-        </div>
+
         <div class="field vis-field">
           <label>Visible to</label>
           <label class="chkline"><input type="checkbox" id="sVisSite" /> Site supervisor</label>
@@ -1245,6 +1285,33 @@ body.viewer .map-hint { display: none !important; }
   ];
   const teamDef = (value) => TEAMS.find((t) => t.value === value);
 
+  // Optional per-item work status (toggle-on).
+  const WSTATUS = [
+    { value: "inprogress", label: "In Progress", color: "#2f86cc" },
+    { value: "completed",  label: "Completed",   color: "#1e9e6a" },
+    { value: "cancelled",  label: "Cancelled",   color: "#8a8f98" }
+  ];
+  const wstatusDef = (value) => WSTATUS.find((w) => w.value === value);
+  const isResolved = (it) => it.done || it.wstatus === "completed" || it.wstatus === "cancelled";
+
+  function fmtDay(s) {
+    if (!s) return "";
+    const d = new Date(s + "T00:00:00");
+    if (isNaN(d.getTime())) return "";
+    return d.toLocaleDateString("en-AU", { day: "2-digit", month: "short" });
+  }
+  // "Date required" badge — flags overdue like a due date unless the item is resolved.
+  function reqBadge(s, resolved) {
+    if (!s) return "";
+    const d = new Date(s + "T00:00:00");
+    if (isNaN(d.getTime())) return "";
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    const days = Math.round((d - today) / 86400000);
+    let cls = "due-ok";
+    if (!resolved) { if (days < 0) cls = "overdue"; else if (days === 0) cls = "due-today"; else if (days <= 3) cls = "due-soon"; }
+    return `<span class="due ${cls}" title="Date required"><i class="fa-solid fa-flag-checkered"></i> Required ${fmtDay(s)}</span>`;
+  }
+
   // Mark a panel as recently changed (viewer pages float recently-changed panels to the top).
   function touchPanel(pid) {
     state.panelMeta = state.panelMeta || {};
@@ -1343,12 +1410,7 @@ body.viewer .map-hint { display: none !important; }
       projects: [ { id: DEFAULT_PROJ, name: "Main project", client: true } ],
       base: "street", // or "sat"
       markers: [],
-      stats: [
-        { id: uid(), label: "Pipe laid",       value: "0", unit: "m",   target: null },
-        { id: uid(), label: "Connections",     value: "0", unit: "",    target: null },
-        { id: uid(), label: "Reinstatement",   value: "0", unit: "m",   target: null },
-        { id: uid(), label: "Days vs program", value: "0", unit: "",    target: null }
-      ],
+      stats: [],
       panels: {
         dailyWorks: [],
         deliveries: [],
@@ -1978,17 +2040,24 @@ body.viewer .map-hint { display: none !important; }
       return;
     }
     g.innerHTML = stats.map((s) => {
-      let bar = "";
-      if (s.type === "count") {
-        bar = s.freq ? `<div class="freq">${esc(s.freq)}</div>` : "";
-      } else {
+      // normalise old-format stats ({type,value,target,freq}) into the new shape
+      const bar = (s.bar !== undefined) ? s.bar : (s.type && s.type !== "count" && s.target != null && s.target !== "");
+      const fields = s.fields || (s.freq ? [{ label: "Frequency", value: s.freq }] : []);
+      let barHtml = "";
+      if (bar) {
         const tgt = parseFloat(s.target);
         const val = parseFloat(String(s.value).replace(/[^0-9.\-]/g, ""));
+        const line = `<div class="tgt">${esc(s.value || "0")}${s.target ? " / " + esc(s.target) : ""} ${esc(s.unit || "")}</div>`;
         if (!isNaN(tgt) && tgt > 0 && !isNaN(val)) {
           const pct = Math.max(0, Math.min(100, (val / tgt) * 100));
-          bar = `<div class="bar"><span style="width:${pct}%"></span></div><div class="tgt">${esc(s.value)} / ${esc(s.target)} ${esc(s.unit || "")}</div>`;
+          barHtml = `<div class="bar"><span style="width:${pct}%"></span></div>${line}`;
+        } else {
+          barHtml = line;
         }
       }
+      const fieldsHtml = fields.filter((f) => f.label || f.value).map((f) =>
+        `<div class="sf"><span class="sf-l">${esc(f.label || "")}</span><span class="sf-v">${esc(f.value || "")}</span></div>`
+      ).join("");
       const v = statVis(s);
       const chips = editor
         ? `<span class="vis stat-vis">
@@ -1999,8 +2068,8 @@ body.viewer .map-hint { display: none !important; }
       return `<div class="stat" data-stat="${s.id}">
         ${del}
         <div class="lbl">${esc(s.label)}</div>
-        <div class="val">${esc(s.value)}${s.unit ? `<span class="unit">${esc(s.unit)}</span>` : ""}</div>
-        ${bar}
+        ${barHtml}
+        ${fieldsHtml}
         ${chips}
       </div>`;
     }).join("");
@@ -2032,27 +2101,58 @@ body.viewer .map-hint { display: none !important; }
     });
   }
 
-  function statTypeUI() {
-    const t = document.getElementById("sType").value;
-    document.getElementById("fldTarget").style.display = t === "count" ? "none" : "";
-    document.getElementById("fldFreq").style.display = t === "count" ? "" : "none";
-    document.getElementById("lblValue").textContent = t === "count" ? "Count" : "Value";
+  let modalStatFields = [];   // staged extra fields for the stat modal
+
+  function statBarUI() {
+    document.getElementById("sBarGroup").style.display = document.getElementById("sBar").checked ? "" : "none";
+  }
+  function syncStatFieldsFromDOM() {
+    const wrap = document.getElementById("sFields");
+    modalStatFields = Array.from(wrap.querySelectorAll(".sfield-row")).map((r) => ({
+      label: r.querySelector(".sf-label").value.trim(),
+      value: r.querySelector(".sf-value").value.trim()
+    }));
+  }
+  function renderStatFields() {
+    const wrap = document.getElementById("sFields");
+    wrap.innerHTML = modalStatFields.map((f, i) =>
+      `<div class="sfield-row" data-sf="${i}">
+         <input type="text" class="sf-label" placeholder="Label (e.g. Pipe laid)" value="${esc(f.label || "")}" />
+         <input type="text" class="sf-value" placeholder="Value (e.g. 120 m)" value="${esc(f.value || "")}" />
+         <button type="button" class="sf-del" data-sf-del="${i}" title="Remove field">&times;</button>
+       </div>`).join("");
+    wrap.querySelectorAll("[data-sf-del]").forEach((b) => b.onclick = () => {
+      syncStatFieldsFromDOM();
+      modalStatFields.splice(+b.getAttribute("data-sf-del"), 1);
+      renderStatFields();
+    });
+  }
+  function addStatField() {
+    syncStatFieldsFromDOM();
+    modalStatFields.push({ label: "", value: "" });
+    renderStatFields();
+    const rows = document.querySelectorAll("#sFields .sfield-row");
+    const last = rows[rows.length - 1];
+    if (last) last.querySelector(".sf-label").focus();
   }
 
   function openStatModal(id) {
     editingStatId = id;
-    const s = id ? state.stats.find((x) => x.id === id) : { label: "", value: "", unit: "", target: "", type: "gauge", freq: "", vis: defVis() };
-    document.getElementById("statModalTitle").textContent = id ? "Edit stat" : "Add stat";
-    document.getElementById("sType").value = s.type || "gauge";
+    const s = id ? state.stats.find((x) => x.id === id)
+                 : { label: "", bar: false, value: "", target: "", unit: "", fields: [], vis: defVis() };
+    document.getElementById("statModalTitle").textContent = id ? "Edit item" : "Add item";
     document.getElementById("sLabel").value = s.label || "";
+    const bar = (s.bar !== undefined) ? s.bar : (s.type && s.type !== "count" && s.target != null && s.target !== "");
+    document.getElementById("sBar").checked = !!bar;
     document.getElementById("sValue").value = s.value || "";
-    document.getElementById("sUnit").value = s.unit || "";
     document.getElementById("sTarget").value = s.target == null ? "" : s.target;
-    document.getElementById("sFreq").value = s.freq || "";
+    document.getElementById("sUnit").value = s.unit || "";
+    statBarUI();
+    modalStatFields = (s.fields || (s.freq ? [{ label: "Frequency", value: s.freq }] : [])).map((f) => Object.assign({}, f));
+    renderStatFields();
     const v = s.vis || defVis();
     document.getElementById("sVisSite").checked = !!v.site;
     document.getElementById("sVisClient").checked = !!v.client;
-    statTypeUI();
     openModal("statModal");
     setTimeout(() => document.getElementById("sLabel").focus(), 30);
   }
@@ -2060,19 +2160,21 @@ body.viewer .map-hint { display: none !important; }
   function saveStat() {
     const label = document.getElementById("sLabel").value.trim();
     if (!label) { document.getElementById("sLabel").focus(); return; }
-    const type = document.getElementById("sType").value;
+    syncStatFieldsFromDOM();
+    const bar = document.getElementById("sBar").checked;
     const data = {
-      type,
-      label,
-      value: document.getElementById("sValue").value.trim() || "0",
-      unit: document.getElementById("sUnit").value.trim(),
-      target: type === "count" ? null : (document.getElementById("sTarget").value.trim() || null),
-      freq: type === "count" ? document.getElementById("sFreq").value.trim() : "",
+      label: label,
+      bar: bar,
+      value: bar ? (document.getElementById("sValue").value.trim() || "0") : "",
+      target: bar ? (document.getElementById("sTarget").value.trim() || null) : null,
+      unit: bar ? document.getElementById("sUnit").value.trim() : "",
+      fields: modalStatFields.filter((f) => f.label || f.value),
       vis: { site: document.getElementById("sVisSite").checked, client: document.getElementById("sVisClient").checked }
     };
     if (editingStatId) {
       const s = state.stats.find((x) => x.id === editingStatId);
       Object.assign(s, data);
+      delete s.type; delete s.freq;   // shed any legacy fields
     } else {
       state.stats.push(Object.assign({ id: uid() }, data));
     }
@@ -2276,7 +2378,10 @@ body.viewer .map-hint { display: none !important; }
           txt = `<span class="txt"><span class="main">${numTag}${refTag}${esc(it.main)}</span>`
               + `${detail ? `<span class="sub">${esc(detail)}</span>` : ""}</span>`;
         }
-        const due = kind === "dated" ? dueBadge(it.due, it.done) : "";
+        const resolved = isResolved(it);
+        const due = kind === "dated" ? dueBadge(it.due, resolved) : "";
+        const asg = it.dateAssigned ? `<span class="dt-badge" title="Date assigned"><i class="fa-solid fa-calendar-plus"></i> Assigned ${fmtDay(it.dateAssigned)}</span>` : "";
+        const req = it.dateRequired ? reqBadge(it.dateRequired, resolved) : "";
         let prio = "";
         if (p.priorities && it.priority) {
           const pd = priorityDef(p, it.priority);
@@ -2286,6 +2391,11 @@ body.viewer .map-hint { display: none !important; }
         if (p.statuses && it.status) {
           const sd = statusDef(p, it.status);
           if (sd) stat = `<span class="stbadge" style="background:${sd.color}">${esc(sd.label)}</span>`;
+        }
+        let wstat = "";
+        if (it.wstatus) {
+          const wd = wstatusDef(it.wstatus);
+          if (wd) wstat = `<span class="stbadge" style="background:${wd.color}">${esc(wd.label)}</span>`;
         }
         let team = "";
         if (it.team) {
@@ -2311,7 +2421,8 @@ body.viewer .map-hint { display: none !important; }
         const sheet = p.printSheet
           ? `<span class="print-sheet print-only"><span class="tickbox"></span><span class="cmt-line">Comments:</span></span>`
           : "";
-        return `<li class="${it.done ? "done" : ""}"><span class="marker" style="background:${p.color}"></span>${txt}${team}${due}${doneBadge}${prio}${stat}${chips}${acts}${photos}${sheet}</li>`;
+        const liClass = [resolved ? "done" : "", it.wstatus === "cancelled" ? "cancelled" : ""].filter(Boolean).join(" ");
+        return `<li class="${liClass}"><span class="marker" style="background:${p.color}"></span>${txt}${team}${due}${asg}${req}${wstat}${doneBadge}${prio}${stat}${chips}${acts}${photos}${sheet}</li>`;
       }).join("");
       const emptyMsg = kind === "files"
         ? `No files yet.${editor ? ` <button data-empty-add="${p.id}">Attach a file</button>` : ""}`
@@ -2461,6 +2572,21 @@ body.viewer .map-hint { display: none !important; }
     document.getElementById("fldDone").style.display = showDone ? "" : "none";
     document.getElementById("fDone").checked = !!it.done;
 
+    // optional per-item dates + status (all task panels)
+    const showOpt = kind !== "photos";
+    document.getElementById("fldDates").style.display = showOpt ? "" : "none";
+    document.getElementById("fldWStatus").style.display = showOpt ? "" : "none";
+    const aOn = !!it.dateAssigned, rOn = !!it.dateRequired, wOn = !!it.wstatus;
+    document.getElementById("tglAssigned").checked = aOn;
+    document.getElementById("fAssigned").value = it.dateAssigned || "";
+    document.getElementById("fAssigned").style.display = aOn ? "" : "none";
+    document.getElementById("tglRequired").checked = rOn;
+    document.getElementById("fRequired").value = it.dateRequired || "";
+    document.getElementById("fRequired").style.display = rOn ? "" : "none";
+    document.getElementById("tglWStatus").checked = wOn;
+    document.getElementById("fWStatus").value = it.wstatus || "inprogress";
+    document.getElementById("fWStatus").style.display = wOn ? "" : "none";
+
     // photos (punch list, weekly photos)
     const showPhotos = !!p.photos;
     document.getElementById("fldPhotos").style.display = showPhotos ? "" : "none";
@@ -2487,6 +2613,11 @@ body.viewer .map-hint { display: none !important; }
     if (kind === "dated") data.due = document.getElementById("fDue").value;
     if (kind === "dated") data.done = document.getElementById("fDone").checked;
     if (kind !== "photos") data.team = document.getElementById("fTeam").value;
+    if (kind !== "photos") {
+      data.dateAssigned = document.getElementById("tglAssigned").checked ? document.getElementById("fAssigned").value : "";
+      data.dateRequired = document.getElementById("tglRequired").checked ? document.getElementById("fRequired").value : "";
+      data.wstatus = document.getElementById("tglWStatus").checked ? document.getElementById("fWStatus").value : "";
+    }
     if (p.hasRef) data.ref = document.getElementById("fRef").value.trim();
     if (p.priorities && p.priorities.length) data.priority = document.getElementById("fPriority").value;
     if (p.statuses && p.statuses.length) data.status = document.getElementById("fStatus").value;
@@ -2952,12 +3083,18 @@ body.viewer .map-hint { display: none !important; }
     return [proj, extra, when].filter(Boolean).join("  \u00b7  ");
   }
 
+  function setPrintLogo() {
+    const src = (document.getElementById("brandLogo") || {}).src || "";
+    document.getElementById("phLogo").src = src;
+  }
+
   function printPanel(pid) {
     const p = panelById(pid);
     const card = document.querySelector(`.card[data-card="${pid}"]`);
     if (!p || !card) return;
     document.querySelectorAll(".card.print-this").forEach((c) => c.classList.remove("print-this"));
     card.classList.add("print-this");
+    setPrintLogo();
     document.getElementById("phTitle").textContent = p.title;
     document.getElementById("phMeta").textContent = printMeta("Offaly Civil Engineering");
     document.body.setAttribute("data-print", "panel");
@@ -2965,12 +3102,13 @@ body.viewer .map-hint { display: none !important; }
   }
 
   function printReport() {
-    const audienceLabel = sync.audience === "client" ? "Client report"
-      : sync.audience === "site" ? "Site report" : "Dashboard report";
-    document.getElementById("phTitle").textContent = "Offaly Civil Engineering \u2014 " + audienceLabel;
+    const audienceLabel = sync.audience === "client" ? "Client Report"
+      : sync.audience === "site" ? "Site Report" : "Dashboard Report";
+    const projLabel = currentProject === "all" ? "All projects" : (projName(currentProject) || "All projects");
+    setPrintLogo();
+    document.getElementById("phTitle").textContent = "Offaly Civil Engineering \u2014 " + audienceLabel + " \u2014 " + projLabel;
     document.getElementById("phMeta").textContent = printMeta();
     document.body.setAttribute("data-print", "report");
-    // give the map a chance to re-tile at its current size before printing
     if (map && map.invalidateSize) { try { map.invalidateSize(); } catch (e) {} }
     setTimeout(() => window.print(), 350);
   }
@@ -3177,7 +3315,8 @@ body.viewer .map-hint { display: none !important; }
     // stats
     document.getElementById("addStat").onclick = () => openStatModal(null);
     document.getElementById("sSave").onclick = saveStat;
-    document.getElementById("sType").onchange = statTypeUI;
+    document.getElementById("sBar").onchange = statBarUI;
+    document.getElementById("sAddField").onclick = addStatField;
 
     // item modal
     document.getElementById("itemSave").onclick = saveItem;
@@ -3203,6 +3342,17 @@ body.viewer .map-hint { display: none !important; }
     document.getElementById("fileAttach").onchange = onFilePicked;
     document.getElementById("photoAttach").onchange = onPhotoPicked;
     document.getElementById("btnAddPhoto").onclick = pickItemPhoto;
+    const tgl = (cbId, inpId) => {
+      const cb = document.getElementById(cbId);
+      cb.addEventListener("change", () => {
+        const inp = document.getElementById(inpId);
+        inp.style.display = cb.checked ? "" : "none";
+        if (cb.checked) setTimeout(() => inp.focus(), 20);
+      });
+    };
+    tgl("tglAssigned", "fAssigned");
+    tgl("tglRequired", "fRequired");
+    tgl("tglWStatus", "fWStatus");
     document.getElementById("btnPrint").onclick = printReport;
     window.addEventListener("afterprint", endPrint);
     document.getElementById("projSelect").onchange = (e) => {
