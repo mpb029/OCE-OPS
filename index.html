@@ -2991,6 +2991,9 @@ body.locked { overflow: hidden; }
   function loadShared() {
     return fetchShared().then((obj) => {
       remoteResolved = true;                 // we've now checked the published board
+      // The published password is authoritative for the lock — adopt it even if we don't
+      // otherwise take the remote board (e.g. mid-edit, or not newer than ours).
+      if (obj && obj.settings) state.settings.editPass = obj.settings.editPass || "";
       if (!obj) { evaluateLock(true); setSyncStatus(); return; }
       if (sync.dirty) { if (remoteIsNewer(obj)) setLastPublished(obj.publishedAt); evaluateLock(true); setSyncStatus(); return; }
       if (remoteIsNewer(obj)) applyShared(obj); else evaluateLock(true);
