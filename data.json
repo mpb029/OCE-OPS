@@ -428,7 +428,28 @@
     ],
     "meetings": [],
     "documents": [],
-    "weeklyPhotos": [],
+    "weeklyPhotos": [
+      {
+        "id": "s5e8jg5",
+        "main": "Tarwhine St - Existing Tee Removed",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "IMG_2029.JPG",
+            "path": "files/photos/rswqhuj-IMG_2029.JPG",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/rswqhuj-IMG_2029.JPG",
+            "sha": "4773f805159d99691e98cc509919724771f913d3",
+            "size": 10331571,
+            "mime": "image/jpeg"
+          }
+        ]
+      }
+    ],
     "workPackages": [
       {
         "id": "d5cnpia",
@@ -1266,7 +1287,7 @@
       "updated": "2026-07-08T01:26:35.036Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-07-05T23:44:24.461Z"
+      "updated": "2026-07-08T05:09:11.394Z"
     },
     "staffAway": {
       "updated": "2026-07-07T23:16:18.952Z"
@@ -1320,5 +1341,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-08T05:04:29.225Z"
+  "publishedAt": "2026-07-08T05:09:21.744Z"
 }
