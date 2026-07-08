@@ -133,6 +133,15 @@ named `Asset` or `name` is used as the heading.
   editor URL then shows the client view until you tap **Unlock** and enter it. **This is a
   casual gate, not real security** — the repo is public. The real protection is your GitHub
   token (it never leaves your browser), so nobody can change the board without it regardless.
+- **Complete / incomplete:** items on any dated panel (deliveries, works, punch list, meetings,
+  etc.) have a **✓ toggle** — mark them complete any time, early or on the due date. Done items
+  show a green **Done** badge (and stop flagging as overdue) and are struck through.
+- **Assign to a team:** each task can be tagged **Engineering**, **Site**, or **Administration**
+  (a coloured tag on the item), chosen in the item's edit box.
+- **Move markers:** on the editor page you can **drag any existing pin** to reposition it; the
+  new location saves automatically (Publish to share it).
+- **Printing tweaks:** the **client** report leaves out the map and weather forecast by default,
+  and **Weekly Update Photos** print large — at least half a page each, full width and labelled.
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
   (green = shown):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a

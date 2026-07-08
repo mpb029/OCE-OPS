@@ -370,6 +370,22 @@ body.client .card-head .pbtn { display: none; }
 .stat .bar { height: 6px; border-radius: 4px; background: var(--hairline-2); overflow: hidden; margin-top: 8px; }
 .stat .bar > span { display: block; height: 100%; background: var(--go); border-radius: 4px; }
 .stbadge.prio { letter-spacing: .3px; }
+.stbadge.done { background: var(--go); }
+.team-tag {
+  flex: 0 0 auto; display: inline-flex; align-items: center;
+  font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px;
+  color: #fff; padding: 3px 7px; border-radius: 5px; white-space: nowrap; font-family: var(--font-display);
+}
+.list li.done .txt .main { text-decoration: line-through; color: var(--muted); }
+.list li.done { opacity: .72; }
+.donebtn {
+  border: 1px solid var(--hairline); background: var(--surface); color: var(--faint);
+  width: 26px; height: 26px; border-radius: var(--r-sm); cursor: pointer; font-size: 12px;
+  display: grid; place-items: center;
+}
+.donebtn.on { background: var(--go); border-color: var(--go); color: #fff; }
+.donebtn:hover { border-color: var(--go); color: var(--go); }
+.donebtn.on:hover { color: #fff; }
 
 /* file attachment rows */
 .list li.file-row { align-items: center; gap: 10px; }
@@ -736,6 +752,21 @@ body.viewer .map-hint { display: none !important; }
   body[data-print="report"] #map { height: 95mm !important; }
   body[data-print="report"] #prodStatsCard { break-inside: avoid; }
 
+  /* client report: leave out the map and weather by default */
+  body.client[data-print="report"] .map-card,
+  body.client[data-print="report"] .weather-card { display: none !important; }
+
+  /* weekly update photos print large — at least ~half a page each */
+  body[data-print="report"] .card[data-card="weeklyPhotos"] { grid-column: 1 / -1; break-inside: auto; }
+  body[data-print="report"] .photo-item .photos.gallery { display: block; }
+  body[data-print="report"] .photo-item .photos.gallery .photo {
+    display: block; width: 100% !important; height: auto !important; break-inside: avoid; margin: 0 0 6mm;
+  }
+  body[data-print="report"] .photo-item .photos.gallery .photo img {
+    width: 100%; height: auto; max-height: 170mm; min-height: 130mm; object-fit: contain;
+    border: 1px solid #bbb; border-radius: 4px;
+  }
+
   /* photos print with their item */
   .list li .photos { gap: 6px; margin-top: 6px; }
   .list li .photos .photo { width: 34mm !important; height: 34mm !important; border: 1px solid #ccc; }
@@ -914,6 +945,18 @@ body.viewer .map-hint { display: none !important; }
         <div class="field" id="fldStatus" style="display:none">
           <label id="lblStatus">Status</label>
           <select id="fStatus"></select>
+        </div>
+        <div class="field" id="fldTeam">
+          <label>Assign to</label>
+          <select id="fTeam">
+            <option value="">— Unassigned —</option>
+            <option value="eng">Engineering</option>
+            <option value="site">Site</option>
+            <option value="admin">Administration</option>
+          </select>
+        </div>
+        <div class="field" id="fldDone" style="display:none">
+          <label class="chkline"><input type="checkbox" id="fDone" /> Mark complete</label>
         </div>
         <div class="field" id="fldPhotos" style="display:none">
           <label>Photos</label>
@@ -1163,11 +1206,11 @@ body.viewer .map-hint { display: none !important; }
   /* ---------- List panels ----------------------------------------------- */
   const PANELS = [
     { id: "dailyWorks",    title: "Daily Works",            icon: "fa-helmet-safety",   color: "#f7a600", mainLbl: "Task",     subLbl: "Crew / location / detail" },
-    { id: "deliveries",    title: "Incoming Deliveries",    icon: "fa-truck-ramp-box",  color: "#1e9e6a", kind: "dated", mainLbl: "Item details", dueLbl: "Date", noSub: true,
+    { id: "deliveries",    title: "Scheduled Deliveries",    icon: "fa-truck-ramp-box",  color: "#1e9e6a", kind: "dated", mainLbl: "Item details", dueLbl: "Date", noSub: true,
       extras: [ { key:"time", label:"Expected time", type:"time" }, { key:"supplier", label:"Supplier", type:"text" }, { key:"contact", label:"Contact", type:"text" } ] },
     { id: "trafficControl", title: "Traffic Control",       icon: "fa-road-barrier",    color: "#c8621b", kind: "dated", mainLbl: "Location / job", dueLbl: "Date", noSub: true,
       extras: [ { key:"tc", label:"No. of traffic controllers", type:"number" }, { key:"utes", label:"No. of utes", type:"number" } ] },
-    { id: "upcoming",      title: "Upcoming Works",         icon: "fa-calendar-week",   color: "#2f6fb0", mainLbl: "Task",     subLbl: "When / detail" },
+    { id: "upcoming",      title: "Scheduled Works",         icon: "fa-calendar-week",   color: "#2f6fb0", mainLbl: "Task",     subLbl: "When / detail" },
     { id: "subbiesToday",  title: "Subcontractors",         icon: "fa-people-group",    color: "#e8542a", kind: "dated", mainLbl: "Subcontractor", dueLbl: "Date onsite", noSub: true,
       extras: [ { key:"works", label:"Works", type:"text" }, { key:"time", label:"Time onsite", type:"time" }, { key:"contact", label:"Contact details", type:"text" } ] },
     { id: "staffAway",     title: "Staff Away",             icon: "fa-user-xmark",      color: "#b0395e", mainLbl: "Who",      subLbl: "Dates / reason" },
@@ -1176,7 +1219,7 @@ body.viewer .map-hint { display: none !important; }
       extras: [ { key:"action", label:"Action required", type:"text" }, { key:"contact", label:"Contact details", type:"text" } ] },
     { id: "punchlist",     title: "Punch List",             icon: "fa-list-check",      color: "#d2342b", kind: "dated",    mainLbl: "Item / defect",   subLbl: "Notes / location",     dueLbl: "Due date", photos: true, printSheet: true,
       priorities: [ { value:"high", label:"High", color:"#d2342b" }, { value:"med", label:"Medium", color:"#e8a100" }, { value:"low", label:"Low", color:"#5b636b" } ] },
-    { id: "materialPickup", title: "Material Pickup",        icon: "fa-box-open",        color: "#0f9b8e", kind: "list",     mainLbl: "Item ready",      subLbl: "Pickup location / yard" },
+    { id: "materialPickup", title: "Material/Equipment Pick Up",        icon: "fa-box-open",        color: "#0f9b8e", kind: "list",     mainLbl: "Item ready",      subLbl: "Pickup location / yard" },
     { id: "meetings",      title: "Meetings / Site Visits",  icon: "fa-handshake",       color: "#2f6fb0", kind: "dated",    mainLbl: "Meeting / site visit", subLbl: "Location / attendees", dueLbl: "When" },
     { id: "documents",     title: "Documents & Files",       icon: "fa-paperclip",       color: "#1f6bad", kind: "files" },
     { id: "weeklyPhotos",  title: "Weekly Update Photos",    icon: "fa-camera-retro",    color: "#0f9b8e", kind: "photos", mainLbl: "Title", photos: true, clientDefault: true },
@@ -1193,6 +1236,14 @@ body.viewer .map-hint { display: none !important; }
   const panelKind = (p) => p.kind || "list";
   const statusDef = (p, value) => (p.statuses || []).find((s) => s.value === value);
   const priorityDef = (p, value) => (p.priorities || []).find((s) => s.value === value);
+
+  // Team / department an item can be assigned to.
+  const TEAMS = [
+    { value: "eng",   label: "Engineering",    color: "#2f6fb0" },
+    { value: "site",  label: "Site",           color: "#e8542a" },
+    { value: "admin", label: "Administration", color: "#7b4fb0" }
+  ];
+  const teamDef = (value) => TEAMS.find((t) => t.value === value);
 
   // Mark a panel as recently changed (viewer pages float recently-changed panels to the top).
   function touchPanel(pid) {
@@ -1472,7 +1523,16 @@ body.viewer .map-hint { display: none !important; }
       if (!projInScope(effProj(m))) return;                                    // not in the selected/allowed project
       if (sync.audience !== "editor" && !markerVis(m)[sync.audience]) return;  // hidden for this audience
       const cat = catById(m.category);
-      const lm = L.marker([m.lat, m.lng], { icon: pinIcon(cat, m) }).addTo(markerLayer);
+      const opts = { icon: pinIcon(cat, m) };
+      if (sync.audience === "editor") opts.draggable = true;
+      const lm = L.marker([m.lat, m.lng], opts).addTo(markerLayer);
+      if (sync.audience === "editor") {
+        lm.on("dragend", (ev) => {
+          const ll = ev.target.getLatLng();
+          m.lat = ll.lat; m.lng = ll.lng;
+          save();
+        });
+      }
       const notes = m.notes ? esc(m.notes) : "No notes yet.";
       const v = markerVis(m);
       const editorBits = sync.audience === "editor"
@@ -2028,7 +2088,8 @@ body.viewer .map-hint { display: none !important; }
     return items.filter((it) => itemVis(it)[sync.audience]);
   }
 
-  function dueBadge(due) {
+  function dueBadge(due, done) {
+    if (done) return "";   // completion is shown by its own badge; don't also flag overdue
     if (!due) return "";
     const d = new Date(due + "T00:00:00");
     if (isNaN(d.getTime())) return "";
@@ -2215,7 +2276,7 @@ body.viewer .map-hint { display: none !important; }
           txt = `<span class="txt"><span class="main">${numTag}${refTag}${esc(it.main)}</span>`
               + `${detail ? `<span class="sub">${esc(detail)}</span>` : ""}</span>`;
         }
-        const due = kind === "dated" ? dueBadge(it.due) : "";
+        const due = kind === "dated" ? dueBadge(it.due, it.done) : "";
         let prio = "";
         if (p.priorities && it.priority) {
           const pd = priorityDef(p, it.priority);
@@ -2226,6 +2287,15 @@ body.viewer .map-hint { display: none !important; }
           const sd = statusDef(p, it.status);
           if (sd) stat = `<span class="stbadge" style="background:${sd.color}">${esc(sd.label)}</span>`;
         }
+        let team = "";
+        if (it.team) {
+          const td = teamDef(it.team);
+          if (td) team = `<span class="team-tag" style="background:${td.color}">${esc(td.label)}</span>`;
+        }
+        const doneBadge = (kind === "dated" && it.done) ? `<span class="stbadge done"><i class="fa-solid fa-check"></i> Done</span>` : "";
+        const doneToggle = (editor && kind === "dated")
+          ? `<button class="donebtn ${it.done ? "on" : ""}" data-done="${p.id}:${it.id}" title="${it.done ? "Mark not complete" : "Mark complete"}"><i class="fa-solid fa-check"></i></button>`
+          : "";
         const chips = editor
           ? `<span class="vis">
                <button class="vchip ${v.site ? "on" : ""}" data-vis="site:${p.id}:${it.id}" title="Show to site supervisor">S</button>
@@ -2233,6 +2303,7 @@ body.viewer .map-hint { display: none !important; }
              </span>` : "";
         const acts = editor
           ? `<span class="row-act">
+               ${doneToggle}
                <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
                <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
              </span>` : "";
@@ -2240,7 +2311,7 @@ body.viewer .map-hint { display: none !important; }
         const sheet = p.printSheet
           ? `<span class="print-sheet print-only"><span class="tickbox"></span><span class="cmt-line">Comments:</span></span>`
           : "";
-        return `<li><span class="marker" style="background:${p.color}"></span>${txt}${due}${prio}${stat}${chips}${acts}${photos}${sheet}</li>`;
+        return `<li class="${it.done ? "done" : ""}"><span class="marker" style="background:${p.color}"></span>${txt}${team}${due}${doneBadge}${prio}${stat}${chips}${acts}${photos}${sheet}</li>`;
       }).join("");
       const emptyMsg = kind === "files"
         ? `No files yet.${editor ? ` <button data-empty-add="${p.id}">Attach a file</button>` : ""}`
@@ -2269,6 +2340,14 @@ body.viewer .map-hint { display: none !important; }
       b.addEventListener("click", () => addOrAttach(b.getAttribute("data-add"))));
     grid.querySelectorAll("[data-empty-add]").forEach((b) =>
       b.addEventListener("click", () => addOrAttach(b.getAttribute("data-empty-add"))));
+    grid.querySelectorAll("[data-done]").forEach((b) =>
+      b.addEventListener("click", () => {
+        const [pid, iid] = b.getAttribute("data-done").split(":");
+        const it = (state.panels[pid] || []).find((x) => x.id === iid);
+        if (!it) return;
+        it.done = !it.done;
+        touchPanel(pid); save(); renderPanels();
+      }));
     grid.querySelectorAll("[data-print-panel]").forEach((b) =>
       b.addEventListener("click", () => printPanel(b.getAttribute("data-print-panel"))));
     grid.querySelectorAll("[data-dl]").forEach((b) =>
@@ -2373,6 +2452,15 @@ body.viewer .map-hint { display: none !important; }
     document.getElementById("fVisSite").checked = !!v.site;
     document.getElementById("fVisClient").checked = !!v.client;
 
+    // team / department (all task panels)
+    const showTeam = kind !== "photos";
+    document.getElementById("fldTeam").style.display = showTeam ? "" : "none";
+    document.getElementById("fTeam").value = it.team || "";
+    // complete / incomplete (dated panels)
+    const showDone = kind === "dated";
+    document.getElementById("fldDone").style.display = showDone ? "" : "none";
+    document.getElementById("fDone").checked = !!it.done;
+
     // photos (punch list, weekly photos)
     const showPhotos = !!p.photos;
     document.getElementById("fldPhotos").style.display = showPhotos ? "" : "none";
@@ -2397,6 +2485,8 @@ body.viewer .map-hint { display: none !important; }
     if (kind === "progress") data.pct = Math.max(0, Math.min(100, parseInt(document.getElementById("fPct").value, 10) || 0));
     else if (!p.noSub) data.sub = document.getElementById("fSub").value.trim();
     if (kind === "dated") data.due = document.getElementById("fDue").value;
+    if (kind === "dated") data.done = document.getElementById("fDone").checked;
+    if (kind !== "photos") data.team = document.getElementById("fTeam").value;
     if (p.hasRef) data.ref = document.getElementById("fRef").value.trim();
     if (p.priorities && p.priorities.length) data.priority = document.getElementById("fPriority").value;
     if (p.statuses && p.statuses.length) data.status = document.getElementById("fStatus").value;
