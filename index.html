@@ -283,13 +283,16 @@ body.client .card-head .pbtn { display: none; }
 }
 
 #map { height: 560px; width: 100%; background: #dfe6e3; }
-/* Fix Leaflet's hairline "tile seams". At fractional display scaling (Windows/Chrome at
-   125%/150%) 256px tiles land on fractional device pixels and leave ~1px gaps, so we draw
-   each tile a full pixel larger to make neighbours overlap and close the seam. */
+/* Fix Leaflet's hairline "tile seams" at fractional display scaling (e.g. Windows at 150%),
+   where 256px tiles land on fractional device pixels and leave ~1px gaps. We grow each tile
+   1px in EVERY direction (bigger + shifted up/left) so it overlaps all four neighbours and
+   closes seams on any edge. */
 .leaflet-container .leaflet-tile,
 .leaflet-container img.leaflet-tile {
-  width: 257px !important;
-  height: 257px !important;
+  width: 258px !important;
+  height: 258px !important;
+  margin-left: -1px !important;
+  margin-top: -1px !important;
   backface-visibility: hidden;
 }
 .map-hint {
