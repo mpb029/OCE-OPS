@@ -256,6 +256,42 @@
         "x": {
           "supplier": "Reece"
         }
+      },
+      {
+        "id": "luxmxsj",
+        "main": "Widgee Crossing Rd - Main Alignment Fittings",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-10",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "supplier": "Reece"
+        }
+      },
+      {
+        "id": "i41vjly",
+        "main": "Dolphin Ave - Connection Fittings",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-10",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "supplier": "Reece"
+        }
       }
     ],
     "trafficControl": [],
@@ -310,7 +346,7 @@
         "project": "default",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "due": "2026-07-15",
         "done": false,
@@ -328,7 +364,7 @@
         "project": "default",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "due": "2026-07-22",
         "done": false,
@@ -476,6 +512,20 @@
         "sub": "Aptella - Brisbane",
         "team": "site",
         "dateAssigned": "2026-07-08",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "rbsffn5",
+        "main": "RL-SV2S DB LASER LEVEL W/LS-100D PREMIUM",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Aptella - Brisbane",
+        "team": "site",
+        "dateAssigned": "2026-07-09",
         "dateRequired": "",
         "wstatus": ""
       }
@@ -1345,7 +1395,7 @@
       "updated": "2026-07-07T23:16:18.952Z"
     },
     "materialPickup": {
-      "updated": "2026-07-08T01:06:20.500Z"
+      "updated": "2026-07-09T04:32:27.470Z"
     },
     "qualityTesting": {
       "updated": "2026-07-08T05:43:10.668Z"
@@ -1354,7 +1404,7 @@
       "updated": "2026-07-09T04:17:13.480Z"
     },
     "deliveries": {
-      "updated": "2026-07-08T00:28:10.943Z"
+      "updated": "2026-07-09T04:33:37.557Z"
     },
     "documents": {
       "updated": "2026-07-08T01:26:36.867Z"
@@ -1381,7 +1431,7 @@
       "updated": "2026-07-08T01:26:18.633Z"
     },
     "subbiesToday": {
-      "updated": "2026-07-09T04:31:06.594Z"
+      "updated": "2026-07-09T04:32:33.298Z"
     },
     "plantTransport": {
       "updated": "2026-07-08T01:26:25.164Z"
@@ -1393,5 +1443,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-09T04:31:33.328Z"
+  "publishedAt": "2026-07-09T04:33:39.896Z"
 }
