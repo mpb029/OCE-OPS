@@ -424,6 +424,20 @@
         "dateAssigned": "2026-07-08",
         "dateRequired": "",
         "wstatus": ""
+      },
+      {
+        "id": "j5k3jcf",
+        "main": "RL-SV2S DB LASER LEVEL W/LS-100D PREMIUM",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Aptella - Brisbane",
+        "team": "site",
+        "dateAssigned": "2026-07-09",
+        "dateRequired": "",
+        "wstatus": ""
       }
     ],
     "meetings": [],
@@ -1291,7 +1305,7 @@
       "updated": "2026-07-07T23:16:18.952Z"
     },
     "materialPickup": {
-      "updated": "2026-07-08T01:06:20.500Z"
+      "updated": "2026-07-09T02:40:55.278Z"
     },
     "qualityTesting": {
       "updated": "2026-07-08T05:43:10.668Z"
@@ -1339,5 +1353,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-08T05:45:03.127Z"
+  "publishedAt": "2026-07-09T02:41:03.571Z"
 }
