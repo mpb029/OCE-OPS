@@ -303,7 +303,45 @@
         "wstatus": ""
       }
     ],
-    "subbiesToday": [],
+    "subbiesToday": [
+      {
+        "id": "nkzpe5n",
+        "main": "Jordan Bell - Plumber",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-15",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "works": "Drummer St - Property Connections"
+        }
+      },
+      {
+        "id": "eyzt5fy",
+        "main": "Jordan Bell - Plumber",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-22",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "works": "Gympie Service Road - Property Connections",
+          "time": "09:00"
+        }
+      }
+    ],
     "staffAway": [
       {
         "id": "yd42b33",
@@ -1343,7 +1381,7 @@
       "updated": "2026-07-08T01:26:18.633Z"
     },
     "subbiesToday": {
-      "updated": "2026-07-08T01:26:21.264Z"
+      "updated": "2026-07-09T04:31:06.594Z"
     },
     "plantTransport": {
       "updated": "2026-07-08T01:26:25.164Z"
@@ -1355,5 +1393,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-09T04:17:21.902Z"
+  "publishedAt": "2026-07-09T04:31:33.328Z"
 }
