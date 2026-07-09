@@ -393,6 +393,22 @@
         "dateRequired": "",
         "wstatus": "",
         "x": {}
+      },
+      {
+        "id": "r2zidv4",
+        "main": "GRC Confirming feasibility of hooking up temporary supply to Medical Centre",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-13",
+        "done": false,
+        "team": "",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {}
       }
     ],
     "punchlist": [],
@@ -422,20 +438,6 @@
         "sub": "Aptella - Brisbane",
         "team": "site",
         "dateAssigned": "2026-07-08",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "j5k3jcf",
-        "main": "RL-SV2S DB LASER LEVEL W/LS-100D PREMIUM",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": false
-        },
-        "sub": "Aptella - Brisbane",
-        "team": "site",
-        "dateAssigned": "2026-07-09",
         "dateRequired": "",
         "wstatus": ""
       }
@@ -1305,13 +1307,13 @@
       "updated": "2026-07-07T23:16:18.952Z"
     },
     "materialPickup": {
-      "updated": "2026-07-09T02:40:55.278Z"
+      "updated": "2026-07-08T01:06:20.500Z"
     },
     "qualityTesting": {
       "updated": "2026-07-08T05:43:10.668Z"
     },
     "stakeholders": {
-      "updated": "2026-07-08T03:26:32.338Z"
+      "updated": "2026-07-09T04:17:13.480Z"
     },
     "deliveries": {
       "updated": "2026-07-08T00:28:10.943Z"
@@ -1353,5 +1355,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-09T02:41:03.571Z"
+  "publishedAt": "2026-07-09T04:17:21.902Z"
 }
