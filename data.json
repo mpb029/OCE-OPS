@@ -550,7 +550,188 @@
     ],
     "meetings": [],
     "documents": [],
-    "weeklyPhotos": [],
+    "weeklyPhotos": [
+      {
+        "id": "ktnz3oc",
+        "main": "Tarwhine St - Connect A -Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_CONNECTION_A_REINSTATEMENT.jpg",
+            "path": "files/photos/pf24za5-Tarwhine_CONNECTION_A_REINSTATEMENT.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/pf24za5-Tarwhine_CONNECTION_A_REINSTATEMENT.jpg",
+            "sha": "f1c7ab6ec72aa9d8ae05cb4a03847c5d26eaa224",
+            "size": 579810,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "57wu7a3",
+        "main": "Tarwhine St -Connection B -Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_CONNECTION_B_REINSTATEMENT.jpg",
+            "path": "files/photos/33uy5ii-Tarwhine_CONNECTION_B_REINSTATEMENT.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/33uy5ii-Tarwhine_CONNECTION_B_REINSTATEMENT.jpg",
+            "sha": "93ac3f014adf2e03703531cd0d6d0fa1c5c81edd",
+            "size": 582851,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "4r6yvmc",
+        "main": "Tarwhine St - Connection C (Threadfin) - Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_CONNECTION_C_REINSTATEMENT.jpg",
+            "path": "files/photos/je9ck8c-Tarwhine_CONNECTION_C_REINSTATEMENT.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/je9ck8c-Tarwhine_CONNECTION_C_REINSTATEMENT.jpg",
+            "sha": "ec65fb7f81b2dcdd3f4987cf22a2f3b56f930f2f",
+            "size": 499663,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "u0t57al",
+        "main": "Tarwhine St - Connection D (Sailfish) - Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_CONNECTION_D_REINSTATEMENT.jpg",
+            "path": "files/photos/9kv7pts-Tarwhine_CONNECTION_D_REINSTATEMENT.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/9kv7pts-Tarwhine_CONNECTION_D_REINSTATEMENT.jpg",
+            "sha": "8e84a01ac718d2b10f41a8c8f5661d9dd11027e7",
+            "size": 556846,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "vhbz9wi",
+        "main": "Tarwhine St -Connection E (Bonito) - Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_CONNECTION_E_REINSTATEMENT.jpg",
+            "path": "files/photos/yfkq3ee-Tarwhine_CONNECTION_E_REINSTATEMENT.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/yfkq3ee-Tarwhine_CONNECTION_E_REINSTATEMENT.jpg",
+            "sha": "8cc60e28cd1db96d990b53fd33dc5d8fbf9e44dc",
+            "size": 583959,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "4jcf8ir",
+        "main": "Tarwhine St -Connection F - Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_CONNECTION_F_REINSTATEMENT.jpg",
+            "path": "files/photos/5bj47xe-Tarwhine_CONNECTION_F_REINSTATEMENT.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/5bj47xe-Tarwhine_CONNECTION_F_REINSTATEMENT.jpg",
+            "sha": "25b826bab2a5619ef812b7e5a596c670bba1ee73",
+            "size": 539916,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "5vxliln",
+        "main": "Tarwhine St - Threadfin Asphalt Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_ROAD_REINSTATEMENT_THREADFIN.jpg",
+            "path": "files/photos/jd5m38r-Tarwhine_ROAD_REINSTATEMENT_THREADFIN.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/jd5m38r-Tarwhine_ROAD_REINSTATEMENT_THREADFIN.jpg",
+            "sha": "bd96aa203308be143e5eab6f5a956eaa04eee7fd",
+            "size": 435064,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "h7ee73h",
+        "main": "Tarwhine St - Sailfish Asphalt Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_ROAD_REINSTATEMENT_SAILFISH.jpg",
+            "path": "files/photos/npxw8ie-Tarwhine_ROAD_REINSTATEMENT_SAILFISH.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/npxw8ie-Tarwhine_ROAD_REINSTATEMENT_SAILFISH.jpg",
+            "sha": "475ac66595660db244d0af158d7d3ee4b6ef8e1b",
+            "size": 449395,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "fwufiej",
+        "main": "Tarwhine st - Bonito Asphalt Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Tarwhine_ROAD_REINSTATEMENT_BONITO.jpg",
+            "path": "files/photos/82z5jpb-Tarwhine_ROAD_REINSTATEMENT_BONITO.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/82z5jpb-Tarwhine_ROAD_REINSTATEMENT_BONITO.jpg",
+            "sha": "669b3bc831eaa13cc6bd8c9b1868771e49bb8951",
+            "size": 430922,
+            "mime": "image/jpeg"
+          }
+        ]
+      }
+    ],
     "workPackages": [
       {
         "id": "d5cnpia",
@@ -1407,7 +1588,7 @@
       "updated": "2026-07-08T01:26:35.036Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-07-08T05:34:57.196Z"
+      "updated": "2026-07-10T01:38:07.643Z"
     },
     "staffAway": {
       "updated": "2026-07-10T01:20:55.687Z"
@@ -1461,5 +1642,5 @@
       "updated": "2026-07-08T02:26:44.018Z"
     }
   },
-  "publishedAt": "2026-07-10T01:20:59.124Z"
+  "publishedAt": "2026-07-10T01:38:16.273Z"
 }
