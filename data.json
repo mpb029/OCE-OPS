@@ -64,9 +64,10 @@
       "ts": 1782883454140,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
-      "letter": "A"
+      "letter": "A",
+      "project": "default"
     },
     {
       "id": "7qz1ldq",
@@ -91,9 +92,10 @@
       "ts": 1783040024549,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
-      "letter": "B"
+      "letter": "B",
+      "project": "default"
     },
     {
       "id": "qjwnqwd",
@@ -105,9 +107,10 @@
       "ts": 1783040038865,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
-      "letter": "C"
+      "letter": "C",
+      "project": "default"
     },
     {
       "id": "4u62h8k",
@@ -119,9 +122,10 @@
       "ts": 1783040052359,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
-      "letter": "D"
+      "letter": "D",
+      "project": "default"
     },
     {
       "id": "qgu7a5f",
@@ -133,9 +137,10 @@
       "ts": 1783040058459,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
-      "letter": "E"
+      "letter": "E",
+      "project": "default"
     },
     {
       "id": "9lhf0fc",
@@ -147,9 +152,10 @@
       "ts": 1783040080020,
       "vis": {
         "site": true,
-        "client": false
+        "client": true
       },
-      "letter": "F"
+      "letter": "F",
+      "project": "default"
     },
     {
       "id": "j7fva7k",
@@ -209,19 +215,6 @@
       },
       "letter": "F",
       "project": "default"
-    },
-    {
-      "id": "thdwlsp",
-      "lat": -25.926467591199803,
-      "lng": 152.99990550661016,
-      "category": "delivery",
-      "title": "",
-      "notes": "",
-      "ts": 1783052607315,
-      "vis": {
-        "site": true,
-        "client": false
-      }
     },
     {
       "id": "zi2lpgu",
@@ -769,7 +762,7 @@
           "site": true,
           "client": true
         },
-        "pct": 90,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -867,7 +860,7 @@
           "site": true,
           "client": true
         },
-        "pct": 80,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -1639,8 +1632,8 @@
       "updated": "2026-07-08T01:26:31.152Z"
     },
     "workPackages": {
-      "updated": "2026-07-08T02:26:44.018Z"
+      "updated": "2026-07-10T01:40:57.155Z"
     }
   },
-  "publishedAt": "2026-07-10T01:38:16.273Z"
+  "publishedAt": "2026-07-10T01:41:01.906Z"
 }
