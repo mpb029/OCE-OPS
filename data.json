@@ -546,7 +546,7 @@
     "weeklyPhotos": [
       {
         "id": "ktnz3oc",
-        "main": "Tarwhine St - Connect A -Reinstatement",
+        "main": "Tarwhine St - Connect A - Reinstatement",
         "project": "default",
         "vis": {
           "site": false,
@@ -1581,7 +1581,7 @@
       "updated": "2026-07-08T01:26:35.036Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-07-10T01:38:07.643Z"
+      "updated": "2026-07-10T01:42:06.516Z"
     },
     "staffAway": {
       "updated": "2026-07-10T01:20:55.687Z"
@@ -1635,5 +1635,5 @@
       "updated": "2026-07-10T01:40:57.155Z"
     }
   },
-  "publishedAt": "2026-07-10T01:41:01.906Z"
+  "publishedAt": "2026-07-10T01:42:08.970Z"
 }
