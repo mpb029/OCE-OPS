@@ -248,7 +248,10 @@
         "team": "eng",
         "x": {
           "supplier": "Reece"
-        }
+        },
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed"
       },
       {
         "id": "luxmxsj",
@@ -301,7 +304,7 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-15",
-        "wstatus": ""
+        "wstatus": "completed"
       },
       {
         "id": "p9exg2z",
@@ -346,7 +349,7 @@
         "team": "eng",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "",
+        "wstatus": "completed",
         "x": {
           "works": "Drummer St - Property Connections"
         }
@@ -424,7 +427,7 @@
         "team": "site",
         "dateAssigned": "2026-07-08",
         "dateRequired": "2026-07-10",
-        "wstatus": ""
+        "wstatus": "completed"
       }
     ],
     "plantTransport": [],
@@ -460,7 +463,7 @@
         "team": "admin",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "",
+        "wstatus": "completed",
         "x": {}
       },
       {
@@ -476,7 +479,7 @@
         "team": "admin",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "",
+        "wstatus": "completed",
         "x": {}
       },
       {
@@ -832,7 +835,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -846,7 +849,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 50,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -922,7 +925,10 @@
         "due": "2026-07-10",
         "done": false,
         "team": "eng",
-        "status": "pending"
+        "status": "pass",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed"
       },
       {
         "id": "5plf5e8",
@@ -938,8 +944,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "",
-        "status": "pending"
+        "wstatus": "completed",
+        "status": "pass"
       }
     ],
     "designChanges": [],
@@ -1590,13 +1596,13 @@
       "updated": "2026-07-09T04:32:27.470Z"
     },
     "qualityTesting": {
-      "updated": "2026-07-08T05:43:10.668Z"
+      "updated": "2026-07-15T22:35:25.971Z"
     },
     "stakeholders": {
-      "updated": "2026-07-09T04:17:13.480Z"
+      "updated": "2026-07-15T22:33:29.253Z"
     },
     "deliveries": {
-      "updated": "2026-07-09T04:33:37.557Z"
+      "updated": "2026-07-15T22:32:02.791Z"
     },
     "documents": {
       "updated": "2026-07-08T01:26:36.867Z"
@@ -1611,10 +1617,10 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-07-08T03:18:37.608Z"
+      "updated": "2026-07-15T22:31:33.359Z"
     },
     "siteInputs": {
-      "updated": "2026-07-08T01:14:36.994Z"
+      "updated": "2026-07-15T22:33:39.667Z"
     },
     "dailyWorks": {
       "updated": "2026-07-08T01:26:16.808Z"
@@ -1623,7 +1629,7 @@
       "updated": "2026-07-08T01:26:18.633Z"
     },
     "subbiesToday": {
-      "updated": "2026-07-09T04:32:33.298Z"
+      "updated": "2026-07-15T22:31:51.941Z"
     },
     "plantTransport": {
       "updated": "2026-07-08T01:26:25.164Z"
@@ -1632,8 +1638,8 @@
       "updated": "2026-07-08T01:26:31.152Z"
     },
     "workPackages": {
-      "updated": "2026-07-10T01:40:57.155Z"
+      "updated": "2026-07-15T22:29:59.489Z"
     }
   },
-  "publishedAt": "2026-07-10T01:42:08.970Z"
+  "publishedAt": "2026-07-15T22:36:53.815Z"
 }
