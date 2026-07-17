@@ -491,7 +491,7 @@
       },
       {
         "id": "i2fdd65",
-        "main": "130m2 Winter Green Couch Turf for Drummer St",
+        "main": "130m2 Winter Green Couch Turf for Drummer St (Half quantity)",
         "project": "default",
         "vis": {
           "site": true,
@@ -563,6 +563,146 @@
             "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/9mbw4j5-003.jpg",
             "sha": "19ab58c34301fb3c092e9c36ce2cbf06bc0f5ae3",
             "size": 582429,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "97wximl",
+        "main": "Drummer St - Turf Prep_001",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Drummer_Turf_prep_001.jpg",
+            "path": "files/photos/digmg25-Drummer_Turf_prep_001.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/digmg25-Drummer_Turf_prep_001.jpg",
+            "sha": "68cb35c6e331f59ee261c4d4c2b14ad1ef931abf",
+            "size": 235696,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "h6s86cv",
+        "main": "Drummer St - Turf Prep 002",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Drummer_Turf_prep_002.jpg",
+            "path": "files/photos/hspiz83-Drummer_Turf_prep_002.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/hspiz83-Drummer_Turf_prep_002.jpg",
+            "sha": "79544c0fa7d91715b51f714b7c01b79b84e8e4c4",
+            "size": 237939,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "q02pua8",
+        "main": "Gympie Rd_Property Connection Excavations_Complete",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Gympie_Property Connection_Excavation.jpg",
+            "path": "files/photos/sc150z7-Gympie_Property_Connection_Excavation.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/sc150z7-Gympie_Property_Connection_Excavation.jpg",
+            "sha": "15c2d555caf0cf458f650fc13ee002706835a86c",
+            "size": 236913,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "clv6few",
+        "main": "Gympie Rd - Partial Reinstatement - Ongoing",
+        "project": "default",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Gympie_Rd.jpg",
+            "path": "files/photos/u6c3xo9-Gympie_Rd.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/u6c3xo9-Gympie_Rd.jpg",
+            "sha": "69c50dd8507e290c14098d29f2eaef71f02242f3",
+            "size": 414335,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "d7lg1pi",
+        "main": "Entry Pad",
+        "project": "pfvstolg",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Cooloola_Sludge_Entry Pad .jpg",
+            "path": "files/photos/elc2s5x-Cooloola_Sludge_Entry_Pad_.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/elc2s5x-Cooloola_Sludge_Entry_Pad_.jpg",
+            "sha": "c837cf8d45186dfb843632e6f4f2898195f3707a",
+            "size": 363925,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "yd24f15",
+        "main": "Exit Pad",
+        "project": "pfvstolg",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Cooloola_Sludge_Reinstatement_001.jpg",
+            "path": "files/photos/jdz9bld-Cooloola_Sludge_Reinstatement_001.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/jdz9bld-Cooloola_Sludge_Reinstatement_001.jpg",
+            "sha": "df9956f3a47640ba9328d97f5de588711179251c",
+            "size": 378014,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "5pondcb",
+        "main": "Seepage Drain Filled in and Perimeter Fence- Partial",
+        "project": "pfvstolg",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Cooloola_Sludge_Seepage Drain Filled in_Perimeter Fence .jpg",
+            "path": "files/photos/8vhax66-Cooloola_Sludge_Seepage_Drain_Filled_in_Perimeter_Fence_.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/8vhax66-Cooloola_Sludge_Seepage_Drain_Filled_in_Perimeter_Fence_.jpg",
+            "sha": "0a5cc8d1a8979cffde7c9326516b45fd0bc86b0c",
+            "size": 388632,
             "mime": "image/jpeg"
           }
         ]
@@ -774,6 +914,34 @@
           "client": true
         },
         "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "5umff6o",
+        "main": "Cooloola Cove Sludge Pad; Reinstatement and Demob",
+        "project": "pfvstolg",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 85,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "tyq04m2",
+        "main": "Cooloola Sludge pad - Megaflow Drains",
+        "project": "pfvstolg",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 60,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -1469,13 +1637,13 @@
       "updated": "2026-07-08T01:26:35.036Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-07-17T02:25:07.259Z"
+      "updated": "2026-07-17T05:23:34.649Z"
     },
     "staffAway": {
       "updated": "2026-07-10T01:20:55.687Z"
     },
     "materialPickup": {
-      "updated": "2026-07-17T04:04:30.565Z"
+      "updated": "2026-07-17T04:05:51.843Z"
     },
     "qualityTesting": {
       "updated": "2026-07-15T22:35:25.971Z"
@@ -1520,8 +1688,8 @@
       "updated": "2026-07-08T01:26:31.152Z"
     },
     "workPackages": {
-      "updated": "2026-07-16T23:43:32.570Z"
+      "updated": "2026-07-17T05:16:34.320Z"
     }
   },
-  "publishedAt": "2026-07-17T04:04:36.447Z"
+  "publishedAt": "2026-07-17T05:23:45.862Z"
 }
