@@ -829,7 +829,7 @@
           "site": true,
           "client": true
         },
-        "pct": 80,
+        "pct": 50,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -1688,8 +1688,8 @@
       "updated": "2026-07-08T01:26:31.152Z"
     },
     "workPackages": {
-      "updated": "2026-07-17T05:16:34.320Z"
+      "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-17T05:23:45.862Z"
+  "publishedAt": "2026-07-17T05:24:49.696Z"
 }
