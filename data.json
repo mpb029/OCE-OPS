@@ -41,8 +41,8 @@
     },
     {
       "id": "2lo8ruz",
-      "lat": -25.916895352827,
-      "lng": 153.00297617912295,
+      "lat": -25.916933952123088,
+      "lng": 153.0030190795108,
       "category": "tie",
       "title": "Connection B",
       "notes": "Detail 8 IFC DWG",
@@ -68,19 +68,6 @@
       },
       "letter": "A",
       "project": "default"
-    },
-    {
-      "id": "7qz1ldq",
-      "lat": -25.916596207853882,
-      "lng": 153.001152180715,
-      "category": "plant",
-      "title": "3t Digger",
-      "notes": "",
-      "ts": 1782883513647,
-      "vis": {
-        "site": true,
-        "client": false
-      }
     },
     {
       "id": "slddn7q",
@@ -159,8 +146,8 @@
     },
     {
       "id": "j7fva7k",
-      "lat": -25.918381416604397,
-      "lng": 153.0015814304352,
+      "lat": -25.91841036571276,
+      "lng": 153.00163505592002,
       "category": "tie",
       "title": "Connection C",
       "notes": "IFC DWG - Detail 5",
@@ -227,6 +214,20 @@
       "vis": {
         "site": true,
         "client": true
+      },
+      "project": "default"
+    },
+    {
+      "id": "ibui9w4",
+      "lat": -25.917339243969057,
+      "lng": 153.00056228448705,
+      "category": "plant",
+      "title": "",
+      "notes": "",
+      "ts": 1784158675894,
+      "vis": {
+        "site": true,
+        "client": false
       },
       "project": "default"
     }
@@ -487,14 +488,28 @@
         "dateAssigned": "2026-07-09",
         "dateRequired": "",
         "wstatus": ""
+      },
+      {
+        "id": "i2fdd65",
+        "main": "130m2 Winter Green Couch Turf for Drummer St",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Roberts Turf - Bells Creek",
+        "team": "site",
+        "dateAssigned": "2026-07-17",
+        "dateRequired": "2026-07-20",
+        "wstatus": ""
       }
     ],
     "meetings": [],
     "documents": [],
     "weeklyPhotos": [
       {
-        "id": "ktnz3oc",
-        "main": "Tarwhine St - Connect A - Reinstatement",
+        "id": "x3vm8wf",
+        "main": "Turana St_Update_17/07/2026_001",
         "project": "default",
         "vis": {
           "site": false,
@@ -503,18 +518,18 @@
         "sub": "",
         "photos": [
           {
-            "name": "Tarwhine_CONNECTION_A_REINSTATEMENT.jpg",
-            "path": "files/photos/pf24za5-Tarwhine_CONNECTION_A_REINSTATEMENT.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/pf24za5-Tarwhine_CONNECTION_A_REINSTATEMENT.jpg",
-            "sha": "f1c7ab6ec72aa9d8ae05cb4a03847c5d26eaa224",
-            "size": 579810,
+            "name": "001.jpg",
+            "path": "files/photos/byg6bwd-001.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/byg6bwd-001.jpg",
+            "sha": "b0c5fb7ee7a3d97bd0ae0af6505225188f267bc0",
+            "size": 562385,
             "mime": "image/jpeg"
           }
         ]
       },
       {
-        "id": "57wu7a3",
-        "main": "Tarwhine St -Connection B -Reinstatement",
+        "id": "1mijbl1",
+        "main": "Turana St_Update_17/07/2026_002",
         "project": "default",
         "vis": {
           "site": false,
@@ -523,18 +538,18 @@
         "sub": "",
         "photos": [
           {
-            "name": "Tarwhine_CONNECTION_B_REINSTATEMENT.jpg",
-            "path": "files/photos/33uy5ii-Tarwhine_CONNECTION_B_REINSTATEMENT.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/33uy5ii-Tarwhine_CONNECTION_B_REINSTATEMENT.jpg",
-            "sha": "93ac3f014adf2e03703531cd0d6d0fa1c5c81edd",
-            "size": 582851,
+            "name": "002.jpg",
+            "path": "files/photos/8n8u2nx-002.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/8n8u2nx-002.jpg",
+            "sha": "ce8545ede9a62f4398c0d51682155e0d3d1006b6",
+            "size": 523318,
             "mime": "image/jpeg"
           }
         ]
       },
       {
-        "id": "4r6yvmc",
-        "main": "Tarwhine St - Connection C (Threadfin) - Reinstatement",
+        "id": "bal00pw",
+        "main": "Turana_Update_17/07/2026_003",
         "project": "default",
         "vis": {
           "site": false,
@@ -543,131 +558,11 @@
         "sub": "",
         "photos": [
           {
-            "name": "Tarwhine_CONNECTION_C_REINSTATEMENT.jpg",
-            "path": "files/photos/je9ck8c-Tarwhine_CONNECTION_C_REINSTATEMENT.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/je9ck8c-Tarwhine_CONNECTION_C_REINSTATEMENT.jpg",
-            "sha": "ec65fb7f81b2dcdd3f4987cf22a2f3b56f930f2f",
-            "size": 499663,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "u0t57al",
-        "main": "Tarwhine St - Connection D (Sailfish) - Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Tarwhine_CONNECTION_D_REINSTATEMENT.jpg",
-            "path": "files/photos/9kv7pts-Tarwhine_CONNECTION_D_REINSTATEMENT.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/9kv7pts-Tarwhine_CONNECTION_D_REINSTATEMENT.jpg",
-            "sha": "8e84a01ac718d2b10f41a8c8f5661d9dd11027e7",
-            "size": 556846,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "vhbz9wi",
-        "main": "Tarwhine St -Connection E (Bonito) - Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Tarwhine_CONNECTION_E_REINSTATEMENT.jpg",
-            "path": "files/photos/yfkq3ee-Tarwhine_CONNECTION_E_REINSTATEMENT.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/yfkq3ee-Tarwhine_CONNECTION_E_REINSTATEMENT.jpg",
-            "sha": "8cc60e28cd1db96d990b53fd33dc5d8fbf9e44dc",
-            "size": 583959,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "4jcf8ir",
-        "main": "Tarwhine St -Connection F - Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Tarwhine_CONNECTION_F_REINSTATEMENT.jpg",
-            "path": "files/photos/5bj47xe-Tarwhine_CONNECTION_F_REINSTATEMENT.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/5bj47xe-Tarwhine_CONNECTION_F_REINSTATEMENT.jpg",
-            "sha": "25b826bab2a5619ef812b7e5a596c670bba1ee73",
-            "size": 539916,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "5vxliln",
-        "main": "Tarwhine St - Threadfin Asphalt Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Tarwhine_ROAD_REINSTATEMENT_THREADFIN.jpg",
-            "path": "files/photos/jd5m38r-Tarwhine_ROAD_REINSTATEMENT_THREADFIN.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/jd5m38r-Tarwhine_ROAD_REINSTATEMENT_THREADFIN.jpg",
-            "sha": "bd96aa203308be143e5eab6f5a956eaa04eee7fd",
-            "size": 435064,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "h7ee73h",
-        "main": "Tarwhine St - Sailfish Asphalt Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Tarwhine_ROAD_REINSTATEMENT_SAILFISH.jpg",
-            "path": "files/photos/npxw8ie-Tarwhine_ROAD_REINSTATEMENT_SAILFISH.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/npxw8ie-Tarwhine_ROAD_REINSTATEMENT_SAILFISH.jpg",
-            "sha": "475ac66595660db244d0af158d7d3ee4b6ef8e1b",
-            "size": 449395,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "fwufiej",
-        "main": "Tarwhine st - Bonito Asphalt Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Tarwhine_ROAD_REINSTATEMENT_BONITO.jpg",
-            "path": "files/photos/82z5jpb-Tarwhine_ROAD_REINSTATEMENT_BONITO.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/82z5jpb-Tarwhine_ROAD_REINSTATEMENT_BONITO.jpg",
-            "sha": "669b3bc831eaa13cc6bd8c9b1868771e49bb8951",
-            "size": 430922,
+            "name": "003.jpg",
+            "path": "files/photos/9mbw4j5-003.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/9mbw4j5-003.jpg",
+            "sha": "19ab58c34301fb3c092e9c36ce2cbf06bc0f5ae3",
+            "size": 582429,
             "mime": "image/jpeg"
           }
         ]
@@ -794,7 +689,7 @@
           "site": true,
           "client": true
         },
-        "pct": 50,
+        "pct": 80,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -836,7 +731,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 10,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -1574,13 +1469,13 @@
       "updated": "2026-07-08T01:26:35.036Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-07-10T01:42:06.516Z"
+      "updated": "2026-07-17T02:25:07.259Z"
     },
     "staffAway": {
       "updated": "2026-07-10T01:20:55.687Z"
     },
     "materialPickup": {
-      "updated": "2026-07-09T04:32:27.470Z"
+      "updated": "2026-07-17T04:03:27.714Z"
     },
     "qualityTesting": {
       "updated": "2026-07-15T22:35:25.971Z"
@@ -1625,8 +1520,8 @@
       "updated": "2026-07-08T01:26:31.152Z"
     },
     "workPackages": {
-      "updated": "2026-07-15T22:44:26.604Z"
+      "updated": "2026-07-16T23:43:32.570Z"
     }
   },
-  "publishedAt": "2026-07-15T22:44:36.418Z"
+  "publishedAt": "2026-07-17T04:03:50.786Z"
 }
