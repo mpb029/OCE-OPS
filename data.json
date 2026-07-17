@@ -996,6 +996,23 @@
         "dateRequired": "",
         "wstatus": "completed",
         "status": "pass"
+      },
+      {
+        "id": "l7m0cqn",
+        "main": "Gympie Rd - Hydrostatic Pressure Test",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-07-20",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-21",
+        "wstatus": "",
+        "status": "pending"
       }
     ],
     "designChanges": [],
@@ -1646,7 +1663,7 @@
       "updated": "2026-07-17T04:05:51.843Z"
     },
     "qualityTesting": {
-      "updated": "2026-07-15T22:35:25.971Z"
+      "updated": "2026-07-17T05:26:05.558Z"
     },
     "stakeholders": {
       "updated": "2026-07-15T22:33:29.253Z"
@@ -1691,5 +1708,5 @@
       "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-17T05:24:49.696Z"
+  "publishedAt": "2026-07-17T05:26:16.355Z"
 }
