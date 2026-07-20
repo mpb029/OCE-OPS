@@ -568,7 +568,22 @@
       }
     ],
     "meetings": [],
-    "documents": [],
+    "documents": [
+      {
+        "id": "qwxgi8s",
+        "uploadedAt": "2026-07-20T02:44:55.646Z",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "name": "Offaly Civil Engineering - Water Drummer st 26-0908.pdf",
+        "path": "files/xzmq8yd-Offaly_Civil_Engineering_-_Water_Drummer_st_26-0908.pdf",
+        "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/xzmq8yd-Offaly_Civil_Engineering_-_Water_Drummer_st_26-0908.pdf",
+        "sha": "b0ea5e84b29fda7db0a3ff3238fb724b262340cb",
+        "size": 281656,
+        "mime": "application/pdf"
+      }
+    ],
     "weeklyPhotos": [
       {
         "id": "x3vm8wf",
@@ -1045,7 +1060,7 @@
       },
       {
         "id": "5plf5e8",
-        "main": "Gympie Rd - Disinfection and Sample",
+        "main": "Gympie Rd - Disinfection and Sample - Drop off to Lab",
         "project": "default",
         "vis": {
           "site": true,
@@ -1058,7 +1073,7 @@
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "completed",
-        "status": "pass"
+        "status": "pending"
       },
       {
         "id": "l7m0cqn",
@@ -1701,7 +1716,7 @@
     },
     "documents": {
       "site": false,
-      "client": false
+      "client": true
     },
     "weeklyPhotos": {
       "site": false,
@@ -1723,10 +1738,10 @@
       "updated": "2026-07-10T01:20:55.687Z"
     },
     "materialPickup": {
-      "updated": "2026-07-19T23:59:34.286Z"
+      "updated": "2026-07-20T00:46:20.622Z"
     },
     "qualityTesting": {
-      "updated": "2026-07-17T05:26:05.558Z"
+      "updated": "2026-07-20T02:46:09.515Z"
     },
     "stakeholders": {
       "updated": "2026-07-15T22:33:29.253Z"
@@ -1735,7 +1750,7 @@
       "updated": "2026-07-20T00:08:42.408Z"
     },
     "documents": {
-      "updated": "2026-07-08T01:26:36.867Z"
+      "updated": "2026-07-20T02:45:08.807Z"
     },
     "designChanges": {
       "updated": "2026-07-08T01:11:45.481Z"
@@ -1771,5 +1786,5 @@
       "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-20T00:12:56.629Z"
+  "publishedAt": "2026-07-20T02:46:16.995Z"
 }
