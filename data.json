@@ -582,6 +582,20 @@
         "sha": "b0ea5e84b29fda7db0a3ff3238fb724b262340cb",
         "size": 281656,
         "mime": "application/pdf"
+      },
+      {
+        "id": "lnhh61o",
+        "uploadedAt": "2026-07-20T03:52:19.276Z",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "name": "Offaly Civil Engineering 26-0925_Gympie Rd.pdf",
+        "path": "files/4za3s79-Offaly_Civil_Engineering_26-0925_Gympie_Rd.pdf",
+        "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/4za3s79-Offaly_Civil_Engineering_26-0925_Gympie_Rd.pdf",
+        "sha": "652b28973137032141393827965401bdf6780457",
+        "size": 285687,
+        "mime": "application/pdf"
       }
     ],
     "weeklyPhotos": [
@@ -1750,7 +1764,7 @@
       "updated": "2026-07-20T00:08:42.408Z"
     },
     "documents": {
-      "updated": "2026-07-20T02:45:08.807Z"
+      "updated": "2026-07-20T03:52:20.818Z"
     },
     "designChanges": {
       "updated": "2026-07-08T01:11:45.481Z"
@@ -1786,5 +1800,5 @@
       "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-20T02:46:16.995Z"
+  "publishedAt": "2026-07-20T03:52:31.078Z"
 }
