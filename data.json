@@ -235,7 +235,28 @@
   "stats": [],
   "panels": {
     "dailyWorks": [],
-    "deliveries": [],
+    "deliveries": [
+      {
+        "id": "8rt54mk",
+        "main": "0.6m3 N32 Concrete - Gympie Road thrust Blocks",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "due": "",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "2026-07-20",
+        "dateRequired": "2026-07-22",
+        "wstatus": "",
+        "x": {
+          "time": "11:30",
+          "supplier": "Neil Mansell",
+          "contact": "Josh/Scotty - 0488 799 351"
+        }
+      }
+    ],
     "trafficControl": [],
     "upcoming": [
       {
@@ -1697,7 +1718,7 @@
       "updated": "2026-07-15T22:33:29.253Z"
     },
     "deliveries": {
-      "updated": "2026-07-15T22:43:09.816Z"
+      "updated": "2026-07-20T00:08:42.408Z"
     },
     "documents": {
       "updated": "2026-07-08T01:26:36.867Z"
@@ -1736,5 +1757,5 @@
       "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-20T00:01:44.083Z"
+  "publishedAt": "2026-07-20T00:08:52.924Z"
 }
