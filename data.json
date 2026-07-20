@@ -56,8 +56,8 @@
     },
     {
       "id": "4nu4mfa",
-      "lat": -25.925102243841053,
-      "lng": 152.99726539998102,
+      "lat": -25.925092594686816,
+      "lng": 152.99724162372732,
       "category": "tie",
       "title": "",
       "notes": "",
@@ -72,7 +72,7 @@
     {
       "id": "slddn7q",
       "lat": -25.925082945531805,
-      "lng": 152.99734573725254,
+      "lng": 152.99734354019168,
       "category": "tie",
       "title": "",
       "notes": "",
@@ -86,8 +86,8 @@
     },
     {
       "id": "qjwnqwd",
-      "lat": -25.92545926199206,
-      "lng": 152.99781764151876,
+      "lat": -25.925420665487337,
+      "lng": 152.99785314681765,
       "category": "tie",
       "title": "",
       "notes": "",
@@ -101,8 +101,8 @@
     },
     {
       "id": "4u62h8k",
-      "lat": -25.925888647254737,
-      "lng": 152.99849868517572,
+      "lat": -25.925830752703813,
+      "lng": 152.99851297771352,
       "category": "tie",
       "title": "",
       "notes": "",
@@ -116,8 +116,8 @@
     },
     {
       "id": "qgu7a5f",
-      "lat": -25.926433819547768,
-      "lng": 152.9993942307719,
+      "lat": -25.92637592526466,
+      "lng": 152.999403472976,
       "category": "tie",
       "title": "",
       "notes": "",
@@ -131,8 +131,8 @@
     },
     {
       "id": "9lhf0fc",
-      "lat": -25.92670399249297,
-      "lng": 152.9999197605229,
+      "lat": -25.926694343469876,
+      "lng": 152.9999130982975,
       "category": "tie",
       "title": "",
       "notes": "",
@@ -459,7 +459,7 @@
         "team": "site",
         "dateAssigned": "2026-07-08",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed"
       },
       {
         "id": "ob5kdhc",
@@ -473,7 +473,7 @@
         "team": "site",
         "dateAssigned": "2026-07-08",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed"
       },
       {
         "id": "rbsffn5",
@@ -487,7 +487,7 @@
         "team": "site",
         "dateAssigned": "2026-07-09",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed"
       },
       {
         "id": "i2fdd65",
@@ -501,6 +501,34 @@
         "team": "site",
         "dateAssigned": "2026-07-17",
         "dateRequired": "2026-07-20",
+        "wstatus": "completed"
+      },
+      {
+        "id": "5zwuzrh",
+        "main": "5.5t AC10 - Drummer St/Marlin Way Crossing",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Downers Bli Bli - 10-11 AM Pick up",
+        "team": "site",
+        "dateAssigned": "2026-07-20",
+        "dateRequired": "2026-07-21",
+        "wstatus": ""
+      },
+      {
+        "id": "xh22ttv",
+        "main": "10t Crusher Dust - PO201288",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Adbri Quarries - Scotchy Pocket",
+        "team": "site",
+        "dateAssigned": "2026-07-20",
+        "dateRequired": "2026-07-22",
         "wstatus": ""
       }
     ],
@@ -1660,7 +1688,7 @@
       "updated": "2026-07-10T01:20:55.687Z"
     },
     "materialPickup": {
-      "updated": "2026-07-17T04:05:51.843Z"
+      "updated": "2026-07-19T23:59:34.286Z"
     },
     "qualityTesting": {
       "updated": "2026-07-17T05:26:05.558Z"
@@ -1708,5 +1736,5 @@
       "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-17T05:26:16.355Z"
+  "publishedAt": "2026-07-20T00:01:44.083Z"
 }
