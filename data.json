@@ -568,7 +568,7 @@
       },
       {
         "id": "ksnhv9p",
-        "main": "Roberts Turf - 2nd Turf Pellet for Pick up",
+        "main": "Roberts Turf - 2xTurf Pellet for Pick up",
         "project": "default",
         "vis": {
           "site": true,
@@ -1766,7 +1766,7 @@
       "updated": "2026-07-10T01:20:55.687Z"
     },
     "materialPickup": {
-      "updated": "2026-07-20T04:08:57.244Z"
+      "updated": "2026-07-20T04:20:37.243Z"
     },
     "qualityTesting": {
       "updated": "2026-07-20T02:46:09.515Z"
@@ -1814,5 +1814,5 @@
       "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-20T04:09:17.526Z"
+  "publishedAt": "2026-07-20T04:20:44.391Z"
 }
