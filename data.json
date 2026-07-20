@@ -540,13 +540,13 @@
       },
       {
         "id": "5zwuzrh",
-        "main": "5.5t AC10 - Drummer St/Marlin Way Crossing",
+        "main": "6t AC10 - Drummer St/Marlin Way Crossing",
         "project": "default",
         "vis": {
           "site": true,
           "client": false
         },
-        "sub": "Downers Bli Bli - 10-11 AM Pick up",
+        "sub": "Downers Bli Bli - 8:00 AM Pick up",
         "team": "site",
         "dateAssigned": "2026-07-20",
         "dateRequired": "2026-07-21",
@@ -564,6 +564,20 @@
         "team": "site",
         "dateAssigned": "2026-07-20",
         "dateRequired": "2026-07-22",
+        "wstatus": ""
+      },
+      {
+        "id": "ksnhv9p",
+        "main": "Roberts Turf - 2nd Turf Pellet for Pick up",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Bells Bridge",
+        "team": "site",
+        "dateAssigned": "2026-07-20",
+        "dateRequired": "2026-07-21",
         "wstatus": ""
       }
     ],
@@ -1752,7 +1766,7 @@
       "updated": "2026-07-10T01:20:55.687Z"
     },
     "materialPickup": {
-      "updated": "2026-07-20T00:46:20.622Z"
+      "updated": "2026-07-20T04:08:57.244Z"
     },
     "qualityTesting": {
       "updated": "2026-07-20T02:46:09.515Z"
@@ -1800,5 +1814,5 @@
       "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-20T03:52:31.078Z"
+  "publishedAt": "2026-07-20T04:09:17.526Z"
 }
