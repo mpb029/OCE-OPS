@@ -334,7 +334,7 @@
         "team": "eng",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "",
+        "wstatus": "cancelled",
         "x": {
           "works": "Gympie Service Road - Property Connections",
           "time": "09:00"
@@ -1816,7 +1816,7 @@
       "updated": "2026-07-08T01:26:18.633Z"
     },
     "subbiesToday": {
-      "updated": "2026-07-15T22:31:51.941Z"
+      "updated": "2026-07-21T02:14:16.213Z"
     },
     "plantTransport": {
       "updated": "2026-07-08T01:26:25.164Z"
@@ -1828,5 +1828,5 @@
       "updated": "2026-07-17T05:24:46.816Z"
     }
   },
-  "publishedAt": "2026-07-21T01:48:12.195Z"
+  "publishedAt": "2026-07-21T02:14:24.666Z"
 }
