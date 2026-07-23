@@ -1149,7 +1149,7 @@
         },
         "sub": "",
         "due": "2026-07-10",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -1166,12 +1166,12 @@
         },
         "sub": "",
         "due": "2026-07-20",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-21",
-        "wstatus": "",
-        "status": "pending"
+        "wstatus": "completed",
+        "status": "pass"
       }
     ],
     "designChanges": [],
@@ -1822,7 +1822,7 @@
       "updated": "2026-07-23T22:42:06.128Z"
     },
     "qualityTesting": {
-      "updated": "2026-07-20T02:46:09.515Z"
+      "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
       "updated": "2026-07-23T22:42:22.570Z"
@@ -1867,5 +1867,5 @@
       "updated": "2026-07-23T22:43:07.812Z"
     }
   },
-  "publishedAt": "2026-07-23T22:43:17.983Z"
+  "publishedAt": "2026-07-23T22:44:34.585Z"
 }
