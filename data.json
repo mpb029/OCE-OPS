@@ -433,7 +433,7 @@
         "team": "",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed"
       },
       {
         "id": "ysu5s9x",
@@ -443,7 +443,11 @@
           "site": true,
           "client": false
         },
-        "sub": "Thursday 16th and Friday 17th July"
+        "sub": "Thursday 16th and Friday 17th July",
+        "team": "",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed"
       },
       {
         "id": "l9sokpw",
@@ -455,6 +459,20 @@
         },
         "sub": "Friday 17th, Monday 20th and Tuesday 21st July",
         "team": "",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed"
+      },
+      {
+        "id": "68jdvbf",
+        "main": "Rod",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Thursday 30th JUL to Friday 7th AUG",
+        "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": ""
@@ -751,7 +769,7 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-28",
-        "wstatus": ""
+        "wstatus": "completed"
       },
       {
         "id": "tcrhhua",
@@ -765,7 +783,7 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-28",
-        "wstatus": ""
+        "wstatus": "completed"
       }
     ],
     "meetings": [],
@@ -2125,10 +2143,10 @@
       "updated": "2026-07-17T05:23:34.649Z"
     },
     "staffAway": {
-      "updated": "2026-07-10T01:20:55.687Z"
+      "updated": "2026-07-28T03:16:42.942Z"
     },
     "materialPickup": {
-      "updated": "2026-07-27T05:57:46.033Z"
+      "updated": "2026-07-28T03:17:05.528Z"
     },
     "qualityTesting": {
       "updated": "2026-07-23T22:44:24.067Z"
@@ -2176,5 +2194,5 @@
       "updated": "2026-07-27T06:02:28.081Z"
     }
   },
-  "publishedAt": "2026-07-28T03:15:10.354Z"
+  "publishedAt": "2026-07-28T03:17:52.583Z"
 }
