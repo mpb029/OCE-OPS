@@ -4,6 +4,13 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Offaly Civil — Site Operations Dashboard</title>
+  <meta name="theme-color" content="#2b2b2f" />
+  <meta name="apple-mobile-web-app-title" content="OCE Ops" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+PHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNyIgZmlsbD0iIzJiMmIyZiIvPjxyZWN0IHg9IjUuNSIgeT0iNi4zIiB3aWR0aD0iMTYuNSIgaGVpZ2h0PSIzLjMiIHJ4PSIxLjYiIGZpbGw9IiNmZmZmZmYiLz48cmVjdCB4PSI1LjUiIHk9IjExLjUiIHdpZHRoPSIxNi41IiBoZWlnaHQ9IjMuMyIgcng9IjEuNiIgZmlsbD0iIzJmODZjYyIvPjxyZWN0IHg9IjUuNSIgeT0iMTYuNyIgd2lkdGg9IjExIiBoZWlnaHQ9IjMuMyIgcng9IjEuNiIgZmlsbD0iI2ZmZmZmZiIvPjxjaXJjbGUgY3g9IjIzIiBjeT0iMjMiIHI9IjgiIGZpbGw9IiMyYjJiMmYiLz48Y2lyY2xlIGN4PSIyMyIgY3k9IjIzIiByPSI2LjQiIGZpbGw9IiMyZjg2Y2MiLz48cmVjdCB4PSIyMC4xIiB5PSIyMy4yIiB3aWR0aD0iMS42IiBoZWlnaHQ9IjMuMCIgcng9IjAuNSIgZmlsbD0iI2ZmZmZmZiIvPjxyZWN0IHg9IjIyLjIiIHk9IjIxLjYiIHdpZHRoPSIxLjYiIGhlaWdodD0iNC42IiByeD0iMC41IiBmaWxsPSIjZmZmZmZmIi8+PHJlY3QgeD0iMjQuMyIgeT0iMjAuMiIgd2lkdGg9IjEuNiIgaGVpZ2h0PSI2LjAiIHJ4PSIwLjUiIGZpbGw9IiNmZmZmZmYiLz48L3N2Zz4=" />
+  <link rel="icon" type="image/png" sizes="32x32" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAABmJLR0QA/wD/AP+gvaeTAAADgklEQVRYhc2XwW8bVRDGf7Nr0kDsNiHEllFtK0INqVO7Jc4BhCgHVAkJ5LZSuTUIFUUoPXDgCEck+CMsKg7NARFFKCARDjkgIaQeUNLGsdM0BdQ2LTYtqe00xF7vPg6bOImzje3Yrfik1e6+mfe+b+fNvLGFbYhGo17T5GOQd4AjQAetQU6EtFKMFYuPEktLS8VNg2w+hMMn3hNRXwGeFpE+DguaZp2dm5tbqAjYIP9mu6AnC/XAsrTX0unZG2KHXZZ48l9eBbnW09MZ0+w9f9rkACqaza4MayDvPn1yGyK87wJeqja0tbUxOvoRwWCw4UUNw+Dy5TGSyfl63E+4AHf16JkzcUZGPmyYfBOx2CCnTr1dj2un5jRaKKzumxzANMt1+7qcBqemfsLt7iAcDjdMXioVGR+fqNtfBgaOq4ZZWgjHCCCCBGKIp6fxFc0y1p9XYD2/fwESiKG/Mdo4+Qa03lcp//h5fb6OAtqbPJfc9UfOMQLWzV+gM4DWHWqYW5UN1MJU3f7/0yQEQqEgfX19aJpzg7QsRSqVZnl5eadBBOkKIof8AKjcXdTKbVDO3+koIBYb5NKlBLqu76m+VCoxPPwB8/Mpmzs4hP7KuV05oApZrJlx1O3fdq3hmISRyLGa5GD3jHLZtBeKnrYrxyEBxeNFP3kRLXq6PgGTkz+QSqVqCpienmZxcREJDqFF4jX9tUgcCQzuFNd0Eorgin8Bbq+jeeR1P73d7Xw6+QcAqpDB/P6zSk48NgnrRlfIkXwo6EEpxTF/BwP+57b0enxIVwD1z63WCNAO+hzHP3nrMAB/F4zdxoN+aJWA6v37Mt7L7w/Wa0zamtX8FuT/2vE6FPLQcaBGBeXvVR41INcMv1q5hSpkK+9lU2Faauu+cVX88xnUwzsVKS5QsyBv7l+BwpoZRz95EYALY9cpGha6JoiAYSqefWar2tXst9u34Kbu8/l0kNpFvBfy9+wj2Pcyq0WTfw2LtZLFo5LFumFRKNqHlXXtO6wbP2+fmdDD4aNza2vrZwHndK4TKnMd9fAO8nwIObDzd67KZ1BXvq4mzxmG67wA9Pcf79N19StIdzMiADsSnYeRQy/aFbLZjKr0inAumbw6UWl1kUik37JkAuRo0yL2Rk6EC8nk1QmASr1ks9n7Xu8LCdAzQCf237X2FpGuipAEEobhOp9Oz1Ta4n+qNjzLxsGAjwAAAABJRU5ErkJggg==" />
+  <link rel="icon" type="image/png" sizes="16x16" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAABmJLR0QA/wD/AP+gvaeTAAABvklEQVQ4jZ2Tz0tUURiGn2/uras50x2GBqOEWURSjnhBsB8LEUyapLbtWwbRQmSgNkoLN6I7Zf4CQXAhFJRBrdzUJkxlBmZRq4GYISZuM43KnHNaNF1T74zQuzrnPed9vu98cARgcNB7YAwzgAecpbOaIJ+N0U/y+e2P0gq/OiUUpgNg1Eome1dALv0HwAKu2iBDAIlEglxuCdc9H3p7Z2eXbPbZcfu2TevNSil830ckvFyj0QizHUmnPfN3J4kU4pwLBRi/jKl/P+HbwSp2EWtyJrw8YH79QK1PdwDUyqjNHOL0nExrha58CQUHgO4uh+yjDK4bDw6r1Srz8wsciEPk2gQSTWJ+ljHFd5i92lFAPO6SydzFdd0AUCqVmFtcxpqcRbr/+AKYK6OoNy9gz+fIEMNkDT9Ert8D4EL0DNPjfTx/+RVd2EB/WvtnBu3UkwRgJBVjarwvsKXl28A+4LQF1CsAPB27TFMdNmtqFURo2mA+gIy1y6v8W6zULR6vFg/NRhWd30BgW9Jp7wawSYdfKF1RpP8OEuvF+N/QxfewX0druS8AAwNDN0Uiy2A8OHUuTRGzpVRktlDYev0bulyMunfFsUAAAAAASUVORK5CYII=" />
+  <link rel="apple-touch-icon" href="data:image/png;base64,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" />
 
   <!-- Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -873,6 +880,28 @@ body.locked { overflow: hidden; }
 #lockScreen .lock-err { margin-top: 10px; color: #d2342b; font-size: 13px; }
 @media print { #lockScreen { display: none !important; } }
 
+/* ===================== project status summary card ===================== */
+#summaryBody { display: flex; flex-direction: column; gap: 14px; }
+.sum-block { display: flex; flex-direction: column; gap: 8px; }
+.sum-block + .sum-block { border-top: 1px solid var(--hairline); padding-top: 12px; }
+.sum-head { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.sum-proj { font-family: var(--font-display); font-weight: 700; font-size: 13.5px; color: var(--ink); flex: 1; min-width: 0; }
+.sum-status {
+  flex: 0 0 auto; color: #fff; font-family: var(--font-display); font-weight: 700;
+  font-size: 11px; letter-spacing: .6px; padding: 3px 9px; border-radius: 5px;
+}
+.sum-edit {
+  flex: 0 0 auto; margin-left: auto; border: 1px solid var(--hairline); background: var(--surface);
+  color: var(--faint); width: 28px; height: 28px; border-radius: var(--r-sm); cursor: pointer; font-size: 12px;
+}
+.sum-edit:hover { color: var(--amber); border-color: var(--amber); }
+.sum-fields { display: flex; flex-direction: column; gap: 8px; }
+.sum-row { display: flex; flex-direction: column; gap: 2px; }
+.sum-row .sum-l { font-size: 10.5px; text-transform: uppercase; letter-spacing: .5px; color: var(--muted); font-weight: 600; }
+.sum-row .sum-v { font-size: 13px; color: var(--ink); line-height: 1.4; white-space: pre-wrap; }
+.sum-empty { font-size: 12.5px; color: var(--muted); }
+.sum-empty .linklike { background: none; border: none; color: var(--amber); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
+
 </style>
 </head>
 <body>
@@ -964,8 +993,15 @@ body.locked { overflow: hidden; }
         <div class="map-hint" id="mapHint"></div>
       </section>
 
-      <!-- ---------- RIGHT COLUMN: weather + stats ---------- -->
+      <!-- ---------- RIGHT COLUMN: status + weather + stats ---------- -->
       <div>
+        <section class="card" id="summaryCard" style="margin-bottom:18px">
+          <div class="card-head">
+            <span class="ttl"><span class="tag" style="background:#6b4fb0"><i class="fa-solid fa-clipboard-check"></i></span>Project Status</span>
+            <span class="spacer"></span>
+          </div>
+          <div class="card-body" id="summaryBody"></div>
+        </section>
         <section class="card" id="weatherCard" style="margin-bottom:18px">
           <div class="card-head">
             <span class="ttl"><span class="tag" style="background:var(--info)"><i class="fa-solid fa-cloud-sun"></i></span>Weather Forecast</span>
@@ -1133,6 +1169,45 @@ body.locked { overflow: hidden; }
   </div>
 
   <!-- ============================ STAT MODAL ============================ -->
+  <!-- ====================== PROJECT STATUS MODAL ====================== -->
+  <div class="modal-back" id="summaryModal">
+    <div class="modal">
+      <div class="modal-head"><i class="fa-solid fa-clipboard-check"></i><span id="summaryModalTitle">Project status</span></div>
+      <div class="modal-body">
+        <div class="field">
+          <label>Anticipated completion</label>
+          <select id="sumCompType">
+            <option value="approx">Approximate (free text)</option>
+            <option value="exact">Exact date</option>
+          </select>
+          <input type="text" id="sumCompText" placeholder="e.g. Mid-Late July" style="margin-top:6px" />
+          <input type="date" id="sumCompDate" style="margin-top:6px;display:none" />
+        </div>
+        <div class="field">
+          <label>Overall status</label>
+          <select id="sumStatus">
+            <option value="">— Not set —</option>
+            <option value="green">Green — on track</option>
+            <option value="amber">Amber — watch</option>
+            <option value="red">Red — at risk</option>
+          </select>
+          <textarea id="sumStatusComment" rows="2" placeholder="Status comment (optional)" style="margin-top:6px"></textarea>
+        </div>
+        <div class="field"><label>Current stage</label><input type="text" id="sumStage" placeholder="e.g. Mains laying — Tarwhine St" /></div>
+        <div class="field"><label>Next key milestone</label><input type="text" id="sumMilestone" placeholder="e.g. Pressure test — 22 Jul" /></div>
+        <div class="field"><label>Latest achievement</label><textarea id="sumAchievement" rows="2"></textarea></div>
+        <div class="field"><label>Client action required</label><textarea id="sumClientAction" rows="2"></textarea></div>
+        <div class="field"><label>Key constraint or risk</label><textarea id="sumRisk" rows="2"></textarea></div>
+        <div class="field"><label>Upcoming impacts</label><textarea id="sumImpacts" rows="2"></textarea></div>
+        <div class="field"><label>Approved scope changes</label><textarea id="sumScope" rows="2"></textarea></div>
+      </div>
+      <div class="modal-foot">
+        <button class="btn btn-ghost" data-close>Cancel</button>
+        <button class="btn btn-primary" id="sumSave">Save status</button>
+      </div>
+    </div>
+  </div>
+
   <div class="modal-back" id="statModal">
     <div class="modal">
       <div class="modal-head"><i class="fa-solid fa-chart-column"></i><span id="statModalTitle">Stat</span></div>
@@ -1606,7 +1681,8 @@ body.locked { overflow: hidden; }
       mapLayers: [],
       panelVis: {},
       panelMeta: {},
-      history: {}
+      history: {},
+      projectSummary: {}
     };
   }
 
@@ -1640,7 +1716,8 @@ body.locked { overflow: hidden; }
         mapLayers: parsed.mapLayers || [],
         panelVis: parsed.panelVis || {},
         panelMeta: parsed.panelMeta || {},
-        history: parsed.history || {}
+        history: parsed.history || {},
+        projectSummary: parsed.projectSummary || {}
       };
       if (!merged.settings.siteKey) {
         merged.settings.siteKey = genKey();
@@ -2434,6 +2511,113 @@ body.locked { overflow: hidden; }
     picker.style.display = count > 1 ? "" : "none";
   }
 
+  /* ---- project status summary (right column, above weather) ------------ */
+  const SUM_STATUS = { green: { rag: "GREEN", color: "#1e9e6a" }, amber: { rag: "AMBER", color: "#e8a100" }, red: { rag: "RED", color: "#d2342b" } };
+  const SUM_ROWS = [
+    ["stage", "Current stage"], ["milestone", "Next key milestone"], ["achievement", "Latest achievement"],
+    ["clientAction", "Client action required"], ["risk", "Key constraint / risk"], ["impacts", "Upcoming impacts"],
+    ["scope", "Approved scope changes"]
+  ];
+  function compValue(s) {
+    if (!s) return "";
+    if (s.compType === "exact" && s.compDate) {
+      const d = new Date(s.compDate + "T00:00:00");
+      return isNaN(d.getTime()) ? "" : d.toLocaleDateString("en-AU", { day: "2-digit", month: "short", year: "numeric" });
+    }
+    return s.comp || "";
+  }
+  function sumHasContent(s) {
+    return !!(s && (s.status || compValue(s) || s.statusComment || SUM_ROWS.some((r) => s[r[0]])));
+  }
+  function sumFieldRow(label, val) {
+    return `<div class="sum-row"><span class="sum-l">${esc(label)}</span><span class="sum-v">${esc(val)}</span></div>`;
+  }
+  function summaryBlock(p, s, editor, showName) {
+    s = s || {};
+    const st = SUM_STATUS[s.status];
+    const pill = st ? `<span class="sum-status" style="background:${st.color}">${st.rag}</span>` : "";
+    const edit = editor ? `<button class="sum-edit" data-sum-edit="${p.id}" title="Edit status"><i class="fa-solid fa-pen"></i></button>` : "";
+    const head = `<div class="sum-head">${showName ? `<span class="sum-proj">${esc(p.name)}</span>` : ""}${pill}${edit}</div>`;
+    const rows = [];
+    const comp = compValue(s);
+    if (comp) rows.push(sumFieldRow("Anticipated completion", comp));
+    if (s.statusComment) rows.push(sumFieldRow("Status note", s.statusComment));
+    SUM_ROWS.forEach(([k, l]) => { if (s[k]) rows.push(sumFieldRow(l, s[k])); });
+    const inner = rows.length ? `<div class="sum-fields">${rows.join("")}</div>`
+      : (editor ? `<div class="sum-empty">No details yet — tap the pencil to add.</div>` : "");
+    return `<div class="sum-block">${head}${inner}</div>`;
+  }
+  function renderProjectSummary() {
+    const card = document.getElementById("summaryCard");
+    const body = document.getElementById("summaryBody");
+    if (!card || !body) return;
+    const editor = sync.audience === "editor";
+    const inScope = projects().filter((p) => projInScope(p.id));
+    if (!inScope.length) { card.style.display = "none"; return; }
+    const blocks = inScope.map((p) => {
+      const s = (state.projectSummary || {})[p.id];
+      if (!editor && !sumHasContent(s)) return "";
+      return summaryBlock(p, s, editor, inScope.length > 1);
+    }).filter(Boolean);
+    if (!blocks.length) {
+      if (editor) { body.innerHTML = `<div class="sum-empty">No project status yet. <button class="linklike" data-sum-edit="${inScope[0].id}">Add one</button></div>`; card.style.display = ""; }
+      else { card.style.display = "none"; return; }
+    } else {
+      body.innerHTML = blocks.join("");
+      card.style.display = "";
+    }
+    body.querySelectorAll("[data-sum-edit]").forEach((b) => b.onclick = () => openSummaryModal(b.getAttribute("data-sum-edit")));
+  }
+
+  let editingSummary = null;
+  function sumCompUI() {
+    const exact = document.getElementById("sumCompType").value === "exact";
+    document.getElementById("sumCompDate").style.display = exact ? "" : "none";
+    document.getElementById("sumCompText").style.display = exact ? "none" : "";
+  }
+  function openSummaryModal(pid) {
+    if (!pid) return;
+    editingSummary = pid;
+    const p = projById(pid);
+    const s = (state.projectSummary || {})[pid] || {};
+    document.getElementById("summaryModalTitle").textContent = "Project status" + (p ? " — " + p.name : "");
+    document.getElementById("sumCompType").value = s.compType || "approx";
+    document.getElementById("sumCompText").value = s.comp || "";
+    document.getElementById("sumCompDate").value = s.compDate || "";
+    sumCompUI();
+    document.getElementById("sumStatus").value = s.status || "";
+    document.getElementById("sumStatusComment").value = s.statusComment || "";
+    document.getElementById("sumStage").value = s.stage || "";
+    document.getElementById("sumMilestone").value = s.milestone || "";
+    document.getElementById("sumAchievement").value = s.achievement || "";
+    document.getElementById("sumClientAction").value = s.clientAction || "";
+    document.getElementById("sumRisk").value = s.risk || "";
+    document.getElementById("sumImpacts").value = s.impacts || "";
+    document.getElementById("sumScope").value = s.scope || "";
+    openModal("summaryModal");
+  }
+  function saveSummary() {
+    if (!editingSummary) return;
+    const g = (id) => document.getElementById(id).value;
+    const compType = g("sumCompType");
+    state.projectSummary = state.projectSummary || {};
+    state.projectSummary[editingSummary] = {
+      compType: compType,
+      comp: compType === "approx" ? g("sumCompText").trim() : "",
+      compDate: compType === "exact" ? g("sumCompDate") : "",
+      status: g("sumStatus"),
+      statusComment: g("sumStatusComment").trim(),
+      stage: g("sumStage").trim(),
+      milestone: g("sumMilestone").trim(),
+      achievement: g("sumAchievement").trim(),
+      clientAction: g("sumClientAction").trim(),
+      risk: g("sumRisk").trim(),
+      impacts: g("sumImpacts").trim(),
+      scope: g("sumScope").trim()
+    };
+    save(); renderProjectSummary(); closeModal("summaryModal");
+  }
+
   function renderProjList() {
     const wrap = document.getElementById("projList");
     if (!wrap) return;
@@ -2528,7 +2712,7 @@ body.locked { overflow: hidden; }
   function unlockSet(v) { try { window.sessionStorage.setItem("offaly_ops_unlock", v); } catch (e) {} }
 
   function renderAll() {
-    renderHeader(); renderStats(); renderPanels(); renderProjectSelect();
+    renderHeader(); renderStats(); renderPanels(); renderProjectSelect(); renderProjectSummary();
     if (markerLayer) renderMarkers();
     updatePublishUI(); setSyncStatus();
   }
@@ -3097,6 +3281,7 @@ body.locked { overflow: hidden; }
       panelVis: state.panelVis || {},
       panelMeta: state.panelMeta || {},
       history: state.history || {},
+      projectSummary: state.projectSummary || {},
       publishedAt: new Date().toISOString()
     };
   }
@@ -3128,6 +3313,7 @@ body.locked { overflow: hidden; }
     state.panelVis = obj.panelVis || {};
     state.panelMeta = obj.panelMeta || {};
     state.history = Object.assign({}, obj.history || {}, state.history || {});
+    state.projectSummary = obj.projectSummary || state.projectSummary || {};
     save();                 // persists locally without flagging dirty
     applyingRemote = false;
     setLastPublished(obj.publishedAt || null);
@@ -3138,7 +3324,7 @@ body.locked { overflow: hidden; }
     // so an un-authenticated editor device never paints real content.
     evaluateLock(false);
 
-    renderHeader(); renderStats(); renderPanels(); renderProjectSelect();
+    renderHeader(); renderStats(); renderPanels(); renderProjectSelect(); renderProjectSummary();
     if (markerLayer) renderMarkers();
     if (map) renderUserLayers();
     if (map && state.base !== prevBase) applyBase();
@@ -3625,6 +3811,7 @@ body.locked { overflow: hidden; }
     renderStats();
     renderPanels();
     renderProjectSelect();
+    renderProjectSummary();
     loadWeather();
 
     // toolbar
@@ -3717,8 +3904,10 @@ body.locked { overflow: hidden; }
     document.getElementById("projSelect").onchange = (e) => {
       currentProject = e.target.value;
       try { localStorage.setItem(PROJ_KEY, currentProject); } catch (err) {}
-      renderPanels(); renderMarkers();
+      renderPanels(); renderMarkers(); renderProjectSummary();
     };
+    document.getElementById("sumSave").onclick = saveSummary;
+    document.getElementById("sumCompType").onchange = sumCompUI;
     document.getElementById("lockBtn").onclick = tryUnlock;
     document.getElementById("lockPass").addEventListener("keydown", (e) => { if (e.key === "Enter") tryUnlock(); });
     document.getElementById("btnHistory").onclick = downloadHistory;
