@@ -142,15 +142,30 @@ input, textarea, select { font-family: inherit; }
 body.viewer .proj-picker select { max-width: 180px; }
 
 /* project manager (settings) */
-.proj-list { display: flex; flex-direction: column; gap: 6px; }
-.proj-row { display: flex; align-items: center; gap: 8px; }
+.proj-list { display: flex; flex-direction: column; gap: 10px; }
+.proj-row { display: flex; flex-direction: column; gap: 6px; padding: 8px; border: 1px solid var(--hairline); border-radius: var(--r-sm); background: var(--surface-2, #f7f9fb); }
+.proj-row .proj-top { display: flex; align-items: center; gap: 8px; }
 .proj-row .proj-name { flex: 1; min-width: 0; }
-.proj-row .chkline { flex: 0 0 auto; white-space: nowrap; font-size: 12.5px; }
+.proj-row .proj-clients { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; }
+.proj-row .proj-clients .pc-label { font-size: 11.5px; color: var(--muted); font-weight: 600; margin-right: 2px; }
+.proj-row .proj-clients .pc-none { font-size: 12px; color: var(--faint); font-style: italic; }
+.proj-row .chkline.cli { flex: 0 0 auto; white-space: nowrap; font-size: 12.5px; margin: 0; }
 .proj-row .proj-del {
   flex: 0 0 auto; border: 1px solid var(--hairline); background: var(--surface);
   color: var(--faint); width: 28px; height: 28px; border-radius: var(--r-sm); cursor: pointer; font-size: 16px;
 }
 .proj-row .proj-del:hover { color: var(--stop); border-color: var(--stop); }
+
+/* clients manager */
+.client-list { display: flex; flex-direction: column; gap: 6px; }
+.client-row { display: flex; align-items: center; gap: 6px; }
+.client-row .client-name { flex: 0 0 34%; min-width: 0; }
+.client-row .client-link { flex: 1; min-width: 0; font-family: var(--font-mono); font-size: 11px; color: var(--muted); background: var(--surface-2, #f2f5f8); }
+.client-row .mini-btn {
+  flex: 0 0 auto; border: 1px solid var(--hairline); background: var(--surface); color: var(--faint);
+  width: 30px; height: 30px; border-radius: var(--r-sm); cursor: pointer;
+}
+.client-row .mini-btn:hover { color: var(--amber); border-color: var(--amber); }
 .icon-btn {
   background: var(--ink-2);
   color: #cdd6dc;
@@ -1024,6 +1039,15 @@ body.locked { overflow: hidden; }
           <label id="lblStatus">Status</label>
           <select id="fStatus"></select>
         </div>
+        <div class="field" id="fldRange" style="display:none">
+          <label class="chkline"><input type="checkbox" id="tglRange" /> Date range (duration)</label>
+          <div id="rangeInputs" style="display:none;margin-top:6px">
+            <div class="field-row">
+              <div class="field"><label>Start</label><input type="date" id="fStart" /></div>
+              <div class="field"><label>End</label><input type="date" id="fEnd" /></div>
+            </div>
+          </div>
+        </div>
         <div class="field" id="fldDates">
           <label class="chkline"><input type="checkbox" id="tglAssigned" /> Date assigned</label>
           <input type="date" id="fAssigned" style="display:none;margin-top:6px" />
@@ -1162,8 +1186,16 @@ body.locked { overflow: hidden; }
     <div class="modal">
       <div class="modal-head"><i class="fa-solid fa-gear"></i><span>Settings</span></div>
       <div class="modal-body">
-        <div class="set-section">Projects</div>
-        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 8px">Add the projects you're running. Tick <b>Client</b> to let the client see that project. Assign items and markers to a project when you add them.</p>
+        <div class="set-section">Clients</div>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 8px">Add each client who needs a view. Every client gets their own private link (below). Assign clients to projects further down — a client only sees the projects you tick for them.</p>
+        <div id="clientList" class="client-list"></div>
+        <div class="linkrow" style="margin-top:8px">
+          <input type="text" id="newClientName" placeholder="New client name (e.g. Gympie Regional Council)" />
+          <button type="button" class="btn" id="addClientBtn"><i class="fa-solid fa-plus"></i> Add</button>
+        </div>
+
+        <div class="set-section" style="margin-top:16px">Projects</div>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 8px">Add the projects you're running, then tick which <b>clients</b> can see each one. Assign items and markers to a project when you add them. The <b>C</b> toggle on an item/panel still controls what's client-visible within a project.</p>
         <div id="projList" class="proj-list"></div>
         <div class="linkrow" style="margin-top:8px">
           <input type="text" id="newProjName" placeholder="New project name" />
@@ -1177,6 +1209,10 @@ body.locked { overflow: hidden; }
           <input type="password" id="setPass" placeholder="Leave blank to keep / clear" autocomplete="new-password" />
           <label class="chkline" id="clearPassRow" style="display:none"><input type="checkbox" id="clearPass" /> Remove existing password</label>
         </div>
+
+        <div class="set-section" style="margin-top:16px">Project history</div>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 8px">Every item added to a panel is recorded here for the life of the project — including items later completed, cancelled or deleted. Download the full history as a spreadsheet (CSV, opens in Excel) any time. <span id="histCount"></span></p>
+        <button type="button" class="btn" id="btnHistory"><i class="fa-solid fa-file-arrow-down"></i> Download history (CSV)</button>
 
         <div class="set-section" style="margin-top:16px">Board</div>
         <div class="field">
@@ -1234,10 +1270,7 @@ body.locked { overflow: hidden; }
           <label>Site supervisor link (keep private)</label>
           <div class="linkrow"><input type="text" id="linkSite" readonly /><button type="button" class="btn" data-copy="linkSite">Copy</button></div>
         </div>
-        <div class="field">
-          <label>Client link</label>
-          <div class="linkrow"><input type="text" id="linkClient" readonly /><button type="button" class="btn" data-copy="linkClient">Copy</button></div>
-        </div>
+        <p style="font-size:12.5px;color:var(--muted);margin:2px 0 0"><b>Client links</b> are each listed in the <b>Clients</b> section above &mdash; copy the one for each client from there.</p>
       </div>
       <div class="modal-foot">
         <button class="btn btn-ghost" data-close>Cancel</button>
@@ -1304,7 +1337,7 @@ body.locked { overflow: hidden; }
       extras: [ { key:"time", label:"Expected time", type:"time" }, { key:"supplier", label:"Supplier", type:"text" }, { key:"contact", label:"Contact", type:"text" } ] },
     { id: "trafficControl", title: "Traffic Control",       icon: "fa-road-barrier",    color: "#c8621b", kind: "dated", mainLbl: "Location / job", dueLbl: "Date", noSub: true,
       extras: [ { key:"tc", label:"No. of traffic controllers", type:"number" }, { key:"utes", label:"No. of utes", type:"number" } ] },
-    { id: "upcoming",      title: "Scheduled Works",         icon: "fa-calendar-week",   color: "#2f6fb0", mainLbl: "Task",     subLbl: "When / detail" },
+    { id: "upcoming",      title: "Scheduled Works",         icon: "fa-calendar-week",   color: "#2f6fb0", mainLbl: "Task",     subLbl: "When / detail", dateRange: true },
     { id: "subbiesToday",  title: "Subcontractors",         icon: "fa-people-group",    color: "#e8542a", kind: "dated", mainLbl: "Subcontractor", dueLbl: "Date onsite", noSub: true,
       extras: [ { key:"works", label:"Works", type:"text" }, { key:"time", label:"Time onsite", type:"time" }, { key:"contact", label:"Contact details", type:"text" } ] },
     { id: "staffAway",     title: "Staff Away",             icon: "fa-user-xmark",      color: "#b0395e", mainLbl: "Who",      subLbl: "Dates / reason" },
@@ -1349,6 +1382,70 @@ body.locked { overflow: hidden; }
   const wstatusDef = (value) => WSTATUS.find((w) => w.value === value);
   const isResolved = (it) => it.done || it.wstatus === "completed" || it.wstatus === "cancelled";
 
+  const RESOLVED_TTL = 24 * 60 * 60 * 1000;   // keep completed/cancelled items visible for 24h
+
+  // Stamp/clear the moment an item became resolved, so we can retire it after 24h.
+  function stampResolved(it) {
+    if (isResolved(it)) { if (!it.resolvedAt) it.resolvedAt = new Date().toISOString(); }
+    else { delete it.resolvedAt; }
+  }
+
+  // Display order: drop resolved items older than 24h, then float active items above resolved ones.
+  function sortItemsForDisplay(items) {
+    const now = Date.now();
+    const shown = items.filter((it) => {
+      if (it.resolvedAt) { const t = Date.parse(it.resolvedAt); if (!isNaN(t) && (now - t) > RESOLVED_TTL) return false; }
+      return true;
+    });
+    const active = [], resolved = [];
+    shown.forEach((it) => (isResolved(it) ? resolved : active).push(it));
+    return active.concat(resolved);
+  }
+
+  // "Start → End (n days)" badge for panels that capture a duration.
+  function rangeBadge(a, b) {
+    if (!a && !b) return "";
+    let dur = "";
+    if (a && b) {
+      const d1 = new Date(a + "T00:00:00"), d2 = new Date(b + "T00:00:00");
+      if (!isNaN(d1) && !isNaN(d2)) { const days = Math.round((d2 - d1) / 86400000) + 1; if (days > 0) dur = " · " + days + (days === 1 ? " day" : " days"); }
+    }
+    const label = a && b ? (fmtDay(a) + " \u2192 " + fmtDay(b)) : (a ? "From " + fmtDay(a) : "Until " + fmtDay(b));
+    return `<span class="dt-badge" title="Scheduled duration"><i class="fa-solid fa-calendar-week"></i> ${label}${dur}</span>`;
+  }
+
+  /* ---- project history log (every item, kept even once removed) -------- */
+  function recordHistory(pid, it, opts) {
+    opts = opts || {};
+    state.history = state.history || {};
+    const p = panelById(pid);
+    const now = new Date().toISOString();
+    const prev = state.history[it.id] || {};
+    const detail = [it.sub].concat((p && p.extras || [])
+      .filter((fx) => it.x && it.x[fx.key] !== undefined && it.x[fx.key] !== "")
+      .map((fx) => fx.label + ": " + it.x[fx.key])).filter(Boolean).join(" \u00b7 ");
+    state.history[it.id] = {
+      id: it.id,
+      panel: p ? p.title : pid,
+      project: projName(effProj(it)) || "",
+      title: it.main || it.name || "",
+      detail: detail,
+      team: it.team ? ((teamDef(it.team) || {}).label || "") : "",
+      priority: (p && it.priority) ? ((priorityDef(p, it.priority) || {}).label || "") : "",
+      status: (p && it.status) ? ((statusDef(p, it.status) || {}).label || "") : "",
+      workStatus: it.wstatus ? ((wstatusDef(it.wstatus) || {}).label || "") : "",
+      done: !!it.done,
+      due: it.due || "", start: it.startDate || "", end: it.endDate || "",
+      dateAssigned: it.dateAssigned || "", dateRequired: it.dateRequired || "",
+      photos: (it.photos || []).length,
+      createdAt: prev.createdAt || now,
+      updatedAt: now,
+      removed: opts.removed ? true : (prev.removed || false),
+      removedAt: opts.removed ? now : (prev.removedAt || ""),
+      removedReason: opts.removed ? (opts.reason || "removed") : (prev.removedReason || "")
+    };
+  }
+
   function fmtDay(s) {
     if (!s) return "";
     const d = new Date(s + "T00:00:00");
@@ -1384,22 +1481,39 @@ body.locked { overflow: hidden; }
     return (p && p.clientDefault) ? { site: true, client: true } : defVis();
   };
 
+  /* ---- clients --------------------------------------------------------- */
+  const DEFAULT_CLIENT = "client-default";
+  const clients = () => state.clients || [];
+  const clientById = (id) => clients().find((c) => c.id === id);
+  const clientByKey = (key) => clients().find((c) => c.key === key);
+  function ensureClients() {
+    if (!state.clients || !state.clients.length) {
+      state.clients = [ { id: DEFAULT_CLIENT, name: "Client", key: "client" } ];
+    }
+  }
+
   /* ---- projects -------------------------------------------------------- */
   const DEFAULT_PROJ = "default";
   const projects = () => state.projects || [];
   const projById = (id) => projects().find((p) => p.id === id);
   const effProj = (x) => (x && x.project) || DEFAULT_PROJ;   // items/markers with no project fall to the default
   function projName(id) { const p = projById(id); return p ? p.name : ""; }
-  function projClientVisible(id) {
-    const p = projById(id);
-    return p ? p.client !== false : true;     // unknown/legacy project -> visible
+  // Which clients may see a project. Migrates the old boolean `client` flag to a client-id list.
+  function projClientIds(p) {
+    if (!p) return [];
+    if (Array.isArray(p.clients)) return p.clients;
+    return p.client === false ? [] : [DEFAULT_CLIENT];   // legacy: client:true -> visible to the default client
+  }
+  function projVisibleToClient(pid, clientId) {
+    return projClientIds(projById(pid)).indexOf(clientId) !== -1;
   }
   function visibleProjects() {
-    return sync.audience === "client" ? projects().filter((p) => p.client !== false) : projects();
+    if (sync.audience !== "client") return projects();
+    return projects().filter((p) => projClientIds(p).indexOf(sync.clientId) !== -1);
   }
-  // A project id is in scope if it matches the current dropdown selection and (for client) is client-visible.
+  // A project id is in scope if it matches the dropdown selection and (for a client) is assigned to them.
   function projInScope(pid) {
-    if (sync.audience === "client" && !projClientVisible(pid)) return false;
+    if (sync.audience === "client" && !projVisibleToClient(pid, sync.clientId)) return false;
     if (currentProject !== "all" && pid !== currentProject) return false;
     return true;
   }
@@ -1463,7 +1577,8 @@ body.locked { overflow: hidden; }
         siteKey: genKey(),
         editPass: ""
       },
-      projects: [ { id: DEFAULT_PROJ, name: "Main project", client: true } ],
+      clients: [ { id: DEFAULT_CLIENT, name: "Client", key: "client" } ],
+      projects: [ { id: DEFAULT_PROJ, name: "Main project", clients: [DEFAULT_CLIENT] } ],
       base: "street", // or "sat"
       markers: [],
       stats: [],
@@ -1490,13 +1605,15 @@ body.locked { overflow: hidden; }
       },
       mapLayers: [],
       panelVis: {},
-      panelMeta: {}
+      panelMeta: {},
+      history: {}
     };
   }
 
   function ensureProjects() {
+    ensureClients();
     if (!state.projects || !state.projects.length) {
-      state.projects = [ { id: DEFAULT_PROJ, name: state.settings.projectName || "Main project", client: true } ];
+      state.projects = [ { id: DEFAULT_PROJ, name: state.settings.projectName || "Main project", clients: [DEFAULT_CLIENT] } ];
     }
   }
 
@@ -1512,15 +1629,18 @@ body.locked { overflow: hidden; }
       // shallow-merge to tolerate older saves
       const merged = {
         settings: Object.assign({}, d.settings, parsed.settings),
+        clients: (parsed.clients && parsed.clients.length) ? parsed.clients
+          : [ { id: DEFAULT_CLIENT, name: "Client", key: "client" } ],
         projects: (parsed.projects && parsed.projects.length) ? parsed.projects
-          : [ { id: DEFAULT_PROJ, name: (parsed.settings && parsed.settings.projectName) || "Main project", client: true } ],
+          : [ { id: DEFAULT_PROJ, name: (parsed.settings && parsed.settings.projectName) || "Main project", clients: [DEFAULT_CLIENT] } ],
         base: parsed.base || d.base,
         markers: parsed.markers || [],
         stats: parsed.stats || d.stats,
         panels: Object.assign({}, d.panels, parsed.panels),
         mapLayers: parsed.mapLayers || [],
         panelVis: parsed.panelVis || {},
-        panelMeta: parsed.panelMeta || {}
+        panelMeta: parsed.panelMeta || {},
+        history: parsed.history || {}
       };
       if (!merged.settings.siteKey) {
         merged.settings.siteKey = genKey();
@@ -2317,18 +2437,31 @@ body.locked { overflow: hidden; }
   function renderProjList() {
     const wrap = document.getElementById("projList");
     if (!wrap) return;
-    wrap.innerHTML = projects().map((p) => `
+    wrap.innerHTML = projects().map((p) => {
+      const assigned = projClientIds(p);
+      const clientBoxes = clients().map((c) =>
+        `<label class="chkline cli"><input type="checkbox" data-pc="${p.id}:${c.id}" ${assigned.indexOf(c.id) !== -1 ? "checked" : ""} /> ${esc(c.name)}</label>`
+      ).join("");
+      return `
       <div class="proj-row" data-proj="${p.id}">
-        <input type="text" class="proj-name" value="${esc(p.name)}" data-proj-name="${p.id}" />
-        <label class="chkline"><input type="checkbox" data-proj-client="${p.id}" ${p.client !== false ? "checked" : ""} /> Client</label>
-        <button type="button" class="proj-del" data-proj-del="${p.id}" title="Remove project">&times;</button>
-      </div>`).join("");
+        <div class="proj-top">
+          <input type="text" class="proj-name" value="${esc(p.name)}" data-proj-name="${p.id}" />
+          <button type="button" class="proj-del" data-proj-del="${p.id}" title="Remove project">&times;</button>
+        </div>
+        <div class="proj-clients"><span class="pc-label">Visible to:</span>${clientBoxes || '<span class="pc-none">no clients yet</span>'}</div>
+      </div>`;
+    }).join("");
     wrap.querySelectorAll("[data-proj-name]").forEach((el) => el.onchange = () => {
       const pr = projById(el.getAttribute("data-proj-name")); if (pr) { pr.name = el.value.trim() || pr.name; }
       save(); renderProjectSelect();
     });
-    wrap.querySelectorAll("[data-proj-client]").forEach((el) => el.onchange = () => {
-      const pr = projById(el.getAttribute("data-proj-client")); if (pr) { pr.client = el.checked; }
+    wrap.querySelectorAll("[data-pc]").forEach((el) => el.onchange = () => {
+      const [pid, cid] = el.getAttribute("data-pc").split(":");
+      const pr = projById(pid); if (!pr) return;
+      let list = projClientIds(pr).slice();
+      if (el.checked) { if (list.indexOf(cid) === -1) list.push(cid); }
+      else { list = list.filter((x) => x !== cid); }
+      pr.clients = list; delete pr.client;   // migrate off the legacy boolean
       save(); renderProjectSelect();
     });
     wrap.querySelectorAll("[data-proj-del]").forEach((el) => el.onclick = () => removeProject(el.getAttribute("data-proj-del")));
@@ -2338,8 +2471,46 @@ body.locked { overflow: hidden; }
     name = (name || "").trim();
     if (!name) return;
     state.projects = state.projects || [];
-    state.projects.push({ id: "p" + uid(), name: name, client: false });
+    state.projects.push({ id: "p" + uid(), name: name, clients: [] });
     save(); renderProjList(); renderProjectSelect();
+  }
+
+  /* ---- clients manager ------------------------------------------------- */
+  function renderClientList() {
+    const wrap = document.getElementById("clientList");
+    if (!wrap) return;
+    const base = shareBase();
+    wrap.innerHTML = clients().map((c) => `
+      <div class="client-row" data-client="${c.id}">
+        <input type="text" class="client-name" value="${esc(c.name)}" data-client-name="${c.id}" />
+        <input type="text" class="client-link" readonly value="${base}?view=${esc(c.key)}" data-client-link="${c.id}" />
+        <button type="button" class="mini-btn" data-client-copy="${c.id}" title="Copy link"><i class="fa-solid fa-copy"></i></button>
+        ${c.id === DEFAULT_CLIENT ? "" : `<button type="button" class="proj-del" data-client-del="${c.id}" title="Remove client">&times;</button>`}
+      </div>`).join("");
+    wrap.querySelectorAll("[data-client-name]").forEach((el) => el.onchange = () => {
+      const c = clientById(el.getAttribute("data-client-name")); if (c) { c.name = el.value.trim() || c.name; }
+      save(); renderProjList();
+    });
+    wrap.querySelectorAll("[data-client-copy]").forEach((el) => el.onclick = () => {
+      const inp = wrap.querySelector(`[data-client-link="${el.getAttribute("data-client-copy")}"]`);
+      if (inp) { inp.select(); try { document.execCommand("copy"); } catch (e) {} toast("Link copied"); }
+    });
+    wrap.querySelectorAll("[data-client-del]").forEach((el) => el.onclick = () => removeClient(el.getAttribute("data-client-del")));
+  }
+
+  function addClient(name) {
+    name = (name || "").trim();
+    if (!name) return;
+    state.clients = state.clients || [];
+    state.clients.push({ id: "c" + uid(), name: name, key: genKey() });
+    save(); renderClientList(); renderProjList();
+  }
+
+  function removeClient(id) {
+    if (id === DEFAULT_CLIENT) { toast("The default client can't be removed", true); return; }
+    state.clients = clients().filter((c) => c.id !== id);
+    projects().forEach((p) => { if (Array.isArray(p.clients)) p.clients = p.clients.filter((x) => x !== id); });
+    save(); renderClientList(); renderProjList(); renderProjectSelect(); renderPanels();
   }
 
   function removeProject(id) {
@@ -2433,7 +2604,7 @@ body.locked { overflow: hidden; }
     const editor = sync.audience === "editor";
     grid.innerHTML = orderedPanels().map((p) => {
       if (!editor && !panelVisOf(p.id)[sync.audience]) return ""; // whole panel hidden for this audience
-      const items = visiblePanelItems(p.id);
+      const items = sortItemsForDisplay(visiblePanelItems(p.id));
       const kind = panelKind(p);
       const pv = panelVisOf(p.id);
       const pchips = editor
@@ -2495,6 +2666,7 @@ body.locked { overflow: hidden; }
         const due = kind === "dated" ? dueBadge(it.due, resolved) : "";
         const asg = it.dateAssigned ? `<span class="dt-badge" title="Date assigned"><i class="fa-solid fa-calendar-plus"></i> Assigned ${fmtDay(it.dateAssigned)}</span>` : "";
         const req = it.dateRequired ? reqBadge(it.dateRequired, resolved) : "";
+        const range = (p.dateRange && (it.startDate || it.endDate)) ? rangeBadge(it.startDate, it.endDate) : "";
         let prio = "";
         if (p.priorities && it.priority) {
           const pd = priorityDef(p, it.priority);
@@ -2535,7 +2707,7 @@ body.locked { overflow: hidden; }
           ? `<span class="print-sheet print-only"><span class="tickbox"></span><span class="cmt-line">Comments:</span></span>`
           : "";
         const liClass = [resolved ? "done" : "", it.wstatus === "cancelled" ? "cancelled" : ""].filter(Boolean).join(" ");
-        return `<li class="${liClass}"><span class="marker" style="background:${p.color}"></span>${txt}${team}${due}${asg}${req}${wstat}${doneBadge}${prio}${stat}${chips}${acts}${photos}${sheet}</li>`;
+        return `<li class="${liClass}"><span class="marker" style="background:${p.color}"></span>${txt}${team}${range}${due}${asg}${req}${wstat}${doneBadge}${prio}${stat}${chips}${acts}${photos}${sheet}</li>`;
       }).join("");
       const emptyMsg = kind === "files"
         ? `No files yet.${editor ? ` <button data-empty-add="${p.id}">Attach a file</button>` : ""}`
@@ -2570,6 +2742,8 @@ body.locked { overflow: hidden; }
         const it = (state.panels[pid] || []).find((x) => x.id === iid);
         if (!it) return;
         it.done = !it.done;
+        stampResolved(it);
+        recordHistory(pid, it);
         touchPanel(pid); save(); renderPanels();
       }));
     grid.querySelectorAll("[data-print-panel]").forEach((b) =>
@@ -2583,6 +2757,8 @@ body.locked { overflow: hidden; }
     grid.querySelectorAll("[data-del]").forEach((b) =>
       b.addEventListener("click", () => {
         const [pid, iid] = b.getAttribute("data-del").split(":");
+        const it = (state.panels[pid] || []).find((x) => x.id === iid);
+        if (it) recordHistory(pid, it, { removed: true, reason: "deleted" });
         state.panels[pid] = state.panels[pid].filter((x) => x.id !== iid);
         touchPanel(pid); save(); renderPanels();
       }));
@@ -2700,6 +2876,15 @@ body.locked { overflow: hidden; }
     document.getElementById("fWStatus").value = it.wstatus || "inprogress";
     document.getElementById("fWStatus").style.display = wOn ? "" : "none";
 
+    // date range (duration) — only on panels that opt in (e.g. Scheduled Works)
+    const showRange = !!p.dateRange;
+    const rangeOn = !!(it.startDate || it.endDate);
+    document.getElementById("fldRange").style.display = showRange ? "" : "none";
+    document.getElementById("tglRange").checked = rangeOn;
+    document.getElementById("rangeInputs").style.display = rangeOn ? "" : "none";
+    document.getElementById("fStart").value = it.startDate || "";
+    document.getElementById("fEnd").value = it.endDate || "";
+
     // photos (punch list, weekly photos)
     const showPhotos = !!p.photos;
     document.getElementById("fldPhotos").style.display = showPhotos ? "" : "none";
@@ -2731,6 +2916,11 @@ body.locked { overflow: hidden; }
       data.dateRequired = document.getElementById("tglRequired").checked ? document.getElementById("fRequired").value : "";
       data.wstatus = document.getElementById("tglWStatus").checked ? document.getElementById("fWStatus").value : "";
     }
+    if (p.dateRange) {
+      const on = document.getElementById("tglRange").checked;
+      data.startDate = on ? document.getElementById("fStart").value : "";
+      data.endDate = on ? document.getElementById("fEnd").value : "";
+    }
     if (p.hasRef) data.ref = document.getElementById("fRef").value.trim();
     if (p.priorities && p.priorities.length) data.priority = document.getElementById("fPriority").value;
     if (p.statuses && p.statuses.length) data.status = document.getElementById("fStatus").value;
@@ -2745,17 +2935,25 @@ body.locked { overflow: hidden; }
 
     if (p.photos) data.photos = modalPhotos.slice();
 
-    if (id) { const it = state.panels[panel].find((x) => x.id === id); Object.assign(it, data); }
-    else { state.panels[panel].push(Object.assign({ id: uid() }, data)); }
+    let saved;
+    if (id) { saved = state.panels[panel].find((x) => x.id === id); Object.assign(saved, data); }
+    else { saved = Object.assign({ id: uid() }, data); state.panels[panel].push(saved); }
+    stampResolved(saved);
+    recordHistory(panel, saved);
     touchPanel(panel); save(); renderPanels(); closeModal("itemModal");
   }
 
   /* =======================================================================
      SETTINGS
      ======================================================================= */
+  function shareBase() { return window.location.origin + window.location.pathname; }
+
   function openSettings() {
     const s = state.settings;
+    renderClientList();
     renderProjList();
+    const hc = document.getElementById("histCount");
+    if (hc) { const n = Object.keys(state.history || {}).length; hc.textContent = n ? `(${n} item${n === 1 ? "" : "s"} recorded so far.)` : "(Nothing recorded yet.)"; }
     document.getElementById("setPass").value = "";
     const clearRow = document.getElementById("clearPassRow");
     if (clearRow) { clearRow.style.display = s.editPass ? "" : "none"; document.getElementById("clearPass").checked = false; }
@@ -2770,9 +2968,7 @@ body.locked { overflow: hidden; }
     document.getElementById("setRepo").value = sync.repo || r.repo || "";
     document.getElementById("setBranch").value = sync.branch || r.branch || "main";
     document.getElementById("setToken").value = getToken();
-    const base = window.location.origin + window.location.pathname;
-    document.getElementById("linkSite").value = base + "?crew=" + (s.siteKey || "");
-    document.getElementById("linkClient").value = base + "?view=client";
+    document.getElementById("linkSite").value = shareBase() + "?crew=" + (s.siteKey || "");
     openModal("settingsModal");
   }
 
@@ -2864,7 +3060,7 @@ body.locked { overflow: hidden; }
      Editor (has token): edits locally, clicks Publish -> commits data.json.
      Viewer (no token): read-only, auto-refreshes from the repo.
      ======================================================================= */
-  const sync = { owner: "", repo: "", branch: "main", lastPublishedAt: null, dirty: false, busy: false, viewer: false, audience: "editor" };
+  const sync = { owner: "", repo: "", branch: "main", lastPublishedAt: null, dirty: false, busy: false, viewer: false, audience: "editor", clientId: DEFAULT_CLIENT, viewKey: "" };
 
   function detectRepo() {
     // saved override wins
@@ -2891,6 +3087,7 @@ body.locked { overflow: hidden; }
   function shareableState() {
     return {
       settings: state.settings,
+      clients: state.clients || [],
       projects: state.projects || [],
       base: state.base,
       markers: state.markers,
@@ -2899,6 +3096,7 @@ body.locked { overflow: hidden; }
       mapLayers: state.mapLayers || [],
       panelVis: state.panelVis || {},
       panelMeta: state.panelMeta || {},
+      history: state.history || {},
       publishedAt: new Date().toISOString()
     };
   }
@@ -2920,6 +3118,7 @@ body.locked { overflow: hidden; }
     const prevBase = state.base;
     applyingRemote = true;
     state.settings = Object.assign({}, d.settings, obj.settings || {});
+    state.clients = (obj.clients && obj.clients.length) ? obj.clients : state.clients;
     state.projects = (obj.projects && obj.projects.length) ? obj.projects : state.projects;
     state.base = obj.base || d.base;
     state.markers = obj.markers || [];
@@ -2928,10 +3127,12 @@ body.locked { overflow: hidden; }
     state.mapLayers = obj.mapLayers || [];
     state.panelVis = obj.panelVis || {};
     state.panelMeta = obj.panelMeta || {};
+    state.history = Object.assign({}, obj.history || {}, state.history || {});
     save();                 // persists locally without flagging dirty
     applyingRemote = false;
     setLastPublished(obj.publishedAt || null);
     ensureProjects();
+    resolveClient();      // the published clients list may now map ?view=<key> to a specific client
     remoteResolved = true;
     // A password may have just arrived from the published board — re-check before rendering,
     // so an un-authenticated editor device never paints real content.
@@ -3128,6 +3329,7 @@ body.locked { overflow: hidden; }
       const it = Object.assign({ id: uid(), uploadedAt: new Date().toISOString(), vis: itemDefVis() }, meta);
       state.panels[pid] = state.panels[pid] || [];
       state.panels[pid].push(it);
+      recordHistory(pid, it);
       touchPanel(pid); save(); renderPanels();
       toast("Attached \u2014 hit Publish to share it");
     }).catch((e) => {
@@ -3171,6 +3373,7 @@ body.locked { overflow: hidden; }
   function deleteAttachment(pid, iid) {
     const it = (state.panels[pid] || []).find((x) => x.id === iid);
     if (!it) return;
+    recordHistory(pid, it, { removed: true, reason: "deleted" });
     const done = () => { state.panels[pid] = state.panels[pid].filter((x) => x.id !== iid); touchPanel(pid); save(); renderPanels(); };
     if (hasToken() && it.path && it.sha && sync.owner) {
       fetch(ghContents(it.path), {
@@ -3179,6 +3382,31 @@ body.locked { overflow: hidden; }
         body: JSON.stringify({ message: "Remove " + it.name, sha: it.sha, branch: sync.branch })
       }).catch(() => {}).then(done);   // best-effort; drop the reference either way
     } else { done(); }
+  }
+
+  function downloadHistory() {
+    const rows = Object.values(state.history || {});
+    if (!rows.length) { toast("No history recorded yet"); return; }
+    const cols = [
+      ["createdAt", "Added"], ["project", "Project"], ["panel", "Panel"], ["title", "Title"], ["detail", "Detail"],
+      ["team", "Team"], ["priority", "Priority"], ["status", "Panel status"], ["workStatus", "Work status"],
+      ["done", "Complete"], ["due", "Due"], ["start", "Start"], ["end", "End"],
+      ["dateAssigned", "Date assigned"], ["dateRequired", "Date required"], ["photos", "Photos"],
+      ["updatedAt", "Last updated"], ["removed", "Removed"], ["removedAt", "Removed at"], ["removedReason", "Removed reason"], ["id", "Item ID"]
+    ];
+    rows.sort((a, b) => String(a.createdAt || "").localeCompare(String(b.createdAt || "")));
+    const esc = (v) => '"' + String(v == null ? "" : (v === true ? "Yes" : v === false ? "" : v)).replace(/"/g, '""') + '"';
+    const lines = [cols.map((c) => esc(c[1])).join(",")];
+    rows.forEach((r) => lines.push(cols.map((c) => esc(r[c[0]])).join(",")));
+    const csv = "\uFEFF" + lines.join("\r\n");   // BOM so Excel reads UTF-8
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "OCE-project-history-" + new Date().toISOString().slice(0, 10) + ".csv";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 3000);
+    toast("Downloaded " + rows.length + " history rows");
   }
 
   function downloadAttachment(pid, iid) {
@@ -3250,15 +3478,24 @@ body.locked { overflow: hidden; }
   // the client link. Any "view"/"client" param resolves to the (least-privileged) client
   // board, so a client editing their own URL can never escalate to the site or editor view.
   function detectAudience() {
+    sync.viewKey = "";
     try {
       const p = new URLSearchParams(window.location.search);
       if (p.has("crew")) return "site";
-      if (p.has("view") || p.has("client")) return "client";
+      if (p.has("view") || p.has("client")) { sync.viewKey = p.get("view") || p.get("client") || ""; return "client"; }
     } catch (e) {}
     const h = (window.location.hash || "").toLowerCase();
     if (h.indexOf("crew") !== -1) return "site";
     if (h.indexOf("client") !== -1 || h.indexOf("view") !== -1) return "client";
     return "editor";
+  }
+
+  // Map the ?view=<key> value to a specific client. Unknown/blank keys fall to the default
+  // client (least-privileged), so a client can never see a project they weren't assigned.
+  function resolveClient() {
+    ensureClients();
+    const c = clientByKey(sync.viewKey) || clientById(DEFAULT_CLIENT) || clients()[0];
+    sync.clientId = c ? c.id : DEFAULT_CLIENT;
   }
 
   function updatePublishUI() {
@@ -3302,6 +3539,7 @@ body.locked { overflow: hidden; }
     try { const cp = localStorage.getItem(PROJ_KEY); if (cp) currentProject = cp; } catch (e) {}
     ensureProjects();
     setViewerMode(detectAudience());
+    resolveClient();
     // Edit-page lock: cover the editor page until access is verified (see evaluateLock).
     evaluateLock(false);
     updatePublishUI();
@@ -3470,6 +3708,10 @@ body.locked { overflow: hidden; }
     tgl("tglAssigned", "fAssigned");
     tgl("tglRequired", "fRequired");
     tgl("tglWStatus", "fWStatus");
+    document.getElementById("tglRange").addEventListener("change", (e) => {
+      document.getElementById("rangeInputs").style.display = e.target.checked ? "" : "none";
+      if (e.target.checked) setTimeout(() => document.getElementById("fStart").focus(), 20);
+    });
     document.getElementById("btnPrint").onclick = printReport;
     window.addEventListener("afterprint", endPrint);
     document.getElementById("projSelect").onchange = (e) => {
@@ -3479,9 +3721,14 @@ body.locked { overflow: hidden; }
     };
     document.getElementById("lockBtn").onclick = tryUnlock;
     document.getElementById("lockPass").addEventListener("keydown", (e) => { if (e.key === "Enter") tryUnlock(); });
+    document.getElementById("btnHistory").onclick = downloadHistory;
     document.getElementById("addProjBtn").onclick = () => {
       const el = document.getElementById("newProjName");
       addProject(el.value); el.value = "";
+    };
+    document.getElementById("addClientBtn").onclick = () => {
+      const el = document.getElementById("newClientName");
+      addClient(el.value); el.value = "";
     };
 
     // settings

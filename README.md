@@ -123,6 +123,7 @@ named `Asset` or `name` is used as the heading.
 - **Recently changed panels float to the top:** whenever you add, edit, remove, or re-flag
   something in a panel and Publish, that panel moves to the top of the **site and client**
   pages, so viewers see what's new first. Your own editor layout stays in its fixed order.
+- **Multiple clients:** add each client in **Settings → Clients** (e.g. "Gympie Regional Council"). Every client gets their **own private view link** (`?view=<key>`), listed with a Copy button. Assign clients to projects in the **Projects** manager — each project row has a checkbox per client, and a client only ever sees the projects ticked for them (and, within those, whatever is flagged client-visible via the **C** toggle). Your original single client link keeps working as the default "Client".
 - **Projects:** run several jobs off one board. Add your projects in **Settings → Projects**
   (each with a **Client** tick that controls whether the client can see it). A **project
   dropdown** in the top bar filters the whole board — panels, items and map markers — to the
@@ -141,6 +142,10 @@ named `Asset` or `name` is used as the heading.
   show a green **Done** badge (and stop flagging as overdue) and are struck through.
 - **Assign to a team:** each task can be tagged **Engineering**, **Site**, or **Administration**
   (a coloured tag on the item), chosen in the item's edit box.
+- **Scheduled Works date range:** items on Scheduled Works have a **Date range (duration)** toggle — set a start and end date and the item shows the span and number of days (e.g. *12 Jul → 18 Jul · 7 days*).
+- **Active items on top:** in every panel, active items sit above completed/cancelled ones.
+- **Auto-retire resolved items:** a completed or cancelled item stays on the panel for **24 hours**, then drops off the board view automatically (kept in the project history).
+- **Project history (downloadable):** every item added to a panel is recorded for the life of the project — kept even after it's completed, cancelled, deleted, or auto-retired. Download it as a spreadsheet any time from **Settings → Project history → Download history (CSV)** (opens in Excel).
 - **Optional dates & status (any item):** in an item's edit box you can toggle on a **Date
   assigned** and/or a **Date required** (each reveals a date picker), and toggle on a **Status**
   of **In Progress**, **Completed**, or **Cancelled**. A required date flags overdue like a due
