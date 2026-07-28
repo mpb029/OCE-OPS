@@ -3,8 +3,8 @@
     "projectName": "Gympie Region Active Projects",
     "loc": {
       "name": "Gympie, QLD",
-      "lat": -26.19,
-      "lng": 152.6655
+      "lat": -25.906,
+      "lng": 153.088
     },
     "geojsonCRS": "auto",
     "siteKey": "auubeuj9",
@@ -19,6 +19,11 @@
     {
       "id": "pfvstolg",
       "name": "Cooloola Cove Sludge Pads",
+      "client": true
+    },
+    {
+      "id": "pk4tcz76",
+      "name": "G4N Sewer Main Replacement",
       "client": true
     }
   ],
@@ -314,6 +319,26 @@
           "supplier": "Neil Mansell",
           "contact": "0488 799 351"
         }
+      },
+      {
+        "id": "2jm17xy",
+        "main": "2.4m3 32/20/80 - Dolphin Ave P/Way Reinstatement",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "due": "",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "2026-07-28",
+        "dateRequired": "2026-07-30",
+        "wstatus": "",
+        "x": {
+          "time": "08:30",
+          "supplier": "Neil Mansells",
+          "contact": "Scotty - 0488 799 351"
+        }
       }
     ],
     "trafficControl": [],
@@ -413,7 +438,7 @@
         "team": "",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed"
       },
       {
         "id": "ysu5s9x",
@@ -423,7 +448,11 @@
           "site": true,
           "client": false
         },
-        "sub": "Thursday 16th and Friday 17th July"
+        "sub": "Thursday 16th and Friday 17th July",
+        "team": "",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed"
       },
       {
         "id": "l9sokpw",
@@ -435,6 +464,20 @@
         },
         "sub": "Friday 17th, Monday 20th and Tuesday 21st July",
         "team": "",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed"
+      },
+      {
+        "id": "68jdvbf",
+        "main": "Rod",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Thursday 30th JUL to Friday 7th AUG",
+        "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": ""
@@ -2105,10 +2148,10 @@
       "updated": "2026-07-17T05:23:34.649Z"
     },
     "staffAway": {
-      "updated": "2026-07-10T01:20:55.687Z"
+      "updated": "2026-07-28T03:16:42.942Z"
     },
     "materialPickup": {
-      "updated": "2026-07-28T03:48:26.486Z"
+      "updated": "2026-07-28T03:17:05.528Z"
     },
     "qualityTesting": {
       "updated": "2026-07-23T22:44:24.067Z"
@@ -2117,7 +2160,7 @@
       "updated": "2026-07-23T22:42:22.570Z"
     },
     "deliveries": {
-      "updated": "2026-07-28T03:49:04.896Z"
+      "updated": "2026-07-28T03:14:44.751Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -2156,5 +2199,5 @@
       "updated": "2026-07-27T06:02:28.081Z"
     }
   },
-  "publishedAt": "2026-07-28T03:49:11.062Z"
+  "publishedAt": "2026-07-28T04:04:27.464Z"
 }
