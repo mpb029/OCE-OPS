@@ -2479,8 +2479,9 @@ body.locked { overflow: hidden; }
 
   function itemPhotosHtml(it, cls) {
     if (!it.photos || !it.photos.length) return "";
+    const load = cls === "gallery" ? "eager" : "lazy";   // weekly-photo galleries load up-front so they always print
     return `<span class="photos ${cls || ""}">` + it.photos.map((ph) =>
-      `<a class="photo" href="${ph.url}" target="_blank" rel="noopener"><img src="${ph.url}" alt="${esc(ph.name || "")}" loading="lazy" /></a>`
+      `<a class="photo" href="${ph.url}" target="_blank" rel="noopener"><img src="${ph.url}" alt="${esc(ph.name || "")}" loading="${load}" /></a>`
     ).join("") + `</span>`;
   }
 
@@ -3623,6 +3624,27 @@ body.locked { overflow: hidden; }
     document.getElementById("phLogo").src = src;
   }
 
+  // Force every image in the print scope to finish loading before the browser snapshots the page.
+  // Lazy-loaded photos that were never scrolled into view otherwise print blank.
+  function preloadPrintImages() {
+    const imgs = Array.from(document.querySelectorAll("#panelsGrid img, #summaryCard img, .map-card img"));
+    const waits = imgs.map((img) => {
+      try { img.loading = "eager"; } catch (e) {}
+      if (img.complete && img.naturalWidth > 0) return Promise.resolve();
+      return new Promise((res) => {
+        let done = false;
+        const finish = () => { if (!done) { done = true; res(); } };
+        img.addEventListener("load", finish, { once: true });
+        img.addEventListener("error", finish, { once: true });
+        // nudge a not-yet-started lazy image to begin loading
+        const s = img.getAttribute("src");
+        if (s) { img.setAttribute("src", s); }
+        setTimeout(finish, 8000);   // never hang the print on a stuck image
+      });
+    });
+    return Promise.all(waits);
+  }
+
   function printPanel(pid) {
     const p = panelById(pid);
     const card = document.querySelector(`.card[data-card="${pid}"]`);
@@ -3633,7 +3655,7 @@ body.locked { overflow: hidden; }
     document.getElementById("phTitle").textContent = p.title;
     document.getElementById("phMeta").textContent = printMeta("Offaly Civil Engineering");
     document.body.setAttribute("data-print", "panel");
-    setTimeout(() => window.print(), 30);
+    preloadPrintImages().then(() => setTimeout(() => window.print(), 60));
   }
 
   function printReport() {
@@ -3645,7 +3667,8 @@ body.locked { overflow: hidden; }
     document.getElementById("phMeta").textContent = printMeta();
     document.body.setAttribute("data-print", "report");
     if (map && map.invalidateSize) { try { map.invalidateSize(); } catch (e) {} }
-    setTimeout(() => window.print(), 350);
+    toast("Preparing photos for print\u2026");
+    preloadPrintImages().then(() => setTimeout(() => window.print(), 250));
   }
 
   function endPrint() {
