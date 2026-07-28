@@ -731,7 +731,7 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-28",
-        "wstatus": ""
+        "wstatus": "completed"
       },
       {
         "id": "tcrhhua",
@@ -745,7 +745,7 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-28",
-        "wstatus": ""
+        "wstatus": "completed"
       }
     ],
     "meetings": [],
@@ -2108,7 +2108,7 @@
       "updated": "2026-07-10T01:20:55.687Z"
     },
     "materialPickup": {
-      "updated": "2026-07-27T05:57:46.033Z"
+      "updated": "2026-07-28T03:48:26.486Z"
     },
     "qualityTesting": {
       "updated": "2026-07-23T22:44:24.067Z"
@@ -2156,5 +2156,5 @@
       "updated": "2026-07-27T06:02:28.081Z"
     }
   },
-  "publishedAt": "2026-07-28T03:47:50.716Z"
+  "publishedAt": "2026-07-28T03:48:34.872Z"
 }
