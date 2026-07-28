@@ -10,21 +10,39 @@
     "siteKey": "auubeuj9",
     "editPass": "2g2dxoa1sf9"
   },
+  "clients": [
+    {
+      "id": "client-default",
+      "name": "Client",
+      "key": "client"
+    },
+    {
+      "id": "ciu8dcxz",
+      "name": "Gympie Regional Council",
+      "key": "dx6eywm1"
+    }
+  ],
   "projects": [
     {
       "id": "default",
       "name": "Regionwide Watermain Renewal",
-      "client": true
+      "clients": [
+        "client-default"
+      ]
     },
     {
       "id": "pfvstolg",
       "name": "Cooloola Cove Sludge Pads",
-      "client": true
+      "clients": [
+        "client-default"
+      ]
     },
     {
       "id": "pk4tcz76",
       "name": "G4N Sewer Main Replacement",
-      "client": true
+      "clients": [
+        "client-default"
+      ]
     }
   ],
   "base": "sat",
@@ -513,7 +531,22 @@
         "wstatus": "completed"
       }
     ],
-    "plantTransport": [],
+    "plantTransport": [
+      {
+        "id": "qqm9rl2",
+        "main": "Waste removal",
+        "project": "pfvstolg",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Tree Stumps, General waste",
+        "team": "site",
+        "dateAssigned": "2026-07-28",
+        "dateRequired": "2026-07-31",
+        "wstatus": ""
+      }
+    ],
     "stakeholders": [
       {
         "id": "5vr35al",
@@ -2190,7 +2223,7 @@
       "updated": "2026-07-21T02:14:16.213Z"
     },
     "plantTransport": {
-      "updated": "2026-07-08T01:26:25.164Z"
+      "updated": "2026-07-28T04:47:17.888Z"
     },
     "meetings": {
       "updated": "2026-07-08T01:26:31.152Z"
@@ -2199,5 +2232,46 @@
       "updated": "2026-07-27T06:02:28.081Z"
     }
   },
-  "publishedAt": "2026-07-28T04:04:27.464Z"
+  "history": {
+    "qqm9rl2": {
+      "id": "qqm9rl2",
+      "panel": "Plant Transport",
+      "project": "Cooloola Cove Sludge Pads",
+      "title": "Waste removal",
+      "detail": "Tree Stumps, General waste",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "2026-07-28",
+      "dateRequired": "2026-07-31",
+      "photos": 0,
+      "createdAt": "2026-07-28T04:47:17.888Z",
+      "updatedAt": "2026-07-28T04:47:17.888Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    }
+  },
+  "projectSummary": {
+    "default": {
+      "compType": "approx",
+      "comp": "Mid August",
+      "compDate": "",
+      "status": "green",
+      "statusComment": "",
+      "stage": "Clean up Tin Can Bay, Commence Widgee Crossing",
+      "milestone": "Hydrostatic Test - Widgee Xing",
+      "achievement": "Asphalt works on Dolphin Ave, Reinstatement",
+      "clientAction": "",
+      "risk": "",
+      "impacts": "",
+      "scope": ""
+    }
+  },
+  "publishedAt": "2026-07-28T04:55:42.998Z"
 }
