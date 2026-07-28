@@ -304,7 +304,7 @@
           "client": false
         },
         "due": "2026-07-28",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2117,7 +2117,7 @@
       "updated": "2026-07-23T22:42:22.570Z"
     },
     "deliveries": {
-      "updated": "2026-07-27T05:53:47.329Z"
+      "updated": "2026-07-28T03:49:04.896Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -2156,5 +2156,5 @@
       "updated": "2026-07-27T06:02:28.081Z"
     }
   },
-  "publishedAt": "2026-07-28T03:48:34.872Z"
+  "publishedAt": "2026-07-28T03:49:11.062Z"
 }
