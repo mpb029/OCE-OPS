@@ -714,6 +714,25 @@
         "dateRequired": "",
         "wstatus": "completed",
         "x": {}
+      },
+      {
+        "id": "19dgbmy",
+        "main": "Nestle Contacted to coordinate Shutdown Details",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-30",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "inprogress",
+        "x": {
+          "action": "Waiting for Response",
+          "contact": "Brooke McGrath"
+        }
       }
     ],
     "punchlist": [
@@ -2291,7 +2310,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-07-23T22:42:22.570Z"
+      "updated": "2026-07-29T23:43:06.509Z"
     },
     "deliveries": {
       "updated": "2026-07-29T05:00:26.018Z"
@@ -2586,6 +2605,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "19dgbmy": {
+      "id": "19dgbmy",
+      "panel": "Stakeholders",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Nestle Contacted to coordinate Shutdown Details",
+      "detail": "Action required: Waiting for Response · Contact details: Brooke McGrath",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "2026-07-30",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-07-29T23:43:06.508Z",
+      "updatedAt": "2026-07-29T23:43:06.508Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -2604,5 +2646,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-07-29T05:00:28.890Z"
+  "publishedAt": "2026-07-29T23:43:31.094Z"
 }
