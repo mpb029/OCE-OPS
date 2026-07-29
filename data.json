@@ -723,11 +723,11 @@
           "site": true,
           "client": true
         },
-        "due": "2026-07-30",
+        "due": "",
         "done": false,
         "team": "eng",
         "dateAssigned": "",
-        "dateRequired": "",
+        "dateRequired": "2026-08-05",
         "wstatus": "inprogress",
         "x": {
           "action": "Waiting for Response",
@@ -2310,7 +2310,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-07-29T23:43:06.509Z"
+      "updated": "2026-07-29T23:44:04.680Z"
     },
     "deliveries": {
       "updated": "2026-07-29T05:00:26.018Z"
@@ -2617,14 +2617,14 @@
       "status": "",
       "workStatus": "In Progress",
       "done": false,
-      "due": "2026-07-30",
+      "due": "",
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "",
+      "dateRequired": "2026-08-05",
       "photos": 0,
       "createdAt": "2026-07-29T23:43:06.508Z",
-      "updatedAt": "2026-07-29T23:43:06.508Z",
+      "updatedAt": "2026-07-29T23:44:04.680Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -2646,5 +2646,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-07-29T23:43:31.094Z"
+  "publishedAt": "2026-07-29T23:44:07.960Z"
 }
