@@ -2644,7 +2644,21 @@
       "risk": "",
       "impacts": "",
       "scope": ""
+    },
+    "pk4tcz76": {
+      "compType": "approx",
+      "comp": "Mid-Late September",
+      "compDate": "",
+      "status": "green",
+      "statusComment": "Works Scheduled to kick off Monday 3rd August",
+      "stage": "Mobilisation",
+      "milestone": "",
+      "achievement": "",
+      "clientAction": "",
+      "risk": "",
+      "impacts": "",
+      "scope": ""
     }
   },
-  "publishedAt": "2026-07-29T23:44:07.960Z"
+  "publishedAt": "2026-07-29T23:46:36.665Z"
 }
