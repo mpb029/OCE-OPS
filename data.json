@@ -27,21 +27,24 @@
       "id": "default",
       "name": "Regionwide Watermain Renewal",
       "clients": [
-        "client-default"
+        "client-default",
+        "ciu8dcxz"
       ]
     },
     {
       "id": "pfvstolg",
       "name": "Cooloola Cove Sludge Pads",
       "clients": [
-        "client-default"
+        "client-default",
+        "ciu8dcxz"
       ]
     },
     {
       "id": "pk4tcz76",
       "name": "G4N Sewer Main Replacement",
       "clients": [
-        "client-default"
+        "client-default",
+        "ciu8dcxz"
       ]
     }
   ],
@@ -340,7 +343,7 @@
       },
       {
         "id": "2jm17xy",
-        "main": "2.4m3 32/20/80 - Dolphin Ave P/Way Reinstatement",
+        "main": "3m3 32/20/80 - Dolphin Ave P/Way Reinstatement",
         "project": "default",
         "vis": {
           "site": true,
@@ -543,6 +546,104 @@
         "sub": "Tree Stumps, General waste",
         "team": "site",
         "dateAssigned": "2026-07-28",
+        "dateRequired": "2026-07-31",
+        "wstatus": ""
+      },
+      {
+        "id": "u40p70o",
+        "main": "8t & 3t Digger and Bob cat",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Tin Can to Andrew St Gympie",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-31",
+        "wstatus": ""
+      },
+      {
+        "id": "3eqiysu",
+        "main": "5t Digger",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Tin Can to Widgee Xing Rd",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-31",
+        "wstatus": ""
+      },
+      {
+        "id": "hp0ahe1",
+        "main": "4.5t Digger and Bobcat",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Cooloola Cove Sludge Pads to Widgee Crossing Rd",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-31",
+        "wstatus": ""
+      },
+      {
+        "id": "mtvzz5g",
+        "main": "Site Office",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Tin Can to Allcots Depot (6 Industrial Avenue, Caloundra West)",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-31",
+        "wstatus": ""
+      },
+      {
+        "id": "egkaj0w",
+        "main": "Site Container",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Tin Can to Andrew St",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-31",
+        "wstatus": ""
+      },
+      {
+        "id": "rd4y8e1",
+        "main": "Green Waste - Tree Trunks",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Cooloola Cove Sludge pad to Gympie Tip",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-07-31",
+        "wstatus": ""
+      },
+      {
+        "id": "btr1j87",
+        "main": "Steel and additional Items",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Cooloola Cove Sludge Pads to Curra Yard",
+        "team": "site",
+        "dateAssigned": "",
         "dateRequired": "2026-07-31",
         "wstatus": ""
       }
@@ -2178,7 +2279,7 @@
       "updated": "2026-07-27T03:01:49.144Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-07-17T05:23:34.649Z"
+      "updated": "2026-07-28T05:02:46.974Z"
     },
     "staffAway": {
       "updated": "2026-07-28T03:16:42.942Z"
@@ -2193,7 +2294,7 @@
       "updated": "2026-07-23T22:42:22.570Z"
     },
     "deliveries": {
-      "updated": "2026-07-28T03:14:44.751Z"
+      "updated": "2026-07-29T05:00:26.018Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -2223,7 +2324,7 @@
       "updated": "2026-07-21T02:14:16.213Z"
     },
     "plantTransport": {
-      "updated": "2026-07-28T04:47:17.888Z"
+      "updated": "2026-07-29T00:09:39.308Z"
     },
     "meetings": {
       "updated": "2026-07-08T01:26:31.152Z"
@@ -2255,6 +2356,236 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "d7lg1pi": {
+      "id": "d7lg1pi",
+      "panel": "Weekly Update Photos",
+      "project": "Cooloola Cove Sludge Pads",
+      "title": "Entry Pad",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-07-28T05:02:44.335Z",
+      "updatedAt": "2026-07-28T05:02:44.335Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "yd24f15": {
+      "id": "yd24f15",
+      "panel": "Weekly Update Photos",
+      "project": "Cooloola Cove Sludge Pads",
+      "title": "Exit Pad",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-07-28T05:02:46.974Z",
+      "updatedAt": "2026-07-28T05:02:46.974Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "u40p70o": {
+      "id": "u40p70o",
+      "panel": "Plant Transport",
+      "project": "Regionwide Watermain Renewal",
+      "title": "8t & 3t Digger and Bob cat",
+      "detail": "Tin Can to Andrew St Gympie",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-31",
+      "photos": 0,
+      "createdAt": "2026-07-28T23:58:37.458Z",
+      "updatedAt": "2026-07-28T23:58:37.458Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "3eqiysu": {
+      "id": "3eqiysu",
+      "panel": "Plant Transport",
+      "project": "Regionwide Watermain Renewal",
+      "title": "5t Digger",
+      "detail": "Tin Can to Widgee Xing Rd",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-31",
+      "photos": 0,
+      "createdAt": "2026-07-28T23:59:21.961Z",
+      "updatedAt": "2026-07-28T23:59:21.961Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "hp0ahe1": {
+      "id": "hp0ahe1",
+      "panel": "Plant Transport",
+      "project": "Regionwide Watermain Renewal",
+      "title": "4.5t Digger and Bobcat",
+      "detail": "Cooloola Cove Sludge Pads to Widgee Crossing Rd",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-31",
+      "photos": 0,
+      "createdAt": "2026-07-28T23:59:53.343Z",
+      "updatedAt": "2026-07-28T23:59:53.343Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "mtvzz5g": {
+      "id": "mtvzz5g",
+      "panel": "Plant Transport",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Site Office",
+      "detail": "Tin Can to Allcots Depot (6 Industrial Avenue, Caloundra West)",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-31",
+      "photos": 0,
+      "createdAt": "2026-07-29T00:04:48.019Z",
+      "updatedAt": "2026-07-29T00:04:48.019Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "egkaj0w": {
+      "id": "egkaj0w",
+      "panel": "Plant Transport",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Site Container",
+      "detail": "Tin Can to Andrew St",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-31",
+      "photos": 0,
+      "createdAt": "2026-07-29T00:05:12.396Z",
+      "updatedAt": "2026-07-29T00:05:12.396Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "rd4y8e1": {
+      "id": "rd4y8e1",
+      "panel": "Plant Transport",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Green Waste - Tree Trunks",
+      "detail": "Cooloola Cove Sludge pad to Gympie Tip",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-31",
+      "photos": 0,
+      "createdAt": "2026-07-29T00:06:08.785Z",
+      "updatedAt": "2026-07-29T00:09:39.308Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "btr1j87": {
+      "id": "btr1j87",
+      "panel": "Plant Transport",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Steel and additional Items",
+      "detail": "Cooloola Cove Sludge Pads to Curra Yard",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-31",
+      "photos": 0,
+      "createdAt": "2026-07-29T00:08:51.545Z",
+      "updatedAt": "2026-07-29T00:08:51.545Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "2jm17xy": {
+      "id": "2jm17xy",
+      "panel": "Scheduled Deliveries",
+      "project": "Regionwide Watermain Renewal",
+      "title": "3m3 32/20/80 - Dolphin Ave P/Way Reinstatement",
+      "detail": "Expected time: 08:30 · Supplier: Neil Mansells · Contact: Scotty - 0488 799 351",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "2026-07-28",
+      "dateRequired": "2026-07-30",
+      "photos": 0,
+      "createdAt": "2026-07-29T05:00:26.017Z",
+      "updatedAt": "2026-07-29T05:00:26.017Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -2273,5 +2604,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-07-28T04:55:42.998Z"
+  "publishedAt": "2026-07-29T05:00:28.890Z"
 }
