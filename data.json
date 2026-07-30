@@ -795,6 +795,26 @@
         "wstatus": "completed",
         "x": {},
         "resolvedAt": "2026-07-30T01:55:40.031Z"
+      },
+      {
+        "id": "wzqp6n4",
+        "main": "Carrathurs (Craig PM) - Contacted to advise of Intention to access worksite on Mon 3rd to get to SEW Chamber - Approved",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-30",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed",
+        "x": {
+          "action": "None",
+          "contact": "Craig - 0472720 565"
+        },
+        "resolvedAt": "2026-07-30T03:38:26.670Z"
       }
     ],
     "punchlist": [
@@ -6384,7 +6404,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-07-30T02:52:28.105Z"
+      "updated": "2026-07-30T03:38:44.770Z"
     },
     "deliveries": {
       "updated": "2026-07-30T02:52:00.814Z"
@@ -6667,7 +6687,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "",
       "start": "",
       "end": "",
@@ -6675,7 +6695,7 @@
       "dateRequired": "2026-07-30",
       "photos": 0,
       "createdAt": "2026-07-29T05:00:26.017Z",
-      "updatedAt": "2026-07-30T02:52:00.814Z",
+      "updatedAt": "2026-07-29T05:00:26.017Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -6718,10 +6738,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-07-28",
+      "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T01:55:40.032Z",
-      "updatedAt": "2026-07-30T02:52:28.105Z",
+      "updatedAt": "2026-07-30T01:55:40.032Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -6771,6 +6791,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "wzqp6n4": {
+      "id": "wzqp6n4",
+      "panel": "Stakeholders",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Carrathurs (Craig PM) - Contacted to advise of Intention to access worksite on Mon 3rd to get to SEW Chamber - Approved",
+      "detail": "Action required: None · Contact details: Craig - 0472720 565",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "2026-07-30",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-07-30T03:38:26.671Z",
+      "updatedAt": "2026-07-30T03:38:44.769Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -6803,5 +6846,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-07-30T02:52:32.148Z"
+  "publishedAt": "2026-07-30T03:38:48.705Z"
 }
