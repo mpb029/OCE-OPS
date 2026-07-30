@@ -433,6 +433,22 @@
         "dateAssigned": "",
         "dateRequired": "2026-07-27",
         "wstatus": "completed"
+      },
+      {
+        "id": "ysc5x9v",
+        "main": "ex. SEW Chamber penetration - SMH.051035",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-03",
+        "wstatus": "",
+        "startDate": "",
+        "endDate": ""
       }
     ],
     "subbiesToday": [
@@ -761,6 +777,23 @@
           "action": "Waiting for Response",
           "contact": "Brooke McGrath"
         }
+      },
+      {
+        "id": "q5esj3u",
+        "main": "Resident Works Notification Letters Drop",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-28",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed",
+        "x": {},
+        "resolvedAt": "2026-07-30T01:55:40.031Z"
       }
     ],
     "punchlist": [
@@ -6349,7 +6382,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-07-29T23:44:04.680Z"
+      "updated": "2026-07-30T01:55:40.032Z"
     },
     "deliveries": {
       "updated": "2026-07-29T05:00:26.018Z"
@@ -6367,7 +6400,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-07-27T01:16:27.390Z"
+      "updated": "2026-07-30T02:14:02.382Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -6667,6 +6700,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "q5esj3u": {
+      "id": "q5esj3u",
+      "panel": "Stakeholders",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Resident Works Notification Letters Drop",
+      "detail": "",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "2026-07-28",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-07-30T01:55:40.032Z",
+      "updatedAt": "2026-07-30T01:55:40.032Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "ysc5x9v": {
+      "id": "ysc5x9v",
+      "panel": "Scheduled Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "ex. SEW Chamber penetration - SMH.051035",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-03",
+      "photos": 0,
+      "createdAt": "2026-07-30T02:14:02.382Z",
+      "updatedAt": "2026-07-30T02:14:02.382Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -6699,5 +6778,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-07-30T01:52:47.376Z"
+  "publishedAt": "2026-07-30T02:14:23.577Z"
 }
