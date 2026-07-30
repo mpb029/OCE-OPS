@@ -378,7 +378,7 @@
           "client": false
         },
         "due": "",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "2026-07-28",
         "dateRequired": "2026-07-30",
@@ -387,7 +387,8 @@
           "time": "08:30",
           "supplier": "Neil Mansells",
           "contact": "Scotty - 0488 799 351"
-        }
+        },
+        "resolvedAt": "2026-07-30T02:52:00.814Z"
       }
     ],
     "trafficControl": [],
@@ -790,7 +791,7 @@
         "done": false,
         "team": "eng",
         "dateAssigned": "",
-        "dateRequired": "",
+        "dateRequired": "2026-07-28",
         "wstatus": "completed",
         "x": {},
         "resolvedAt": "2026-07-30T01:55:40.031Z"
@@ -974,7 +975,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-29",
-        "wstatus": "inprogress"
+        "wstatus": "completed",
+        "resolvedAt": "2026-07-30T02:51:33.430Z"
       },
       {
         "id": "ck626ca",
@@ -6376,16 +6378,16 @@
       "updated": "2026-07-28T03:16:42.942Z"
     },
     "materialPickup": {
-      "updated": "2026-07-28T03:17:05.528Z"
+      "updated": "2026-07-30T02:51:33.430Z"
     },
     "qualityTesting": {
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-07-30T01:55:40.032Z"
+      "updated": "2026-07-30T02:52:28.105Z"
     },
     "deliveries": {
-      "updated": "2026-07-29T05:00:26.018Z"
+      "updated": "2026-07-30T02:52:00.814Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -6665,7 +6667,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "",
       "start": "",
       "end": "",
@@ -6673,7 +6675,7 @@
       "dateRequired": "2026-07-30",
       "photos": 0,
       "createdAt": "2026-07-29T05:00:26.017Z",
-      "updatedAt": "2026-07-29T05:00:26.017Z",
+      "updatedAt": "2026-07-30T02:52:00.814Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -6716,10 +6718,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "",
+      "dateRequired": "2026-07-28",
       "photos": 0,
       "createdAt": "2026-07-30T01:55:40.032Z",
-      "updatedAt": "2026-07-30T01:55:40.032Z",
+      "updatedAt": "2026-07-30T02:52:28.105Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -6743,6 +6745,29 @@
       "photos": 0,
       "createdAt": "2026-07-30T02:14:02.382Z",
       "updatedAt": "2026-07-30T02:14:02.382Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "e6nr0n9": {
+      "id": "e6nr0n9",
+      "panel": "Material/Equipment Pick Up",
+      "project": "Regionwide Watermain Renewal",
+      "title": "55t AC10, Emulsion Drum",
+      "detail": "Downers Bli Bli",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-29",
+      "photos": 0,
+      "createdAt": "2026-07-30T02:51:33.430Z",
+      "updatedAt": "2026-07-30T02:51:33.430Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -6778,5 +6803,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-07-30T02:14:23.577Z"
+  "publishedAt": "2026-07-30T02:52:32.148Z"
 }
