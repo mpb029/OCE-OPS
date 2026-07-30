@@ -799,7 +799,7 @@
       {
         "id": "wzqp6n4",
         "main": "Carrathurs (Craig PM) - Contacted to advise of Intention to access worksite on Mon 3rd to get to SEW Chamber - Approved",
-        "project": "default",
+        "project": "pk4tcz76",
         "vis": {
           "site": true,
           "client": true
@@ -6404,7 +6404,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-07-30T03:38:44.770Z"
+      "updated": "2026-07-30T03:39:49.165Z"
     },
     "deliveries": {
       "updated": "2026-07-30T02:52:00.814Z"
@@ -6795,7 +6795,7 @@
     "wzqp6n4": {
       "id": "wzqp6n4",
       "panel": "Stakeholders",
-      "project": "Regionwide Watermain Renewal",
+      "project": "G4N Sewer Main Replacement",
       "title": "Carrathurs (Craig PM) - Contacted to advise of Intention to access worksite on Mon 3rd to get to SEW Chamber - Approved",
       "detail": "Action required: None · Contact details: Craig - 0472720 565",
       "team": "Engineering",
@@ -6810,7 +6810,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T03:38:26.671Z",
-      "updatedAt": "2026-07-30T03:38:44.769Z",
+      "updatedAt": "2026-07-30T03:39:49.165Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -6846,5 +6846,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-07-30T03:38:48.705Z"
+  "publishedAt": "2026-07-30T03:39:51.965Z"
 }
