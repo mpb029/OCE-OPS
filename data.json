@@ -1584,7 +1584,7 @@
           "site": true,
           "client": true
         },
-        "pct": 80,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -6716,7 +6716,7 @@
       "updated": "2026-07-08T01:26:31.152Z"
     },
     "workPackages": {
-      "updated": "2026-08-02T20:09:09.038Z"
+      "updated": "2026-08-03T04:20:06.501Z"
     }
   },
   "history": {
@@ -7106,7 +7106,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:08:48.055Z",
-      "updatedAt": "2026-08-02T20:09:09.038Z",
+      "updatedAt": "2026-08-03T04:20:06.501Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7510,5 +7510,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-03T04:19:29.554Z"
+  "publishedAt": "2026-08-03T04:20:10.439Z"
 }
