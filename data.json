@@ -1321,6 +1321,66 @@
             "mime": "image/jpeg"
           }
         ]
+      },
+      {
+        "id": "l20vgq5",
+        "main": "SMH.051035_MH Excavation",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "SMH.051035_MH Excavation.jpg",
+            "path": "files/photos/evvlbxv-SMH.051035_MH_Excavation.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/evvlbxv-SMH.051035_MH_Excavation.jpg",
+            "sha": "85a51f0bb5616afbd0be5c422cd49e0011d4c9bb",
+            "size": 258343,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "vzfv9rb",
+        "main": "SMH.051035_MH Excavation_01",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "SMH.051035_MH Excavation_02.jpg",
+            "path": "files/photos/at4xaaa-SMH.051035_MH_Excavation_02.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/at4xaaa-SMH.051035_MH_Excavation_02.jpg",
+            "sha": "a11d27601b93c20f4ec4d8e15b9f432504eec844",
+            "size": 249984,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "9gomras",
+        "main": "MH01_Clearing",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "MH01_Clearing.jpg",
+            "path": "files/photos/08i0eyz-MH01_Clearing.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/08i0eyz-MH01_Clearing.jpg",
+            "sha": "1e5aa42eb4dd2f8fd58b742545e7858c043ef2a3",
+            "size": 590637,
+            "mime": "image/jpeg"
+          }
+        ]
       }
     ],
     "workPackages": [
@@ -6735,7 +6795,7 @@
       "updated": "2026-07-27T03:01:49.144Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-07-28T05:02:46.974Z"
+      "updated": "2026-08-03T22:19:11.641Z"
     },
     "staffAway": {
       "updated": "2026-07-28T03:16:42.942Z"
@@ -7548,6 +7608,75 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "l20vgq5": {
+      "id": "l20vgq5",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "SMH.051035_MH Excavation",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-03T22:17:05.786Z",
+      "updatedAt": "2026-08-03T22:17:05.786Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "vzfv9rb": {
+      "id": "vzfv9rb",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "SMH.051035_MH Excavation_01",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-03T22:17:18.368Z",
+      "updatedAt": "2026-08-03T22:17:18.368Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "9gomras": {
+      "id": "9gomras",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "MH01_Clearing",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-03T22:19:11.641Z",
+      "updatedAt": "2026-08-03T22:19:11.641Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -7580,5 +7709,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-03T21:54:20.948Z"
+  "publishedAt": "2026-08-03T22:19:16.468Z"
 }
