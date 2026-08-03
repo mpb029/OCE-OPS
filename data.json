@@ -258,34 +258,6 @@
       "project": "default"
     },
     {
-      "id": "wjaoh8v",
-      "lat": -26.18270756087535,
-      "lng": 152.67639755590844,
-      "category": "laydown",
-      "title": "Andrew St - Laydown",
-      "notes": "",
-      "ts": 1785375596244,
-      "vis": {
-        "site": true,
-        "client": true
-      },
-      "project": "default"
-    },
-    {
-      "id": "b93i4yq",
-      "lat": -26.18257758324649,
-      "lng": 152.6763859211056,
-      "category": "plant",
-      "title": "8t Excavator",
-      "notes": "",
-      "ts": 1785375642535,
-      "vis": {
-        "site": true,
-        "client": true
-      },
-      "project": "default"
-    },
-    {
       "id": "d8e0sji",
       "lat": -26.18207211331156,
       "lng": 152.6759846471537,
@@ -307,6 +279,20 @@
       "title": "Site Compound",
       "notes": "",
       "ts": 1785730479240,
+      "vis": {
+        "site": true,
+        "client": true
+      },
+      "project": "pk4tcz76"
+    },
+    {
+      "id": "iwuhj2v",
+      "lat": -26.183453725939714,
+      "lng": 152.6766050030168,
+      "category": "plant",
+      "title": "8t Excavator",
+      "notes": "",
+      "ts": 1785793803959,
       "vis": {
         "site": true,
         "client": true
@@ -7594,5 +7580,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-03T21:43:59.295Z"
+  "publishedAt": "2026-08-03T21:54:20.948Z"
 }
