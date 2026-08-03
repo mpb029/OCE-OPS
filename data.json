@@ -497,7 +497,7 @@
       },
       {
         "id": "pjikarh",
-        "main": "SEW PIPE up to 1st MH",
+        "main": "SEW PIPE placement up to 1st MH",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
@@ -6695,7 +6695,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-03T04:16:04.294Z"
+      "updated": "2026-08-03T04:18:22.347Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -7437,7 +7437,7 @@
       "id": "pjikarh",
       "panel": "Scheduled Works",
       "project": "G4N Sewer Main Replacement",
-      "title": "SEW PIPE up to 1st MH",
+      "title": "SEW PIPE placement up to 1st MH",
       "detail": "",
       "team": "Site",
       "priority": "",
@@ -7451,7 +7451,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-03T04:13:34.945Z",
-      "updatedAt": "2026-08-03T04:16:04.294Z",
+      "updatedAt": "2026-08-03T04:18:22.347Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7510,5 +7510,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-03T04:17:33.072Z"
+  "publishedAt": "2026-08-03T04:18:44.144Z"
 }
