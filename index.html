@@ -727,6 +727,7 @@ body.viewer .map-hint { display: none !important; }
 .layer-ctl .lc-row:hover { background: var(--paper); }
 .layer-ctl input[type="checkbox"] { accent-color: var(--orange); width: 15px; height: 15px; flex: 0 0 auto; }
 .layer-ctl .lc-swatch { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.15); }
+.layer-ctl .lc-swatch.lc-tiles { width: 15px; height: 15px; border: none; display: grid; place-items: center; color: #2f6fb0; font-size: 11px; background: transparent; }
 .layer-ctl .lc-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .layer-ctl .lc-remove {
   border: none; background: transparent; color: var(--faint); font-size: 15px; line-height: 1;
@@ -983,8 +984,9 @@ body.locked { overflow: hidden; }
           </div>
           <div class="sep"></div>
           <div class="grp">
-            <button class="tool-btn" id="btnLoadGeo" title="Add one or more GeoJSON layers exported from QGIS"><i class="fa-solid fa-file-import"></i><span class="lbl">Add layers</span></button>
-            <input type="file" id="fileGeo" class="hidden-file" accept=".geojson,.json,application/geo+json,application/json" multiple />
+            <button class="tool-btn" id="btnLoadGeo" title="Add GeoJSON vector layers or a GeoTIFF aerial exported from QGIS"><i class="fa-solid fa-file-import"></i><span class="lbl">Add layers</span></button>
+            <button class="tool-btn" id="btnImagery" title="Add a hosted high-res imagery tile layer (XYZ URL)"><i class="fa-solid fa-map-location-dot"></i><span class="lbl">Imagery</span></button>
+            <input type="file" id="fileGeo" class="hidden-file" accept=".geojson,.json,.tif,.tiff,application/geo+json,application/json,image/tiff" multiple />
             <input type="file" id="fileAttach" class="hidden-file" />
             <input type="file" id="photoAttach" class="hidden-file" accept="image/*" multiple />
           </div>
@@ -1377,10 +1379,10 @@ body.locked { overflow: hidden; }
 
   /* ---------- Projection: GDA94 / MGA Zone 56 -> WGS84 ------------------ */
   if (window.proj4) {
-    proj4.defs(
-      "EPSG:28356",
-      "+proj=utm +zone=56 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"
-    );
+    proj4.defs("EPSG:28356", "+proj=utm +zone=56 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs");
+    proj4.defs("EPSG:28355", "+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs");
+    proj4.defs("EPSG:7856", "+proj=utm +zone=56 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"); // GDA2020 MGA56
+    proj4.defs("EPSG:7855", "+proj=utm +zone=55 +south +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs +type=crs"); // GDA2020 MGA55
   }
 
   /* ---------- Marker categories (Font Awesome solid glyphs + colour) ---- */
@@ -1896,16 +1898,44 @@ body.locked { overflow: hidden; }
 
   // Build a Leaflet GeoJSON layer. If a colour is given (uploaded layers),
   // all geometry takes that colour; otherwise the repo layer's default scheme.
+  // Read a simplestyle-spec value, tolerating hyphen / underscore / camelCase field names
+  // (QGIS field names can't contain hyphens, so users usually export stroke_width etc.).
+  function ssGet(props, keys) {
+    if (!props) return undefined;
+    for (let i = 0; i < keys.length; i++) { const v = props[keys[i]]; if (v !== undefined && v !== null && v !== "") return v; }
+    const lower = {}; Object.keys(props).forEach((k) => { lower[k.toLowerCase()] = props[k]; });
+    for (let i = 0; i < keys.length; i++) { const v = lower[keys[i].toLowerCase()]; if (v !== undefined && v !== null && v !== "") return v; }
+    return undefined;
+  }
+  const ssNum = (v, d) => { const n = parseFloat(v); return isNaN(n) ? d : n; };
+
   function buildGeoLayer(data, color) {
-    const lineCol = color || "#e8542a";
-    const fillCol = color || "#2f6fb0";
+    const lineDefault = color || "#e8542a";
+    const fillDefault = color || "#2f6fb0";
     return L.geoJSON(data, {
+      // Embedded style (simplestyle spec) wins; the layer's palette colour is the fallback.
       style: (f) => {
+        const p = f.properties || {};
         const t = f.geometry && f.geometry.type;
-        if (t === "LineString" || t === "MultiLineString") return { color: lineCol, weight: 4, opacity: 0.9 };
-        return { color: fillCol, weight: 2, fillColor: fillCol, fillOpacity: 0.12 };
+        const isLine = t === "LineString" || t === "MultiLineString";
+        const stroke = ssGet(p, ["stroke", "stroke-color", "stroke_color", "line-color", "line_color", "color"]) || lineDefault;
+        const weight = ssNum(ssGet(p, ["stroke-width", "stroke_width", "strokeWidth", "line-width", "line_width", "weight"]), isLine ? 4 : 2);
+        const opacity = ssNum(ssGet(p, ["stroke-opacity", "stroke_opacity", "opacity"]), 0.9);
+        const dashRaw = ssGet(p, ["stroke-dasharray", "stroke_dasharray", "dash", "dasharray"]);
+        const base = { color: stroke, weight: weight, opacity: opacity };
+        if (dashRaw) base.dashArray = String(dashRaw);
+        if (isLine) return base;
+        const fill = ssGet(p, ["fill", "fill-color", "fill_color", "fillColor"]) || stroke || fillDefault;
+        const fillOpacity = ssNum(ssGet(p, ["fill-opacity", "fill_opacity", "fillOpacity"]), 0.15);
+        base.fillColor = fill; base.fillOpacity = fillOpacity;
+        return base;
       },
-      pointToLayer: (f, ll) => L.circleMarker(ll, { radius: 6, color: "#fff", weight: 2, fillColor: fillCol, fillOpacity: 1 }),
+      pointToLayer: (f, ll) => {
+        const p = f.properties || {};
+        const mc = ssGet(p, ["marker-color", "marker_color", "fill", "color", "stroke"]) || fillDefault;
+        const r = ssNum(ssGet(p, ["marker-size", "marker_size", "radius"]), 6);
+        return L.circleMarker(ll, { radius: r, color: "#fff", weight: 2, fillColor: mc, fillOpacity: 1 });
+      },
       onEachFeature
     });
   }
@@ -2000,12 +2030,81 @@ body.locked { overflow: hidden; }
     Object.keys(userLayers).forEach((id) => { if (userLayers[id]) map.removeLayer(userLayers[id]); });
     userLayers = {};
     (state.mapLayers || []).forEach((ml) => {
-      const lyr = buildGeoLayer(ml.data, ml.color);
+      const lyr = (ml.type === "tiles")
+        ? L.tileLayer(ml.url, { maxZoom: 24, maxNativeZoom: ml.maxNativeZoom || 22, opacity: ml.opacity != null ? ml.opacity : 1, attribution: ml.attribution || "" })
+        : buildGeoLayer(ml.data, ml.color);
       userLayers[ml.id] = lyr;
       if (ml.visible !== false) lyr.addTo(map);
     });
     renderLayerControl();
   }
+
+  /* ---- hosted imagery tile layer (XYZ {z}/{x}/{y}) — persisted & shared - */
+  function addTileLayer(url, name) {
+    url = (url || "").trim();
+    if (!/\{z\}/.test(url) || !/\{x\}/.test(url) || !/\{y\}/.test(url)) {
+      toast("That URL needs {z}/{x}/{y} placeholders (an XYZ tile URL)", true); return;
+    }
+    state.mapLayers = state.mapLayers || [];
+    state.mapLayers.push({
+      id: uid(), type: "tiles", name: (name || "").trim() || "Aerial imagery",
+      url: url, attribution: "", visible: true
+    });
+    save(); renderUserLayers();
+    toast("Imagery layer added \u2014 Publish to share it");
+  }
+
+  function promptTileLayer() {
+    const url = window.prompt(
+      "Paste your XYZ imagery tile URL (with {z}/{x}/{y}).\n\n" +
+      "Tip: in QGIS use Processing \u2192 \u201cGenerate XYZ tiles (Directory)\u201d on your GeoTIFF, commit the folder to your repo (e.g. /aerial), then use:\n" +
+      "https://<you>.github.io/OCE-OPS/aerial/{z}/{x}/{y}.png"
+    );
+    if (url == null) return;
+    const name = window.prompt("Name for this imagery layer:", "Site aerial");
+    if (name == null) return;
+    addTileLayer(url, name);
+  }
+
+  /* ---- GeoTIFF overlay (client-side, this session only) ---------------- */
+  let rasterLayers = {};   // id -> { layer, name, georaster }
+  function ensureGeoraster() {
+    if (window.GeoRasterLayer && window.parseGeoraster) return Promise.resolve(true);
+    if (ensureGeoraster._p) return ensureGeoraster._p;
+    const load = (src) => new Promise((res, rej) => {
+      const s = document.createElement("script"); s.src = src; s.onload = res; s.onerror = () => rej(new Error("load " + src));
+      document.head.appendChild(s);
+    });
+    ensureGeoraster._p = load("https://unpkg.com/georaster@1.6.0/dist/georaster.browser.bundle.min.js")
+      .then(() => load("https://unpkg.com/georaster-layer-for-leaflet@3.10.0/dist/georaster-layer-for-leaflet.min.js"))
+      .then(() => !!(window.GeoRasterLayer && window.parseGeoraster));
+    return ensureGeoraster._p;
+  }
+
+  function handleRasterFile(file) {
+    const MB = file.size / (1024 * 1024);
+    if (MB > 120) { toast("That GeoTIFF is very large (" + MB.toFixed(0) + " MB) and may not load in a browser. Consider tiling it (see the Imagery button).", true); }
+    setMapHint(`Loading GeoTIFF <b>${esc(file.name)}</b>\u2026 (large files can take a moment)`);
+    ensureGeoraster().then((okLib) => {
+      if (!okLib) throw new Error("imagery library unavailable");
+      return file.arrayBuffer();
+    }).then((buf) => window.parseGeoraster(buf)).then((georaster) => {
+      const layer = new window.GeoRasterLayer({ georaster: georaster, resolution: 256, opacity: 1 });
+      layer.addTo(map);
+      const id = uid();
+      rasterLayers[id] = { layer: layer, name: file.name.replace(/\.(tif|tiff)$/i, "") };
+      try { map.fitBounds(layer.getBounds().pad(0.05)); } catch (e) {}
+      renderLayerControl();
+      setMapHint(`Aerial <b>${esc(file.name)}</b> loaded. It shows on your screen only \u2014 to share it with site/client, tile it and use the <b>Imagery</b> button.`);
+    }).catch((err) => {
+      console.warn("raster load failed", err);
+      setMapHint(`Couldn't load <b>${esc(file.name)}</b> as a raster \u2014 ${esc(err.message || "unsupported or too large")}. Try re-exporting as a GeoTIFF in EPSG:4326/3857/28356, or tile it via the <b>Imagery</b> button.`);
+      toast("Raster load failed \u2014 see the note under the map", true);
+    });
+  }
+  function toggleRaster(id, show) { const r = rasterLayers[id]; if (!r) return; show ? r.layer.addTo(map) : map.removeLayer(r.layer); }
+  function removeRaster(id) { const r = rasterLayers[id]; if (r) { try { map.removeLayer(r.layer); } catch (e) {} delete rasterLayers[id]; renderLayerControl(); } }
+  function zoomRaster(id) { const r = rasterLayers[id]; if (r) { try { map.fitBounds(r.layer.getBounds().pad(0.05)); } catch (e) {} } }
 
   function toggleUserLayer(id, show) {
     const ml = (state.mapLayers || []).find((x) => x.id === id);
@@ -2054,45 +2153,53 @@ body.locked { overflow: hidden; }
     renderLayerControl();
   }
 
-  function layerRow(id, name, visible, color, removable) {
+  function layerRow(id, name, visible, color, removable, kind) {
+    const zoom = kind === "tiles" ? "" : `<button class="lc-zoom" data-lc-zoom="${id}" data-lc-kind="${kind || ""}" title="Zoom to this layer"><i class="fa-solid fa-magnifying-glass-location"></i></button>`;
+    const icon = kind === "tiles" ? `<span class="lc-swatch lc-tiles" title="Imagery tiles"><i class="fa-solid fa-image"></i></span>`
+      : kind === "raster" ? `<span class="lc-swatch lc-tiles" title="GeoTIFF (this session)"><i class="fa-solid fa-mountain-sun"></i></span>`
+      : `<span class="lc-swatch" style="background:${color}"></span>`;
     return `<label class="lc-row">
-      <input type="checkbox" data-lc-toggle="${id}" ${visible ? "checked" : ""} />
-      <span class="lc-swatch" style="background:${color}"></span>
+      <input type="checkbox" data-lc-toggle="${id}" data-lc-kind="${kind || ""}" ${visible ? "checked" : ""} />
+      ${icon}
       <span class="lc-name">${esc(name)}</span>
-      <button class="lc-zoom" data-lc-zoom="${id}" title="Zoom to this layer"><i class="fa-solid fa-magnifying-glass-location"></i></button>
-      ${removable ? `<button class="lc-remove" data-lc-remove="${id}" title="Remove layer">&times;</button>` : ""}
+      ${zoom}
+      ${removable ? `<button class="lc-remove" data-lc-remove="${id}" data-lc-kind="${kind || ""}" title="Remove layer">&times;</button>` : ""}
     </label>`;
   }
 
   function renderLayerControl() {
     if (!layerCtlEl) return;
     const layers = state.mapLayers || [];
+    const rasterIds = Object.keys(rasterLayers);
     const hasRepo = !!geoLayer;
-    if (!hasRepo && !layers.length) { layerCtlEl.style.display = "none"; return; }
+    if (!hasRepo && !layers.length && !rasterIds.length) { layerCtlEl.style.display = "none"; layerCtlEl.innerHTML = ""; return; }
     layerCtlEl.style.display = "block";
 
+    const anyRemovable = layers.length || rasterIds.length;
     let html = `<div class="lc-head"><i class="fa-solid fa-layer-group"></i> Map layers`
-      + (layers.length ? `<button class="lc-clear" data-lc-clear="1" title="Remove all uploaded layers">Clear</button>` : "")
+      + (anyRemovable ? `<button class="lc-clear" data-lc-clear="1" title="Remove all added layers">Clear</button>` : "")
       + `</div>`;
-    if (hasRepo) html += layerRow("__repo__", "Work area (repo)", repoVisible, "#e8542a", false);
-    layers.forEach((ml) => { html += layerRow(ml.id, ml.name, ml.visible !== false, ml.color, true); });
+    if (hasRepo) html += layerRow("__repo__", "Work area (repo)", repoVisible, "#e8542a", false, "geojson");
+    layers.forEach((ml) => { html += layerRow(ml.id, ml.name, ml.visible !== false, ml.color, true, ml.type === "tiles" ? "tiles" : "geojson"); });
+    rasterIds.forEach((id) => { html += layerRow(id, rasterLayers[id].name + " (session)", !!map.hasLayer(rasterLayers[id].layer), "#0f9b8e", true, "raster"); });
     layerCtlEl.innerHTML = html;
 
     layerCtlEl.querySelectorAll("[data-lc-toggle]").forEach((cb) => {
       cb.onchange = () => {
-        const id = cb.getAttribute("data-lc-toggle");
+        const id = cb.getAttribute("data-lc-toggle"), kind = cb.getAttribute("data-lc-kind");
         if (id === "__repo__") toggleRepoLayer(cb.checked);
+        else if (kind === "raster") toggleRaster(id, cb.checked);
         else toggleUserLayer(id, cb.checked);
       };
     });
     layerCtlEl.querySelectorAll("[data-lc-zoom]").forEach((b) => {
-      b.onclick = (e) => { e.preventDefault(); zoomToLayer(b.getAttribute("data-lc-zoom")); };
+      b.onclick = (e) => { e.preventDefault(); const kind = b.getAttribute("data-lc-kind"); const id = b.getAttribute("data-lc-zoom"); kind === "raster" ? zoomRaster(id) : zoomToLayer(id); };
     });
     layerCtlEl.querySelectorAll("[data-lc-remove]").forEach((b) => {
-      b.onclick = () => removeUserLayer(b.getAttribute("data-lc-remove"));
+      b.onclick = () => { const kind = b.getAttribute("data-lc-kind"); const id = b.getAttribute("data-lc-remove"); kind === "raster" ? removeRaster(id) : removeUserLayer(id); };
     });
     const clr = layerCtlEl.querySelector("[data-lc-clear]");
-    if (clr) clr.onclick = clearUserLayers;
+    if (clr) clr.onclick = () => { clearUserLayers(); Object.keys(rasterLayers).forEach(removeRaster); };
   }
 
   function reportGeo(r, label) {
@@ -2125,7 +2232,7 @@ body.locked { overflow: hidden; }
   function fitFeatures() {
     const groups = [];
     if (geoLayer && repoVisible) groups.push(geoLayer);
-    Object.keys(userLayers).forEach((id) => { if (userLayers[id]) groups.push(userLayers[id]); });
+    (state.mapLayers || []).forEach((ml) => { if (ml.type !== "tiles" && userLayers[ml.id]) groups.push(userLayers[ml.id]); });
     if (markerLayer && markerLayer.getLayers().length) groups.push(markerLayer);
     if (!groups.length) return;
     const fg = L.featureGroup(groups);
@@ -3842,20 +3949,25 @@ body.locked { overflow: hidden; }
     document.getElementById("btnBase").onclick = toggleBase;
     document.getElementById("btnFit").onclick = fitFeatures;
     document.getElementById("btnLoadGeo").onclick = () => document.getElementById("fileGeo").click();
+    document.getElementById("btnImagery").onclick = promptTileLayer;
     document.getElementById("fileGeo").onchange = (e) => {
-      const files = Array.from(e.target.files || []);
-      if (!files.length) return;
+      const all = Array.from(e.target.files || []);
+      if (!all.length) return;
+      const rasters = all.filter((f) => /\.(tif|tiff)$/i.test(f.name));
+      const vectors = all.filter((f) => !/\.(tif|tiff)$/i.test(f.name));
+      rasters.forEach((f) => handleRasterFile(f));
+      if (!vectors.length) { e.target.value = ""; return; }
       let done = 0, ok = 0, failed = [];
-      files.forEach((f) => {
+      vectors.forEach((f) => {
         const fr = new FileReader();
         fr.onload = () => {
           try {
             const r = addUserLayer(f.name, JSON.parse(fr.result));
             if (r && r.ok) ok++; else failed.push(f.name + " (unsupported CRS)");
           } catch (err) { failed.push(f.name + " (not valid GeoJSON)"); }
-          if (++done === files.length) finishLoad();
+          if (++done === vectors.length) finishLoad();
         };
-        fr.onerror = () => { failed.push(f.name + " (couldn't read)"); if (++done === files.length) finishLoad(); };
+        fr.onerror = () => { failed.push(f.name + " (couldn't read)"); if (++done === vectors.length) finishLoad(); };
         fr.readAsText(f);
       });
       function finishLoad() {
