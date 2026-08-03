@@ -291,7 +291,7 @@
       "lng": 152.6759846471537,
       "category": "traffic",
       "title": "Road Closure",
-      "notes": "",
+      "notes": "LONO in Effect",
       "ts": 1785730454095,
       "vis": {
         "site": true,
@@ -474,7 +474,7 @@
         "sub": "",
         "team": "site",
         "dateAssigned": "",
-        "dateRequired": "2026-08-03",
+        "dateRequired": "2026-08-04",
         "wstatus": "",
         "startDate": "",
         "endDate": ""
@@ -6580,6 +6580,90 @@
           }
         ]
       }
+    },
+    {
+      "id": "pkcanwm",
+      "name": "Bypass",
+      "color": "#2be9e6",
+      "visible": true,
+      "data": {
+        "type": "FeatureCollection",
+        "name": "Bypass",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "id": null
+            },
+            "geometry": {
+              "type": "MultiLineString",
+              "coordinates": [
+                [
+                  [
+                    152.67623133270558,
+                    -26.18208879372224
+                  ],
+                  [
+                    152.676167631306,
+                    -26.18220125019886
+                  ],
+                  [
+                    152.6763629126459,
+                    -26.182548927452636
+                  ]
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "id": null
+            },
+            "geometry": {
+              "type": "MultiLineString",
+              "coordinates": [
+                [
+                  [
+                    152.67636134621804,
+                    -26.182544241782292
+                  ],
+                  [
+                    152.67632375194944,
+                    -26.182735416980773
+                  ]
+                ]
+              ]
+            }
+          },
+          {
+            "type": "Feature",
+            "properties": {
+              "id": null
+            },
+            "geometry": {
+              "type": "MultiLineString",
+              "coordinates": [
+                [
+                  [
+                    152.67632688480518,
+                    -26.18273447984822
+                  ],
+                  [
+                    152.67660884182004,
+                    -26.18290691211256
+                  ]
+                ]
+              ]
+            }
+          }
+        ]
+      },
+      "style": {
+        "dash": "8,6",
+        "weight": 2,
+        "color": "#2be9e6"
+      }
     }
   ],
   "panelVis": {
@@ -6695,7 +6779,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-03T04:18:22.347Z"
+      "updated": "2026-08-03T21:35:44.729Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -7034,10 +7118,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-08-03",
+      "dateRequired": "2026-08-04",
       "photos": 0,
       "createdAt": "2026-07-30T02:14:02.382Z",
-      "updatedAt": "2026-07-30T02:14:02.382Z",
+      "updatedAt": "2026-08-03T21:35:44.729Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7106,7 +7190,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:08:48.055Z",
-      "updatedAt": "2026-08-03T04:20:06.501Z",
+      "updatedAt": "2026-08-02T20:09:09.038Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7510,5 +7594,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-03T04:20:10.439Z"
+  "publishedAt": "2026-08-03T21:43:59.295Z"
 }
