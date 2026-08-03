@@ -728,6 +728,10 @@ body.viewer .map-hint { display: none !important; }
 .layer-ctl input[type="checkbox"] { accent-color: var(--orange); width: 15px; height: 15px; flex: 0 0 auto; }
 .layer-ctl .lc-swatch { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.15); }
 .layer-ctl .lc-swatch.lc-tiles { width: 15px; height: 15px; border: none; display: grid; place-items: center; color: #2f6fb0; font-size: 11px; background: transparent; }
+.layer-ctl .lc-color { width: 16px; height: 16px; flex: 0 0 auto; padding: 0; border: 1px solid rgba(0,0,0,.2); border-radius: 3px; background: none; cursor: pointer; }
+.layer-ctl .lc-color::-webkit-color-swatch-wrapper { padding: 0; }
+.layer-ctl .lc-color::-webkit-color-swatch { border: none; border-radius: 2px; }
+.layer-ctl .lc-w { width: 34px; flex: 0 0 auto; padding: 1px 3px; font-size: 11px; border: 1px solid var(--hairline); border-radius: 4px; }
 .layer-ctl .lc-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .layer-ctl .lc-remove {
   border: none; background: transparent; color: var(--faint); font-size: 15px; line-height: 1;
@@ -902,6 +906,8 @@ body.locked { overflow: hidden; }
 .sum-row .sum-v { font-size: 13px; color: var(--ink); line-height: 1.4; white-space: pre-wrap; }
 .sum-empty { font-size: 12.5px; color: var(--muted); }
 .sum-empty .linklike { background: none; border: none; color: var(--amber); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
+
+.layer-ctl .lc-dash { flex: 0 0 auto; font-size: 11px; padding: 1px 2px; border: 1px solid var(--hairline); border-radius: 4px; background: var(--surface); max-width: 66px; }
 
 </style>
 </head>
@@ -1909,19 +1915,20 @@ body.locked { overflow: hidden; }
   }
   const ssNum = (v, d) => { const n = parseFloat(v); return isNaN(n) ? d : n; };
 
-  function buildGeoLayer(data, color) {
-    const lineDefault = color || "#e8542a";
-    const fillDefault = color || "#2f6fb0";
+  function buildGeoLayer(data, color, override) {
+    const lineDefault = (override && override.color) || color || "#e8542a";
+    const fillDefault = (override && override.color) || color || "#2f6fb0";
+    const weightDefault = override && override.weight;
     return L.geoJSON(data, {
-      // Embedded style (simplestyle spec) wins; the layer's palette colour is the fallback.
+      // Order of precedence: per-feature simplestyle in the file > this layer's dashboard style > palette.
       style: (f) => {
         const p = f.properties || {};
         const t = f.geometry && f.geometry.type;
         const isLine = t === "LineString" || t === "MultiLineString";
         const stroke = ssGet(p, ["stroke", "stroke-color", "stroke_color", "line-color", "line_color", "color"]) || lineDefault;
-        const weight = ssNum(ssGet(p, ["stroke-width", "stroke_width", "strokeWidth", "line-width", "line_width", "weight"]), isLine ? 4 : 2);
+        const weight = ssNum(ssGet(p, ["stroke-width", "stroke_width", "strokeWidth", "line-width", "line_width", "weight"]), weightDefault != null ? weightDefault : (isLine ? 4 : 2));
         const opacity = ssNum(ssGet(p, ["stroke-opacity", "stroke_opacity", "opacity"]), 0.9);
-        const dashRaw = ssGet(p, ["stroke-dasharray", "stroke_dasharray", "dash", "dasharray"]);
+        const dashRaw = ssGet(p, ["stroke-dasharray", "stroke_dasharray", "dash", "dasharray"]) || (override && override.dash);
         const base = { color: stroke, weight: weight, opacity: opacity };
         if (dashRaw) base.dashArray = String(dashRaw);
         if (isLine) return base;
@@ -2032,7 +2039,7 @@ body.locked { overflow: hidden; }
     (state.mapLayers || []).forEach((ml) => {
       const lyr = (ml.type === "tiles")
         ? L.tileLayer(ml.url, { maxZoom: 24, maxNativeZoom: ml.maxNativeZoom || 22, opacity: ml.opacity != null ? ml.opacity : 1, attribution: ml.attribution || "" })
-        : buildGeoLayer(ml.data, ml.color);
+        : buildGeoLayer(ml.data, (ml.style && ml.style.color) || ml.color, ml.style);
       userLayers[ml.id] = lyr;
       if (ml.visible !== false) lyr.addTo(map);
     });
@@ -2155,16 +2162,23 @@ body.locked { overflow: hidden; }
 
   function layerRow(id, name, visible, color, removable, kind) {
     const zoom = kind === "tiles" ? "" : `<button class="lc-zoom" data-lc-zoom="${id}" data-lc-kind="${kind || ""}" title="Zoom to this layer"><i class="fa-solid fa-magnifying-glass-location"></i></button>`;
-    const icon = kind === "tiles" ? `<span class="lc-swatch lc-tiles" title="Imagery tiles"><i class="fa-solid fa-image"></i></span>`
-      : kind === "raster" ? `<span class="lc-swatch lc-tiles" title="GeoTIFF (this session)"><i class="fa-solid fa-mountain-sun"></i></span>`
-      : `<span class="lc-swatch" style="background:${color}"></span>`;
-    return `<label class="lc-row">
+    let icon;
+    if (kind === "tiles") icon = `<span class="lc-swatch lc-tiles" title="Imagery tiles"><i class="fa-solid fa-image"></i></span>`;
+    else if (kind === "raster") icon = `<span class="lc-swatch lc-tiles" title="GeoTIFF (this session)"><i class="fa-solid fa-mountain-sun"></i></span>`;
+    else if (removable) icon = `<input type="color" class="lc-color" data-lc-color="${id}" value="${/^#[0-9a-f]{6}$/i.test(color) ? color : "#2f6fb0"}" title="Layer colour" />`;
+    else icon = `<span class="lc-swatch" style="background:${color}"></span>`;
+    const isVec = (kind !== "tiles" && kind !== "raster" && removable);
+    const width = isVec ? `<input type="number" class="lc-w" data-lc-w="${id}" min="1" max="14" step="1" title="Line width" />` : "";
+    const dash = isVec ? `<select class="lc-dash" data-lc-dash="${id}" title="Line style"><option value="">Solid</option><option value="8,6">Dashed</option><option value="2,6">Dotted</option></select>` : "";
+    return `<div class="lc-row">
       <input type="checkbox" data-lc-toggle="${id}" data-lc-kind="${kind || ""}" ${visible ? "checked" : ""} />
       ${icon}
       <span class="lc-name">${esc(name)}</span>
+      ${width}
+      ${dash}
       ${zoom}
       ${removable ? `<button class="lc-remove" data-lc-remove="${id}" data-lc-kind="${kind || ""}" title="Remove layer">&times;</button>` : ""}
-    </label>`;
+    </div>`;
   }
 
   function renderLayerControl() {
@@ -2198,8 +2212,30 @@ body.locked { overflow: hidden; }
     layerCtlEl.querySelectorAll("[data-lc-remove]").forEach((b) => {
       b.onclick = () => { const kind = b.getAttribute("data-lc-kind"); const id = b.getAttribute("data-lc-remove"); kind === "raster" ? removeRaster(id) : removeUserLayer(id); };
     });
+    layerCtlEl.querySelectorAll("[data-lc-color]").forEach((inp) => {
+      inp.onchange = () => setLayerStyle(inp.getAttribute("data-lc-color"), { color: inp.value });
+    });
+    layerCtlEl.querySelectorAll("[data-lc-w]").forEach((inp) => {
+      const ml = (state.mapLayers || []).find((x) => x.id === inp.getAttribute("data-lc-w"));
+      inp.value = (ml && ml.style && ml.style.weight) || 4;
+      inp.onchange = () => setLayerStyle(inp.getAttribute("data-lc-w"), { weight: parseInt(inp.value, 10) || 4 });
+    });
+    layerCtlEl.querySelectorAll("[data-lc-dash]").forEach((sel) => {
+      const ml = (state.mapLayers || []).find((x) => x.id === sel.getAttribute("data-lc-dash"));
+      sel.value = (ml && ml.style && ml.style.dash) || "";
+      sel.onchange = () => setLayerStyle(sel.getAttribute("data-lc-dash"), { dash: sel.value });
+    });
     const clr = layerCtlEl.querySelector("[data-lc-clear]");
     if (clr) clr.onclick = () => { clearUserLayers(); Object.keys(rasterLayers).forEach(removeRaster); };
+  }
+
+  function setLayerStyle(id, patch) {
+    const ml = (state.mapLayers || []).find((x) => x.id === id);
+    if (!ml) return;
+    ml.style = Object.assign({}, ml.style, patch);
+    if (patch.color) ml.color = patch.color;   // keep the swatch/palette in sync
+    save();
+    renderUserLayers();
   }
 
   function reportGeo(r, label) {
