@@ -7501,8 +7501,8 @@
       "compDate": "",
       "status": "green",
       "statusComment": "Works Scheduled to kick off Monday 3rd August",
-      "stage": "Mobilisation",
-      "milestone": "",
+      "stage": "Sewer Pipe Installation",
+      "milestone": "Bypass Valve Cut in - Wednesday 3/08",
       "achievement": "",
       "clientAction": "",
       "risk": "",
@@ -7510,5 +7510,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-03T04:18:44.144Z"
+  "publishedAt": "2026-08-03T04:19:29.554Z"
 }
