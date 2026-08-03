@@ -284,6 +284,34 @@
         "client": true
       },
       "project": "default"
+    },
+    {
+      "id": "d8e0sji",
+      "lat": -26.18207211331156,
+      "lng": 152.6759846471537,
+      "category": "traffic",
+      "title": "Road Closure",
+      "notes": "",
+      "ts": 1785730454095,
+      "vis": {
+        "site": true,
+        "client": true
+      },
+      "project": "pk4tcz76"
+    },
+    {
+      "id": "k3eudmf",
+      "lat": -26.182799026527288,
+      "lng": 152.67641364542348,
+      "category": "laydown",
+      "title": "Site Compound",
+      "notes": "",
+      "ts": 1785730479240,
+      "vis": {
+        "site": true,
+        "client": true
+      },
+      "project": "pk4tcz76"
     }
   ],
   "stats": [],
@@ -450,6 +478,38 @@
         "wstatus": "",
         "startDate": "",
         "endDate": ""
+      },
+      {
+        "id": "muvacgs",
+        "main": "New Valve Cut in - for Bypass arrangement",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-05",
+        "wstatus": "",
+        "startDate": "",
+        "endDate": ""
+      },
+      {
+        "id": "pjikarh",
+        "main": "SEW PIPE up to 1st MH",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-08-04",
+        "endDate": "2026-08-07"
       }
     ],
     "subbiesToday": [
@@ -815,6 +875,23 @@
           "contact": "Craig - 0472720 565"
         },
         "resolvedAt": "2026-07-30T03:38:26.670Z"
+      },
+      {
+        "id": "huox68o",
+        "main": "Service Disruption Notification Letters - Issued 28th July",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-07-28",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed",
+        "x": {},
+        "resolvedAt": "2026-08-03T04:17:22.194Z"
       }
     ],
     "punchlist": [
@@ -1507,7 +1584,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 80,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -6600,7 +6677,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-07-30T03:39:49.165Z"
+      "updated": "2026-08-03T04:17:22.194Z"
     },
     "deliveries": {
       "updated": "2026-07-30T02:52:00.814Z"
@@ -6618,7 +6695,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-07-30T02:14:02.382Z"
+      "updated": "2026-08-03T04:16:04.294Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -6639,7 +6716,7 @@
       "updated": "2026-07-08T01:26:31.152Z"
     },
     "workPackages": {
-      "updated": "2026-07-31T00:29:37.624Z"
+      "updated": "2026-08-02T20:09:09.038Z"
     }
   },
   "history": {
@@ -7029,7 +7106,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:08:48.055Z",
-      "updatedAt": "2026-07-30T23:09:14.076Z",
+      "updatedAt": "2026-08-02T20:09:09.038Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7332,6 +7409,75 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "muvacgs": {
+      "id": "muvacgs",
+      "panel": "Scheduled Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New Valve Cut in - for Bypass arrangement",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-05",
+      "photos": 0,
+      "createdAt": "2026-08-03T04:12:36.187Z",
+      "updatedAt": "2026-08-03T04:12:36.187Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "pjikarh": {
+      "id": "pjikarh",
+      "panel": "Scheduled Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "SEW PIPE up to 1st MH",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-08-04",
+      "end": "2026-08-07",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-03T04:13:34.945Z",
+      "updatedAt": "2026-08-03T04:16:04.294Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "huox68o": {
+      "id": "huox68o",
+      "panel": "Stakeholders",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Service Disruption Notification Letters - Issued 28th July",
+      "detail": "",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "2026-07-28",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-03T04:17:02.214Z",
+      "updatedAt": "2026-08-03T04:17:22.194Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -7364,5 +7510,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-07-31T00:29:39.875Z"
+  "publishedAt": "2026-08-03T04:17:33.072Z"
 }
