@@ -703,7 +703,7 @@ body.viewer .map-hint { display: none !important; }
   border-radius: 8px;
   box-shadow: 0 2px 10px rgba(20,32,43,.18);
   font-family: var(--font-body);
-  min-width: 178px; max-width: 230px;
+  min-width: 190px; max-width: 268px;
   overflow: hidden;
 }
 .layer-ctl .lc-head {
@@ -720,22 +720,26 @@ body.viewer .map-hint { display: none !important; }
 }
 .layer-ctl .lc-clear:hover { border-color: var(--stop); color: var(--stop); }
 .layer-ctl .lc-row {
-  display: flex; align-items: center; gap: 8px;
-  padding: 7px 10px; font-size: 13px; cursor: pointer; border-bottom: 1px solid var(--hairline-2);
+  display: flex; flex-direction: column; gap: 4px;
+  padding: 7px 10px; font-size: 13px; border-bottom: 1px solid var(--hairline-2);
 }
 .layer-ctl .lc-row:last-child { border-bottom: none; }
 .layer-ctl .lc-row:hover { background: var(--paper); }
+.layer-ctl .lc-main { display: flex; align-items: center; gap: 8px; }
+.layer-ctl .lc-style { display: flex; align-items: center; gap: 6px; padding-left: 23px; }
+.layer-ctl .lc-sl { display: inline-flex; align-items: center; gap: 3px; font-size: 11px; color: var(--muted); }
 .layer-ctl input[type="checkbox"] { accent-color: var(--orange); width: 15px; height: 15px; flex: 0 0 auto; }
-.layer-ctl .lc-swatch { width: 11px; height: 11px; border-radius: 3px; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.15); }
+.layer-ctl .lc-swatch { width: 12px; height: 12px; border-radius: 3px; flex: 0 0 auto; border: 1px solid rgba(0,0,0,.15); }
 .layer-ctl .lc-swatch.lc-tiles { width: 15px; height: 15px; border: none; display: grid; place-items: center; color: #2f6fb0; font-size: 11px; background: transparent; }
-.layer-ctl .lc-color { width: 16px; height: 16px; flex: 0 0 auto; padding: 0; border: 1px solid rgba(0,0,0,.2); border-radius: 3px; background: none; cursor: pointer; }
+.layer-ctl .lc-color { width: 18px; height: 18px; flex: 0 0 auto; padding: 0; border: 1px solid rgba(0,0,0,.2); border-radius: 3px; background: none; cursor: pointer; }
 .layer-ctl .lc-color::-webkit-color-swatch-wrapper { padding: 0; }
 .layer-ctl .lc-color::-webkit-color-swatch { border: none; border-radius: 2px; }
-.layer-ctl .lc-w { width: 34px; flex: 0 0 auto; padding: 1px 3px; font-size: 11px; border: 1px solid var(--hairline); border-radius: 4px; }
-.layer-ctl .lc-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.layer-ctl .lc-w { width: 36px; flex: 0 0 auto; padding: 1px 3px; font-size: 11px; border: 1px solid var(--hairline); border-radius: 4px; }
+.layer-ctl .lc-dash { flex: 0 0 auto; font-size: 11px; padding: 1px 2px; border: 1px solid var(--hairline); border-radius: 4px; background: var(--surface); }
+.layer-ctl .lc-name { flex: 1; min-width: 0; white-space: normal; word-break: break-word; line-height: 1.25; }
 .layer-ctl .lc-remove {
   border: none; background: transparent; color: var(--faint); font-size: 15px; line-height: 1;
-  width: 20px; height: 20px; border-radius: 4px; flex: 0 0 auto;
+  width: 20px; height: 20px; border-radius: 4px; flex: 0 0 auto; cursor: pointer;
 }
 .layer-ctl .lc-remove:hover { background: var(--surface); color: var(--stop); }
 .layer-ctl .lc-zoom {
@@ -907,7 +911,6 @@ body.locked { overflow: hidden; }
 .sum-empty { font-size: 12.5px; color: var(--muted); }
 .sum-empty .linklike { background: none; border: none; color: var(--amber); cursor: pointer; font: inherit; padding: 0; text-decoration: underline; }
 
-.layer-ctl .lc-dash { flex: 0 0 auto; font-size: 11px; padding: 1px 2px; border: 1px solid var(--hairline); border-radius: 4px; background: var(--surface); max-width: 66px; }
 
 </style>
 </head>
@@ -2161,23 +2164,31 @@ body.locked { overflow: hidden; }
   }
 
   function layerRow(id, name, visible, color, removable, kind) {
-    const zoom = kind === "tiles" ? "" : `<button class="lc-zoom" data-lc-zoom="${id}" data-lc-kind="${kind || ""}" title="Zoom to this layer"><i class="fa-solid fa-magnifying-glass-location"></i></button>`;
+    const editable = sync.audience === "editor";
+    const isVec = (kind !== "tiles" && kind !== "raster");
+    const swatchHex = /^#[0-9a-f]{6}$/i.test(color) ? color : "#2f6fb0";
     let icon;
     if (kind === "tiles") icon = `<span class="lc-swatch lc-tiles" title="Imagery tiles"><i class="fa-solid fa-image"></i></span>`;
     else if (kind === "raster") icon = `<span class="lc-swatch lc-tiles" title="GeoTIFF (this session)"><i class="fa-solid fa-mountain-sun"></i></span>`;
-    else if (removable) icon = `<input type="color" class="lc-color" data-lc-color="${id}" value="${/^#[0-9a-f]{6}$/i.test(color) ? color : "#2f6fb0"}" title="Layer colour" />`;
-    else icon = `<span class="lc-swatch" style="background:${color}"></span>`;
-    const isVec = (kind !== "tiles" && kind !== "raster" && removable);
-    const width = isVec ? `<input type="number" class="lc-w" data-lc-w="${id}" min="1" max="14" step="1" title="Line width" />` : "";
-    const dash = isVec ? `<select class="lc-dash" data-lc-dash="${id}" title="Line style"><option value="">Solid</option><option value="8,6">Dashed</option><option value="2,6">Dotted</option></select>` : "";
+    else icon = `<span class="lc-swatch" style="background:${swatchHex}"></span>`;
+    const zoom = kind === "tiles" ? "" : `<button class="lc-zoom" data-lc-zoom="${id}" data-lc-kind="${kind || ""}" title="Zoom to this layer"><i class="fa-solid fa-magnifying-glass-location"></i></button>`;
+    const remove = (editable && removable) ? `<button class="lc-remove" data-lc-remove="${id}" data-lc-kind="${kind || ""}" title="Remove layer">&times;</button>` : "";
+    // Editing controls (colour / width / line style) are editor-only and live on their own line
+    // so they never crowd the name and view-only dashboards can't change the map styling.
+    const styleLine = (editable && isVec && removable) ? `<div class="lc-style">
+        <input type="color" class="lc-color" data-lc-color="${id}" value="${swatchHex}" title="Layer colour" />
+        <label class="lc-sl">W<input type="number" class="lc-w" data-lc-w="${id}" min="1" max="14" step="1" title="Line width" /></label>
+        <select class="lc-dash" data-lc-dash="${id}" title="Line style"><option value="">Solid</option><option value="8,6">Dashed</option><option value="2,6">Dotted</option></select>
+      </div>` : "";
     return `<div class="lc-row">
-      <input type="checkbox" data-lc-toggle="${id}" data-lc-kind="${kind || ""}" ${visible ? "checked" : ""} />
-      ${icon}
-      <span class="lc-name">${esc(name)}</span>
-      ${width}
-      ${dash}
-      ${zoom}
-      ${removable ? `<button class="lc-remove" data-lc-remove="${id}" data-lc-kind="${kind || ""}" title="Remove layer">&times;</button>` : ""}
+      <div class="lc-main">
+        <input type="checkbox" data-lc-toggle="${id}" data-lc-kind="${kind || ""}" ${visible ? "checked" : ""} />
+        ${icon}
+        <span class="lc-name">${esc(name)}</span>
+        ${zoom}
+        ${remove}
+      </div>
+      ${styleLine}
     </div>`;
   }
 
@@ -2190,8 +2201,9 @@ body.locked { overflow: hidden; }
     layerCtlEl.style.display = "block";
 
     const anyRemovable = layers.length || rasterIds.length;
+    const editable = sync.audience === "editor";
     let html = `<div class="lc-head"><i class="fa-solid fa-layer-group"></i> Map layers`
-      + (anyRemovable ? `<button class="lc-clear" data-lc-clear="1" title="Remove all added layers">Clear</button>` : "")
+      + ((editable && anyRemovable) ? `<button class="lc-clear" data-lc-clear="1" title="Remove all added layers">Clear</button>` : "")
       + `</div>`;
     if (hasRepo) html += layerRow("__repo__", "Work area (repo)", repoVisible, "#e8542a", false, "geojson");
     layers.forEach((ml) => { html += layerRow(ml.id, ml.name, ml.visible !== false, ml.color, true, ml.type === "tiles" ? "tiles" : "geojson"); });
