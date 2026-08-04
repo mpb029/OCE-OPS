@@ -684,7 +684,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-31",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-04T05:32:15.691Z"
       },
       {
         "id": "3eqiysu",
@@ -698,20 +699,21 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-31",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-04T05:32:27.601Z"
       },
       {
         "id": "hp0ahe1",
-        "main": "4.5t Digger and Bobcat",
+        "main": "Bobcat",
         "project": "default",
         "vis": {
           "site": true,
           "client": false
         },
-        "sub": "Cooloola Cove Sludge Pads to Widgee Crossing Rd",
+        "sub": "Cooloola Cove Sludge Pads to Andrew St",
         "team": "site",
         "dateAssigned": "",
-        "dateRequired": "2026-07-31",
+        "dateRequired": "2026-08-07",
         "wstatus": ""
       },
       {
@@ -726,7 +728,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-31",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-04T05:32:37.365Z"
       },
       {
         "id": "egkaj0w",
@@ -740,7 +743,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-31",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-04T05:35:45.883Z"
       },
       {
         "id": "rd4y8e1",
@@ -754,7 +758,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-31",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-04T05:32:53.343Z"
       },
       {
         "id": "btr1j87",
@@ -768,7 +773,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-07-31",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-04T05:32:45.258Z"
       }
     ],
     "stakeholders": [
@@ -943,7 +949,7 @@
         "team": "site",
         "dateAssigned": "2026-07-27",
         "dateRequired": "",
-        "wstatus": "",
+        "wstatus": "completed",
         "priority": "high",
         "photos": [
           {
@@ -978,7 +984,26 @@
             "size": 490414,
             "mime": "image/jpeg"
           }
-        ]
+        ],
+        "resolvedAt": "2026-08-04T05:36:03.200Z"
+      },
+      {
+        "id": "fg5p1vc",
+        "main": "Finish - Caution Paint on Concrete p/way slope",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Dolphin Ave Tin Can Bay. Waiting on paint TBC",
+        "due": "",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "2026-08-04",
+        "dateRequired": "",
+        "wstatus": "",
+        "priority": "med",
+        "photos": []
       }
     ],
     "materialPickup": [
@@ -6840,7 +6865,7 @@
   },
   "panelMeta": {
     "punchlist": {
-      "updated": "2026-07-27T03:01:49.144Z"
+      "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
       "updated": "2026-08-03T22:19:11.641Z"
@@ -6888,7 +6913,7 @@
       "updated": "2026-07-21T02:14:16.213Z"
     },
     "plantTransport": {
-      "updated": "2026-07-29T00:09:39.308Z"
+      "updated": "2026-08-04T05:35:45.883Z"
     },
     "meetings": {
       "updated": "2026-07-08T01:26:31.152Z"
@@ -6976,7 +7001,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -6985,7 +7010,7 @@
       "dateRequired": "2026-07-31",
       "photos": 0,
       "createdAt": "2026-07-28T23:58:37.458Z",
-      "updatedAt": "2026-07-28T23:58:37.458Z",
+      "updatedAt": "2026-08-04T05:32:15.691Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -6999,7 +7024,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7008,7 +7033,7 @@
       "dateRequired": "2026-07-31",
       "photos": 0,
       "createdAt": "2026-07-28T23:59:21.961Z",
-      "updatedAt": "2026-07-28T23:59:21.961Z",
+      "updatedAt": "2026-08-04T05:32:27.601Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7017,8 +7042,8 @@
       "id": "hp0ahe1",
       "panel": "Plant Transport",
       "project": "Regionwide Watermain Renewal",
-      "title": "4.5t Digger and Bobcat",
-      "detail": "Cooloola Cove Sludge Pads to Widgee Crossing Rd",
+      "title": "Bobcat",
+      "detail": "Cooloola Cove Sludge Pads to Andrew St",
       "team": "Site",
       "priority": "",
       "status": "",
@@ -7028,10 +7053,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-07-31",
+      "dateRequired": "2026-08-07",
       "photos": 0,
       "createdAt": "2026-07-28T23:59:53.343Z",
-      "updatedAt": "2026-07-28T23:59:53.343Z",
+      "updatedAt": "2026-08-04T05:35:38.465Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7045,7 +7070,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7054,7 +7079,7 @@
       "dateRequired": "2026-07-31",
       "photos": 0,
       "createdAt": "2026-07-29T00:04:48.019Z",
-      "updatedAt": "2026-07-29T00:04:48.019Z",
+      "updatedAt": "2026-08-04T05:32:37.365Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7068,7 +7093,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7077,7 +7102,7 @@
       "dateRequired": "2026-07-31",
       "photos": 0,
       "createdAt": "2026-07-29T00:05:12.396Z",
-      "updatedAt": "2026-07-29T00:05:12.396Z",
+      "updatedAt": "2026-08-04T05:35:45.883Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7091,7 +7116,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7100,7 +7125,7 @@
       "dateRequired": "2026-07-31",
       "photos": 0,
       "createdAt": "2026-07-29T00:06:08.785Z",
-      "updatedAt": "2026-07-29T00:09:39.308Z",
+      "updatedAt": "2026-08-04T05:32:53.343Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7114,7 +7139,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7123,7 +7148,7 @@
       "dateRequired": "2026-07-31",
       "photos": 0,
       "createdAt": "2026-07-29T00:08:51.545Z",
-      "updatedAt": "2026-07-29T00:08:51.545Z",
+      "updatedAt": "2026-08-04T05:32:45.258Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7794,6 +7819,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "0qz8u58": {
+      "id": "0qz8u58",
+      "panel": "Punch List",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Driveway Scratch and Kerb Repair",
+      "detail": "no.23 Drummer St",
+      "team": "Site",
+      "priority": "High",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "2026-07-31",
+      "start": "",
+      "end": "",
+      "dateAssigned": "2026-07-27",
+      "dateRequired": "",
+      "photos": 4,
+      "createdAt": "2026-08-04T05:36:03.200Z",
+      "updatedAt": "2026-08-04T05:36:03.200Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "fg5p1vc": {
+      "id": "fg5p1vc",
+      "panel": "Punch List",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Finish - Caution Paint on Concrete p/way slope",
+      "detail": "Dolphin Ave Tin Can Bay. Waiting on paint TBC",
+      "team": "Engineering",
+      "priority": "Medium",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "2026-08-04",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-04T05:37:03.190Z",
+      "updatedAt": "2026-08-04T05:37:11.192Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -7826,5 +7897,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T05:31:57.150Z"
+  "publishedAt": "2026-08-04T05:37:15.243Z"
 }
