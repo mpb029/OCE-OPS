@@ -403,6 +403,24 @@
           "contact": "Scotty - 0488 799 351"
         },
         "resolvedAt": "2026-07-30T02:52:00.814Z"
+      },
+      {
+        "id": "5kzd70w",
+        "main": "320mm Reamer for Easy Drill - delivery to Curra yard",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-08-10",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "supplier": "JBTrenchless"
+        }
       }
     ],
     "trafficControl": [],
@@ -6826,7 +6844,7 @@
       "updated": "2026-08-04T05:27:01.989Z"
     },
     "deliveries": {
-      "updated": "2026-07-30T02:52:00.814Z"
+      "updated": "2026-08-04T05:30:23.433Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -7716,6 +7734,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "5kzd70w": {
+      "id": "5kzd70w",
+      "panel": "Scheduled Deliveries",
+      "project": "G4N Sewer Main Replacement",
+      "title": "320mm Reamer for Easy Drill - delivery to Curra yard",
+      "detail": "Supplier: JBTrenchless",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-10",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-04T05:30:23.433Z",
+      "updatedAt": "2026-08-04T05:30:23.433Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -7748,5 +7789,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T05:27:07.641Z"
+  "publishedAt": "2026-08-04T05:30:33.679Z"
 }
