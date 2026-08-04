@@ -857,11 +857,12 @@
         "team": "eng",
         "dateAssigned": "",
         "dateRequired": "2026-08-05",
-        "wstatus": "inprogress",
+        "wstatus": "completed",
         "x": {
           "action": "Waiting for Response",
           "contact": "Brooke McGrath"
-        }
+        },
+        "resolvedAt": "2026-08-04T05:47:18.528Z"
       },
       {
         "id": "q5esj3u",
@@ -931,6 +932,22 @@
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
+        "x": {}
+      },
+      {
+        "id": "su1lhvs",
+        "main": "Develop Temporary Supply plan for Nestle Factory",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "2026-08-04",
+        "dateRequired": "2026-08-07",
+        "wstatus": "inprogress",
         "x": {}
       }
     ],
@@ -6913,7 +6930,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-08-04T05:27:01.989Z"
+      "updated": "2026-08-04T05:48:11.693Z"
     },
     "deliveries": {
       "updated": "2026-08-04T05:30:23.433Z"
@@ -7218,7 +7235,7 @@
       "team": "Engineering",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7227,7 +7244,7 @@
       "dateRequired": "2026-08-05",
       "photos": 0,
       "createdAt": "2026-07-29T23:43:06.508Z",
-      "updatedAt": "2026-07-29T23:44:04.680Z",
+      "updatedAt": "2026-08-04T05:47:18.528Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7944,6 +7961,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "su1lhvs": {
+      "id": "su1lhvs",
+      "panel": "Stakeholders",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Develop Temporary Supply plan for Nestle Factory",
+      "detail": "",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "2026-08-04",
+      "dateRequired": "2026-08-07",
+      "photos": 0,
+      "createdAt": "2026-08-04T05:48:11.693Z",
+      "updatedAt": "2026-08-04T05:48:11.693Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -7990,5 +8030,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T05:46:45.587Z"
+  "publishedAt": "2026-08-04T05:48:25.343Z"
 }
