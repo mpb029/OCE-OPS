@@ -1163,7 +1163,40 @@
         "wstatus": "completed"
       }
     ],
-    "meetings": [],
+    "meetings": [
+      {
+        "id": "8c8ebs7",
+        "main": "Final walkthrough - Tin Can Bay Cluster + Tarwhine St",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-08-06",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "au84qf5",
+        "main": "Final Walkthrough - Cooloola Cove Sludge Pads",
+        "project": "pfvstolg",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-08-06",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      }
+    ],
     "documents": [
       {
         "id": "qwxgi8s",
@@ -6916,7 +6949,7 @@
       "updated": "2026-08-04T05:35:45.883Z"
     },
     "meetings": {
-      "updated": "2026-07-08T01:26:31.152Z"
+      "updated": "2026-08-04T05:45:36.920Z"
     },
     "workPackages": {
       "updated": "2026-08-03T04:20:06.501Z"
@@ -7865,6 +7898,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "8c8ebs7": {
+      "id": "8c8ebs7",
+      "panel": "Meetings / Site Visits",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Final walkthrough - Tin Can Bay Cluster + Tarwhine St",
+      "detail": "",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-06",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-04T05:45:12.325Z",
+      "updatedAt": "2026-08-04T05:45:12.325Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "au84qf5": {
+      "id": "au84qf5",
+      "panel": "Meetings / Site Visits",
+      "project": "Cooloola Cove Sludge Pads",
+      "title": "Final Walkthrough - Cooloola Cove Sludge Pads",
+      "detail": "",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-06",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-04T05:45:36.920Z",
+      "updatedAt": "2026-08-04T05:45:36.920Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -7874,10 +7953,10 @@
       "compDate": "",
       "status": "green",
       "statusComment": "",
-      "stage": "Clean up Tin Can Bay, Commence Widgee Crossing",
+      "stage": "Widgee Crossing Main Alignment installation",
       "milestone": "Hydrostatic Test - Widgee Xing",
-      "achievement": "Asphalt works on Dolphin Ave, Reinstatement",
-      "clientAction": "",
+      "achievement": "Demobilization from Tin Can Bay",
+      "clientAction": "Waiting for response on scope ammendment for detail 3 - Widgee IFC drawings",
       "risk": "",
       "impacts": "",
       "scope": ""
@@ -7895,7 +7974,21 @@
       "risk": "",
       "impacts": "Andrew St Residents - Planned Service Disruption - Wednesday 5th - 8:30 AM to 12:30 PM (approx)",
       "scope": ""
+    },
+    "pfvstolg": {
+      "compType": "exact",
+      "comp": "",
+      "compDate": "",
+      "status": "green",
+      "statusComment": "Works Complete",
+      "stage": "",
+      "milestone": "",
+      "achievement": "",
+      "clientAction": "Final Walkthrough",
+      "risk": "",
+      "impacts": "",
+      "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T05:37:15.243Z"
+  "publishedAt": "2026-08-04T05:46:45.587Z"
 }
