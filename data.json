@@ -611,6 +611,20 @@
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": ""
+      },
+      {
+        "id": "ilya5h4",
+        "main": "Paul",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Monday 10th to Friday 14th Aug",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
       }
     ],
     "siteInputs": [
@@ -6832,7 +6846,7 @@
       "updated": "2026-08-03T22:19:11.641Z"
     },
     "staffAway": {
-      "updated": "2026-07-28T03:16:42.942Z"
+      "updated": "2026-08-04T05:31:45.570Z"
     },
     "materialPickup": {
       "updated": "2026-07-30T02:51:33.430Z"
@@ -7757,6 +7771,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "ilya5h4": {
+      "id": "ilya5h4",
+      "panel": "Staff Away",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Paul",
+      "detail": "Monday 10th to Friday 14th Aug",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-04T05:31:45.569Z",
+      "updatedAt": "2026-08-04T05:31:45.569Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -7789,5 +7826,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T05:30:33.679Z"
+  "publishedAt": "2026-08-04T05:31:57.150Z"
 }
