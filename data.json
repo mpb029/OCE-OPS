@@ -2028,6 +2028,24 @@
         "wstatus": "inprogress",
         "ref": "V#03 - Dolphin Ave - Under road Void - QUOTE PREP",
         "status": "pending"
+      },
+      {
+        "id": "ewnb1sh",
+        "main": "Sewer Connection to Lot01 MPH6306 No.20 Andrew St",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "OCE developing quote",
+        "due": "",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "2026-08-04",
+        "dateRequired": "",
+        "wstatus": "inprogress",
+        "ref": "VR#01",
+        "status": "pending"
       }
     ],
     "issuesDelays": [],
@@ -6942,7 +6960,7 @@
       "updated": "2026-07-08T01:11:45.481Z"
     },
     "variations": {
-      "updated": "2026-07-27T06:04:25.336Z"
+      "updated": "2026-08-04T06:18:37.832Z"
     },
     "issuesDelays": {
       "updated": "2026-07-08T01:11:49.778Z"
@@ -7984,6 +8002,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "ewnb1sh": {
+      "id": "ewnb1sh",
+      "panel": "Variations",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Sewer Connection to Lot01 MPH6306 No.20 Andrew St",
+      "detail": "OCE developing quote",
+      "team": "Engineering",
+      "priority": "",
+      "status": "Pending",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "2026-08-04",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-04T06:18:17.961Z",
+      "updatedAt": "2026-08-04T06:18:37.832Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8030,5 +8071,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T05:48:25.343Z"
+  "publishedAt": "2026-08-04T06:18:40.620Z"
 }
