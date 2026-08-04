@@ -752,7 +752,7 @@
       },
       {
         "id": "hp0ahe1",
-        "main": "Bobcat",
+        "main": "Bobcat pick up",
         "project": "default",
         "vis": {
           "site": true,
@@ -7029,7 +7029,7 @@
       "updated": "2026-07-21T02:14:16.213Z"
     },
     "plantTransport": {
-      "updated": "2026-08-04T05:35:45.883Z"
+      "updated": "2026-08-04T06:21:49.137Z"
     },
     "meetings": {
       "updated": "2026-08-04T05:45:36.920Z"
@@ -7158,7 +7158,7 @@
       "id": "hp0ahe1",
       "panel": "Plant Transport",
       "project": "Regionwide Watermain Renewal",
-      "title": "Bobcat",
+      "title": "Bobcat pick up",
       "detail": "Cooloola Cove Sludge Pads to Andrew St",
       "team": "Site",
       "priority": "",
@@ -7172,7 +7172,7 @@
       "dateRequired": "2026-08-07",
       "photos": 0,
       "createdAt": "2026-07-28T23:59:53.343Z",
-      "updatedAt": "2026-08-04T05:35:38.465Z",
+      "updatedAt": "2026-08-04T06:21:49.137Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8188,5 +8188,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T06:21:33.696Z"
+  "publishedAt": "2026-08-04T06:21:53.966Z"
 }
