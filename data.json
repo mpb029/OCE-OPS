@@ -514,6 +514,54 @@
         "wstatus": "",
         "startDate": "2026-08-04",
         "endDate": "2026-08-07"
+      },
+      {
+        "id": "b3mdnag",
+        "main": "Continue on Widgee Crossing Main Alignment",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "inprogress",
+        "startDate": "2026-08-03",
+        "endDate": "2026-08-07"
+      },
+      {
+        "id": "24skqpg",
+        "main": "Widgee Main Disinfection and Sample",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-10",
+        "wstatus": "",
+        "startDate": "",
+        "endDate": ""
+      },
+      {
+        "id": "bprij8p",
+        "main": "Widgee Main Hydrostatic Test",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-11",
+        "wstatus": "",
+        "startDate": "",
+        "endDate": ""
       }
     ],
     "subbiesToday": [
@@ -6966,7 +7014,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-03T21:35:44.729Z"
+      "updated": "2026-08-04T06:21:29.388Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -8025,6 +8073,75 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "b3mdnag": {
+      "id": "b3mdnag",
+      "panel": "Scheduled Works",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Continue on Widgee Crossing Main Alignment",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "2026-08-03",
+      "end": "2026-08-07",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-04T06:20:35.626Z",
+      "updatedAt": "2026-08-04T06:20:35.626Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "24skqpg": {
+      "id": "24skqpg",
+      "panel": "Scheduled Works",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Widgee Main Disinfection and Sample",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-10",
+      "photos": 0,
+      "createdAt": "2026-08-04T06:20:56.026Z",
+      "updatedAt": "2026-08-04T06:21:29.388Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "bprij8p": {
+      "id": "bprij8p",
+      "panel": "Scheduled Works",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Widgee Main Hydrostatic Test",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-11",
+      "photos": 0,
+      "createdAt": "2026-08-04T06:21:18.131Z",
+      "updatedAt": "2026-08-04T06:21:18.131Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8071,5 +8188,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T06:18:40.620Z"
+  "publishedAt": "2026-08-04T06:21:33.696Z"
 }
