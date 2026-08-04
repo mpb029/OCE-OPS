@@ -1805,7 +1805,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "inprogress"
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-04T06:30:37.584Z"
       },
       {
         "id": "h0lj4rs",
@@ -7035,7 +7036,7 @@
       "updated": "2026-08-04T05:45:36.920Z"
     },
     "workPackages": {
-      "updated": "2026-08-03T04:20:06.501Z"
+      "updated": "2026-08-04T06:30:37.584Z"
     }
   },
   "history": {
@@ -7416,7 +7417,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7425,7 +7426,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:08:48.055Z",
-      "updatedAt": "2026-07-30T23:09:14.076Z",
+      "updatedAt": "2026-08-04T06:30:37.584Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8188,5 +8189,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T06:30:18.892Z"
+  "publishedAt": "2026-08-04T06:30:45.558Z"
 }
