@@ -878,6 +878,22 @@
         "wstatus": "completed",
         "x": {},
         "resolvedAt": "2026-08-03T04:17:22.194Z"
+      },
+      {
+        "id": "1w72kbi",
+        "main": "Planned Service Interuption for Andrew St - Wednesday 5th - 8:30 AM to 12:30 PM",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-08-05",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {}
       }
     ],
     "punchlist": [
@@ -6807,7 +6823,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-08-03T04:17:22.194Z"
+      "updated": "2026-08-04T05:27:01.989Z"
     },
     "deliveries": {
       "updated": "2026-07-30T02:52:00.814Z"
@@ -7090,7 +7106,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "",
       "start": "",
       "end": "",
@@ -7098,7 +7114,7 @@
       "dateRequired": "2026-07-30",
       "photos": 0,
       "createdAt": "2026-07-29T05:00:26.017Z",
-      "updatedAt": "2026-07-30T02:52:00.814Z",
+      "updatedAt": "2026-07-29T05:00:26.017Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7141,10 +7157,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-07-28",
+      "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T01:55:40.032Z",
-      "updatedAt": "2026-07-30T02:52:28.105Z",
+      "updatedAt": "2026-07-30T01:55:40.032Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7164,10 +7180,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-08-04",
+      "dateRequired": "2026-08-03",
       "photos": 0,
       "createdAt": "2026-07-30T02:14:02.382Z",
-      "updatedAt": "2026-08-03T21:35:44.729Z",
+      "updatedAt": "2026-07-30T02:14:02.382Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7236,7 +7252,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:08:48.055Z",
-      "updatedAt": "2026-08-02T20:09:09.038Z",
+      "updatedAt": "2026-07-30T23:09:14.076Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7677,6 +7693,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "1w72kbi": {
+      "id": "1w72kbi",
+      "panel": "Stakeholders",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Planned Service Interuption for Andrew St - Wednesday 5th - 8:30 AM to 12:30 PM",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-05",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-04T05:26:02.106Z",
+      "updatedAt": "2026-08-04T05:27:01.989Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -7705,9 +7744,9 @@
       "achievement": "",
       "clientAction": "",
       "risk": "",
-      "impacts": "",
+      "impacts": "Andrew St Residents - Planned Service Disruption - Wednesday 5th - 8:30 AM to 12:30 PM (approx)",
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-03T22:19:16.468Z"
+  "publishedAt": "2026-08-04T05:27:07.641Z"
 }
