@@ -423,7 +423,24 @@
         }
       }
     ],
-    "trafficControl": [],
+    "trafficControl": [
+      {
+        "id": "ued0mbd",
+        "main": "Road Closure - Andrew St",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {}
+      }
+    ],
     "upcoming": [
       {
         "id": "8hntvv5",
@@ -968,7 +985,7 @@
       },
       {
         "id": "1w72kbi",
-        "main": "Planned Service Interuption for Andrew St - Wednesday 5th - 8:30 AM to 12:30 PM",
+        "main": "Planned Service Interuption for Andrew St - Wednesday 5th - 9:00 AM to 12:30 PM",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
@@ -6997,7 +7014,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-08-04T05:48:11.693Z"
+      "updated": "2026-08-05T00:19:41.689Z"
     },
     "deliveries": {
       "updated": "2026-08-04T05:30:23.433Z"
@@ -7024,7 +7041,7 @@
       "updated": "2026-07-08T01:26:16.808Z"
     },
     "trafficControl": {
-      "updated": "2026-07-08T01:26:18.633Z"
+      "updated": "2026-08-05T00:20:19.224Z"
     },
     "subbiesToday": {
       "updated": "2026-07-21T02:14:16.213Z"
@@ -7872,7 +7889,7 @@
       "id": "1w72kbi",
       "panel": "Stakeholders",
       "project": "G4N Sewer Main Replacement",
-      "title": "Planned Service Interuption for Andrew St - Wednesday 5th - 8:30 AM to 12:30 PM",
+      "title": "Planned Service Interuption for Andrew St - Wednesday 5th - 9:00 AM to 12:30 PM",
       "detail": "",
       "team": "Site",
       "priority": "",
@@ -7886,7 +7903,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T05:26:02.106Z",
-      "updatedAt": "2026-08-04T05:27:01.989Z",
+      "updatedAt": "2026-08-05T00:19:41.689Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8143,6 +8160,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "ued0mbd": {
+      "id": "ued0mbd",
+      "panel": "Traffic Control",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Road Closure - Andrew St",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-05T00:20:19.224Z",
+      "updatedAt": "2026-08-05T00:20:19.224Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8171,7 +8211,7 @@
       "achievement": "",
       "clientAction": "",
       "risk": "",
-      "impacts": "Andrew St Residents - Planned Service Disruption - Wednesday 5th - 8:30 AM to 12:30 PM (approx)",
+      "impacts": "Andrew St Residents - Planned Service Disruption - Wednesday 5th - 9:00 AM to 12:30 PM (approx)",
       "scope": ""
     },
     "pfvstolg": {
@@ -8189,5 +8229,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-04T06:30:45.558Z"
+  "publishedAt": "2026-08-05T00:20:26.194Z"
 }
