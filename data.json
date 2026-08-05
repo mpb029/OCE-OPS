@@ -992,12 +992,13 @@
           "client": true
         },
         "due": "2026-08-05",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
-        "x": {}
+        "x": {},
+        "resolvedAt": "2026-08-05T01:50:06.095Z"
       },
       {
         "id": "su1lhvs",
@@ -7074,7 +7075,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-08-05T00:19:41.689Z"
+      "updated": "2026-08-05T01:50:06.095Z"
     },
     "deliveries": {
       "updated": "2026-08-04T05:30:23.433Z"
@@ -7955,7 +7956,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-08-05",
       "start": "",
       "end": "",
@@ -7963,7 +7964,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T05:26:02.106Z",
-      "updatedAt": "2026-08-05T00:19:41.689Z",
+      "updatedAt": "2026-08-05T01:50:06.095Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8358,5 +8359,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-05T01:48:40.629Z"
+  "publishedAt": "2026-08-05T01:50:21.089Z"
 }
