@@ -1569,6 +1569,66 @@
             "mime": "image/jpeg"
           }
         ]
+      },
+      {
+        "id": "1grpsv4",
+        "main": "New Valve Cut in_01",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "New Valve_Cutin_Arrangement.jpg",
+            "path": "files/photos/snoskos-New_Valve_Cutin_Arrangement.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/snoskos-New_Valve_Cutin_Arrangement.jpg",
+            "sha": "1d8e0943f0093cd92a6cbd58550b04a97ae3e24e",
+            "size": 181469,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "cgq73ye",
+        "main": "New Valve Cut in_02",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "New Valve_Backfill.jpg",
+            "path": "files/photos/nm0q1mf-New_Valve_Backfill.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/nm0q1mf-New_Valve_Backfill.jpg",
+            "sha": "6515b6be88d6d74474f716cd2d23c2caa46bb8c6",
+            "size": 234842,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "wdtrpz6",
+        "main": "New Valve Cut in_03",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "New Valve_Cutin_Thrust Blocks.jpg",
+            "path": "files/photos/f8kp7du-New_Valve_Cutin_Thrust_Blocks.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/f8kp7du-New_Valve_Cutin_Thrust_Blocks.jpg",
+            "sha": "474dee3e7af88407162ec7f91c6071bc461a72ce",
+            "size": 387945,
+            "mime": "image/jpeg"
+          }
+        ]
       }
     ],
     "workPackages": [
@@ -7002,7 +7062,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-08-03T22:19:11.641Z"
+      "updated": "2026-08-05T01:48:36.115Z"
     },
     "staffAway": {
       "updated": "2026-08-04T05:31:45.570Z"
@@ -8183,6 +8243,75 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "1grpsv4": {
+      "id": "1grpsv4",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New Valve Cut in_01",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-05T01:48:04.413Z",
+      "updatedAt": "2026-08-05T01:48:04.413Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "cgq73ye": {
+      "id": "cgq73ye",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New Valve Cut in_02",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-05T01:48:20.352Z",
+      "updatedAt": "2026-08-05T01:48:20.352Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "wdtrpz6": {
+      "id": "wdtrpz6",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New Valve Cut in_03",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-05T01:48:36.115Z",
+      "updatedAt": "2026-08-05T01:48:36.115Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8229,5 +8358,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-05T00:20:26.194Z"
+  "publishedAt": "2026-08-05T01:48:40.629Z"
 }
