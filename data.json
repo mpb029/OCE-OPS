@@ -496,9 +496,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-04",
-        "wstatus": "",
+        "wstatus": "completed",
         "startDate": "",
-        "endDate": ""
+        "endDate": "",
+        "resolvedAt": "2026-08-06T03:01:04.262Z"
       },
       {
         "id": "muvacgs",
@@ -512,9 +513,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-05",
-        "wstatus": "",
+        "wstatus": "completed",
         "startDate": "",
-        "endDate": ""
+        "endDate": "",
+        "resolvedAt": "2026-08-06T03:01:11.154Z"
       },
       {
         "id": "pjikarh",
@@ -579,6 +581,22 @@
         "wstatus": "",
         "startDate": "",
         "endDate": ""
+      },
+      {
+        "id": "aq1sv2y",
+        "main": "Trenchless Installation_ Bypass Main under road",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-07",
+        "wstatus": "",
+        "startDate": "",
+        "endDate": ""
       }
     ],
     "subbiesToday": [
@@ -617,6 +635,24 @@
         "x": {
           "works": "Gympie Service Road - Property Connections",
           "time": "09:00"
+        }
+      },
+      {
+        "id": "ronaojd",
+        "main": "Jet Vac",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-08-06",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "inprogress",
+        "x": {
+          "works": "TPZ Excavation"
         }
       }
     ],
@@ -7093,7 +7129,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-04T06:21:29.388Z"
+      "updated": "2026-08-06T03:01:58.587Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -7105,7 +7141,7 @@
       "updated": "2026-08-05T00:20:19.224Z"
     },
     "subbiesToday": {
-      "updated": "2026-07-21T02:14:16.213Z"
+      "updated": "2026-08-06T03:02:32.190Z"
     },
     "plantTransport": {
       "updated": "2026-08-04T06:21:49.137Z"
@@ -7426,16 +7462,16 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-08-03",
+      "dateRequired": "2026-08-04",
       "photos": 0,
       "createdAt": "2026-07-30T02:14:02.382Z",
-      "updatedAt": "2026-07-30T02:14:02.382Z",
+      "updatedAt": "2026-08-06T03:01:04.262Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7817,7 +7853,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7826,7 +7862,7 @@
       "dateRequired": "2026-08-05",
       "photos": 0,
       "createdAt": "2026-08-03T04:12:36.187Z",
-      "updatedAt": "2026-08-03T04:12:36.187Z",
+      "updatedAt": "2026-08-06T03:01:11.154Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7956,7 +7992,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "2026-08-05",
       "start": "",
       "end": "",
@@ -7964,7 +8000,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T05:26:02.106Z",
-      "updatedAt": "2026-08-05T01:50:06.095Z",
+      "updatedAt": "2026-08-05T00:19:41.689Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8313,6 +8349,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "aq1sv2y": {
+      "id": "aq1sv2y",
+      "panel": "Scheduled Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Trenchless Installation_ Bypass Main under road",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-07",
+      "photos": 0,
+      "createdAt": "2026-08-06T03:01:58.587Z",
+      "updatedAt": "2026-08-06T03:01:58.587Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "ronaojd": {
+      "id": "ronaojd",
+      "panel": "Subcontractors",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Jet Vac",
+      "detail": "Works: TPZ Excavation",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "2026-08-06",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-06T03:02:32.190Z",
+      "updatedAt": "2026-08-06T03:02:32.190Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8337,11 +8419,11 @@
       "status": "green",
       "statusComment": "Sewer Main works Commenced",
       "stage": "Sewer Pipe Installation",
-      "milestone": "Bypass Valve Cut in - Wednesday 3/08",
-      "achievement": "",
-      "clientAction": "",
+      "milestone": "Bypass main commissioning",
+      "achievement": "Penetration into ex.MH, Bypass valve cut in, Alignment cleared",
+      "clientAction": "GRC to confirm which roots within TPZ need to be retained",
       "risk": "",
-      "impacts": "Andrew St Residents - Planned Service Disruption - Wednesday 5th - 9:00 AM to 12:30 PM (approx)",
+      "impacts": "",
       "scope": ""
     },
     "pfvstolg": {
@@ -8359,5 +8441,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-05T01:50:21.089Z"
+  "publishedAt": "2026-08-06T03:06:37.846Z"
 }
