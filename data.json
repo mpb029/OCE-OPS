@@ -548,7 +548,7 @@
         "dateRequired": "",
         "wstatus": "inprogress",
         "startDate": "2026-08-03",
-        "endDate": "2026-08-07"
+        "endDate": "2026-08-10"
       },
       {
         "id": "24skqpg",
@@ -577,7 +577,7 @@
         "sub": "",
         "team": "site",
         "dateAssigned": "",
-        "dateRequired": "2026-08-11",
+        "dateRequired": "2026-08-12",
         "wstatus": "",
         "startDate": "",
         "endDate": ""
@@ -726,6 +726,20 @@
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": ""
+      },
+      {
+        "id": "ujjbm4v",
+        "main": "Gi",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Friday 7th - Baby Scan - Leaving at 12:30 PM",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
       }
     ],
     "siteInputs": [
@@ -815,7 +829,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-07",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-06T03:16:06.793Z"
       },
       {
         "id": "mtvzz5g",
@@ -1293,11 +1308,12 @@
         },
         "sub": "",
         "due": "2026-08-06",
-        "done": false,
+        "done": true,
         "team": "eng",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "",
+        "resolvedAt": "2026-08-06T03:16:29.682Z"
       },
       {
         "id": "au84qf5",
@@ -7162,7 +7178,7 @@
       "updated": "2026-08-06T03:12:39.797Z"
     },
     "staffAway": {
-      "updated": "2026-08-04T05:31:45.570Z"
+      "updated": "2026-08-06T03:17:34.318Z"
     },
     "materialPickup": {
       "updated": "2026-07-30T02:51:33.430Z"
@@ -7189,7 +7205,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-06T03:01:58.587Z"
+      "updated": "2026-08-06T03:15:51.095Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -7204,10 +7220,10 @@
       "updated": "2026-08-06T03:02:32.190Z"
     },
     "plantTransport": {
-      "updated": "2026-08-04T06:21:49.137Z"
+      "updated": "2026-08-06T03:16:06.793Z"
     },
     "meetings": {
-      "updated": "2026-08-04T05:45:36.920Z"
+      "updated": "2026-08-06T03:16:29.682Z"
     },
     "workPackages": {
       "updated": "2026-08-04T06:30:37.584Z"
@@ -7338,7 +7354,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7347,7 +7363,7 @@
       "dateRequired": "2026-08-07",
       "photos": 0,
       "createdAt": "2026-07-28T23:59:53.343Z",
-      "updatedAt": "2026-08-04T06:21:49.137Z",
+      "updatedAt": "2026-08-06T03:16:06.793Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8167,7 +8183,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-08-06",
       "start": "",
       "end": "",
@@ -8175,7 +8191,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T05:45:12.325Z",
-      "updatedAt": "2026-08-04T05:45:12.325Z",
+      "updatedAt": "2026-08-06T03:16:29.682Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8262,12 +8278,12 @@
       "done": false,
       "due": "",
       "start": "2026-08-03",
-      "end": "2026-08-07",
+      "end": "2026-08-10",
       "dateAssigned": "",
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T06:20:35.626Z",
-      "updatedAt": "2026-08-04T06:20:35.626Z",
+      "updatedAt": "2026-08-06T03:15:27.048Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8310,10 +8326,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-08-11",
+      "dateRequired": "2026-08-12",
       "photos": 0,
       "createdAt": "2026-08-04T06:21:18.131Z",
-      "updatedAt": "2026-08-04T06:21:18.131Z",
+      "updatedAt": "2026-08-06T03:15:51.095Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8524,6 +8540,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "ujjbm4v": {
+      "id": "ujjbm4v",
+      "panel": "Staff Away",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Gi",
+      "detail": "Friday 7th - Baby Scan - Leaving at 12:30 PM",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-06T03:17:34.318Z",
+      "updatedAt": "2026-08-06T03:17:34.318Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8570,5 +8609,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-06T03:13:29.651Z"
+  "publishedAt": "2026-08-06T03:17:49.716Z"
 }
