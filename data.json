@@ -646,14 +646,15 @@
           "client": true
         },
         "due": "2026-08-06",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "inprogress",
         "x": {
           "works": "TPZ Excavation"
-        }
+        },
+        "resolvedAt": "2026-08-06T23:11:31.333Z"
       }
     ],
     "staffAway": [
@@ -7239,7 +7240,7 @@
       "updated": "2026-08-05T00:20:19.224Z"
     },
     "subbiesToday": {
-      "updated": "2026-08-06T03:02:32.190Z"
+      "updated": "2026-08-06T23:11:31.334Z"
     },
     "plantTransport": {
       "updated": "2026-08-06T03:16:06.793Z"
@@ -8481,7 +8482,7 @@
       "priority": "",
       "status": "",
       "workStatus": "In Progress",
-      "done": false,
+      "done": true,
       "due": "2026-08-06",
       "start": "",
       "end": "",
@@ -8489,7 +8490,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-06T03:02:32.190Z",
-      "updatedAt": "2026-08-06T03:02:32.190Z",
+      "updatedAt": "2026-08-06T23:11:31.334Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8634,7 +8635,7 @@
       "stage": "Sewer Pipe Installation",
       "milestone": "Bypass main commissioning",
       "achievement": "Penetration into ex.MH, Bypass valve cut in, Alignment cleared",
-      "clientAction": "GRC to confirm which roots within TPZ need to be retained - Confirmed 7/08",
+      "clientAction": "GRC to confirm which roots within TPZ need to be retained - Confirmed 7/08 >50mm roots to be maintained",
       "risk": "",
       "impacts": "",
       "scope": ""
@@ -8654,5 +8655,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-06T22:58:22.265Z"
+  "publishedAt": "2026-08-06T23:15:21.276Z"
 }
