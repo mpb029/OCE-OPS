@@ -291,7 +291,7 @@
       "lng": 152.6766050030168,
       "category": "plant",
       "title": "8t Excavator",
-      "notes": "",
+      "notes": "Trenching Sewer",
       "ts": 1785793803959,
       "vis": {
         "site": true,
@@ -8570,5 +8570,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-06T03:12:49.157Z"
+  "publishedAt": "2026-08-06T03:13:29.651Z"
 }
