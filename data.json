@@ -1053,7 +1053,7 @@
       },
       {
         "id": "su1lhvs",
-        "main": "Develop Temporary Supply plan for Nestle Factory",
+        "main": "Develop Temporary Supply plan for Nestle Factory - meeting required",
         "project": "default",
         "vis": {
           "site": true,
@@ -1065,7 +1065,9 @@
         "dateAssigned": "2026-08-04",
         "dateRequired": "2026-08-07",
         "wstatus": "inprogress",
-        "x": {}
+        "x": {
+          "action": "Council to set meeting"
+        }
       }
     ],
     "punchlist": [
@@ -7187,7 +7189,7 @@
       "updated": "2026-07-23T22:44:24.067Z"
     },
     "stakeholders": {
-      "updated": "2026-08-05T01:50:06.095Z"
+      "updated": "2026-08-06T04:09:02.198Z"
     },
     "deliveries": {
       "updated": "2026-08-04T05:30:23.433Z"
@@ -8223,8 +8225,8 @@
       "id": "su1lhvs",
       "panel": "Stakeholders",
       "project": "Regionwide Watermain Renewal",
-      "title": "Develop Temporary Supply plan for Nestle Factory",
-      "detail": "",
+      "title": "Develop Temporary Supply plan for Nestle Factory - meeting required",
+      "detail": "Action required: Council to set meeting",
       "team": "Engineering",
       "priority": "",
       "status": "",
@@ -8237,7 +8239,7 @@
       "dateRequired": "2026-08-07",
       "photos": 0,
       "createdAt": "2026-08-04T05:48:11.693Z",
-      "updatedAt": "2026-08-04T05:48:11.693Z",
+      "updatedAt": "2026-08-06T04:09:02.198Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8609,5 +8611,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-06T03:17:49.716Z"
+  "publishedAt": "2026-08-06T04:09:10.681Z"
 }
