@@ -7227,7 +7227,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-06T03:15:51.095Z"
+      "updated": "2026-08-06T22:58:03.010Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -8466,7 +8466,7 @@
       "dateRequired": "2026-08-07",
       "photos": 0,
       "createdAt": "2026-08-06T03:01:58.587Z",
-      "updatedAt": "2026-08-06T03:01:58.587Z",
+      "updatedAt": "2026-08-06T22:58:03.010Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8634,7 +8634,7 @@
       "stage": "Sewer Pipe Installation",
       "milestone": "Bypass main commissioning",
       "achievement": "Penetration into ex.MH, Bypass valve cut in, Alignment cleared",
-      "clientAction": "GRC to confirm which roots within TPZ need to be retained",
+      "clientAction": "GRC to confirm which roots within TPZ need to be retained - Confirmed 7/08",
       "risk": "",
       "impacts": "",
       "scope": ""
@@ -8654,5 +8654,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-06T04:52:00.751Z"
+  "publishedAt": "2026-08-06T22:58:22.265Z"
 }
