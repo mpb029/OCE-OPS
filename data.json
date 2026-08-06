@@ -1744,6 +1744,26 @@
             "mime": "image/jpeg"
           }
         ]
+      },
+      {
+        "id": "8aomde2",
+        "main": "TPZ_Vac Ex",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "TPZ_VAC_Ex.jpg",
+            "path": "files/photos/3bff0kb-TPZ_VAC_Ex.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/3bff0kb-TPZ_VAC_Ex.jpg",
+            "sha": "4ebeb16e0955472faaa39ec96591387a08dcbd1b",
+            "size": 668524,
+            "mime": "image/jpeg"
+          }
+        ]
       }
     ],
     "workPackages": [
@@ -7177,7 +7197,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-08-06T03:12:39.797Z"
+      "updated": "2026-08-06T04:51:54.804Z"
     },
     "staffAway": {
       "updated": "2026-08-06T03:17:34.318Z"
@@ -8565,6 +8585,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "8aomde2": {
+      "id": "8aomde2",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "TPZ_Vac Ex",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-06T04:51:54.803Z",
+      "updatedAt": "2026-08-06T04:51:54.803Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8611,5 +8654,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-06T04:09:10.681Z"
+  "publishedAt": "2026-08-06T04:52:00.751Z"
 }
