@@ -300,7 +300,184 @@
       "project": "pk4tcz76"
     }
   ],
-  "stats": [],
+  "stats": [
+    {
+      "id": "0emaf6v",
+      "label": "Nimrod St - Stats",
+      "bar": false,
+      "value": "",
+      "target": null,
+      "unit": "",
+      "fields": [
+        {
+          "label": "Number of Days",
+          "value": "12"
+        },
+        {
+          "label": "No. Labour Hours",
+          "value": "502.25"
+        },
+        {
+          "label": "Size of Crew",
+          "value": "7"
+        },
+        {
+          "label": "Cross-Crew Redeployed Labour Hours",
+          "value": "12"
+        }
+      ],
+      "vis": {
+        "site": true,
+        "client": false
+      }
+    },
+    {
+      "id": "znvq2du",
+      "label": "TURANA ST - STATS",
+      "bar": false,
+      "value": "",
+      "target": null,
+      "unit": "",
+      "fields": [
+        {
+          "label": "Number of Days",
+          "value": "16"
+        },
+        {
+          "label": "No. Labour Hours",
+          "value": "643"
+        },
+        {
+          "label": "Size of Crew",
+          "value": "9"
+        },
+        {
+          "label": "Cross-Crew Redeployed Labour Hours",
+          "value": "39"
+        }
+      ],
+      "vis": {
+        "site": true,
+        "client": false
+      }
+    },
+    {
+      "id": "qr1uvwx",
+      "label": "TARWHINE ST - STATS",
+      "bar": false,
+      "value": "",
+      "target": null,
+      "unit": "",
+      "fields": [
+        {
+          "label": "Number of Days",
+          "value": "22"
+        },
+        {
+          "label": "No. Labour Hours",
+          "value": "998"
+        },
+        {
+          "label": "Size of Crew",
+          "value": "10"
+        },
+        {
+          "label": "Cross-Crew Redeployed Labour Hours",
+          "value": "27"
+        }
+      ],
+      "vis": {
+        "site": true,
+        "client": false
+      }
+    },
+    {
+      "id": "e8x9ln2",
+      "label": "DRUMMER ST - STATS",
+      "bar": false,
+      "value": "",
+      "target": null,
+      "unit": "",
+      "fields": [
+        {
+          "label": "Number of Days",
+          "value": "33"
+        },
+        {
+          "label": "No. Labour Hours",
+          "value": "1539.50"
+        },
+        {
+          "label": "Size of Crew",
+          "value": "12"
+        },
+        {
+          "label": "Cross-Crew Redeployed Labour Hours",
+          "value": "28.5"
+        }
+      ],
+      "vis": {
+        "site": true,
+        "client": false
+      }
+    },
+    {
+      "id": "upstj6u",
+      "label": "DOLPHIN AVE - STATS",
+      "bar": false,
+      "value": "",
+      "target": null,
+      "unit": "",
+      "fields": [
+        {
+          "label": "Number of Days",
+          "value": "23"
+        },
+        {
+          "label": "No. Labour Hours",
+          "value": "1147.75"
+        },
+        {
+          "label": "Size of Crew",
+          "value": "12"
+        },
+        {
+          "label": "Cross-Crew Redeployed Labour Hours",
+          "value": "9.25"
+        }
+      ],
+      "vis": {
+        "site": true,
+        "client": false
+      }
+    },
+    {
+      "id": "2ppm2r8",
+      "label": "GYMPIE RD - STATS",
+      "bar": false,
+      "value": "",
+      "target": null,
+      "unit": "",
+      "fields": [
+        {
+          "label": "Number of Days",
+          "value": "19"
+        },
+        {
+          "label": "No. Labour Hours",
+          "value": "624.25"
+        },
+        {
+          "label": "Size of Crew",
+          "value": "12"
+        }
+      ],
+      "vis": {
+        "site": true,
+        "client": false
+      }
+    }
+  ],
   "panels": {
     "dailyWorks": [],
     "deliveries": [
@@ -8655,5 +8832,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-06T23:15:21.276Z"
+  "publishedAt": "2026-08-06T23:54:54.650Z"
 }
