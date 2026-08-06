@@ -1666,6 +1666,66 @@
             "mime": "image/jpeg"
           }
         ]
+      },
+      {
+        "id": "mnly8ec",
+        "main": "Cleared Area_01",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Alignment_Clearing.jpg",
+            "path": "files/photos/24jcajw-Alignment_Clearing.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/24jcajw-Alignment_Clearing.jpg",
+            "sha": "d69ddaaac9f2b608a97ad264979f96dcd973453f",
+            "size": 678859,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "prxusuw",
+        "main": "Cleared Area_02",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "Alignment_Clearing_01.jpg",
+            "path": "files/photos/hvzkmpi-Alignment_Clearing_01.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/hvzkmpi-Alignment_Clearing_01.jpg",
+            "sha": "4d2ae48dbd0112c3b6b396270b43c9d9b4c00658",
+            "size": 687163,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "6k7p56e",
+        "main": "Ex.MH G4n16/4 Core and Pipe run",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "New_SEW_01.jpg",
+            "path": "files/photos/2n74i7x-New_SEW_01.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/2n74i7x-New_SEW_01.jpg",
+            "sha": "09e6ae0adec65008d49b4dfcff06e79c358be09d",
+            "size": 320354,
+            "mime": "image/jpeg"
+          }
+        ]
       }
     ],
     "workPackages": [
@@ -7099,7 +7159,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-08-05T01:48:36.115Z"
+      "updated": "2026-08-06T03:12:39.797Z"
     },
     "staffAway": {
       "updated": "2026-08-04T05:31:45.570Z"
@@ -8395,6 +8455,75 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "mnly8ec": {
+      "id": "mnly8ec",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Cleared Area_01",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-06T03:07:15.954Z",
+      "updatedAt": "2026-08-06T03:07:15.954Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "prxusuw": {
+      "id": "prxusuw",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Cleared Area_02",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-06T03:07:26.543Z",
+      "updatedAt": "2026-08-06T03:07:26.543Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "6k7p56e": {
+      "id": "6k7p56e",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Ex.MH G4n16/4 Core and Pipe run",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-06T03:12:39.797Z",
+      "updatedAt": "2026-08-06T03:12:39.797Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8441,5 +8570,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-06T03:06:37.846Z"
+  "publishedAt": "2026-08-06T03:12:49.157Z"
 }
