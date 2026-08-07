@@ -32,14 +32,6 @@
       ]
     },
     {
-      "id": "pfvstolg",
-      "name": "Cooloola Cove Sludge Pads",
-      "clients": [
-        "client-default",
-        "ciu8dcxz"
-      ]
-    },
-    {
       "id": "pk4tcz76",
       "name": "G4N Sewer Main Replacement",
       "clients": [
@@ -1029,7 +1021,7 @@
       {
         "id": "qqm9rl2",
         "main": "Waste removal",
-        "project": "pfvstolg",
+        "project": "default",
         "vis": {
           "site": true,
           "client": false
@@ -1511,7 +1503,7 @@
       {
         "id": "31gpxw3",
         "main": "5m3 Washed Sand PO 201290",
-        "project": "pfvstolg",
+        "project": "default",
         "vis": {
           "site": true,
           "client": false
@@ -1587,7 +1579,7 @@
       {
         "id": "au84qf5",
         "main": "Final Walkthrough - Cooloola Cove Sludge Pads",
-        "project": "pfvstolg",
+        "project": "default",
         "vis": {
           "site": true,
           "client": true
@@ -1775,7 +1767,7 @@
       {
         "id": "d7lg1pi",
         "main": "Entry Pad",
-        "project": "pfvstolg",
+        "project": "default",
         "vis": {
           "site": false,
           "client": true
@@ -1795,7 +1787,7 @@
       {
         "id": "yd24f15",
         "main": "Exit Pad",
-        "project": "pfvstolg",
+        "project": "default",
         "vis": {
           "site": false,
           "client": true
@@ -1815,7 +1807,7 @@
       {
         "id": "5pondcb",
         "main": "Seepage Drain Filled in and Perimeter Fence- Partial",
-        "project": "pfvstolg",
+        "project": "default",
         "vis": {
           "site": false,
           "client": true
@@ -2247,7 +2239,7 @@
       {
         "id": "5umff6o",
         "main": "Cooloola Cove Sludge Pad; Reinstatement and Demob",
-        "project": "pfvstolg",
+        "project": "default",
         "vis": {
           "site": true,
           "client": true
@@ -2261,7 +2253,7 @@
       {
         "id": "tyq04m2",
         "main": "Cooloola Sludge pad - Megaflow Drains",
-        "project": "pfvstolg",
+        "project": "default",
         "vis": {
           "site": true,
           "client": true
@@ -9013,5 +9005,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-07T04:47:10.895Z"
+  "publishedAt": "2026-08-07T04:48:41.829Z"
 }
