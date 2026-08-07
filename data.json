@@ -622,6 +622,24 @@
         "x": {
           "supplier": "JBTrenchless"
         }
+      },
+      {
+        "id": "mumqepw",
+        "main": "3m3 Skip Bin",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "due": "2026-08-07",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "2026-08-07",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "supplier": "Superior Skips"
+        }
       }
     ],
     "trafficControl": [
@@ -1107,6 +1125,20 @@
         "dateRequired": "2026-07-31",
         "wstatus": "completed",
         "resolvedAt": "2026-08-04T05:32:45.258Z"
+      },
+      {
+        "id": "zziq2x1",
+        "main": "14t Digger",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Astro to Andrew St",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-07",
+        "wstatus": ""
       }
     ],
     "stakeholders": [
@@ -7428,7 +7460,7 @@
       "updated": "2026-08-06T04:09:02.198Z"
     },
     "deliveries": {
-      "updated": "2026-08-04T05:30:23.433Z"
+      "updated": "2026-08-07T00:03:18.754Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -7458,7 +7490,7 @@
       "updated": "2026-08-06T23:11:31.334Z"
     },
     "plantTransport": {
-      "updated": "2026-08-06T03:16:06.793Z"
+      "updated": "2026-08-07T00:03:57.791Z"
     },
     "meetings": {
       "updated": "2026-08-06T03:16:29.682Z"
@@ -8847,6 +8879,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "mumqepw": {
+      "id": "mumqepw",
+      "panel": "Scheduled Deliveries",
+      "project": "G4N Sewer Main Replacement",
+      "title": "3m3 Skip Bin",
+      "detail": "Supplier: Superior Skips",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-07",
+      "start": "",
+      "end": "",
+      "dateAssigned": "2026-08-07",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-07T00:03:18.754Z",
+      "updatedAt": "2026-08-07T00:03:18.754Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "zziq2x1": {
+      "id": "zziq2x1",
+      "panel": "Plant Transport",
+      "project": "G4N Sewer Main Replacement",
+      "title": "14t Digger",
+      "detail": "Astro to Andrew St",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-07",
+      "photos": 0,
+      "createdAt": "2026-08-07T00:03:57.791Z",
+      "updatedAt": "2026-08-07T00:03:57.791Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -8893,5 +8971,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-07T00:01:30.670Z"
+  "publishedAt": "2026-08-07T00:04:15.539Z"
 }
