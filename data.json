@@ -648,7 +648,7 @@
         "dateRequired": "2026-08-11",
         "wstatus": "",
         "x": {
-          "time": "08:30",
+          "time": "09:30",
           "supplier": "Nicks Ready Mix"
         }
       }
@@ -7471,7 +7471,7 @@
       "updated": "2026-08-06T04:09:02.198Z"
     },
     "deliveries": {
-      "updated": "2026-08-07T04:47:03.957Z"
+      "updated": "2026-08-07T05:09:44.877Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -8942,7 +8942,7 @@
       "panel": "Scheduled Deliveries",
       "project": "Regionwide Watermain Renewal",
       "title": "2m3 - 32/20/80 Widgee Crossing Rd",
-      "detail": "Expected time: 08:30 · Supplier: Nicks Ready Mix",
+      "detail": "Expected time: 09:30 · Supplier: Nicks Ready Mix",
       "team": "Site",
       "priority": "",
       "status": "",
@@ -8955,7 +8955,7 @@
       "dateRequired": "2026-08-11",
       "photos": 0,
       "createdAt": "2026-08-07T04:47:03.957Z",
-      "updatedAt": "2026-08-07T04:47:03.957Z",
+      "updatedAt": "2026-08-07T05:09:44.877Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9005,5 +9005,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-07T04:48:41.829Z"
+  "publishedAt": "2026-08-07T05:09:53.975Z"
 }
