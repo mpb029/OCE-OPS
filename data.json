@@ -2276,7 +2276,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 20,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2346,7 +2346,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 70,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -7496,7 +7496,7 @@
       "updated": "2026-08-06T03:16:29.682Z"
     },
     "workPackages": {
-      "updated": "2026-08-04T06:30:37.584Z"
+      "updated": "2026-08-07T00:05:55.146Z"
     }
   },
   "history": {
@@ -7909,7 +7909,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:10:26.373Z",
-      "updatedAt": "2026-07-30T23:10:45.895Z",
+      "updatedAt": "2026-08-07T00:05:32.524Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8024,7 +8024,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:55.675Z",
-      "updatedAt": "2026-07-30T23:13:55.675Z",
+      "updatedAt": "2026-08-07T00:05:55.146Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8971,5 +8971,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-07T00:04:15.539Z"
+  "publishedAt": "2026-08-07T00:06:07.422Z"
 }
