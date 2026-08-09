@@ -942,7 +942,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-09T23:29:47.315Z"
       },
       {
         "id": "ilya5h4",
@@ -970,7 +971,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-09T23:30:14.045Z"
       },
       {
         "id": "zj53n22",
@@ -7461,7 +7463,7 @@
       "updated": "2026-08-06T04:51:54.804Z"
     },
     "staffAway": {
-      "updated": "2026-08-07T00:01:23.267Z"
+      "updated": "2026-08-09T23:30:14.045Z"
     },
     "materialPickup": {
       "updated": "2026-07-30T02:51:33.430Z"
@@ -8833,7 +8835,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -8842,7 +8844,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-06T03:17:34.318Z",
-      "updatedAt": "2026-08-06T03:17:34.318Z",
+      "updatedAt": "2026-08-09T23:30:14.045Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8961,6 +8963,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "68jdvbf": {
+      "id": "68jdvbf",
+      "panel": "Staff Away",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Rod",
+      "detail": "Thursday 30th JUL to Friday 7th AUG",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-09T23:29:47.315Z",
+      "updatedAt": "2026-08-09T23:29:47.315Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -9007,5 +9032,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-09T23:29:16.410Z"
+  "publishedAt": "2026-08-09T23:30:21.556Z"
 }
