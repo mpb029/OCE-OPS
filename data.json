@@ -823,7 +823,7 @@
         "sub": "",
         "team": "site",
         "dateAssigned": "",
-        "dateRequired": "2026-08-07",
+        "dateRequired": "2026-08-10",
         "wstatus": "",
         "startDate": "",
         "endDate": ""
@@ -1149,7 +1149,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-07",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-09T21:54:46.127Z"
       }
     ],
     "stakeholders": [
@@ -1586,11 +1587,12 @@
         },
         "sub": "",
         "due": "2026-08-06",
-        "done": false,
+        "done": true,
         "team": "eng",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "",
+        "resolvedAt": "2026-08-09T21:54:14.287Z"
       }
     ],
     "documents": [
@@ -7486,7 +7488,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-06T22:58:03.010Z"
+      "updated": "2026-08-09T21:54:35.313Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -7501,10 +7503,10 @@
       "updated": "2026-08-06T23:11:31.334Z"
     },
     "plantTransport": {
-      "updated": "2026-08-07T00:03:57.791Z"
+      "updated": "2026-08-09T21:54:46.127Z"
     },
     "meetings": {
-      "updated": "2026-08-06T03:16:29.682Z"
+      "updated": "2026-08-09T21:54:14.287Z"
     },
     "workPackages": {
       "updated": "2026-08-07T00:05:55.146Z"
@@ -8480,14 +8482,14 @@
     "au84qf5": {
       "id": "au84qf5",
       "panel": "Meetings / Site Visits",
-      "project": "Cooloola Cove Sludge Pads",
+      "project": "Regionwide Watermain Renewal",
       "title": "Final Walkthrough - Cooloola Cove Sludge Pads",
       "detail": "",
       "team": "Engineering",
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-08-06",
       "start": "",
       "end": "",
@@ -8495,7 +8497,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T05:45:36.920Z",
-      "updatedAt": "2026-08-04T05:45:36.920Z",
+      "updatedAt": "2026-08-09T21:54:14.287Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8722,10 +8724,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-08-07",
+      "dateRequired": "2026-08-10",
       "photos": 0,
       "createdAt": "2026-08-06T03:01:58.587Z",
-      "updatedAt": "2026-08-06T22:58:03.010Z",
+      "updatedAt": "2026-08-09T21:54:35.313Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8923,7 +8925,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -8932,7 +8934,7 @@
       "dateRequired": "2026-08-07",
       "photos": 0,
       "createdAt": "2026-08-07T00:03:57.791Z",
-      "updatedAt": "2026-08-07T00:03:57.791Z",
+      "updatedAt": "2026-08-09T21:54:46.127Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9005,5 +9007,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-07T05:09:53.975Z"
+  "publishedAt": "2026-08-09T21:55:01.286Z"
 }
