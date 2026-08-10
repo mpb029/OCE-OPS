@@ -606,14 +606,15 @@
           "client": true
         },
         "due": "2026-08-10",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
         "x": {
           "supplier": "JBTrenchless"
-        }
+        },
+        "resolvedAt": "2026-08-10T22:36:00.603Z"
       },
       {
         "id": "mumqepw",
@@ -624,14 +625,15 @@
           "client": false
         },
         "due": "2026-08-07",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "2026-08-07",
         "dateRequired": "",
         "wstatus": "",
         "x": {
           "supplier": "Superior Skips"
-        }
+        },
+        "resolvedAt": "2026-08-10T00:42:03.335Z"
       },
       {
         "id": "n17c15g",
@@ -762,7 +764,7 @@
         "dateRequired": "",
         "wstatus": "",
         "startDate": "2026-08-04",
-        "endDate": "2026-08-07"
+        "endDate": "2026-08-12"
       },
       {
         "id": "b3mdnag",
@@ -824,7 +826,40 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-10",
-        "wstatus": "",
+        "wstatus": "completed",
+        "startDate": "",
+        "endDate": "",
+        "resolvedAt": "2026-08-10T00:42:14.039Z"
+      },
+      {
+        "id": "kfg9ten",
+        "main": "Stormwater Extension",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "2026-08-11",
+        "dateRequired": "",
+        "wstatus": "inprogress",
+        "startDate": "2026-08-11",
+        "endDate": "2026-08-13"
+      },
+      {
+        "id": "9rfnzei",
+        "main": "Bypass - Pressure test (500 kPa)",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-11",
+        "wstatus": "inprogress",
         "startDate": "",
         "endDate": ""
       }
@@ -7475,7 +7510,7 @@
       "updated": "2026-08-06T04:09:02.198Z"
     },
     "deliveries": {
-      "updated": "2026-08-09T23:28:31.000Z"
+      "updated": "2026-08-10T22:36:00.604Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -7490,7 +7525,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-09T21:54:35.313Z"
+      "updated": "2026-08-10T22:38:14.933Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -8241,12 +8276,12 @@
       "done": false,
       "due": "",
       "start": "2026-08-04",
-      "end": "2026-08-07",
+      "end": "2026-08-12",
       "dateAssigned": "",
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-03T04:13:34.945Z",
-      "updatedAt": "2026-08-03T04:18:22.347Z",
+      "updatedAt": "2026-08-10T00:42:37.952Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8376,7 +8411,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-08-10",
       "start": "",
       "end": "",
@@ -8384,7 +8419,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T05:30:23.433Z",
-      "updatedAt": "2026-08-04T05:30:23.433Z",
+      "updatedAt": "2026-08-10T22:36:00.603Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8720,7 +8755,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -8729,7 +8764,7 @@
       "dateRequired": "2026-08-10",
       "photos": 0,
       "createdAt": "2026-08-06T03:01:58.587Z",
-      "updatedAt": "2026-08-09T21:54:35.313Z",
+      "updatedAt": "2026-08-10T00:42:14.039Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8905,7 +8940,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-08-07",
       "start": "",
       "end": "",
@@ -8913,7 +8948,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-07T00:03:18.754Z",
-      "updatedAt": "2026-08-07T00:03:18.754Z",
+      "updatedAt": "2026-08-10T00:42:03.335Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8986,6 +9021,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "kfg9ten": {
+      "id": "kfg9ten",
+      "panel": "Scheduled Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Stormwater Extension",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "2026-08-11",
+      "end": "2026-08-13",
+      "dateAssigned": "2026-08-11",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-10T22:37:42.735Z",
+      "updatedAt": "2026-08-10T22:37:42.735Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "9rfnzei": {
+      "id": "9rfnzei",
+      "panel": "Scheduled Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Bypass - Pressure test (500 kPa)",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-11",
+      "photos": 0,
+      "createdAt": "2026-08-10T22:38:14.933Z",
+      "updatedAt": "2026-08-10T22:38:14.933Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -9009,10 +9090,10 @@
       "compDate": "",
       "status": "green",
       "statusComment": "Sewer Main works Commenced",
-      "stage": "Sewer Pipe Installation",
+      "stage": "Sewer Pipe Installation, Stormwater extension works",
       "milestone": "Bypass main commissioning",
-      "achievement": "Penetration into ex.MH, Bypass valve cut in, Alignment cleared",
-      "clientAction": "GRC to confirm which roots within TPZ need to be retained - Confirmed 7/08 >50mm roots to be maintained",
+      "achievement": "Bypass Main connected",
+      "clientAction": "",
       "risk": "",
       "impacts": "",
       "scope": ""
@@ -9032,5 +9113,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-09T23:30:21.556Z"
+  "publishedAt": "2026-08-10T22:39:02.962Z"
 }
