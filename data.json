@@ -279,12 +279,26 @@
     },
     {
       "id": "iwuhj2v",
-      "lat": -26.18318414427419,
-      "lng": 152.67664788657868,
+      "lat": -26.18300602747445,
+      "lng": 152.67665862663202,
       "category": "plant",
       "title": "8t Excavator",
       "notes": "Trenching Sewer",
       "ts": 1785793803959,
+      "vis": {
+        "site": true,
+        "client": true
+      },
+      "project": "pk4tcz76"
+    },
+    {
+      "id": "jqvvr5q",
+      "lat": -26.182774956625842,
+      "lng": 152.6766425315084,
+      "category": "plant",
+      "title": "",
+      "notes": "",
+      "ts": 1786428305645,
       "vis": {
         "site": true,
         "client": true
@@ -793,7 +807,7 @@
         "sub": "",
         "team": "site",
         "dateAssigned": "",
-        "dateRequired": "2026-08-10",
+        "dateRequired": "2026-08-12",
         "wstatus": "",
         "startDate": "",
         "endDate": ""
@@ -806,7 +820,7 @@
           "site": true,
           "client": true
         },
-        "sub": "",
+        "sub": "Eng to Call GRC when at Pressure",
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-12",
@@ -845,7 +859,7 @@
         "dateRequired": "",
         "wstatus": "inprogress",
         "startDate": "2026-08-11",
-        "endDate": "2026-08-13"
+        "endDate": "2026-08-12"
       },
       {
         "id": "9rfnzei",
@@ -858,7 +872,7 @@
         "sub": "",
         "team": "site",
         "dateAssigned": "",
-        "dateRequired": "2026-08-11",
+        "dateRequired": "2026-08-12",
         "wstatus": "inprogress",
         "startDate": "",
         "endDate": ""
@@ -1644,6 +1658,23 @@
         "dateRequired": "",
         "wstatus": "",
         "resolvedAt": "2026-08-09T21:54:14.287Z"
+      },
+      {
+        "id": "2x0go4b",
+        "main": "Teams - Discussion on timing for Widgee Xing Shutdown",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Mark - Recor",
+        "due": "2026-08-11",
+        "done": true,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "resolvedAt": "2026-08-11T06:04:12.119Z"
       }
     ],
     "documents": [
@@ -7539,7 +7570,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-10T22:38:14.933Z"
+      "updated": "2026-08-11T06:03:17.530Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -7557,7 +7588,7 @@
       "updated": "2026-08-09T21:54:46.127Z"
     },
     "meetings": {
-      "updated": "2026-08-09T21:54:14.287Z"
+      "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
       "updated": "2026-08-07T00:05:55.146Z"
@@ -8637,10 +8668,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-08-10",
+      "dateRequired": "2026-08-12",
       "photos": 0,
       "createdAt": "2026-08-04T06:20:56.026Z",
-      "updatedAt": "2026-08-04T06:21:29.388Z",
+      "updatedAt": "2026-08-11T06:02:12.707Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8650,7 +8681,7 @@
       "panel": "Scheduled Works",
       "project": "Regionwide Watermain Renewal",
       "title": "Widgee Main Hydrostatic Test",
-      "detail": "",
+      "detail": "Eng to Call GRC when at Pressure",
       "team": "Site",
       "priority": "",
       "status": "",
@@ -8663,7 +8694,7 @@
       "dateRequired": "2026-08-12",
       "photos": 0,
       "createdAt": "2026-08-04T06:21:18.131Z",
-      "updatedAt": "2026-08-06T03:15:51.095Z",
+      "updatedAt": "2026-08-11T06:03:17.530Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9049,12 +9080,12 @@
       "done": false,
       "due": "",
       "start": "2026-08-11",
-      "end": "2026-08-13",
+      "end": "2026-08-12",
       "dateAssigned": "2026-08-11",
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-10T22:37:42.735Z",
-      "updatedAt": "2026-08-10T22:37:42.735Z",
+      "updatedAt": "2026-08-11T06:02:23.125Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9074,10 +9105,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-08-11",
+      "dateRequired": "2026-08-12",
       "photos": 0,
       "createdAt": "2026-08-10T22:38:14.933Z",
-      "updatedAt": "2026-08-10T22:38:14.933Z",
+      "updatedAt": "2026-08-11T06:02:34.855Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9101,6 +9132,29 @@
       "photos": 0,
       "createdAt": "2026-08-11T06:01:17.740Z",
       "updatedAt": "2026-08-11T06:01:30.257Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "2x0go4b": {
+      "id": "2x0go4b",
+      "panel": "Meetings / Site Visits",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Teams - Discussion on timing for Widgee Xing Shutdown",
+      "detail": "Mark - Recor",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": true,
+      "due": "2026-08-11",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-11T06:03:52.355Z",
+      "updatedAt": "2026-08-11T06:04:12.119Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9150,5 +9204,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-11T06:01:34.919Z"
+  "publishedAt": "2026-08-11T06:05:33.892Z"
 }
