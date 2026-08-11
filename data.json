@@ -988,7 +988,7 @@
           "site": true,
           "client": true
         },
-        "sub": "Monday 10th to Friday 14th Aug",
+        "sub": "Wed 12 to Friday 14th Aug",
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -1018,6 +1018,20 @@
           "client": false
         },
         "sub": "Monday and Tuesday 17th and 18th Aug",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "rc6dppm",
+        "main": "Max",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Tuesday 8th Sep to Thursday 24 Sept",
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -7498,7 +7512,7 @@
       "updated": "2026-08-06T04:51:54.804Z"
     },
     "staffAway": {
-      "updated": "2026-08-09T23:30:14.045Z"
+      "updated": "2026-08-11T06:01:30.257Z"
     },
     "materialPickup": {
       "updated": "2026-07-30T02:51:33.430Z"
@@ -8429,7 +8443,7 @@
       "panel": "Staff Away",
       "project": "Regionwide Watermain Renewal",
       "title": "Paul",
-      "detail": "Monday 10th to Friday 14th Aug",
+      "detail": "Wed 12 to Friday 14th Aug",
       "team": "Site",
       "priority": "",
       "status": "",
@@ -8442,7 +8456,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T05:31:45.569Z",
-      "updatedAt": "2026-08-04T05:31:45.569Z",
+      "updatedAt": "2026-08-11T06:00:07.957Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9067,6 +9081,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "rc6dppm": {
+      "id": "rc6dppm",
+      "panel": "Staff Away",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Max",
+      "detail": "Tuesday 8th Sep to Thursday 24 Sept",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-11T06:01:17.740Z",
+      "updatedAt": "2026-08-11T06:01:30.257Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -9113,5 +9150,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-10T22:43:27.859Z"
+  "publishedAt": "2026-08-11T06:01:34.919Z"
 }
