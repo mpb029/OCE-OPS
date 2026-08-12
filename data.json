@@ -509,7 +509,36 @@
     }
   ],
   "panels": {
-    "dailyWorks": [],
+    "dailyWorks": [
+      {
+        "id": "1hbq7wj",
+        "main": "Excavation for first MH, base preparation",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "lep03y4",
+        "main": "Backfill on new SW extension",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      }
+    ],
     "deliveries": [
       {
         "id": "8rt54mk",
@@ -857,9 +886,10 @@
         "team": "site",
         "dateAssigned": "2026-08-11",
         "dateRequired": "",
-        "wstatus": "inprogress",
+        "wstatus": "completed",
         "startDate": "2026-08-11",
-        "endDate": "2026-08-12"
+        "endDate": "2026-08-12",
+        "resolvedAt": "2026-08-12T23:43:17.411Z"
       },
       {
         "id": "9rfnzei",
@@ -877,6 +907,22 @@
         "startDate": "",
         "endDate": "",
         "resolvedAt": "2026-08-12T00:17:45.014Z"
+      },
+      {
+        "id": "adlzylt",
+        "main": "Excavation for first MH",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-13",
+        "wstatus": "",
+        "startDate": "",
+        "endDate": ""
       }
     ],
     "subbiesToday": [
@@ -2052,7 +2098,7 @@
           "site": true,
           "client": true
         },
-        "pct": 20,
+        "pct": 35,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2066,7 +2112,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 10,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2122,7 +2168,7 @@
           "site": true,
           "client": true
         },
-        "pct": 70,
+        "pct": 85,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -7251,13 +7297,13 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-12T00:17:45.014Z"
+      "updated": "2026-08-12T23:43:38.333Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
     },
     "dailyWorks": {
-      "updated": "2026-07-08T01:26:16.808Z"
+      "updated": "2026-08-12T23:45:09.454Z"
     },
     "trafficControl": {
       "updated": "2026-08-05T00:20:19.224Z"
@@ -7272,7 +7318,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-08-07T00:05:55.146Z"
+      "updated": "2026-08-12T23:43:03.786Z"
     }
   },
   "history": {
@@ -7685,7 +7731,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:10:26.373Z",
-      "updatedAt": "2026-08-07T00:05:32.524Z",
+      "updatedAt": "2026-08-12T23:42:57.378Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7708,7 +7754,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:11:48.249Z",
-      "updatedAt": "2026-07-30T23:11:48.249Z",
+      "updatedAt": "2026-08-12T23:43:03.786Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7800,7 +7846,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:55.675Z",
-      "updatedAt": "2026-08-07T00:05:55.146Z",
+      "updatedAt": "2026-08-12T23:42:51.333Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8757,7 +8803,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "2026-08-11",
@@ -8766,7 +8812,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-10T22:37:42.735Z",
-      "updatedAt": "2026-08-11T06:02:23.125Z",
+      "updatedAt": "2026-08-12T23:43:17.411Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9042,7 +9088,7 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T00:15:21.680Z",
-      "updatedAt": "2026-08-12T03:32:46.582Z",
+      "updatedAt": "2026-08-12T00:15:34.655Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9115,6 +9161,75 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "adlzylt": {
+      "id": "adlzylt",
+      "panel": "Scheduled Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Excavation for first MH",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-13",
+      "photos": 0,
+      "createdAt": "2026-08-12T23:43:38.332Z",
+      "updatedAt": "2026-08-12T23:43:38.332Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "1hbq7wj": {
+      "id": "1hbq7wj",
+      "panel": "Daily Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Excavation for first MH, base preparation",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-12T23:44:06.479Z",
+      "updatedAt": "2026-08-12T23:44:51.994Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "lep03y4": {
+      "id": "lep03y4",
+      "panel": "Daily Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Backfill on new SW extension",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-12T23:45:09.454Z",
+      "updatedAt": "2026-08-12T23:45:09.454Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -9161,5 +9276,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-12T03:49:39.633Z"
+  "publishedAt": "2026-08-12T23:45:14.003Z"
 }
