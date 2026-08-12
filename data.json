@@ -873,9 +873,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-12",
-        "wstatus": "inprogress",
+        "wstatus": "completed",
         "startDate": "",
-        "endDate": ""
+        "endDate": "",
+        "resolvedAt": "2026-08-12T00:17:45.014Z"
       }
     ],
     "subbiesToday": [
@@ -1709,248 +1710,8 @@
     ],
     "weeklyPhotos": [
       {
-        "id": "x3vm8wf",
-        "main": "Turana St_Update_17/07/2026_001",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "001.jpg",
-            "path": "files/photos/byg6bwd-001.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/byg6bwd-001.jpg",
-            "sha": "b0c5fb7ee7a3d97bd0ae0af6505225188f267bc0",
-            "size": 562385,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "1mijbl1",
-        "main": "Turana St_Update_17/07/2026_002",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "002.jpg",
-            "path": "files/photos/8n8u2nx-002.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/8n8u2nx-002.jpg",
-            "sha": "ce8545ede9a62f4398c0d51682155e0d3d1006b6",
-            "size": 523318,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "bal00pw",
-        "main": "Turana_Update_17/07/2026_003",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "003.jpg",
-            "path": "files/photos/9mbw4j5-003.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/9mbw4j5-003.jpg",
-            "sha": "19ab58c34301fb3c092e9c36ce2cbf06bc0f5ae3",
-            "size": 582429,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "97wximl",
-        "main": "Drummer St - Turf Prep_001",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Drummer_Turf_prep_001.jpg",
-            "path": "files/photos/digmg25-Drummer_Turf_prep_001.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/digmg25-Drummer_Turf_prep_001.jpg",
-            "sha": "68cb35c6e331f59ee261c4d4c2b14ad1ef931abf",
-            "size": 235696,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "h6s86cv",
-        "main": "Drummer St - Turf Prep 002",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Drummer_Turf_prep_002.jpg",
-            "path": "files/photos/hspiz83-Drummer_Turf_prep_002.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/hspiz83-Drummer_Turf_prep_002.jpg",
-            "sha": "79544c0fa7d91715b51f714b7c01b79b84e8e4c4",
-            "size": 237939,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "q02pua8",
-        "main": "Gympie Rd_Property Connection Excavations_Complete",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Gympie_Property Connection_Excavation.jpg",
-            "path": "files/photos/sc150z7-Gympie_Property_Connection_Excavation.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/sc150z7-Gympie_Property_Connection_Excavation.jpg",
-            "sha": "15c2d555caf0cf458f650fc13ee002706835a86c",
-            "size": 236913,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "clv6few",
-        "main": "Gympie Rd - Partial Reinstatement - Ongoing",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Gympie_Rd.jpg",
-            "path": "files/photos/u6c3xo9-Gympie_Rd.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/u6c3xo9-Gympie_Rd.jpg",
-            "sha": "69c50dd8507e290c14098d29f2eaef71f02242f3",
-            "size": 414335,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "d7lg1pi",
-        "main": "Entry Pad",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Cooloola_Sludge_Entry Pad .jpg",
-            "path": "files/photos/elc2s5x-Cooloola_Sludge_Entry_Pad_.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/elc2s5x-Cooloola_Sludge_Entry_Pad_.jpg",
-            "sha": "c837cf8d45186dfb843632e6f4f2898195f3707a",
-            "size": 363925,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "yd24f15",
-        "main": "Exit Pad",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Cooloola_Sludge_Reinstatement_001.jpg",
-            "path": "files/photos/jdz9bld-Cooloola_Sludge_Reinstatement_001.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/jdz9bld-Cooloola_Sludge_Reinstatement_001.jpg",
-            "sha": "df9956f3a47640ba9328d97f5de588711179251c",
-            "size": 378014,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "5pondcb",
-        "main": "Seepage Drain Filled in and Perimeter Fence- Partial",
-        "project": "default",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Cooloola_Sludge_Seepage Drain Filled in_Perimeter Fence .jpg",
-            "path": "files/photos/8vhax66-Cooloola_Sludge_Seepage_Drain_Filled_in_Perimeter_Fence_.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/8vhax66-Cooloola_Sludge_Seepage_Drain_Filled_in_Perimeter_Fence_.jpg",
-            "sha": "0a5cc8d1a8979cffde7c9326516b45fd0bc86b0c",
-            "size": 388632,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "l20vgq5",
-        "main": "SMH.051035_MH Excavation",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "SMH.051035_MH Excavation.jpg",
-            "path": "files/photos/evvlbxv-SMH.051035_MH_Excavation.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/evvlbxv-SMH.051035_MH_Excavation.jpg",
-            "sha": "85a51f0bb5616afbd0be5c422cd49e0011d4c9bb",
-            "size": 258343,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "vzfv9rb",
-        "main": "SMH.051035_MH Excavation_01",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": false,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "SMH.051035_MH Excavation_02.jpg",
-            "path": "files/photos/at4xaaa-SMH.051035_MH_Excavation_02.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/at4xaaa-SMH.051035_MH_Excavation_02.jpg",
-            "sha": "a11d27601b93c20f4ec4d8e15b9f432504eec844",
-            "size": 249984,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "9gomras",
-        "main": "MH01_Clearing",
+        "id": "vbeqqlb",
+        "main": "Bypass - Hydro Test Rig",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
@@ -1959,18 +1720,18 @@
         "sub": "",
         "photos": [
           {
-            "name": "MH01_Clearing.jpg",
-            "path": "files/photos/08i0eyz-MH01_Clearing.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/08i0eyz-MH01_Clearing.jpg",
-            "sha": "1e5aa42eb4dd2f8fd58b742545e7858c043ef2a3",
-            "size": 590637,
+            "name": "IMG_3991.JPG",
+            "path": "files/photos/yjgnql6-IMG_3991.JPG",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/yjgnql6-IMG_3991.JPG",
+            "sha": "e70e56855a65504044d37a4046b3237b0b44bd39",
+            "size": 508735,
             "mime": "image/jpeg"
           }
         ]
       },
       {
-        "id": "1grpsv4",
-        "main": "New Valve Cut in_01",
+        "id": "oxvv3ra",
+        "main": "Bypass_Gauge_9:50 AM",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
@@ -1979,18 +1740,18 @@
         "sub": "",
         "photos": [
           {
-            "name": "New Valve_Cutin_Arrangement.jpg",
-            "path": "files/photos/snoskos-New_Valve_Cutin_Arrangement.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/snoskos-New_Valve_Cutin_Arrangement.jpg",
-            "sha": "1d8e0943f0093cd92a6cbd58550b04a97ae3e24e",
-            "size": 181469,
+            "name": "IMG_3988.JPG",
+            "path": "files/photos/bpmqxnv-IMG_3988.JPG",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/bpmqxnv-IMG_3988.JPG",
+            "sha": "83f4d57798605413ccf3090e1d8b8fceb6a5f50f",
+            "size": 310978,
             "mime": "image/jpeg"
           }
         ]
       },
       {
-        "id": "cgq73ye",
-        "main": "New Valve Cut in_02",
+        "id": "m0hepuf",
+        "main": "Bypass Gauge_10:00 AM",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
@@ -1999,18 +1760,18 @@
         "sub": "",
         "photos": [
           {
-            "name": "New Valve_Backfill.jpg",
-            "path": "files/photos/nm0q1mf-New_Valve_Backfill.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/nm0q1mf-New_Valve_Backfill.jpg",
-            "sha": "6515b6be88d6d74474f716cd2d23c2caa46bb8c6",
-            "size": 234842,
+            "name": "IMG_3989.JPG",
+            "path": "files/photos/i201foc-IMG_3989.JPG",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/i201foc-IMG_3989.JPG",
+            "sha": "bf2d2c4c055af1401fb9ec2f5ec6948f4fc821bf",
+            "size": 432879,
             "mime": "image/jpeg"
           }
         ]
       },
       {
-        "id": "wdtrpz6",
-        "main": "New Valve Cut in_03",
+        "id": "opkgo03",
+        "main": "Bypass Gauge_10:10 AM",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
@@ -2019,91 +1780,11 @@
         "sub": "",
         "photos": [
           {
-            "name": "New Valve_Cutin_Thrust Blocks.jpg",
-            "path": "files/photos/f8kp7du-New_Valve_Cutin_Thrust_Blocks.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/f8kp7du-New_Valve_Cutin_Thrust_Blocks.jpg",
-            "sha": "474dee3e7af88407162ec7f91c6071bc461a72ce",
-            "size": 387945,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "mnly8ec",
-        "main": "Cleared Area_01",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Alignment_Clearing.jpg",
-            "path": "files/photos/24jcajw-Alignment_Clearing.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/24jcajw-Alignment_Clearing.jpg",
-            "sha": "d69ddaaac9f2b608a97ad264979f96dcd973453f",
-            "size": 678859,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "prxusuw",
-        "main": "Cleared Area_02",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "Alignment_Clearing_01.jpg",
-            "path": "files/photos/hvzkmpi-Alignment_Clearing_01.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/hvzkmpi-Alignment_Clearing_01.jpg",
-            "sha": "4d2ae48dbd0112c3b6b396270b43c9d9b4c00658",
-            "size": 687163,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "6k7p56e",
-        "main": "Ex.MH G4n16/4 Core and Pipe run",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "New_SEW_01.jpg",
-            "path": "files/photos/2n74i7x-New_SEW_01.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/2n74i7x-New_SEW_01.jpg",
-            "sha": "09e6ae0adec65008d49b4dfcff06e79c358be09d",
-            "size": 320354,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "8aomde2",
-        "main": "TPZ_Vac Ex",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "TPZ_VAC_Ex.jpg",
-            "path": "files/photos/3bff0kb-TPZ_VAC_Ex.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/3bff0kb-TPZ_VAC_Ex.jpg",
-            "sha": "4ebeb16e0955472faaa39ec96591387a08dcbd1b",
-            "size": 668524,
+            "name": "IMG_3990.JPG",
+            "path": "files/photos/nlxd5ld-IMG_3990.JPG",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/nlxd5ld-IMG_3990.JPG",
+            "sha": "1f542970fe4f1f0f0a285b64c429fad8b75f78b5",
+            "size": 400914,
             "mime": "image/jpeg"
           }
         ]
@@ -7540,7 +7221,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-08-06T04:51:54.804Z"
+      "updated": "2026-08-12T00:17:00.978Z"
     },
     "staffAway": {
       "updated": "2026-08-11T06:01:30.257Z"
@@ -7570,7 +7251,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-11T06:03:17.530Z"
+      "updated": "2026-08-12T00:17:45.014Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -7621,7 +7302,7 @@
     "d7lg1pi": {
       "id": "d7lg1pi",
       "panel": "Weekly Update Photos",
-      "project": "Cooloola Cove Sludge Pads",
+      "project": "Regionwide Watermain Renewal",
       "title": "Entry Pad",
       "detail": "",
       "team": "",
@@ -7636,15 +7317,15 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-07-28T05:02:44.335Z",
-      "updatedAt": "2026-07-28T05:02:44.335Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:07.041Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:07.041Z",
+      "removedReason": "deleted"
     },
     "yd24f15": {
       "id": "yd24f15",
       "panel": "Weekly Update Photos",
-      "project": "Cooloola Cove Sludge Pads",
+      "project": "Regionwide Watermain Renewal",
       "title": "Exit Pad",
       "detail": "",
       "team": "",
@@ -7659,10 +7340,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-07-28T05:02:46.974Z",
-      "updatedAt": "2026-07-28T05:02:46.974Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:07.364Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:07.364Z",
+      "removedReason": "deleted"
     },
     "u40p70o": {
       "id": "u40p70o",
@@ -8372,10 +8053,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-03T22:17:05.786Z",
-      "updatedAt": "2026-08-03T22:17:05.786Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:08.056Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:08.056Z",
+      "removedReason": "deleted"
     },
     "vzfv9rb": {
       "id": "vzfv9rb",
@@ -8395,10 +8076,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-03T22:17:18.368Z",
-      "updatedAt": "2026-08-03T22:17:18.368Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:08.699Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:08.699Z",
+      "removedReason": "deleted"
     },
     "9gomras": {
       "id": "9gomras",
@@ -8418,10 +8099,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-03T22:19:11.641Z",
-      "updatedAt": "2026-08-03T22:19:11.641Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:09.216Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:09.216Z",
+      "removedReason": "deleted"
     },
     "1w72kbi": {
       "id": "1w72kbi",
@@ -8740,10 +8421,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-05T01:48:04.413Z",
-      "updatedAt": "2026-08-05T01:48:04.413Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:09.615Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:09.615Z",
+      "removedReason": "deleted"
     },
     "cgq73ye": {
       "id": "cgq73ye",
@@ -8763,10 +8444,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-05T01:48:20.352Z",
-      "updatedAt": "2026-08-05T01:48:20.352Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:09.970Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:09.970Z",
+      "removedReason": "deleted"
     },
     "wdtrpz6": {
       "id": "wdtrpz6",
@@ -8786,10 +8467,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-05T01:48:36.115Z",
-      "updatedAt": "2026-08-05T01:48:36.115Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:10.274Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:10.274Z",
+      "removedReason": "deleted"
     },
     "aq1sv2y": {
       "id": "aq1sv2y",
@@ -8855,10 +8536,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-06T03:07:15.954Z",
-      "updatedAt": "2026-08-06T03:07:15.954Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:10.697Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:10.697Z",
+      "removedReason": "deleted"
     },
     "prxusuw": {
       "id": "prxusuw",
@@ -8878,10 +8559,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-06T03:07:26.543Z",
-      "updatedAt": "2026-08-06T03:07:26.543Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:11.324Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:11.324Z",
+      "removedReason": "deleted"
     },
     "6k7p56e": {
       "id": "6k7p56e",
@@ -8901,10 +8582,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-06T03:12:39.797Z",
-      "updatedAt": "2026-08-06T03:12:39.797Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:12.270Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:12.270Z",
+      "removedReason": "deleted"
     },
     "ujjbm4v": {
       "id": "ujjbm4v",
@@ -8947,10 +8628,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-06T04:51:54.803Z",
-      "updatedAt": "2026-08-06T04:51:54.803Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-08-11T06:06:12.728Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:12.728Z",
+      "removedReason": "deleted"
     },
     "zj53n22": {
       "id": "zj53n22",
@@ -9099,7 +8780,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -9108,7 +8789,7 @@
       "dateRequired": "2026-08-12",
       "photos": 0,
       "createdAt": "2026-08-10T22:38:14.933Z",
-      "updatedAt": "2026-08-11T06:02:34.855Z",
+      "updatedAt": "2026-08-12T00:17:45.014Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9158,6 +8839,282 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "x3vm8wf": {
+      "id": "x3vm8wf",
+      "panel": "Weekly Update Photos",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Turana St_Update_17/07/2026_001",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-11T06:05:54.241Z",
+      "updatedAt": "2026-08-11T06:05:54.241Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:05:54.241Z",
+      "removedReason": "deleted"
+    },
+    "1mijbl1": {
+      "id": "1mijbl1",
+      "panel": "Weekly Update Photos",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Turana St_Update_17/07/2026_002",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-11T06:05:54.876Z",
+      "updatedAt": "2026-08-11T06:05:54.876Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:05:54.876Z",
+      "removedReason": "deleted"
+    },
+    "bal00pw": {
+      "id": "bal00pw",
+      "panel": "Weekly Update Photos",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Turana_Update_17/07/2026_003",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-11T06:05:55.357Z",
+      "updatedAt": "2026-08-11T06:05:55.357Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:05:55.357Z",
+      "removedReason": "deleted"
+    },
+    "97wximl": {
+      "id": "97wximl",
+      "panel": "Weekly Update Photos",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Drummer St - Turf Prep_001",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-11T06:05:56.151Z",
+      "updatedAt": "2026-08-11T06:05:56.151Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:05:56.151Z",
+      "removedReason": "deleted"
+    },
+    "h6s86cv": {
+      "id": "h6s86cv",
+      "panel": "Weekly Update Photos",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Drummer St - Turf Prep 002",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-11T06:05:56.504Z",
+      "updatedAt": "2026-08-11T06:05:56.504Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:05:56.504Z",
+      "removedReason": "deleted"
+    },
+    "q02pua8": {
+      "id": "q02pua8",
+      "panel": "Weekly Update Photos",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Gympie Rd_Property Connection Excavations_Complete",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-11T06:05:56.878Z",
+      "updatedAt": "2026-08-11T06:05:56.878Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:05:56.878Z",
+      "removedReason": "deleted"
+    },
+    "clv6few": {
+      "id": "clv6few",
+      "panel": "Weekly Update Photos",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Gympie Rd - Partial Reinstatement - Ongoing",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-11T06:05:57.473Z",
+      "updatedAt": "2026-08-11T06:05:57.473Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:05:57.473Z",
+      "removedReason": "deleted"
+    },
+    "5pondcb": {
+      "id": "5pondcb",
+      "panel": "Weekly Update Photos",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Seepage Drain Filled in and Perimeter Fence- Partial",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-11T06:06:07.723Z",
+      "updatedAt": "2026-08-11T06:06:07.723Z",
+      "removed": true,
+      "removedAt": "2026-08-11T06:06:07.723Z",
+      "removedReason": "deleted"
+    },
+    "vbeqqlb": {
+      "id": "vbeqqlb",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Bypass - Hydro Test Rig",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-12T00:15:21.680Z",
+      "updatedAt": "2026-08-12T00:15:34.655Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "oxvv3ra": {
+      "id": "oxvv3ra",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Bypass_Gauge_9:50 AM",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-12T00:15:59.699Z",
+      "updatedAt": "2026-08-12T00:15:59.699Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "m0hepuf": {
+      "id": "m0hepuf",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Bypass Gauge_10:00 AM",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-12T00:16:21.735Z",
+      "updatedAt": "2026-08-12T00:16:21.735Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "opkgo03": {
+      "id": "opkgo03",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Bypass Gauge_10:10 AM",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-12T00:16:54.063Z",
+      "updatedAt": "2026-08-12T00:17:00.977Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -9182,8 +9139,8 @@
       "status": "green",
       "statusComment": "Sewer Main works Commenced",
       "stage": "Sewer Pipe Installation, Stormwater extension works",
-      "milestone": "Bypass main commissioning",
-      "achievement": "Bypass Main connected",
+      "milestone": "1st New MH Install",
+      "achievement": "Bypass main Hydro test - Pass",
       "clientAction": "",
       "risk": "",
       "impacts": "",
@@ -9204,5 +9161,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-11T06:05:33.892Z"
+  "publishedAt": "2026-08-12T00:18:31.727Z"
 }
