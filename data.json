@@ -282,7 +282,7 @@
       "lat": -26.18300602747445,
       "lng": 152.67665862663202,
       "category": "plant",
-      "title": "8t Excavator",
+      "title": "13t Excavator",
       "notes": "Trenching Sewer",
       "ts": 1785793803959,
       "vis": {
@@ -296,8 +296,8 @@
       "lat": -26.182774956625842,
       "lng": 152.6766425315084,
       "category": "plant",
-      "title": "",
-      "notes": "",
+      "title": "5t Digger",
+      "notes": "SW Backfill",
       "ts": 1786428305645,
       "vis": {
         "site": true,
@@ -9276,5 +9276,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-12T23:45:14.003Z"
+  "publishedAt": "2026-08-12T23:45:50.975Z"
 }
