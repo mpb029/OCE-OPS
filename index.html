@@ -3505,13 +3505,26 @@ body.locked { overflow: hidden; }
   function rawURL() {
     return `https://raw.githubusercontent.com/${sync.owner}/${sync.repo}/${sync.branch}/${DATA_PATH}?t=${Date.now()}`;
   }
+  // Same-origin copy: GitHub Pages serves the committed data.json from the very domain the app
+  // loaded from, so if the app loaded, this can't be firewall-blocked (unlike raw.githubusercontent.com,
+  // which many corporate/council networks block). This is the primary source for viewers.
+  function sameOriginURL() {
+    try {
+      const path = window.location.pathname.replace(/[^/]*$/, "");   // strip index.html / filename
+      return window.location.origin + path + DATA_PATH + "?t=" + Date.now();
+    } catch (e) { return null; }
+  }
 
-  // Fetch the shared file. Returns parsed object, or null if none / unreadable.
+  // Fetch the shared file. Tries the same-origin copy first, then raw.githubusercontent.com.
+  // Returns parsed object, or null if none / unreadable.
   function fetchShared() {
     if (!sync.owner || !sync.repo) return Promise.resolve(null);
-    return fetch(rawURL(), { cache: "no-store" })
-      .then((r) => (r.ok ? r.json() : null))
-      .catch(() => null);
+    const tryUrl = (u) => u ? fetch(u, { cache: "no-store" }).then((r) => (r.ok ? r.json() : null)).catch(() => null) : Promise.resolve(null);
+    const so = sameOriginURL();
+    // Only prefer same-origin when we're actually served over http(s) from Pages (not file://).
+    const preferSameOrigin = so && /^https?:/i.test(window.location.protocol || (window.location.href || ""));
+    if (!preferSameOrigin) return tryUrl(rawURL());
+    return tryUrl(so).then((obj) => obj ? obj : tryUrl(rawURL()));
   }
 
   // Initial load: apply the repo's data unless we have unpublished edits, and never
