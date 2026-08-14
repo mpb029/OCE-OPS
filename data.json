@@ -1834,6 +1834,46 @@
             "mime": "image/jpeg"
           }
         ]
+      },
+      {
+        "id": "av4owa8",
+        "main": "New Valve Cut in_01",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "New Valve_Cutin_Arrangement.jpg",
+            "path": "files/photos/h4zy4tk-New_Valve_Cutin_Arrangement.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/h4zy4tk-New_Valve_Cutin_Arrangement.jpg",
+            "sha": "1d8e0943f0093cd92a6cbd58550b04a97ae3e24e",
+            "size": 181469,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "tul4e09",
+        "main": "New Valve Cut in_02",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "New Valve_Cutin_Thrust Blocks.jpg",
+            "path": "files/photos/iddgytw-New_Valve_Cutin_Thrust_Blocks.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/iddgytw-New_Valve_Cutin_Thrust_Blocks.jpg",
+            "sha": "474dee3e7af88407162ec7f91c6071bc461a72ce",
+            "size": 387945,
+            "mime": "image/jpeg"
+          }
+        ]
       }
     ],
     "workPackages": [
@@ -7267,7 +7307,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-08-12T03:32:46.582Z"
+      "updated": "2026-08-14T01:39:52.258Z"
     },
     "staffAway": {
       "updated": "2026-08-11T06:01:30.257Z"
@@ -7731,7 +7771,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:10:26.373Z",
-      "updatedAt": "2026-08-12T23:42:57.378Z",
+      "updatedAt": "2026-08-07T00:05:32.524Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7754,7 +7794,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:11:48.249Z",
-      "updatedAt": "2026-08-12T23:43:03.786Z",
+      "updatedAt": "2026-07-30T23:11:48.249Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -7846,7 +7886,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:55.675Z",
-      "updatedAt": "2026-08-12T23:42:51.333Z",
+      "updatedAt": "2026-08-07T00:05:55.146Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8803,7 +8843,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "Completed",
+      "workStatus": "In Progress",
       "done": false,
       "due": "",
       "start": "2026-08-11",
@@ -8812,7 +8852,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-10T22:37:42.735Z",
-      "updatedAt": "2026-08-12T23:43:17.411Z",
+      "updatedAt": "2026-08-11T06:02:23.125Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9088,7 +9128,7 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T00:15:21.680Z",
-      "updatedAt": "2026-08-12T00:15:34.655Z",
+      "updatedAt": "2026-08-12T03:32:46.582Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9230,6 +9270,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "av4owa8": {
+      "id": "av4owa8",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New Valve Cut in_01",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-14T01:38:54.730Z",
+      "updatedAt": "2026-08-14T01:39:23.930Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "tul4e09": {
+      "id": "tul4e09",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New Valve Cut in_02",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-14T01:39:52.258Z",
+      "updatedAt": "2026-08-14T01:39:52.258Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -9276,5 +9362,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-12T23:45:50.975Z"
+  "publishedAt": "2026-08-14T01:43:49.541Z"
 }
