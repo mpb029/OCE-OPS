@@ -2562,6 +2562,23 @@
         "dateRequired": "2026-07-21",
         "wstatus": "completed",
         "status": "pass"
+      },
+      {
+        "id": "p7uiua0",
+        "main": "CCTV and VAC Test",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Tests schedule for Wednesday 26/08",
+        "due": "2026-08-26",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "status": "pending"
       }
     ],
     "designChanges": [],
@@ -2592,7 +2609,7 @@
           "site": true,
           "client": true
         },
-        "sub": "OCE developing quote",
+        "sub": "Quote submitted",
         "due": "",
         "done": false,
         "team": "eng",
@@ -7500,7 +7517,7 @@
       "updated": "2026-07-30T02:51:33.430Z"
     },
     "qualityTesting": {
-      "updated": "2026-07-23T22:44:24.067Z"
+      "updated": "2026-08-14T04:09:40.019Z"
     },
     "stakeholders": {
       "updated": "2026-08-06T04:09:02.198Z"
@@ -7515,7 +7532,7 @@
       "updated": "2026-07-08T01:11:45.481Z"
     },
     "variations": {
-      "updated": "2026-08-04T06:18:37.832Z"
+      "updated": "2026-08-14T04:10:09.248Z"
     },
     "issuesDelays": {
       "updated": "2026-07-08T01:11:49.778Z"
@@ -8563,7 +8580,7 @@
       "panel": "Variations",
       "project": "G4N Sewer Main Replacement",
       "title": "Sewer Connection to Lot01 MPH6306 No.20 Andrew St",
-      "detail": "OCE developing quote",
+      "detail": "Quote submitted",
       "team": "Engineering",
       "priority": "",
       "status": "Pending",
@@ -8576,7 +8593,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T06:18:17.961Z",
-      "updatedAt": "2026-08-04T06:18:37.832Z",
+      "updatedAt": "2026-08-14T04:10:09.248Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9730,6 +9747,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "p7uiua0": {
+      "id": "p7uiua0",
+      "panel": "Quality & Testing",
+      "project": "G4N Sewer Main Replacement",
+      "title": "CCTV and VAC Test",
+      "detail": "Tests schedule for Wednesday 26/08",
+      "team": "Engineering",
+      "priority": "",
+      "status": "Results pending",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-26",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-14T04:09:07.797Z",
+      "updatedAt": "2026-08-14T04:09:40.019Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -9752,10 +9792,10 @@
       "comp": "Mid-Late September",
       "compDate": "",
       "status": "green",
-      "statusComment": "Sewer Main works Commenced",
+      "statusComment": "Sewer Main works Ongoing",
       "stage": "Sewer Pipe Installation, Stormwater extension works",
       "milestone": "1st New MH Install",
-      "achievement": "Bypass main Hydro test - Pass",
+      "achievement": "Bypass main commissioned and properties hooked up",
       "clientAction": "",
       "risk": "",
       "impacts": "",
@@ -9776,5 +9816,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-14T04:07:12.108Z"
+  "publishedAt": "2026-08-14T04:19:53.785Z"
 }
