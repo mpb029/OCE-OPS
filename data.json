@@ -898,7 +898,7 @@
       },
       {
         "id": "pzuj10s",
-        "main": "Complete House connection (variation) then clean up and reinstate no.20 Andrew st",
+        "main": "Complete House connection then clean up and reinstate no.20 Andrew st",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
@@ -7538,7 +7538,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-14T03:52:27.594Z"
+      "updated": "2026-08-14T04:20:25.838Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -9499,7 +9499,7 @@
       "id": "pzuj10s",
       "panel": "Scheduled Works",
       "project": "G4N Sewer Main Replacement",
-      "title": "Complete House connection (variation) then clean up and reinstate no.20 Andrew st",
+      "title": "Complete House connection then clean up and reinstate no.20 Andrew st",
       "detail": "",
       "team": "Site",
       "priority": "",
@@ -9513,7 +9513,7 @@
       "dateRequired": "2026-08-21",
       "photos": 0,
       "createdAt": "2026-08-14T03:51:29.479Z",
-      "updatedAt": "2026-08-14T03:51:29.479Z",
+      "updatedAt": "2026-08-14T04:20:25.838Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9816,5 +9816,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-14T04:19:53.785Z"
+  "publishedAt": "2026-08-14T04:20:27.700Z"
 }
