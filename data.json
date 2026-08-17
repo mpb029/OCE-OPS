@@ -279,8 +279,8 @@
     },
     {
       "id": "iwuhj2v",
-      "lat": -26.183265981631433,
-      "lng": 152.67663718017724,
+      "lat": -26.183010841445594,
+      "lng": 152.67635832017805,
       "category": "plant",
       "title": "4.5t Excavator",
       "notes": "Trenching Sewer",
@@ -9931,5 +9931,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-16T21:54:02.517Z"
+  "publishedAt": "2026-08-17T22:44:16.988Z"
 }
