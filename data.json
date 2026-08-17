@@ -283,7 +283,7 @@
       "lng": 152.67635832017805,
       "category": "plant",
       "title": "4.5t Excavator",
-      "notes": "Trenching Sewer",
+      "notes": "Trenching Property Connection",
       "ts": 1785793803959,
       "vis": {
         "site": true,
@@ -293,11 +293,11 @@
     },
     {
       "id": "jqvvr5q",
-      "lat": -26.182774956625842,
-      "lng": 152.6766425315084,
+      "lat": -26.182779770606526,
+      "lng": 152.67661572437467,
       "category": "plant",
       "title": "13T Ex",
-      "notes": "",
+      "notes": "Trenching WM",
       "ts": 1786428305645,
       "vis": {
         "site": true,
@@ -2322,7 +2322,7 @@
           "site": true,
           "client": true
         },
-        "pct": 20,
+        "pct": 45,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2378,7 +2378,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -7559,7 +7559,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-08-14T03:53:40.137Z"
+      "updated": "2026-08-17T22:45:28.010Z"
     }
   },
   "history": {
@@ -7972,7 +7972,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:10:26.373Z",
-      "updatedAt": "2026-08-07T00:05:32.524Z",
+      "updatedAt": "2026-08-17T22:45:13.294Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8064,7 +8064,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:37.576Z",
-      "updatedAt": "2026-07-30T23:13:37.576Z",
+      "updatedAt": "2026-08-17T22:45:28.010Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9931,5 +9931,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-17T22:44:16.988Z"
+  "publishedAt": "2026-08-17T22:48:03.120Z"
 }
