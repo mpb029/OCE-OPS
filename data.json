@@ -7534,8 +7534,8 @@
   ],
   "panelVis": {
     "dailyWorks": {
-      "site": false,
-      "client": false
+      "site": true,
+      "client": true
     },
     "deliveries": {
       "site": true,
@@ -7651,7 +7651,7 @@
       "updated": "2026-07-23T22:41:33.951Z"
     },
     "dailyWorks": {
-      "updated": "2026-08-19T05:26:30.127Z"
+      "updated": "2026-08-19T22:29:47.170Z"
     },
     "trafficControl": {
       "updated": "2026-08-19T05:33:45.820Z"
@@ -10176,5 +10176,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-19T05:38:12.059Z"
+  "publishedAt": "2026-08-19T22:29:52.796Z"
 }
