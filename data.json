@@ -2678,8 +2678,8 @@
           "site": true,
           "client": true
         },
-        "sub": "Tests schedule for Wednesday 26/08",
-        "due": "2026-08-26",
+        "sub": "TBC",
+        "due": "",
         "done": false,
         "team": "eng",
         "dateAssigned": "",
@@ -7624,7 +7624,7 @@
       "updated": "2026-07-30T02:51:33.430Z"
     },
     "qualityTesting": {
-      "updated": "2026-08-14T04:09:40.019Z"
+      "updated": "2026-08-19T22:30:35.833Z"
     },
     "stakeholders": {
       "updated": "2026-08-06T04:09:02.198Z"
@@ -9860,20 +9860,20 @@
       "panel": "Quality & Testing",
       "project": "G4N Sewer Main Replacement",
       "title": "CCTV and VAC Test",
-      "detail": "Tests schedule for Wednesday 26/08",
+      "detail": "TBC",
       "team": "Engineering",
       "priority": "",
       "status": "Results pending",
       "workStatus": "",
       "done": false,
-      "due": "2026-08-26",
+      "due": "",
       "start": "",
       "end": "",
       "dateAssigned": "",
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-14T04:09:07.797Z",
-      "updatedAt": "2026-08-14T04:09:40.019Z",
+      "updatedAt": "2026-08-19T22:30:35.833Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10176,5 +10176,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-19T22:29:52.796Z"
+  "publishedAt": "2026-08-19T22:30:43.050Z"
 }
