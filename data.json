@@ -509,7 +509,36 @@
     }
   ],
   "panels": {
-    "dailyWorks": [],
+    "dailyWorks": [
+      {
+        "id": "t0kn2id",
+        "main": "Trenching 150mm Sewer towards MH G4n16/6a",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "inprogress"
+      },
+      {
+        "id": "mdm4uqt",
+        "main": "Reinstate - yard no.22",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "inprogress"
+      }
+    ],
     "deliveries": [
       {
         "id": "8rt54mk",
@@ -667,12 +696,30 @@
           "time": "09:30",
           "supplier": "Nicks Ready Mix"
         }
+      },
+      {
+        "id": "ts1yvvb",
+        "main": "150 Pipe and Megapozy",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "due": "2026-08-20",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "supplier": "Reece"
+        }
       }
     ],
     "trafficControl": [
       {
         "id": "ued0mbd",
-        "main": "Road Closure - Andrew St",
+        "main": "Road Closure - Andrew St - In Effect",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
@@ -2058,6 +2105,66 @@
             "mime": "image/jpeg"
           }
         ]
+      },
+      {
+        "id": "6rkxb5d",
+        "main": "150mm_SEW_TRENCH",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "150_SEW_G4n16.6a.jpg",
+            "path": "files/photos/mp9obdz-150_SEW_G4n16.6a.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/mp9obdz-150_SEW_G4n16.6a.jpg",
+            "sha": "6f4e4c3c4697821fe35eaf1b4d95e5b539b839b8",
+            "size": 264808,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "pz5plas",
+        "main": "MH Ex - G4n16.5a",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "G4n16.5a.jpg",
+            "path": "files/photos/q47btu1-G4n16.5a.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/q47btu1-G4n16.5a.jpg",
+            "sha": "52b4c763b7c4696e5cad35fa9a02d79e7699d2ef",
+            "size": 261712,
+            "mime": "image/jpeg"
+          }
+        ]
+      },
+      {
+        "id": "dwlxxt7",
+        "main": "MH G4n16.7a",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "photos": [
+          {
+            "name": "G4n16.7a.jpg",
+            "path": "files/photos/e03a9ep-G4n16.7a.jpg",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/e03a9ep-G4n16.7a.jpg",
+            "sha": "74bffa01214e8f044e1ec367c8fcc5720946e689",
+            "size": 473153,
+            "mime": "image/jpeg"
+          }
+        ]
       }
     ],
     "workPackages": [
@@ -2350,7 +2457,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2364,7 +2471,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2404,13 +2511,13 @@
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
-        "pct": 0,
+        "pct": 50,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "inprogress"
       },
       {
         "id": "83o0j0c",
@@ -7508,7 +7615,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-08-14T04:03:41.196Z"
+      "updated": "2026-08-19T05:33:01.852Z"
     },
     "staffAway": {
       "updated": "2026-08-11T06:01:30.257Z"
@@ -7523,7 +7630,7 @@
       "updated": "2026-08-06T04:09:02.198Z"
     },
     "deliveries": {
-      "updated": "2026-08-10T22:36:00.604Z"
+      "updated": "2026-08-19T05:38:08.846Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -7544,10 +7651,10 @@
       "updated": "2026-07-23T22:41:33.951Z"
     },
     "dailyWorks": {
-      "updated": "2026-07-08T01:26:16.808Z"
+      "updated": "2026-08-19T05:26:30.127Z"
     },
     "trafficControl": {
-      "updated": "2026-08-05T00:20:19.224Z"
+      "updated": "2026-08-19T05:33:45.820Z"
     },
     "subbiesToday": {
       "updated": "2026-08-06T23:11:31.334Z"
@@ -7559,7 +7666,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-08-17T22:45:28.010Z"
+      "updated": "2026-08-19T05:29:47.020Z"
     }
   },
   "history": {
@@ -8018,7 +8125,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:00.063Z",
-      "updatedAt": "2026-07-30T23:13:00.063Z",
+      "updatedAt": "2026-08-19T05:29:47.020Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8041,7 +8148,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:21.256Z",
-      "updatedAt": "2026-07-30T23:13:21.256Z",
+      "updatedAt": "2026-08-19T05:28:55.350Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8101,7 +8208,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "In Progress",
       "done": false,
       "due": "",
       "start": "",
@@ -8110,7 +8217,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:14:23.375Z",
-      "updatedAt": "2026-07-30T23:14:23.375Z",
+      "updatedAt": "2026-08-19T05:29:32.185Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8671,7 +8778,7 @@
       "id": "ued0mbd",
       "panel": "Traffic Control",
       "project": "G4N Sewer Main Replacement",
-      "title": "Road Closure - Andrew St",
+      "title": "Road Closure - Andrew St - In Effect",
       "detail": "",
       "team": "Site",
       "priority": "",
@@ -8685,7 +8792,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-05T00:20:19.224Z",
-      "updatedAt": "2026-08-05T00:20:19.224Z",
+      "updatedAt": "2026-08-19T05:33:45.820Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9885,6 +9992,144 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "t0kn2id": {
+      "id": "t0kn2id",
+      "panel": "Daily Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Trenching 150mm Sewer towards MH G4n16/6a",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-19T05:24:53.958Z",
+      "updatedAt": "2026-08-19T05:24:53.958Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "mdm4uqt": {
+      "id": "mdm4uqt",
+      "panel": "Daily Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Reinstate - yard no.22",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-19T05:26:30.127Z",
+      "updatedAt": "2026-08-19T05:26:30.127Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "6rkxb5d": {
+      "id": "6rkxb5d",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "150mm_SEW_TRENCH",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-19T05:32:20.825Z",
+      "updatedAt": "2026-08-19T05:32:20.825Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "pz5plas": {
+      "id": "pz5plas",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "MH Ex - G4n16.5a",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-19T05:32:42.501Z",
+      "updatedAt": "2026-08-19T05:32:42.501Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "dwlxxt7": {
+      "id": "dwlxxt7",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "MH G4n16.7a",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-08-19T05:33:01.852Z",
+      "updatedAt": "2026-08-19T05:33:01.852Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "ts1yvvb": {
+      "id": "ts1yvvb",
+      "panel": "Scheduled Deliveries",
+      "project": "G4N Sewer Main Replacement",
+      "title": "150 Pipe and Megapozy",
+      "detail": "Supplier: Reece",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-20",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-19T05:37:59.343Z",
+      "updatedAt": "2026-08-19T05:37:59.343Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -9907,11 +10152,11 @@
       "comp": "Mid-Late September",
       "compDate": "",
       "status": "green",
-      "statusComment": "Sewer Main works Ongoing",
-      "stage": "Sewer Pipe Installation, Stormwater extension works",
+      "statusComment": "150mm Sewer Alignment to G4n16/6a",
+      "stage": "Sewer Pipe Installation",
       "milestone": "1st New MH Install",
-      "achievement": "Bypass main commissioned and properties hooked up",
-      "clientAction": "",
+      "achievement": "no.20 and no.22 House connection - main alignment completed",
+      "clientAction": "Direction in relation to ex.SW Clash",
       "risk": "",
       "impacts": "",
       "scope": ""
@@ -9931,5 +10176,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-17T22:48:03.120Z"
+  "publishedAt": "2026-08-19T05:38:12.059Z"
 }
