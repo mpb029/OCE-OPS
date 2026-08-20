@@ -7673,7 +7673,16 @@
       }
     }
   ],
-  "models": [],
+  "models": [
+    {
+      "id": "lfd69n3",
+      "name": "G4N_01",
+      "url": "https://mpb029.github.io/OCE-OPS/G4N.obj",
+      "fmt": "obj",
+      "visible": true,
+      "upAxis": "y"
+    }
+  ],
   "panelVis": {
     "dailyWorks": {
       "site": true,
@@ -10601,5 +10610,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-20T02:27:42.904Z"
+  "publishedAt": "2026-08-20T03:29:21.403Z"
 }
