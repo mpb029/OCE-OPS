@@ -305,6 +305,10 @@ body.client .card-head .pbtn { display: none; }
 }
 
 #map { height: 560px; width: 100%; background: #dfe6e3; }
+/* Close the hairline white seam browsers can leave between 256px tiles at fractional display
+   scaling. This is the mild, standard half-pixel overlap only — no image-rendering / retina /
+   animation changes (those caused worse, machine-wide artefacts previously). */
+.leaflet-container .leaflet-tile { width: 256.5px !important; height: 256.5px !important; }
 .map-hint {
   position: absolute; left: 12px; bottom: 12px; z-index: 600;
   background: rgba(20,32,43,.86); color: #fff;
@@ -955,8 +959,47 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   body[data-print="photos"] #panelsGrid .card[data-card="weeklyPhotos"] { width: 100% !important; box-shadow: none; border: none; }
   body[data-print="photos"] .card-head .add, body[data-print="photos"] .card-head .pbtn,
   body[data-print="photos"] .card-head .count, body[data-print="photos"] .vis, body[data-print="photos"] .row-act { display: none !important; }
-  body[data-print="photos"] .photo-item.pf-hide { display: none !important; }
+  body[data-print="photos"] .photo-folder.pf-hide { display: none !important; }
   body[data-print="photos"] .photos.gallery .photo img { width: 100%; height: auto; max-height: 170mm; }
+}
+
+/* 3D viewer tools + fullscreen + multi-model list */
+.model-toolbar { position: absolute; top: 10px; right: 10px; display: flex; gap: 4px; background: rgba(255,255,255,.9); border: 1px solid var(--hairline); border-radius: 8px; padding: 4px; box-shadow: 0 2px 8px rgba(20,32,43,.14); z-index: 5; }
+.model-toolbar .mt { width: 30px; height: 30px; border: none; background: transparent; color: var(--ink); border-radius: 6px; cursor: pointer; font-size: 13px; display: grid; place-items: center; }
+.model-toolbar .mt:hover { background: var(--paper); }
+.model-toolbar .mt.on { background: #0f9b8e; color: #fff; }
+#modelCard:fullscreen { background: var(--surface); padding: 12px; display: flex; flex-direction: column; }
+#modelCard:fullscreen .model-stage { flex: 1; height: auto; }
+#modelCard:-webkit-full-screen { background: var(--surface); padding: 12px; }
+#modelCard:-webkit-full-screen .model-stage { height: 82vh; }
+.model-row .model-name { display: flex; align-items: center; gap: 8px; }
+.model-row .model-name input[type="checkbox"] { accent-color: #0f9b8e; width: 15px; height: 15px; flex: 0 0 auto; }
+.model-flip { flex: 0 0 auto; border: none; background: transparent; color: var(--faint); font-size: 13px; width: 26px; height: 26px; border-radius: 5px; cursor: pointer; }
+.model-flip:hover { background: var(--surface); color: #0f9b8e; }
+
+/* ===================== weekly photo folders (collapsible) ===================== */
+.photo-folder { list-style: none; border: 1px solid var(--hairline); border-radius: 8px; margin: 0 0 8px; overflow: hidden; }
+.photo-folder .folder-head { display: flex; align-items: center; gap: 9px; padding: 10px 12px; cursor: pointer; background: var(--surface-2, #f7f9fb); }
+.photo-folder .folder-head:hover { background: var(--paper); }
+.photo-folder .folder-head .chev { color: var(--muted); font-size: 11px; transition: transform .15s; flex: 0 0 auto; }
+.photo-folder.open .folder-head .chev { transform: rotate(90deg); }
+.photo-folder .folder-head .fic { color: var(--amber-deep); flex: 0 0 auto; }
+.photo-folder .folder-name { font-weight: 600; font-size: 13.5px; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.photo-folder .folder-meta { font-size: 11.5px; color: var(--muted); white-space: nowrap; flex: 0 0 auto; }
+.photo-folder .folder-dl { flex: 0 0 auto; border: 1px solid var(--hairline); background: var(--surface); color: var(--faint); width: 30px; height: 28px; border-radius: 6px; cursor: pointer; }
+.photo-folder .folder-dl:hover { color: #0f9b8e; border-color: #0f9b8e; }
+.photo-folder .folder-body { display: none; padding: 10px 12px; }
+.photo-folder.open .folder-body { display: block; }
+
+/* bigger photos when printing: each at least ~half a page */
+@media print {
+  body[data-print] .photo-folder .folder-body { display: block !important; }
+  body[data-print] .photo-folder { break-inside: auto; border: none; }
+  body[data-print] .photo-folder .folder-head { background: none; padding: 4mm 0 2mm; border-bottom: 1px solid #ccc; }
+  body[data-print] .photo-folder .folder-dl, body[data-print] .photo-folder .vis, body[data-print] .photo-folder .row-act, body[data-print] .photo-folder .chev { display: none !important; }
+  body[data-print] .photos.gallery { display: block !important; }
+  body[data-print] .photos.gallery .photo { display: block; width: 100% !important; height: auto !important; break-inside: avoid; margin: 0 0 6mm; }
+  body[data-print] .photos.gallery .photo img { width: 100%; height: auto; min-height: 148mm; max-height: 175mm; object-fit: contain; }
 }
 
 </style>
@@ -1063,7 +1106,15 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           </div>
         </div>
         <div class="model-stage" id="modelStage">
-          <div class="model-empty" id="modelEmpty">No 3D model selected.</div>
+          <div class="model-empty" id="modelEmpty">No 3D model added yet.</div>
+          <div class="model-toolbar" id="modelToolbar" style="display:none">
+            <button class="mt on" data-mtool="orbit" title="Orbit (rotate)"><i class="fa-solid fa-arrows-rotate"></i></button>
+            <button class="mt" data-mtool="pan" title="Pan"><i class="fa-solid fa-up-down-left-right"></i></button>
+            <button class="mt" data-mtool="zoomin" title="Zoom in"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+            <button class="mt" data-mtool="zoomout" title="Zoom out"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+            <button class="mt" data-mtool="reset" title="Reset / fit view"><i class="fa-solid fa-crop-simple"></i></button>
+            <button class="mt" data-mtool="full" title="Full screen"><i class="fa-solid fa-maximize"></i></button>
+          </div>
         </div>
         <div class="model-list" id="modelList"></div>
       </section>
@@ -1113,6 +1164,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     <div class="modal">
       <div class="modal-head"><i class="fa-solid fa-pen" id="itemModalIcon"></i><span id="itemModalTitle">Add item</span></div>
       <div class="modal-body">
+        <div class="field" id="fldFolder" style="display:none">
+          <label>Folder</label>
+          <select id="fFolder"></select>
+        </div>
         <div class="field" id="fldProject">
           <label>Project</label>
           <select id="fProject"></select>
@@ -1764,27 +1819,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       base: "street", // or "sat"
       markers: [],
       stats: [],
-      panels: {
-        dailyWorks: [],
-        deliveries: [],
-        trafficControl: [],
-        upcoming: [],
-        subbiesToday: [],
-        staffAway: [],
-        siteInputs: [],
-        plantTransport: [],
-        stakeholders: [],
-        punchlist: [],
-        materialPickup: [],
-        meetings: [],
-        documents: [],
-        weeklyPhotos: [],
-        workPackages: [],
-        qualityTesting: [],
-        designChanges: [],
-        variations: [],
-        issuesDelays: []
-      },
+      panels: PANELS.reduce((o, p) => { o[p.id] = []; return o; }, {}),
       mapLayers: [],
       models: [],
       panelVis: {},
@@ -2215,8 +2250,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   function zoomRaster(id) { const r = rasterLayers[id]; if (r) { try { map.fitBounds(r.layer.getBounds().pad(0.05)); } catch (e) {} } }
 
   /* ==================== 3D model viewer (below the map) ================= */
-  let sessionModels = {};          // id -> { name, url, fmt } for files added this session (not published)
-  let activeModelId = null;
+  let sessionModels = {};          // id -> { name, url, fmt, visible, upAxis } for files added this session (not published)
   let three = null;                // { scene, camera, renderer, controls, grid, current }
 
   const modelFmt = (s) => { const m = /\.(glb|gltf|stl|obj)(\?|#|$)/i.exec(s || ""); return m ? m[1].toLowerCase() : ""; };
@@ -2256,13 +2290,18 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     animate();
     const resize = () => { const W = stage.clientWidth || 600, H = stage.clientHeight || 340; camera.aspect = W / H; camera.updateProjectionMatrix(); renderer.setSize(W, H); };
     window.addEventListener("resize", resize);
-    return { scene, camera, renderer, controls, grid: null, current: null, resize };
+    return { scene, camera, renderer, controls, grid: null, resize };
   }
 
-  function frameObject(obj) {
-    obj.updateMatrixWorld(true);
-    const box = new THREE.Box3().setFromObject(obj);
-    if (!isFinite(box.min.x)) return;
+  const loadedObjs = {};                    // model id -> loaded Object3D (cached)
+  const defaultUpAxis = (fmt) => (fmt === "stl" || fmt === "obj") ? "z" : "y";
+  function applyUpAxis(obj, upAxis) { obj.rotation.x = (upAxis === "z") ? -Math.PI / 2 : 0; }
+
+  function frameAll() {
+    if (!three) return;
+    const box = new THREE.Box3(); let any = false;
+    Object.keys(loadedObjs).forEach((id) => { const o = loadedObjs[id]; if (o && o.parent) { o.updateMatrixWorld(true); box.expandByObject(o); any = true; } });
+    if (!any || !isFinite(box.min.x)) return;
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
@@ -2277,53 +2316,64 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     three.scene.add(three.grid);
   }
 
-  function loadModelInto(url, fmt) {
+  function loadOne(m) {
+    if (loadedObjs[m.id]) return Promise.resolve(loadedObjs[m.id]);
     return ensureThree().then((ok) => {
       if (!ok) throw new Error("viewer library unavailable");
       const stage = document.getElementById("modelStage");
       if (!three) three = initThreeViewer(stage); else three.resize();
-      if (three.current) { three.scene.remove(three.current); three.current = null; }
+      const fmt = m.fmt || modelFmt(m.url) || "glb";
+      const grey = () => new THREE.MeshStandardMaterial({ color: 0xb9c2c9, metalness: 0.08, roughness: 0.78, side: THREE.DoubleSide });
       return new Promise((res, rej) => {
-        const grey = () => new THREE.MeshStandardMaterial({ color: 0xb9c2c9, metalness: 0.08, roughness: 0.78, side: THREE.DoubleSide });
-        if (fmt === "stl") {
-          new THREE.STLLoader().load(url, (geo) => {
-            geo.computeVertexNormals();
-            const grp = new THREE.Group(); grp.add(new THREE.Mesh(geo, grey()));
-            grp.rotation.x = -Math.PI / 2;   // CAD/STL is usually Z-up; three.js is Y-up
-            three.scene.add(grp); three.current = grp; frameObject(grp); res();
-          }, undefined, (e) => rej(e));
-        } else if (fmt === "obj") {
-          new THREE.OBJLoader().load(url, (obj) => {
-            obj.traverse((c) => { if (c.isMesh) { c.material = grey(); if (c.geometry && c.geometry.computeVertexNormals) c.geometry.computeVertexNormals(); } });
-            obj.rotation.x = -Math.PI / 2;   // OBJ from CAD is usually Z-up too
-            three.scene.add(obj); three.current = obj; frameObject(obj); res();
-          }, undefined, (e) => rej(e));
-        } else {
-          new THREE.GLTFLoader().load(url, (gltf) => {
-            const grp = gltf.scene || (gltf.scenes && gltf.scenes[0]);
-            three.scene.add(grp); three.current = grp; frameObject(grp); res();
-          }, undefined, (e) => rej(e));
-        }
+        const done = (obj) => { applyUpAxis(obj, m.upAxis || defaultUpAxis(fmt)); loadedObjs[m.id] = obj; res(obj); };
+        if (fmt === "stl") new THREE.STLLoader().load(m.url, (geo) => { geo.computeVertexNormals(); const g = new THREE.Group(); g.add(new THREE.Mesh(geo, grey())); done(g); }, undefined, rej);
+        else if (fmt === "obj") new THREE.OBJLoader().load(m.url, (obj) => { obj.traverse((c) => { if (c.isMesh) { c.material = grey(); if (c.geometry && c.geometry.computeVertexNormals) c.geometry.computeVertexNormals(); } }); done(obj); }, undefined, rej);
+        else new THREE.GLTFLoader().load(m.url, (gltf) => done(gltf.scene || (gltf.scenes && gltf.scenes[0])), undefined, rej);
       });
     });
   }
 
-  function allModels() {
-    const shared = (state.models || []).map((m) => ({ id: m.id, name: m.name, url: m.url, fmt: m.fmt || modelFmt(m.url), session: false }));
-    const sess = Object.keys(sessionModels).map((id) => ({ id: id, name: sessionModels[id].name, url: sessionModels[id].url, fmt: sessionModels[id].fmt, session: true }));
-    return shared.concat(sess);
+  // Show/hide the visible models in the scene, then frame everything that's shown.
+  function syncScene() {
+    const models = allModels();
+    const empty = document.getElementById("modelEmpty");
+    const toolbar = document.getElementById("modelToolbar");
+    const visible = models.filter((m) => m.visible);
+    if (!visible.length) {
+      Object.keys(loadedObjs).forEach((id) => { if (loadedObjs[id] && loadedObjs[id].parent) three.scene.remove(loadedObjs[id]); });
+      if (empty) { empty.style.display = ""; empty.textContent = models.length ? "No models shown \u2014 tick one below." : "No 3D model added yet."; }
+      if (toolbar) toolbar.style.display = "none";
+      return;
+    }
+    if (empty) { empty.style.display = ""; empty.textContent = "Loading\u2026"; }
+    // remove any now-hidden objects already in the scene
+    models.forEach((m) => { if (!m.visible && loadedObjs[m.id] && loadedObjs[m.id].parent && three) three.scene.remove(loadedObjs[m.id]); });
+    Promise.all(visible.map((m) => loadOne(m).then((obj) => { if (!obj.parent) three.scene.add(obj); }).catch((e) => { console.warn("model load failed", m.name, e); })))
+      .then(() => { if (empty) empty.style.display = "none"; if (toolbar) toolbar.style.display = ""; frameAll(); });
   }
 
-  function setActiveModel(id) {
-    const m = allModels().find((x) => x.id === id);
-    activeModelId = m ? id : null;
-    const empty = document.getElementById("modelEmpty");
-    if (!m) { if (empty) { empty.style.display = ""; empty.textContent = "No 3D model selected."; } renderModelList(); return; }
-    if (empty) { empty.style.display = ""; empty.textContent = "Loading \u201c" + (m.name || "model") + "\u201d\u2026"; }
-    loadModelInto(m.url, m.fmt || modelFmt(m.url) || "glb")
-      .then(() => { if (empty) empty.style.display = "none"; })
-      .catch((e) => { console.warn("model load failed", e); if (empty) { empty.style.display = ""; empty.textContent = "Couldn't load this model (offline, blocked, or unsupported)."; } });
-    renderModelList();
+  function allModels() {
+    const shared = (state.models || []).map((m) => ({ id: m.id, name: m.name, url: m.url, fmt: m.fmt || modelFmt(m.url), upAxis: m.upAxis, visible: m.visible !== false, session: false }));
+    const sess = Object.keys(sessionModels).map((id) => ({ id: id, name: sessionModels[id].name, url: sessionModels[id].url, fmt: sessionModels[id].fmt, upAxis: sessionModels[id].upAxis, visible: sessionModels[id].visible !== false, session: true }));
+    return shared.concat(sess);
+  }
+  const modelRecord = (id) => (state.models || []).find((m) => m.id === id) || sessionModels[id];
+
+  function toggleModel(id, show) {
+    const rec = modelRecord(id); if (!rec) return;
+    rec.visible = show;
+    if (!(sessionModels[id])) save();
+    syncScene(); renderModelList();
+  }
+
+  function flipUpAxis(id) {
+    const rec = modelRecord(id); if (!rec) return;
+    const cur = rec.upAxis || defaultUpAxis(rec.fmt || modelFmt(rec.url));
+    rec.upAxis = cur === "z" ? "y" : "z";
+    if (loadedObjs[id]) applyUpAxis(loadedObjs[id], rec.upAxis);
+    if (!(sessionModels[id])) save();
+    frameAll(); renderModelList();
+    toast("Up-axis set to " + rec.upAxis.toUpperCase() + "-up");
   }
 
   function renderModels() {
@@ -2335,10 +2385,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     const models = allModels();
     if (!models.length && !editor) { card.style.display = "none"; return; }
     card.style.display = "";
-    if (!activeModelId || !models.some((m) => m.id === activeModelId)) activeModelId = models.length ? models[0].id : null;
-    if (activeModelId) setActiveModel(activeModelId);
-    else { const empty = document.getElementById("modelEmpty"); if (empty) { empty.style.display = ""; empty.textContent = "No 3D model selected."; } }
     renderModelList();
+    if (models.length) syncScene();
+    else { const empty = document.getElementById("modelEmpty"); if (empty) { empty.style.display = ""; empty.textContent = "No 3D model added yet."; } const tb = document.getElementById("modelToolbar"); if (tb) tb.style.display = "none"; }
   }
 
   function renderModelList() {
@@ -2348,23 +2397,44 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     const models = allModels();
     if (!models.length) { list.innerHTML = editor ? `<div class="model-hint">Add a 3D model (<b>.stl</b>, .obj, .glb or .gltf) with the buttons above. Upload views it here for you now; a hosted <b>URL</b> is shared with site &amp; clients.</div>` : ""; return; }
     list.innerHTML = models.map((m) => `
-      <div class="model-row ${m.id === activeModelId ? "active" : ""}">
-        <button class="model-name" data-model-view="${m.id}"><i class="fa-solid fa-cube"></i> <span>${esc(m.name)}</span>${m.session ? ' <span class="model-tag">session</span>' : ""}</button>
+      <div class="model-row">
+        <label class="model-name"><input type="checkbox" data-model-toggle="${m.id}" ${m.visible ? "checked" : ""} /> <i class="fa-solid fa-cube"></i> <span>${esc(m.name)}</span>${m.session ? ' <span class="model-tag">session</span>' : ""}</label>
+        ${editor ? `<button class="model-flip" data-model-flip="${m.id}" title="Flip up-axis (fix orientation)"><i class="fa-solid fa-arrows-up-down"></i></button>` : ""}
         ${editor ? `<button class="model-del" data-model-del="${m.id}" title="Remove model">&times;</button>` : ""}
       </div>`).join("");
-    list.querySelectorAll("[data-model-view]").forEach((b) => b.onclick = () => setActiveModel(b.getAttribute("data-model-view")));
+    list.querySelectorAll("[data-model-toggle]").forEach((c) => c.onchange = () => toggleModel(c.getAttribute("data-model-toggle"), c.checked));
+    list.querySelectorAll("[data-model-flip]").forEach((b) => b.onclick = () => flipUpAxis(b.getAttribute("data-model-flip")));
     list.querySelectorAll("[data-model-del]").forEach((b) => b.onclick = () => removeModel(b.getAttribute("data-model-del")));
+  }
+
+  /* ---- viewer tools (orbit / pan / zoom / reset / fullscreen) ---------- */
+  function setViewerMode3D(mode) {
+    if (!three || !window.THREE) return;
+    const M = THREE.MOUSE, T = THREE.TOUCH;
+    if (mode === "pan") { three.controls.mouseButtons.LEFT = M.PAN; three.controls.touches.ONE = T.PAN; }
+    else { three.controls.mouseButtons.LEFT = M.ROTATE; three.controls.touches.ONE = T.ROTATE; }
+    document.querySelectorAll('#modelToolbar [data-mtool="orbit"],#modelToolbar [data-mtool="pan"]').forEach((b) => b.classList.toggle("on", b.getAttribute("data-mtool") === mode));
+  }
+  function zoomStep3D(f) {
+    if (!three) return;
+    const cam = three.camera, t = three.controls.target;
+    const v = new THREE.Vector3().subVectors(cam.position, t).multiplyScalar(f);
+    cam.position.copy(t).add(v); three.controls.update();
+  }
+  function toggleFullscreen3D() {
+    const card = document.getElementById("modelCard");
+    if (!document.fullscreenElement) { (card.requestFullscreen ? card.requestFullscreen() : (card.webkitRequestFullscreen && card.webkitRequestFullscreen())); }
+    else { (document.exitFullscreen ? document.exitFullscreen() : (document.webkitExitFullscreen && document.webkitExitFullscreen())); }
   }
 
   function addModelUrl(url, name) {
     url = (url || "").trim();
-    if (!/^https?:\/\//i.test(url)) { toast("Enter a full https URL to a .stl / .glb / .gltf file", true); return; }
+    if (!/^https?:\/\//i.test(url)) { toast("Enter a full https URL to a .stl / .obj / .glb / .gltf file", true); return; }
     const fmt = modelFmt(url);
     if (!fmt) { toast("That should be a .stl, .obj, .glb or .gltf file URL", true); return; }
     state.models = state.models || [];
-    const id = uid();
-    state.models.push({ id: id, name: (name || "").trim() || "Model", url: url, fmt: fmt });
-    save(); activeModelId = id; renderModels();
+    state.models.push({ id: uid(), name: (name || "").trim() || "Model", url: url, fmt: fmt, visible: true });
+    save(); renderModels();
     toast("Model added \u2014 Publish to share it");
   }
 
@@ -2379,16 +2449,16 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   function addModelFile(file) {
     const fmt = modelFmt(file.name);
     if (!fmt) { toast("Please choose a .stl, .obj, .glb or .gltf file", true); return; }
-    const id = uid();
-    sessionModels[id] = { name: file.name.replace(/\.(glb|gltf|stl|obj)$/i, ""), url: URL.createObjectURL(file), fmt: fmt };
-    activeModelId = id; renderModels();
+    sessionModels[uid()] = { name: file.name.replace(/\.(glb|gltf|stl|obj)$/i, ""), url: URL.createObjectURL(file), fmt: fmt, visible: true };
+    renderModels();
     toast("Model loaded (this session only \u2014 add a hosted URL to share it)");
   }
 
   function removeModel(id) {
+    if (three && loadedObjs[id] && loadedObjs[id].parent) three.scene.remove(loadedObjs[id]);
+    delete loadedObjs[id];
     if (sessionModels[id]) { try { URL.revokeObjectURL(sessionModels[id].url); } catch (e) {} delete sessionModels[id]; }
     else { state.models = (state.models || []).filter((m) => m.id !== id); save(); }
-    if (activeModelId === id) activeModelId = null;
     renderModels();
   }
 
@@ -3252,14 +3322,22 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
                </span>` : "";
           const acts = editor
             ? `<span class="row-act">
-                 <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
-                 <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
+                 <button class="e" data-edit="${p.id}:${it.id}" title="Add photos / edit folder"><i class="fa-solid fa-pen"></i></button>
+                 <button class="d" data-del="${p.id}:${it.id}" title="Delete folder"><i class="fa-solid fa-trash"></i></button>
                </span>` : "";
-          const fdate = (it.x && it.x.folderDate) ? `<span class="folder-date"><i class="fa-solid fa-folder"></i> ${fmtDay(it.x.folderDate)}</span>` : "";
-          return `<li class="photo-item" data-folder="${it.id}">
-            <span class="txt"><span class="main">${esc(it.main || "Untitled")} ${fdate}</span></span>
-            ${chips}${acts}
-            ${itemPhotosHtml(it, "gallery")}
+          const n = (it.photos || []).length;
+          const fdate = (it.x && it.x.folderDate) ? fmtDay(it.x.folderDate) : "";
+          const open = openFolders[it.id];
+          return `<li class="photo-folder ${open ? "open" : ""}" data-folder="${it.id}">
+            <div class="folder-head" data-folder-toggle="${it.id}">
+              <i class="fa-solid fa-chevron-right chev"></i>
+              <i class="fa-solid fa-folder fic"></i>
+              <span class="folder-name">${esc(it.main || "Untitled folder")}</span>
+              <span class="folder-meta">${fdate ? fdate + " \u00b7 " : ""}${n} photo${n === 1 ? "" : "s"}</span>
+              <button class="folder-dl" data-folder-dl="${it.id}" title="Download this folder (zip)"><i class="fa-solid fa-download"></i></button>
+              ${chips}${acts}
+            </div>
+            <div class="folder-body">${itemPhotosHtml(it, "gallery")}</div>
           </li>`;
         }
         const refTag = (p.hasRef && it.ref) ? `<span class="ref">${esc(it.ref)}</span> ` : "";
@@ -3403,6 +3481,16 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         it.vis[who] = !it.vis[who];
         touchPanel(pid); save(); renderPanels();
       }));
+    grid.querySelectorAll("[data-folder-toggle]").forEach((h) =>
+      h.addEventListener("click", (e) => {
+        if (e.target.closest("[data-folder-dl],[data-edit],[data-del],[data-vis]")) return;   // let inner buttons act
+        const id = h.getAttribute("data-folder-toggle");
+        openFolders[id] = !openFolders[id];
+        const li = h.closest(".photo-folder");
+        if (li) li.classList.toggle("open", !!openFolders[id]);
+      }));
+    grid.querySelectorAll("[data-folder-dl]").forEach((b) =>
+      b.addEventListener("click", (e) => { e.stopPropagation(); downloadFolder(b.getAttribute("data-folder-dl")); }));
     grid.querySelectorAll("[data-pvis]").forEach((b) =>
       b.addEventListener("click", () => {
         const [who, pid] = b.getAttribute("data-pvis").split(":");
@@ -3413,6 +3501,51 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   let editingItem = { panel: null, id: null };
+  let openFolders = {};                 // weekly-photo folder id -> expanded?
+
+  function ensureJSZip() {
+    if (window.JSZip) return Promise.resolve(true);
+    if (ensureJSZip._p) return ensureJSZip._p;
+    ensureJSZip._p = new Promise((res) => {
+      const s = document.createElement("script");
+      s.src = "https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+      s.onload = () => res(true); s.onerror = () => res(false);
+      document.head.appendChild(s);
+    });
+    return ensureJSZip._p;
+  }
+
+  // Download a weekly-photo folder as a .zip of its photos.
+  function downloadFolder(id) {
+    let folder = null;
+    Object.keys(state.panels).forEach((pid) => { const f = (state.panels[pid] || []).find((x) => x.id === id); if (f) folder = f; });
+    if (!folder || !(folder.photos || []).length) { toast("This folder has no photos yet", true); return; }
+    toast("Zipping " + folder.photos.length + " photo" + (folder.photos.length === 1 ? "" : "s") + "\u2026");
+    ensureJSZip().then((ok) => {
+      if (!ok) { toast("Couldn't load the zip tool (offline?)", true); return; }
+      const zip = new JSZip();
+      const safe = (folder.main || "folder").replace(/[^\w\-. ]+/g, "_");
+      const dir = zip.folder(safe);
+      let done = 0; const total = folder.photos.length;
+      Promise.all(folder.photos.map((ph, i) =>
+        fetch(ph.url).then((r) => r.blob()).then((blob) => {
+          const ext = (ph.name && /\.[a-z0-9]+$/i.test(ph.name)) ? "" : ".jpg";
+          const nm = (ph.name && ph.name.trim()) ? ph.name : ("photo-" + (i + 1) + ext);
+          dir.file(nm, blob); done++;
+        }).catch(() => {})
+      )).then(() => {
+        if (!done) { toast("Couldn't fetch the photos to zip (they may be blocked)", true); return; }
+        zip.generateAsync({ type: "blob" }).then((blob) => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url; a.download = safe + ".zip";
+          document.body.appendChild(a); a.click(); a.remove();
+          setTimeout(() => URL.revokeObjectURL(url), 4000);
+          toast("Downloaded " + done + " of " + total + " photo" + (total === 1 ? "" : "s"));
+        });
+      });
+    });
+  }
 
   function openItemModal(panelId, itemId) {
     const p = panelById(panelId);
@@ -3434,6 +3567,35 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
     document.getElementById("lblMain").textContent = p.mainLbl;
     document.getElementById("fMain").value = it.main || "";
+
+    // Weekly-photos "folders": choose an existing folder to add to, or create a new one.
+    const fldFolder = document.getElementById("fldFolder");
+    const fFolder = document.getElementById("fFolder");
+    if (kind === "photos") {
+      fldFolder.style.display = "";
+      const existing = (state.panels[panelId] || []);
+      fFolder.innerHTML = `<option value="__new__">\u002b New folder\u2026</option>`
+        + existing.map((f) => `<option value="${f.id}">${esc(f.main || "Untitled folder")}</option>`).join("");
+      fFolder.value = itemId ? itemId : "__new__";
+      const applyFolderChoice = () => {
+        const val = fFolder.value;
+        if (val === "__new__") {
+          editingItem.id = null;
+          document.getElementById("lblMain").textContent = "New folder name";
+          if (!itemId) { document.getElementById("fMain").value = ""; modalPhotos = []; renderModalPhotos(); }
+        } else {
+          const f = existing.find((x) => x.id === val);
+          editingItem.id = val;
+          document.getElementById("lblMain").textContent = "Folder name";
+          document.getElementById("fMain").value = (f && f.main) || "";
+          modalPhotos = (f && f.photos ? f.photos : []).map((x) => Object.assign({}, x));
+          renderModalPhotos();
+        }
+      };
+      fFolder.onchange = applyFolderChoice;
+    } else {
+      fldFolder.style.display = "none";
+    }
 
     const showSub = kind !== "progress" && kind !== "photos" && !p.noSub;
     document.getElementById("fldSub").style.display = showSub ? "" : "none";
@@ -3569,7 +3731,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
     let saved;
     if (id) { saved = state.panels[panel].find((x) => x.id === id); Object.assign(saved, data); }
-    else { saved = Object.assign({ id: uid() }, data); state.panels[panel].push(saved); }
+    else { state.panels[panel] = state.panels[panel] || []; saved = Object.assign({ id: uid() }, data); state.panels[panel].push(saved); }
     stampResolved(saved);
     recordHistory(panel, saved);
     touchPanel(panel); save(); renderPanels(); closeModal("itemModal");
@@ -4137,7 +4299,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   function endPrint() {
     document.body.removeAttribute("data-print");
     document.querySelectorAll(".card.print-this").forEach((c) => c.classList.remove("print-this"));
-    document.querySelectorAll(".photo-item.pf-hide").forEach((li) => li.classList.remove("pf-hide"));
+    document.querySelectorAll(".photo-folder.pf-hide").forEach((li) => li.classList.remove("pf-hide"));
   }
 
   // Photo report: pick which dated folders to include, then print just the weekly-photos panel.
@@ -4161,7 +4323,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     const set = {}; ids.forEach((id) => set[id] = true);
     const card = document.querySelector('.card[data-card="weeklyPhotos"]');
     if (!card) return;
-    card.querySelectorAll(".photo-item[data-folder]").forEach((li) => {
+    card.querySelectorAll(".photo-folder[data-folder]").forEach((li) => {
       if (!set[li.getAttribute("data-folder")]) li.classList.add("pf-hide");
     });
     setPrintLogo();
@@ -4344,6 +4506,15 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("btnModelUpload").onclick = () => document.getElementById("fileModel").click();
     document.getElementById("btnModelUrl").onclick = promptModelUrl;
     document.getElementById("fileModel").onchange = (e) => { const f = (e.target.files || [])[0]; if (f) addModelFile(f); e.target.value = ""; };
+    document.querySelectorAll("#modelToolbar [data-mtool]").forEach((b) => b.onclick = () => {
+      const t = b.getAttribute("data-mtool");
+      if (t === "orbit" || t === "pan") setViewerMode3D(t);
+      else if (t === "zoomin") zoomStep3D(0.8);
+      else if (t === "zoomout") zoomStep3D(1.25);
+      else if (t === "reset") frameAll();
+      else if (t === "full") toggleFullscreen3D();
+    });
+    document.addEventListener("fullscreenchange", () => { setTimeout(() => { if (three) three.resize(); frameAll(); }, 60); });
     document.getElementById("fileGeo").onchange = (e) => {
       const all = Array.from(e.target.files || []);
       if (!all.length) return;
