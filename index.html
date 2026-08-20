@@ -918,9 +918,9 @@ body.locked { overflow: hidden; }
 
 /* ===================== 3D model viewer ===================== */
 #modelCard .model-tools { display: flex; gap: 6px; }
-.model-stage { position: relative; width: 100%; height: 340px; background: linear-gradient(180deg,#f4f7f9,#e7edf1); border-radius: 8px; overflow: hidden; }
+.model-stage { position: relative; width: 100%; height: 340px; background: linear-gradient(180deg,#323b44,#262d34); border-radius: 8px; overflow: hidden; }
 .model-stage .model-canvas { width: 100% !important; height: 100% !important; display: block; }
-.model-empty { position: absolute; inset: 0; display: grid; place-items: center; color: var(--muted); font-size: 13px; padding: 20px; text-align: center; }
+.model-empty { position: absolute; inset: 0; display: grid; place-items: center; color: #cdd6de; font-size: 13px; padding: 20px; text-align: center; }
 .model-list { display: flex; flex-direction: column; gap: 4px; margin-top: 10px; }
 .model-hint { font-size: 12.5px; color: var(--muted); line-height: 1.4; }
 .model-row { display: flex; align-items: center; gap: 6px; border: 1px solid var(--hairline); border-radius: var(--r-sm); padding: 2px 4px 2px 2px; }
@@ -2275,7 +2275,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
   function initThreeViewer(stage) {
     const w = stage.clientWidth || 600, h = stage.clientHeight || 340;
-    const scene = new THREE.Scene(); scene.background = new THREE.Color(0xeef2f5);
+    const scene = new THREE.Scene(); scene.background = new THREE.Color(0x2b333b);   // dark slate so the light-grey model stands out
     const camera = new THREE.PerspectiveCamera(45, w / h, 0.01, 1e7);
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setPixelRatio(window.devicePixelRatio || 1); renderer.setSize(w, h);
@@ -2311,7 +2311,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     cam.position.set(center.x + d, center.y + d * 0.7, center.z + d);
     controls.target.copy(center); controls.update();
     if (three.grid) three.scene.remove(three.grid);
-    three.grid = new THREE.GridHelper(maxDim * 3, 24, 0xccd5dc, 0xe4eaee);
+    three.grid = new THREE.GridHelper(maxDim * 3, 24, 0x6b7a88, 0x424c56);
     three.grid.position.set(center.x, box.min.y, center.z);
     three.scene.add(three.grid);
   }
