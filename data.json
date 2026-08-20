@@ -767,6 +767,25 @@
         "dateRequired": "",
         "wstatus": "",
         "x": {}
+      },
+      {
+        "id": "x0neu6b",
+        "main": "Widgee Xing",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-08-26",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "tc": "1",
+          "utes": "1"
+        }
       }
     ],
     "upcoming": [
@@ -7760,7 +7779,7 @@
       "updated": "2026-08-20T01:52:09.768Z"
     },
     "trafficControl": {
-      "updated": "2026-08-19T05:33:45.820Z"
+      "updated": "2026-08-20T02:26:06.222Z"
     },
     "subbiesToday": {
       "updated": "2026-08-06T23:11:31.334Z"
@@ -10469,6 +10488,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "x0neu6b": {
+      "id": "x0neu6b",
+      "panel": "Traffic Control",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Widgee Xing",
+      "detail": "No. of traffic controllers: 1 · No. of utes: 1",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-26",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-20T02:26:06.222Z",
+      "updatedAt": "2026-08-20T02:26:06.222Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10515,5 +10557,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-20T02:23:56.359Z"
+  "publishedAt": "2026-08-20T02:26:12.495Z"
 }
