@@ -810,6 +810,8 @@ body.viewer .map-hint { display: none !important; }
   body[data-print="report"] .map-card { break-inside: avoid; margin-bottom: 8px; }
   body[data-print="report"] #map { height: 95mm !important; }
   body[data-print="report"] #prodStatsCard { break-inside: avoid; }
+  /* the 3D viewer is a live WebGL canvas — never include it in a printed report */
+  body[data-print] #modelCard { display: none !important; }
 
   /* client report: leave out the map and weather by default */
   body.client[data-print="report"] .map-card,
