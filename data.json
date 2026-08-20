@@ -279,8 +279,8 @@
     },
     {
       "id": "iwuhj2v",
-      "lat": -26.183010841445594,
-      "lng": 152.67635832017805,
+      "lat": -26.183232283903074,
+      "lng": 152.67662120359265,
       "category": "plant",
       "title": "4.5t Excavator",
       "notes": "Trenching Property Connection",
@@ -10232,5 +10232,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-20T01:16:50.446Z"
+  "publishedAt": "2026-08-20T01:18:40.665Z"
 }
