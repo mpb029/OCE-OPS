@@ -702,7 +702,7 @@
           "client": true
         },
         "due": "",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-11",
@@ -710,7 +710,8 @@
         "x": {
           "time": "09:30",
           "supplier": "Nicks Ready Mix"
-        }
+        },
+        "resolvedAt": "2026-08-20T02:20:41.549Z"
       },
       {
         "id": "ts1yvvb",
@@ -728,6 +729,25 @@
         "wstatus": "",
         "x": {
           "supplier": "Reece"
+        }
+      },
+      {
+        "id": "klplgr9",
+        "main": "1m3 32/20/80 + Accelerant",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-26",
+        "wstatus": "",
+        "x": {
+          "time": "11:00",
+          "supplier": "Nicks Ready Mix"
         }
       }
     ],
@@ -855,9 +875,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "inprogress",
+        "wstatus": "completed",
         "startDate": "2026-08-03",
-        "endDate": "2026-08-10"
+        "endDate": "2026-08-10",
+        "resolvedAt": "2026-08-20T02:21:50.200Z"
       },
       {
         "id": "24skqpg",
@@ -871,9 +892,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-12",
-        "wstatus": "",
+        "wstatus": "completed",
         "startDate": "",
-        "endDate": ""
+        "endDate": "",
+        "resolvedAt": "2026-08-20T02:21:37.787Z"
       },
       {
         "id": "bprij8p",
@@ -887,9 +909,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-12",
-        "wstatus": "",
+        "wstatus": "completed",
         "startDate": "",
-        "endDate": ""
+        "endDate": "",
+        "resolvedAt": "2026-08-20T02:21:45.272Z"
       },
       {
         "id": "aq1sv2y",
@@ -987,6 +1010,22 @@
         "dateAssigned": "",
         "dateRequired": "2026-08-19",
         "wstatus": "inprogress",
+        "startDate": "",
+        "endDate": ""
+      },
+      {
+        "id": "a2vhsgc",
+        "main": "Widgee Xing - Connections",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-26",
+        "wstatus": "",
         "startDate": "",
         "endDate": ""
       }
@@ -1208,7 +1247,8 @@
         "team": "site",
         "dateAssigned": "2026-07-28",
         "dateRequired": "2026-07-31",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-20T02:22:23.690Z"
       },
       {
         "id": "u40p70o",
@@ -1498,14 +1538,15 @@
           "client": true
         },
         "due": "",
-        "done": false,
+        "done": true,
         "team": "eng",
         "dateAssigned": "2026-08-04",
         "dateRequired": "2026-08-07",
         "wstatus": "inprogress",
         "x": {
           "action": "Council to set meeting"
-        }
+        },
+        "resolvedAt": "2026-08-20T02:22:26.578Z"
       }
     ],
     "punchlist": [
@@ -7692,10 +7733,10 @@
       "updated": "2026-08-19T22:30:35.833Z"
     },
     "stakeholders": {
-      "updated": "2026-08-06T04:09:02.198Z"
+      "updated": "2026-08-20T02:22:26.578Z"
     },
     "deliveries": {
-      "updated": "2026-08-19T05:38:08.846Z"
+      "updated": "2026-08-20T02:21:23.446Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -7710,7 +7751,7 @@
       "updated": "2026-07-08T01:11:49.778Z"
     },
     "upcoming": {
-      "updated": "2026-08-14T04:20:25.838Z"
+      "updated": "2026-08-20T02:22:12.807Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -7725,7 +7766,7 @@
       "updated": "2026-08-06T23:11:31.334Z"
     },
     "plantTransport": {
-      "updated": "2026-08-09T21:54:46.127Z"
+      "updated": "2026-08-20T02:22:23.690Z"
     },
     "meetings": {
       "updated": "2026-08-11T06:04:12.119Z"
@@ -7741,13 +7782,13 @@
     "qqm9rl2": {
       "id": "qqm9rl2",
       "panel": "Plant Transport",
-      "project": "Cooloola Cove Sludge Pads",
+      "project": "Regionwide Watermain Renewal",
       "title": "Waste removal",
       "detail": "Tree Stumps, General waste",
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -7756,7 +7797,7 @@
       "dateRequired": "2026-07-31",
       "photos": 0,
       "createdAt": "2026-07-28T04:47:17.888Z",
-      "updatedAt": "2026-07-28T04:47:17.888Z",
+      "updatedAt": "2026-08-20T02:22:23.690Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8737,7 +8778,7 @@
       "priority": "",
       "status": "",
       "workStatus": "In Progress",
-      "done": false,
+      "done": true,
       "due": "",
       "start": "",
       "end": "",
@@ -8745,7 +8786,7 @@
       "dateRequired": "2026-08-07",
       "photos": 0,
       "createdAt": "2026-08-04T05:48:11.693Z",
-      "updatedAt": "2026-08-06T04:09:02.198Z",
+      "updatedAt": "2026-08-20T02:22:26.578Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8782,7 +8823,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "2026-08-03",
@@ -8791,7 +8832,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T06:20:35.626Z",
-      "updatedAt": "2026-08-06T03:15:27.048Z",
+      "updatedAt": "2026-08-20T02:21:50.200Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8805,7 +8846,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -8814,7 +8855,7 @@
       "dateRequired": "2026-08-12",
       "photos": 0,
       "createdAt": "2026-08-04T06:20:56.026Z",
-      "updatedAt": "2026-08-11T06:02:12.707Z",
+      "updatedAt": "2026-08-20T02:21:37.787Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8828,7 +8869,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -8837,7 +8878,7 @@
       "dateRequired": "2026-08-12",
       "photos": 0,
       "createdAt": "2026-08-04T06:21:18.131Z",
-      "updatedAt": "2026-08-11T06:03:17.530Z",
+      "updatedAt": "2026-08-20T02:21:45.272Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9174,7 +9215,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "",
       "start": "",
       "end": "",
@@ -9182,7 +9223,7 @@
       "dateRequired": "2026-08-11",
       "photos": 0,
       "createdAt": "2026-08-07T04:47:03.957Z",
-      "updatedAt": "2026-08-09T23:28:31.000Z",
+      "updatedAt": "2026-08-20T02:20:41.549Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10313,6 +10354,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "klplgr9": {
+      "id": "klplgr9",
+      "panel": "Scheduled Deliveries",
+      "project": "Regionwide Watermain Renewal",
+      "title": "1m3 32/20/80 + Accelerant",
+      "detail": "Expected time: 11:00 · Supplier: Nicks Ready Mix",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-26",
+      "photos": 0,
+      "createdAt": "2026-08-20T02:21:23.446Z",
+      "updatedAt": "2026-08-20T02:21:23.446Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "a2vhsgc": {
+      "id": "a2vhsgc",
+      "panel": "Scheduled Works",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Widgee Xing - Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-26",
+      "photos": 0,
+      "createdAt": "2026-08-20T02:22:12.807Z",
+      "updatedAt": "2026-08-20T02:22:12.807Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10359,5 +10446,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-20T01:52:16.114Z"
+  "publishedAt": "2026-08-20T02:23:20.770Z"
 }
