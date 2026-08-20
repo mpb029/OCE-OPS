@@ -2729,7 +2729,50 @@
     ],
     "issuesDelays": [],
     "rfis": [],
-    "incidents": [],
+    "incidents": [
+      {
+        "id": "3k6nf62",
+        "main": "Incorrect Survey BM RL",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "date": "2026-08-19",
+          "detail": "Incorrect RL was identified for BM. BM has not been used to setout any completed works.",
+          "rectification": "Level Up Surveyors confirmed the incorrect RL had been copied wrong to the setout plan. Revised setout plan provided.",
+          "resolution": "Resolved",
+          "dateResolved": "2026-08-19"
+        },
+        "photos": []
+      },
+      {
+        "id": "run5pcf",
+        "main": "Strike on Existing Sewer line",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "date": "2026-08-20",
+          "detail": "Accidental strike, due to inattention",
+          "rectification": "Damage quickly repaired, line was low flow - only 2x home pick up.",
+          "resolution": "Requirement for checking dials to be reinforced during next prestart.",
+          "dateResolved": "2026-08-20"
+        },
+        "photos": []
+      }
+    ],
     "subbiesTomorrow": []
   },
   "mapLayers": [
@@ -7676,7 +7719,7 @@
       "updated": "2026-08-19T05:29:47.020Z"
     },
     "incidents": {
-      "updated": "2026-08-19T22:49:03.168Z"
+      "updated": "2026-08-20T01:31:13.713Z"
     }
   },
   "history": {
@@ -10186,6 +10229,52 @@
       "removed": true,
       "removedAt": "2026-08-20T01:16:42.329Z",
       "removedReason": "deleted"
+    },
+    "3k6nf62": {
+      "id": "3k6nf62",
+      "panel": "Incidents / Events",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Incorrect Survey BM RL",
+      "detail": "Date: 2026-08-19 · Details: Incorrect RL was identified for BM. BM has not been used to setout any completed works. · Rectification: Level Up Surveyors confirmed the incorrect RL had been copied wrong to the setout plan. Revised setout plan provided. · Resolution: Resolved · Date resolved: 2026-08-19",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-20T01:27:59.001Z",
+      "updatedAt": "2026-08-20T01:27:59.001Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "run5pcf": {
+      "id": "run5pcf",
+      "panel": "Incidents / Events",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Strike on Existing Sewer line",
+      "detail": "Date: 2026-08-20 · Details: Accidental strike, due to inattention · Rectification: Damage quickly repaired, line was low flow - only 2x home pick up. · Resolution: Requirement for checking dials to be reinforced during next prestart. · Date resolved: 2026-08-20",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-20T01:31:13.713Z",
+      "updatedAt": "2026-08-20T01:31:13.713Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10232,5 +10321,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-20T01:18:40.665Z"
+  "publishedAt": "2026-08-20T01:31:20.734Z"
 }
