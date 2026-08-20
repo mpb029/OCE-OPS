@@ -2386,7 +2386,7 @@
           "site": true,
           "client": true
         },
-        "pct": 70,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2400,7 +2400,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2428,7 +2428,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 50,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -7772,7 +7772,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-08-20T01:46:36.778Z"
+      "updated": "2026-08-20T02:23:46.669Z"
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
@@ -10400,6 +10400,75 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "9ezdj40": {
+      "id": "9ezdj40",
+      "panel": "Work Packages",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Gympie Rd - Reinstatement",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-20T02:23:33.527Z",
+      "updatedAt": "2026-08-20T02:23:33.527Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "7jxjwj3": {
+      "id": "7jxjwj3",
+      "panel": "Work Packages",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Widgee Xing Rd - WM Main Alignment Install",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-20T02:23:40.067Z",
+      "updatedAt": "2026-08-20T02:23:40.067Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "d1y5rdy": {
+      "id": "d1y5rdy",
+      "panel": "Work Packages",
+      "project": "Regionwide Watermain Renewal",
+      "title": "Widgee Xing Rd - WM Reinstatement",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-20T02:23:46.669Z",
+      "updatedAt": "2026-08-20T02:23:46.669Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10446,5 +10515,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-20T02:23:20.770Z"
+  "publishedAt": "2026-08-20T02:23:56.359Z"
 }
