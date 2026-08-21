@@ -552,6 +552,20 @@
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "inprogress"
+      },
+      {
+        "id": "1f0bu21",
+        "main": "Pouring/Benching Base on MH 1",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "inprogress"
       }
     ],
     "deliveries": [
@@ -722,14 +736,15 @@
           "client": false
         },
         "due": "2026-08-20",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
         "x": {
           "supplier": "Reece"
-        }
+        },
+        "resolvedAt": "2026-08-21T02:16:40.106Z"
       },
       {
         "id": "klplgr9",
@@ -995,7 +1010,7 @@
         "sub": "",
         "team": "site",
         "dateAssigned": "",
-        "dateRequired": "2026-08-19",
+        "dateRequired": "2026-08-28",
         "wstatus": "inprogress",
         "startDate": "",
         "endDate": ""
@@ -1028,9 +1043,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-19",
-        "wstatus": "inprogress",
+        "wstatus": "completed",
         "startDate": "",
-        "endDate": ""
+        "endDate": "",
+        "resolvedAt": "2026-08-21T02:17:40.161Z"
       },
       {
         "id": "a2vhsgc",
@@ -2823,7 +2839,22 @@
         "status": "pending"
       }
     ],
-    "issuesDelays": [],
+    "issuesDelays": [
+      {
+        "id": "wt95g8i",
+        "main": "Progress constrained - Cannot start laying out sewer from MH until SW clash is resolved. Waiting on direction from Council",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      }
+    ],
     "rfis": [],
     "incidents": [
       {
@@ -7785,7 +7816,7 @@
       "updated": "2026-08-20T02:22:26.578Z"
     },
     "deliveries": {
-      "updated": "2026-08-20T02:21:23.446Z"
+      "updated": "2026-08-21T02:16:40.106Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -7797,16 +7828,16 @@
       "updated": "2026-08-19T22:54:37.485Z"
     },
     "issuesDelays": {
-      "updated": "2026-07-08T01:11:49.778Z"
+      "updated": "2026-08-21T02:19:57.226Z"
     },
     "upcoming": {
-      "updated": "2026-08-20T02:22:12.807Z"
+      "updated": "2026-08-21T02:17:40.161Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
     },
     "dailyWorks": {
-      "updated": "2026-08-20T01:52:09.768Z"
+      "updated": "2026-08-21T02:21:12.463Z"
     },
     "trafficControl": {
       "updated": "2026-08-20T02:26:06.222Z"
@@ -9752,10 +9783,10 @@
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-08-19",
+      "dateRequired": "2026-08-28",
       "photos": 0,
       "createdAt": "2026-08-14T03:50:00.535Z",
-      "updatedAt": "2026-08-14T03:50:00.535Z",
+      "updatedAt": "2026-08-21T02:17:31.603Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9792,7 +9823,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -9801,7 +9832,7 @@
       "dateRequired": "2026-08-19",
       "photos": 0,
       "createdAt": "2026-08-14T03:52:27.594Z",
-      "updatedAt": "2026-08-14T03:52:27.594Z",
+      "updatedAt": "2026-08-21T02:17:40.161Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10276,7 +10307,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-08-20",
       "start": "",
       "end": "",
@@ -10284,7 +10315,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-19T05:37:59.343Z",
-      "updatedAt": "2026-08-19T05:37:59.343Z",
+      "updatedAt": "2026-08-21T02:16:40.106Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10399,7 +10430,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-20T01:52:09.768Z",
-      "updatedAt": "2026-08-20T01:52:09.768Z",
+      "updatedAt": "2026-08-21T02:17:18.177Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10564,6 +10595,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "1f0bu21": {
+      "id": "1f0bu21",
+      "panel": "Daily Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Pouring/Benching Base on MH 1",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-21T02:17:04.954Z",
+      "updatedAt": "2026-08-21T02:21:12.463Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "wt95g8i": {
+      "id": "wt95g8i",
+      "panel": "Potential Issues & Delays",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Progress constrained - Cannot start laying out sewer from MH until SW clash is resolved. Waiting on direction from Council",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-21T02:19:39.487Z",
+      "updatedAt": "2026-08-21T02:19:57.226Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10610,5 +10687,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-20T03:29:21.403Z"
+  "publishedAt": "2026-08-21T02:21:17.969Z"
 }
