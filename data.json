@@ -748,7 +748,7 @@
       },
       {
         "id": "klplgr9",
-        "main": "1m3 32/20/80 + Accelerant",
+        "main": "0.6 m3 32/20/80 + Accelerant",
         "project": "default",
         "vis": {
           "site": true,
@@ -761,7 +761,7 @@
         "dateRequired": "2026-08-26",
         "wstatus": "",
         "x": {
-          "time": "11:00",
+          "time": "10:30",
           "supplier": "Nicks Ready Mix"
         }
       }
@@ -811,7 +811,7 @@
           "client": true
         },
         "due": "2026-08-24",
-        "done": false,
+        "done": true,
         "team": "eng",
         "dateAssigned": "",
         "dateRequired": "",
@@ -819,7 +819,8 @@
         "x": {
           "tc": "1",
           "utes": "1"
-        }
+        },
+        "resolvedAt": "2026-08-25T22:20:05.724Z"
       }
     ],
     "upcoming": [
@@ -1851,6 +1852,20 @@
         "dateAssigned": "",
         "dateRequired": "2026-07-28",
         "wstatus": "completed"
+      },
+      {
+        "id": "rqowc8g",
+        "main": "50sqm Winter green - Widgee Crossing",
+        "project": "default",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Roberts - Bells Bridge",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-08-28",
+        "wstatus": ""
       }
     ],
     "meetings": [
@@ -7826,7 +7841,7 @@
       "updated": "2026-08-20T02:26:35.473Z"
     },
     "materialPickup": {
-      "updated": "2026-07-30T02:51:33.430Z"
+      "updated": "2026-08-25T22:19:49.213Z"
     },
     "qualityTesting": {
       "updated": "2026-08-19T22:30:35.833Z"
@@ -7835,7 +7850,7 @@
       "updated": "2026-08-20T02:22:26.578Z"
     },
     "deliveries": {
-      "updated": "2026-08-21T02:16:40.106Z"
+      "updated": "2026-08-25T22:20:39.107Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -7859,7 +7874,7 @@
       "updated": "2026-08-21T02:21:12.463Z"
     },
     "trafficControl": {
-      "updated": "2026-08-21T02:31:47.416Z"
+      "updated": "2026-08-25T22:20:05.724Z"
     },
     "subbiesToday": {
       "updated": "2026-08-20T02:27:25.757Z"
@@ -10458,8 +10473,8 @@
       "id": "klplgr9",
       "panel": "Scheduled Deliveries",
       "project": "Regionwide Watermain Renewal",
-      "title": "1m3 32/20/80 + Accelerant",
-      "detail": "Expected time: 11:00 · Supplier: Nicks Ready Mix",
+      "title": "0.6 m3 32/20/80 + Accelerant",
+      "detail": "Expected time: 10:30 · Supplier: Nicks Ready Mix",
       "team": "Engineering",
       "priority": "",
       "status": "",
@@ -10472,7 +10487,7 @@
       "dateRequired": "2026-08-26",
       "photos": 0,
       "createdAt": "2026-08-20T02:21:23.446Z",
-      "updatedAt": "2026-08-20T02:21:23.446Z",
+      "updatedAt": "2026-08-25T22:20:39.107Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10671,7 +10686,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-08-24",
       "start": "",
       "end": "",
@@ -10679,7 +10694,30 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-21T02:31:47.416Z",
-      "updatedAt": "2026-08-21T02:31:47.416Z",
+      "updatedAt": "2026-08-25T22:20:05.724Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "rqowc8g": {
+      "id": "rqowc8g",
+      "panel": "Material/Equipment Pick Up",
+      "project": "Regionwide Watermain Renewal",
+      "title": "50sqm Winter green - Widgee Crossing",
+      "detail": "Roberts - Bells Bridge",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-08-28",
+      "photos": 0,
+      "createdAt": "2026-08-25T22:19:35.631Z",
+      "updatedAt": "2026-08-25T22:19:49.213Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10729,5 +10767,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-21T02:32:39.397Z"
+  "publishedAt": "2026-08-25T22:36:24.177Z"
 }
