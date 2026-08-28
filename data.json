@@ -537,7 +537,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "inprogress"
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-28T01:48:09.501Z"
       },
       {
         "id": "prwkhhd",
@@ -565,7 +566,23 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "inprogress"
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-28T01:48:15.546Z"
+      },
+      {
+        "id": "05ye6bu",
+        "main": "Backfilling new MH",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-28T01:48:59.593Z"
       }
     ],
     "deliveries": [
@@ -1031,9 +1048,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-28",
-        "wstatus": "inprogress",
+        "wstatus": "completed",
         "startDate": "",
-        "endDate": ""
+        "endDate": "",
+        "resolvedAt": "2026-08-28T01:48:25.259Z"
       },
       {
         "id": "pzuj10s",
@@ -1047,9 +1065,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "2026-08-21",
-        "wstatus": "inprogress",
+        "wstatus": "completed",
         "startDate": "",
-        "endDate": ""
+        "endDate": "",
+        "resolvedAt": "2026-08-28T01:48:33.475Z"
       },
       {
         "id": "l5uec2f",
@@ -2575,7 +2594,7 @@
           "site": true,
           "client": true
         },
-        "pct": 45,
+        "pct": 80,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2589,7 +2608,7 @@
           "site": true,
           "client": true
         },
-        "pct": 25,
+        "pct": 75,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2659,7 +2678,7 @@
           "site": true,
           "client": false
         },
-        "pct": 50,
+        "pct": 65,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2864,12 +2883,31 @@
         },
         "sub": "Quote submitted",
         "due": "",
-        "done": false,
+        "done": true,
         "team": "eng",
         "dateAssigned": "2026-08-04",
         "dateRequired": "",
         "wstatus": "inprogress",
         "ref": "VR#01",
+        "status": "pending",
+        "resolvedAt": "2026-08-28T01:50:19.437Z"
+      },
+      {
+        "id": "4z8j3l9",
+        "main": "New alignment",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "In progress",
+        "due": "2026-08-28",
+        "done": false,
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "ref": "VR#02 - New SW Alignment",
         "status": "pending"
       }
     ],
@@ -2883,10 +2921,11 @@
           "client": true
         },
         "sub": "",
-        "team": "",
+        "team": "eng",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-08-28T01:50:08.158Z"
       }
     ],
     "rfis": [],
@@ -2937,181 +2976,6 @@
     "subbiesTomorrow": []
   },
   "mapLayers": [
-    {
-      "id": "6br6fsi",
-      "name": "Widgee Xing Alignment",
-      "color": "#2f6fb0",
-      "visible": true,
-      "data": {
-        "type": "FeatureCollection",
-        "name": "Widgee Xing Alignment",
-        "features": [
-          {
-            "type": "Feature",
-            "properties": {
-              "Layer": "UT-WAT-GEN-D",
-              "PaperSpace": null,
-              "SubClasses": "AcDbEntity:AcDbPolyline",
-              "Linetype": null,
-              "EntityHandle": "23F",
-              "Text": null
-            },
-            "geometry": {
-              "type": "LineString",
-              "coordinates": [
-                [
-                  152.6430992542437,
-                  -26.183536093934507,
-                  0
-                ],
-                [
-                  152.64311451828078,
-                  -26.18353454185051,
-                  0
-                ],
-                [
-                  152.64312317111057,
-                  -26.183540771470785,
-                  0
-                ],
-                [
-                  152.64321711557125,
-                  -26.183531263593316,
-                  0
-                ],
-                [
-                  152.6434877201223,
-                  -26.18351326480447,
-                  0
-                ],
-                [
-                  152.64362245032652,
-                  -26.183509401964795,
-                  0
-                ],
-                [
-                  152.64380651099904,
-                  -26.18350074145919,
-                  0
-                ],
-                [
-                  152.6439387135254,
-                  -26.183494673519462,
-                  0
-                ],
-                [
-                  152.6441710365867,
-                  -26.183497842067798,
-                  0
-                ],
-                [
-                  152.6442330440637,
-                  -26.183502301694606,
-                  0
-                ],
-                [
-                  152.64457091576014,
-                  -26.18352886573845,
-                  0
-                ],
-                [
-                  152.64490878761976,
-                  -26.183555428990505,
-                  0
-                ],
-                [
-                  152.64512880880054,
-                  -26.183575369870233,
-                  0
-                ],
-                [
-                  152.6455080065325,
-                  -26.1836023464936,
-                  0
-                ],
-                [
-                  152.64605639735294,
-                  -26.183647194406635,
-                  0
-                ],
-                [
-                  152.64639233907513,
-                  -26.18367025122889,
-                  0
-                ],
-                [
-                  152.6464073073807,
-                  -26.183671278536107,
-                  0
-                ],
-                [
-                  152.6464222886308,
-                  -26.183659672656667,
-                  0
-                ],
-                [
-                  152.64643725693531,
-                  -26.183660699960754,
-                  0
-                ]
-              ]
-            }
-          },
-          {
-            "type": "Feature",
-            "properties": {
-              "Layer": "UT-WAT-GEN-D",
-              "PaperSpace": null,
-              "SubClasses": "AcDbEntity:AcDbPolyline",
-              "Linetype": null,
-              "EntityHandle": "240",
-              "Text": null
-            },
-            "geometry": {
-              "type": "LineString",
-              "coordinates": [
-                [
-                  152.64313903507667,
-                  -26.18355019474452,
-                  0
-                ],
-                [
-                  152.64313875853242,
-                  -26.183539193912235,
-                  0
-                ]
-              ]
-            }
-          },
-          {
-            "type": "Feature",
-            "properties": {
-              "Layer": "UT-WAT-GEN-D",
-              "PaperSpace": null,
-              "SubClasses": "AcDbEntity:AcDbPolyline",
-              "Linetype": null,
-              "EntityHandle": "241",
-              "Text": null
-            },
-            "geometry": {
-              "type": "LineString",
-              "coordinates": [
-                [
-                  152.64321868407515,
-                  -26.18354562282791,
-                  63.75944922173677
-                ],
-                [
-                  152.64321798617078,
-                  -26.183530815002914,
-                  63.75944922173677
-                ]
-              ]
-            }
-          }
-        ]
-      }
-    },
     {
       "id": "by1elcw",
       "name": "Andrew St - Sewer",
@@ -7859,19 +7723,19 @@
       "updated": "2026-07-08T01:11:45.481Z"
     },
     "variations": {
-      "updated": "2026-08-19T22:54:37.485Z"
+      "updated": "2026-08-28T01:53:50.980Z"
     },
     "issuesDelays": {
-      "updated": "2026-08-21T02:19:57.226Z"
+      "updated": "2026-08-28T01:50:08.158Z"
     },
     "upcoming": {
-      "updated": "2026-08-21T02:17:40.161Z"
+      "updated": "2026-08-28T01:48:33.475Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
     },
     "dailyWorks": {
-      "updated": "2026-08-21T02:21:12.463Z"
+      "updated": "2026-08-28T01:48:59.593Z"
     },
     "trafficControl": {
       "updated": "2026-08-25T22:20:05.724Z"
@@ -7886,7 +7750,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-08-20T02:23:46.669Z"
+      "updated": "2026-08-28T01:49:44.485Z"
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
@@ -8302,7 +8166,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:10:26.373Z",
-      "updatedAt": "2026-08-17T22:45:13.294Z",
+      "updatedAt": "2026-08-28T01:49:22.955Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8325,7 +8189,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:11:48.249Z",
-      "updatedAt": "2026-08-20T01:46:36.778Z",
+      "updatedAt": "2026-08-28T01:49:30.959Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8440,7 +8304,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:14:23.375Z",
-      "updatedAt": "2026-08-19T05:29:32.185Z",
+      "updatedAt": "2026-08-28T01:49:44.485Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8910,12 +8774,12 @@
       "panel": "Variations",
       "project": "G4N Sewer Main Replacement",
       "title": "Sewer Connection to Lot01 MPH6306 No.20 Andrew St",
-      "detail": "OCE developing quote",
+      "detail": "Quote submitted",
       "team": "Engineering",
       "priority": "",
       "status": "Pending",
       "workStatus": "In Progress",
-      "done": false,
+      "done": true,
       "due": "",
       "start": "",
       "end": "",
@@ -8923,7 +8787,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-04T06:18:17.961Z",
-      "updatedAt": "2026-08-04T06:18:37.832Z",
+      "updatedAt": "2026-08-28T01:50:19.437Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9811,7 +9675,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -9820,7 +9684,7 @@
       "dateRequired": "2026-08-28",
       "photos": 0,
       "createdAt": "2026-08-14T03:50:00.535Z",
-      "updatedAt": "2026-08-21T02:17:31.603Z",
+      "updatedAt": "2026-08-28T01:48:25.259Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9834,7 +9698,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -9843,7 +9707,7 @@
       "dateRequired": "2026-08-21",
       "photos": 0,
       "createdAt": "2026-08-14T03:51:29.479Z",
-      "updatedAt": "2026-08-14T04:20:25.838Z",
+      "updatedAt": "2026-08-28T01:48:33.475Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10248,7 +10112,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -10257,7 +10121,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-19T05:26:30.127Z",
-      "updatedAt": "2026-08-19T05:26:30.127Z",
+      "updatedAt": "2026-08-28T01:48:09.501Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10639,7 +10503,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -10648,7 +10512,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-21T02:17:04.954Z",
-      "updatedAt": "2026-08-21T02:21:12.463Z",
+      "updatedAt": "2026-08-28T01:48:15.546Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10659,10 +10523,10 @@
       "project": "G4N Sewer Main Replacement",
       "title": "Progress constrained - Cannot start laying out sewer from MH until SW clash is resolved. Waiting on direction from Council",
       "detail": "",
-      "team": "",
+      "team": "Engineering",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -10671,7 +10535,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-21T02:19:39.487Z",
-      "updatedAt": "2026-08-21T02:19:57.226Z",
+      "updatedAt": "2026-08-28T01:50:08.158Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10721,6 +10585,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "05ye6bu": {
+      "id": "05ye6bu",
+      "panel": "Daily Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Backfilling new MH",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-28T01:48:59.593Z",
+      "updatedAt": "2026-08-28T01:48:59.593Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "4z8j3l9": {
+      "id": "4z8j3l9",
+      "panel": "Variations",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New alignment",
+      "detail": "In progress",
+      "team": "Engineering",
+      "priority": "",
+      "status": "Pending",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-08-28",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-08-28T01:53:13.449Z",
+      "updatedAt": "2026-08-28T01:53:50.980Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10745,12 +10655,12 @@
       "status": "green",
       "statusComment": "150mm Sewer Alignment to G4n16/6a",
       "stage": "Sewer Pipe Installation",
-      "milestone": "1st New MH Install",
-      "achievement": "no.20 and no.22 House connection - main alignment completed",
-      "clientAction": "Direction in relation to ex.SW Clash",
+      "milestone": "D/way Drill",
+      "achievement": "2x New MH built",
+      "clientAction": "None",
       "risk": "",
       "impacts": "",
-      "scope": ""
+      "scope": "New SW works - approved in principle - GRC awaiting Quote"
     },
     "pfvstolg": {
       "compType": "exact",
@@ -10767,5 +10677,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-25T22:36:24.177Z"
+  "publishedAt": "2026-08-28T01:54:33.661Z"
 }
