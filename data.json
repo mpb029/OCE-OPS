@@ -583,6 +583,20 @@
         "dateRequired": "",
         "wstatus": "completed",
         "resolvedAt": "2026-08-28T01:48:59.593Z"
+      },
+      {
+        "id": "pbegyyr",
+        "main": "Complete DN225 SEW and penetration into existing MH",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "2026-09-04",
+        "wstatus": ""
       }
     ],
     "deliveries": [
@@ -780,6 +794,24 @@
         "x": {
           "time": "10:30",
           "supplier": "Nicks Ready Mix"
+        }
+      },
+      {
+        "id": "4d52xd2",
+        "main": "VR#02 - SW Items",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "2026-09-07",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "supplier": "Reece"
         }
       }
     ],
@@ -2696,7 +2728,7 @@
           "site": true,
           "client": false
         },
-        "pct": 80,
+        "pct": 90,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2903,7 +2935,7 @@
           "site": true,
           "client": true
         },
-        "sub": "TBC",
+        "sub": "TBC - Next Wednesday 9/09",
         "due": "",
         "done": false,
         "team": "eng",
@@ -7768,13 +7800,13 @@
       "updated": "2026-08-25T22:19:49.213Z"
     },
     "qualityTesting": {
-      "updated": "2026-08-19T22:30:35.833Z"
+      "updated": "2026-09-03T21:44:47.270Z"
     },
     "stakeholders": {
       "updated": "2026-09-03T20:53:52.666Z"
     },
     "deliveries": {
-      "updated": "2026-08-25T22:20:39.107Z"
+      "updated": "2026-09-03T22:13:32.109Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -7795,7 +7827,7 @@
       "updated": "2026-07-23T22:41:33.951Z"
     },
     "dailyWorks": {
-      "updated": "2026-08-28T01:48:59.593Z"
+      "updated": "2026-09-03T21:46:37.446Z"
     },
     "trafficControl": {
       "updated": "2026-08-25T22:20:05.724Z"
@@ -7810,7 +7842,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-09-03T21:42:14.268Z"
+      "updated": "2026-09-03T22:13:55.345Z"
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
@@ -8364,7 +8396,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:14:23.375Z",
-      "updatedAt": "2026-09-03T20:49:36.244Z",
+      "updatedAt": "2026-09-03T22:13:55.345Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10007,20 +10039,20 @@
       "panel": "Quality & Testing",
       "project": "G4N Sewer Main Replacement",
       "title": "CCTV and VAC Test",
-      "detail": "Tests schedule for Wednesday 26/08",
+      "detail": "TBC - Next Wednesday 9/09",
       "team": "Engineering",
       "priority": "",
       "status": "Results pending",
       "workStatus": "",
       "done": false,
-      "due": "2026-08-26",
+      "due": "",
       "start": "",
       "end": "",
       "dateAssigned": "",
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-14T04:09:07.797Z",
-      "updatedAt": "2026-08-14T04:09:40.019Z",
+      "updatedAt": "2026-09-03T21:44:47.270Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10783,6 +10815,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "pbegyyr": {
+      "id": "pbegyyr",
+      "panel": "Daily Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Complete DN225 SEW and penetration into existing MH",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-09-04",
+      "photos": 0,
+      "createdAt": "2026-09-03T21:46:26.321Z",
+      "updatedAt": "2026-09-03T21:46:37.446Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "4d52xd2": {
+      "id": "4d52xd2",
+      "panel": "Scheduled Deliveries",
+      "project": "G4N Sewer Main Replacement",
+      "title": "VR#02 - SW Items",
+      "detail": "Supplier: Reece",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-09-07",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-03T22:13:32.109Z",
+      "updatedAt": "2026-09-03T22:13:32.109Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10805,14 +10883,14 @@
       "comp": "Mid-Late September",
       "compDate": "",
       "status": "green",
-      "statusComment": "150mm Sewer Alignment to G4n16/6a",
-      "stage": "Sewer Pipe Installation",
-      "milestone": "D/way Drill",
-      "achievement": "2x New MH built",
-      "clientAction": "None",
+      "statusComment": "New Sewer and Water near completion. Drill under driveway failed-off alignment - now trenching through",
+      "stage": "SEW & WAT Installation",
+      "milestone": "SEW penetration into top ex.MH 7a",
+      "achievement": "2nd MH Built and backfilled",
+      "clientAction": "VR#02 submitted for review and approval",
       "risk": "",
-      "impacts": "",
-      "scope": "New SW works - approved in principle - GRC awaiting Quote"
+      "impacts": "None - Weather forecast looks good, proceeding with SW VR Mid next week",
+      "scope": "New SW works - approved in principle -  Quote submitted"
     },
     "pfvstolg": {
       "compType": "exact",
@@ -10829,5 +10907,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-03T21:43:58.068Z"
+  "publishedAt": "2026-09-03T22:21:16.623Z"
 }
