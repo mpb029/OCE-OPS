@@ -1642,6 +1642,24 @@
           "action": "Council to set meeting"
         },
         "resolvedAt": "2026-08-20T02:22:26.578Z"
+      },
+      {
+        "id": "resztm2",
+        "main": "No.11 Driveway Access Impact; Works In progress - New Sewer placement across d/way",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "due": "",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "action": "Resident notified and agreeable. Access returned by EOD."
+        }
       }
     ],
     "punchlist": [
@@ -2594,7 +2612,7 @@
           "site": true,
           "client": true
         },
-        "pct": 80,
+        "pct": 95,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2678,7 +2696,7 @@
           "site": true,
           "client": false
         },
-        "pct": 65,
+        "pct": 80,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2763,6 +2781,48 @@
           "client": true
         },
         "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "p6rqs7c",
+        "main": "VR#02 - 23m of New DN450 SW",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "j6mmcyr",
+        "main": "VR#02 - New DN1050 SW MH",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 0,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
+      },
+      {
+        "id": "hondzmh",
+        "main": "VR#01 - New SEW Property Connection no.20",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -2894,20 +2954,20 @@
       },
       {
         "id": "4z8j3l9",
-        "main": "New alignment",
+        "main": "New DN450 Stormpro SW Install",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
           "client": true
         },
-        "sub": "In progress",
-        "due": "2026-08-28",
+        "sub": "Submitted - Under GRC review",
+        "due": "",
         "done": false,
         "team": "eng",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
-        "ref": "VR#02 - New SW Alignment",
+        "ref": "VR#02 - New DN450 Stormpro SW Install & DN1050 MH",
         "status": "pending"
       }
     ],
@@ -7711,7 +7771,7 @@
       "updated": "2026-08-19T22:30:35.833Z"
     },
     "stakeholders": {
-      "updated": "2026-08-20T02:22:26.578Z"
+      "updated": "2026-09-03T20:53:52.666Z"
     },
     "deliveries": {
       "updated": "2026-08-25T22:20:39.107Z"
@@ -7723,7 +7783,7 @@
       "updated": "2026-07-08T01:11:45.481Z"
     },
     "variations": {
-      "updated": "2026-08-28T01:53:50.980Z"
+      "updated": "2026-09-03T20:51:25.944Z"
     },
     "issuesDelays": {
       "updated": "2026-08-28T01:50:08.158Z"
@@ -7750,7 +7810,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-08-28T01:49:44.485Z"
+      "updated": "2026-09-03T21:42:14.268Z"
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
@@ -8166,7 +8226,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:10:26.373Z",
-      "updatedAt": "2026-08-28T01:49:22.955Z",
+      "updatedAt": "2026-09-03T20:50:00.245Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8304,7 +8364,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:14:23.375Z",
-      "updatedAt": "2026-08-28T01:49:44.485Z",
+      "updatedAt": "2026-09-03T20:49:36.244Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10613,21 +10673,113 @@
       "id": "4z8j3l9",
       "panel": "Variations",
       "project": "G4N Sewer Main Replacement",
-      "title": "New alignment",
-      "detail": "In progress",
+      "title": "New DN450 Stormpro SW Install",
+      "detail": "Submitted - Under GRC review",
       "team": "Engineering",
       "priority": "",
       "status": "Pending",
       "workStatus": "",
       "done": false,
-      "due": "2026-08-28",
+      "due": "",
       "start": "",
       "end": "",
       "dateAssigned": "",
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-28T01:53:13.449Z",
-      "updatedAt": "2026-08-28T01:53:50.980Z",
+      "updatedAt": "2026-09-03T20:51:25.944Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "resztm2": {
+      "id": "resztm2",
+      "panel": "Stakeholders",
+      "project": "G4N Sewer Main Replacement",
+      "title": "No.11 Driveway Access Impact; Works In progress - New Sewer placement across d/way",
+      "detail": "Action required: Resident notified and agreeable. Access returned by EOD.",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-03T20:53:29.070Z",
+      "updatedAt": "2026-09-03T20:53:52.666Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "p6rqs7c": {
+      "id": "p6rqs7c",
+      "panel": "Work Packages",
+      "project": "G4N Sewer Main Replacement",
+      "title": "VR#02 - 23m of New DN450 SW",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-03T21:40:54.509Z",
+      "updatedAt": "2026-09-03T21:40:54.509Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "j6mmcyr": {
+      "id": "j6mmcyr",
+      "panel": "Work Packages",
+      "project": "G4N Sewer Main Replacement",
+      "title": "VR#02 - New DN1050 SW MH",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-03T21:41:14.480Z",
+      "updatedAt": "2026-09-03T21:41:14.480Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "hondzmh": {
+      "id": "hondzmh",
+      "panel": "Work Packages",
+      "project": "G4N Sewer Main Replacement",
+      "title": "VR#01 - New SEW Property Connection no.20",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-03T21:42:14.268Z",
+      "updatedAt": "2026-09-03T21:42:14.268Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10677,5 +10829,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-08-28T01:54:33.661Z"
+  "publishedAt": "2026-09-03T21:43:58.068Z"
 }
