@@ -7825,6 +7825,10 @@
     "incidents": {
       "site": true,
       "client": true
+    },
+    "rfis": {
+      "site": true,
+      "client": true
     }
   },
   "panelMeta": {
@@ -7889,7 +7893,7 @@
       "updated": "2026-08-20T01:31:13.713Z"
     },
     "rfis": {
-      "updated": "2026-09-03T23:23:31.921Z"
+      "updated": "2026-09-03T23:24:24.282Z"
     }
   },
   "history": {
@@ -10997,5 +11001,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-03T23:24:02.538Z"
+  "publishedAt": "2026-09-03T23:24:26.704Z"
 }
