@@ -38,6 +38,13 @@
         "client-default",
         "ciu8dcxz"
       ]
+    },
+    {
+      "id": "py0cs3dz",
+      "name": "SPS G1B Renewal",
+      "clients": [
+        "ciu8dcxz"
+      ]
     }
   ],
   "base": "sat",
@@ -3036,7 +3043,25 @@
         "resolvedAt": "2026-08-28T01:50:08.158Z"
       }
     ],
-    "rfis": [],
+    "rfis": [
+      {
+        "id": "qq3rikz",
+        "main": "RFI001 - Everhard Septic Tank Alternative",
+        "project": "py0cs3dz",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "x": {
+          "detail": "Nominated Concrete Septic Tank discontinued - Request for alternative nominated",
+          "dateReq": "2026-09-04"
+        }
+      }
+    ],
     "incidents": [
       {
         "id": "3k6nf62",
@@ -7862,6 +7887,9 @@
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
+    },
+    "rfis": {
+      "updated": "2026-09-03T23:23:31.921Z"
     }
   },
   "history": {
@@ -10900,6 +10928,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "qq3rikz": {
+      "id": "qq3rikz",
+      "panel": "RFIs",
+      "project": "SPS G1B Renewal",
+      "title": "RFI001 - Everhard Septic Tank Alternative",
+      "detail": "Information requested: Nominated Concrete Septic Tank discontinued - Request for alternative nominated · Date requested: 2026-09-04",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-03T23:23:31.921Z",
+      "updatedAt": "2026-09-03T23:23:31.921Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10946,5 +10997,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-03T22:27:51.725Z"
+  "publishedAt": "2026-09-03T23:24:02.538Z"
 }
