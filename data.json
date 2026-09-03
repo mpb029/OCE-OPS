@@ -1134,6 +1134,22 @@
         "wstatus": "",
         "startDate": "",
         "endDate": ""
+      },
+      {
+        "id": "ohgryzj",
+        "main": "VR#02 - New SW and MH Installation",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-09-09",
+        "endDate": "2026-09-15"
       }
     ],
     "subbiesToday": [
@@ -7821,7 +7837,7 @@
       "updated": "2026-08-28T01:50:08.158Z"
     },
     "upcoming": {
-      "updated": "2026-08-28T01:48:33.475Z"
+      "updated": "2026-09-03T22:27:18.378Z"
     },
     "siteInputs": {
       "updated": "2026-07-23T22:41:33.951Z"
@@ -10861,6 +10877,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "ohgryzj": {
+      "id": "ohgryzj",
+      "panel": "Scheduled Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "VR#02 - New SW and MH Installation",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-09-09",
+      "end": "2026-09-15",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-03T22:27:18.378Z",
+      "updatedAt": "2026-09-03T22:27:18.378Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -10907,5 +10946,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-03T22:22:32.459Z"
+  "publishedAt": "2026-09-03T22:27:51.725Z"
 }
