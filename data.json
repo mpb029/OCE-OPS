@@ -283,7 +283,7 @@
       "lng": 152.6763580988137,
       "category": "plant",
       "title": "4.5t Excavator",
-      "notes": "Trenching Property Connection",
+      "notes": "Backfill/clean up",
       "ts": 1785793803959,
       "vis": {
         "site": true,
@@ -297,7 +297,7 @@
       "lng": 152.67628830817313,
       "category": "plant",
       "title": "13T Ex",
-      "notes": "Trenching WM",
+      "notes": "lead digger",
       "ts": 1786428305645,
       "vis": {
         "site": true,
@@ -10907,5 +10907,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-03T22:21:29.822Z"
+  "publishedAt": "2026-09-03T22:22:32.459Z"
 }
