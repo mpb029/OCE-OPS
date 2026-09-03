@@ -279,8 +279,8 @@
     },
     {
       "id": "iwuhj2v",
-      "lat": -26.183232283903074,
-      "lng": 152.67662120359265,
+      "lat": -26.182216533516698,
+      "lng": 152.6763580988137,
       "category": "plant",
       "title": "4.5t Excavator",
       "notes": "Trenching Property Connection",
@@ -293,8 +293,8 @@
     },
     {
       "id": "jqvvr5q",
-      "lat": -26.18280865448647,
-      "lng": 152.67666666306323,
+      "lat": -26.18207211331156,
+      "lng": 152.67628830817313,
       "category": "plant",
       "title": "13T Ex",
       "notes": "Trenching WM",
@@ -10907,5 +10907,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-03T22:21:16.623Z"
+  "publishedAt": "2026-09-03T22:21:29.822Z"
 }
