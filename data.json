@@ -2045,362 +2045,489 @@
     ],
     "weeklyPhotos": [
       {
-        "id": "vbeqqlb",
-        "main": "Bypass - Hydro Test Rig",
+        "id": "yldi4jj",
+        "main": "Stormwater Extension",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
+        "x": {
+          "folderDate": "2026-09-04"
+        },
         "photos": [
           {
-            "name": "IMG_3991.JPG",
-            "path": "files/photos/yjgnql6-IMG_3991.JPG",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/yjgnql6-IMG_3991.JPG",
-            "sha": "e70e56855a65504044d37a4046b3237b0b44bd39",
-            "size": 508735,
-            "mime": "image/jpeg"
+            "name": "SW_Headwall_02.png",
+            "path": "files/photos/7w0cfn9-SW_Headwall_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/7w0cfn9-SW_Headwall_02.png",
+            "sha": "8db77cef86e12d0c106070c0903d1c01a2c221c8",
+            "size": 1735200,
+            "mime": "image/png"
+          },
+          {
+            "name": "SW_CONC_BDG_03.png",
+            "path": "files/photos/hya3485-SW_CONC_BDG_03.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/hya3485-SW_CONC_BDG_03.png",
+            "sha": "c3f73830c93f3441970bbc51e3e9001c8a7c211a",
+            "size": 1787255,
+            "mime": "image/png"
+          },
+          {
+            "name": "SW_CONC_BDG_04.png",
+            "path": "files/photos/wrm1rez-SW_CONC_BDG_04.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/wrm1rez-SW_CONC_BDG_04.png",
+            "sha": "d0bec365eb944844341a7d85c58cb2b7f97bd491",
+            "size": 1951892,
+            "mime": "image/png"
+          },
+          {
+            "name": "SW_Headwall_01.png",
+            "path": "files/photos/kfar4cc-SW_Headwall_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/kfar4cc-SW_Headwall_01.png",
+            "sha": "6c4ea0e87a98c8b13fb4cb3100bb4ad72608dd05",
+            "size": 1595851,
+            "mime": "image/png"
+          },
+          {
+            "name": "SW_Ratwall_EXCV_01.png",
+            "path": "files/photos/cpq6n29-SW_Ratwall_EXCV_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/cpq6n29-SW_Ratwall_EXCV_01.png",
+            "sha": "a65918a88f4b324cd40445a1d87cf78128d20fd3",
+            "size": 2207785,
+            "mime": "image/png"
+          },
+          {
+            "name": "SW_Ratwall_Form up_03.png",
+            "path": "files/photos/cr80t51-SW_Ratwall_Form_up_03.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/cr80t51-SW_Ratwall_Form_up_03.png",
+            "sha": "b5237b128cb7f7f34b681cf6b52094502edbb949",
+            "size": 1494853,
+            "mime": "image/png"
           }
         ]
       },
       {
-        "id": "oxvv3ra",
-        "main": "Bypass_Gauge_9:50 AM",
+        "id": "1rl8mf8",
+        "main": "Temp Bypass_Trenchless Road Drill",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
+        "x": {
+          "folderDate": "2026-09-04"
+        },
         "photos": [
           {
-            "name": "IMG_3988.JPG",
-            "path": "files/photos/bpmqxnv-IMG_3988.JPG",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/bpmqxnv-IMG_3988.JPG",
-            "sha": "83f4d57798605413ccf3090e1d8b8fceb6a5f50f",
-            "size": 310978,
-            "mime": "image/jpeg"
+            "name": "Bypass_Drill_03.png",
+            "path": "files/photos/ucfk2s3-Bypass_Drill_03.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ucfk2s3-Bypass_Drill_03.png",
+            "sha": "9e8b5893fc13c484d1400af454aba143fe488f3a",
+            "size": 2945101,
+            "mime": "image/png"
+          },
+          {
+            "name": "Bypass_Drill_Exit_Pit_01.png",
+            "path": "files/photos/8ikeb8l-Bypass_Drill_Exit_Pit_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/8ikeb8l-Bypass_Drill_Exit_Pit_01.png",
+            "sha": "cde8e9c7c752bb676ef6c5875d1623338dc16ff4",
+            "size": 1535562,
+            "mime": "image/png"
+          },
+          {
+            "name": "Bypass_Connection.png",
+            "path": "files/photos/p6jq2d2-Bypass_Connection.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/p6jq2d2-Bypass_Connection.png",
+            "sha": "c6c400d036a9e6ff565d5e094217f9cfdb121a57",
+            "size": 1825787,
+            "mime": "image/png"
+          },
+          {
+            "name": "Bypass_Connection_02.png",
+            "path": "files/photos/kekfgjf-Bypass_Connection_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/kekfgjf-Bypass_Connection_02.png",
+            "sha": "8872a525b9601bc1814086fa2e53d84d8f4f87da",
+            "size": 1702508,
+            "mime": "image/png"
           }
         ]
       },
       {
-        "id": "m0hepuf",
-        "main": "Bypass Gauge_10:00 AM",
+        "id": "7yntwe9",
+        "main": "New DN150 SEW",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
+        "x": {
+          "folderDate": "2026-09-04"
+        },
         "photos": [
           {
-            "name": "IMG_3989.JPG",
-            "path": "files/photos/i201foc-IMG_3989.JPG",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/i201foc-IMG_3989.JPG",
-            "sha": "bf2d2c4c055af1401fb9ec2f5ec6948f4fc821bf",
-            "size": 432879,
-            "mime": "image/jpeg"
+            "name": "DN150_SEW_TRENCH_01.png",
+            "path": "files/photos/ueifv4v-DN150_SEW_TRENCH_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ueifv4v-DN150_SEW_TRENCH_01.png",
+            "sha": "69c9cf4b57fbef57bc07a5639658511afe8a889c",
+            "size": 1862736,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_SEW_TRENCH_02.png",
+            "path": "files/photos/oymctyz-DN150_SEW_TRENCH_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/oymctyz-DN150_SEW_TRENCH_02.png",
+            "sha": "1d03219679792e14527a301b939aa2b6a03a49e3",
+            "size": 1765836,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_SEW_TRENCH_03.png",
+            "path": "files/photos/sfjgtqf-DN150_SEW_TRENCH_03.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/sfjgtqf-DN150_SEW_TRENCH_03.png",
+            "sha": "d6fa046eedc7102de0966149b433abce6e3b0bc9",
+            "size": 1925407,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_SEW_TRENCH_04.png",
+            "path": "files/photos/kijy68c-DN150_SEW_TRENCH_04.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/kijy68c-DN150_SEW_TRENCH_04.png",
+            "sha": "cb30f7c8eabfe71da082a0eb4740fb4c125a4154",
+            "size": 1869347,
+            "mime": "image/png"
           }
         ]
       },
       {
-        "id": "opkgo03",
-        "main": "Bypass Gauge_10:10 AM",
+        "id": "wkfm9gy",
+        "main": "New DN150 WAT Main",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
+        "x": {
+          "folderDate": "2026-09-04"
+        },
         "photos": [
           {
-            "name": "IMG_3990.JPG",
-            "path": "files/photos/nlxd5ld-IMG_3990.JPG",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/nlxd5ld-IMG_3990.JPG",
-            "sha": "1f542970fe4f1f0f0a285b64c429fad8b75f78b5",
-            "size": 400914,
-            "mime": "image/jpeg"
+            "name": "DN150_WAT_THRUST_BLK_06.png",
+            "path": "files/photos/x76auit-DN150_WAT_THRUST_BLK_06.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/x76auit-DN150_WAT_THRUST_BLK_06.png",
+            "sha": "55f217dada0b7c812184cc9319a417e97c196623",
+            "size": 1712879,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_WAT_TRENCH_01.png",
+            "path": "files/photos/cb35yld-DN150_WAT_TRENCH_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/cb35yld-DN150_WAT_TRENCH_01.png",
+            "sha": "0314c24a7c6ac0a375e7d2db37a6c613f0874bfa",
+            "size": 1803300,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_WAT_TRENCH_02.png",
+            "path": "files/photos/jbw8er6-DN150_WAT_TRENCH_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/jbw8er6-DN150_WAT_TRENCH_02.png",
+            "sha": "98c8491257593be0784caf5111fd3c72f6026595",
+            "size": 1837891,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_WAT_TRENCH_07.png",
+            "path": "files/photos/mwymexo-DN150_WAT_TRENCH_07.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/mwymexo-DN150_WAT_TRENCH_07.png",
+            "sha": "69824e238282aeeee5a97927f3ae25cf3c78f3f2",
+            "size": 1723985,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_WAT_VALVE_CUTIN_03.png",
+            "path": "files/photos/3m7jkub-DN150_WAT_VALVE_CUTIN_03.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/3m7jkub-DN150_WAT_VALVE_CUTIN_03.png",
+            "sha": "d919c0aa602d67161bd79e58fcbc1b2b5fba7625",
+            "size": 1038813,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_WAT_TRENCH_09.png",
+            "path": "files/photos/664t8wd-DN150_WAT_TRENCH_09.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/664t8wd-DN150_WAT_TRENCH_09.png",
+            "sha": "e28ab83c548932c495d1b37c657fc23ea505692b",
+            "size": 1545344,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN150_WAT_VALVE_CUTIN_02.png",
+            "path": "files/photos/bygqk2c-DN150_WAT_VALVE_CUTIN_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/bygqk2c-DN150_WAT_VALVE_CUTIN_02.png",
+            "sha": "331969a541a07a7dde9a363546728b27988d163c",
+            "size": 1688380,
+            "mime": "image/png"
           }
         ]
       },
       {
-        "id": "gonob7i",
-        "main": "New Valve_Cutin_Arrangement",
+        "id": "6n10l6d",
+        "main": "New DN225 SEW",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
+        "x": {
+          "folderDate": "2026-09-04"
+        },
         "photos": [
           {
-            "name": "New Valve_Cutin_Arrangement.jpg",
-            "path": "files/photos/chg2ask-New_Valve_Cutin_Arrangement.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/chg2ask-New_Valve_Cutin_Arrangement.jpg",
-            "sha": "1d8e0943f0093cd92a6cbd58550b04a97ae3e24e",
-            "size": 181469,
-            "mime": "image/jpeg"
+            "name": "DN225_SEW_TRENCH_01.png",
+            "path": "files/photos/7msv26i-DN225_SEW_TRENCH_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/7msv26i-DN225_SEW_TRENCH_01.png",
+            "sha": "fa704902c37fc98e7c561ba0463e440d361d051e",
+            "size": 1813947,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN225_SEW_TRENCH_02.png",
+            "path": "files/photos/ulrbuix-DN225_SEW_TRENCH_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ulrbuix-DN225_SEW_TRENCH_02.png",
+            "sha": "1556234414363dec2ab967f567ae3a28932f33f5",
+            "size": 1881167,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN225_SEW_TRENCH_05.png",
+            "path": "files/photos/0fab66h-DN225_SEW_TRENCH_05.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/0fab66h-DN225_SEW_TRENCH_05.png",
+            "sha": "bb86da22f2e774aab4c62306eb77c1424d733d6d",
+            "size": 1601779,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN225_SEW_TRENCH_06.png",
+            "path": "files/photos/ajmhde3-DN225_SEW_TRENCH_06.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ajmhde3-DN225_SEW_TRENCH_06.png",
+            "sha": "376c78e88bd931fd65d0686108428185d4ea83e7",
+            "size": 1654825,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN225_SEW_TRENCH_09.png",
+            "path": "files/photos/63qo3ve-DN225_SEW_TRENCH_09.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/63qo3ve-DN225_SEW_TRENCH_09.png",
+            "sha": "ffebfbee474c7b04c31dcc85498bb4cc33afd8a1",
+            "size": 1886391,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN225_SEW_TRENCH_10.png",
+            "path": "files/photos/2l7owg2-DN225_SEW_TRENCH_10.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/2l7owg2-DN225_SEW_TRENCH_10.png",
+            "sha": "26d8516aedef2bdb61023c011841da45f17aef70",
+            "size": 1781543,
+            "mime": "image/png"
+          },
+          {
+            "name": "DN225_SEW_TRENCH_11.png",
+            "path": "files/photos/hzha8zp-DN225_SEW_TRENCH_11.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/hzha8zp-DN225_SEW_TRENCH_11.png",
+            "sha": "15536efe141cd1288134da543d52a4c0cdd3345c",
+            "size": 1798785,
+            "mime": "image/png"
           }
         ]
       },
       {
-        "id": "b5pjtxk",
-        "main": "New Valve Cut in_02",
+        "id": "2rgg918",
+        "main": "New HCB no.20 Andrew St",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
+        "x": {
+          "folderDate": "2026-09-04"
+        },
         "photos": [
           {
-            "name": "New Valve_Backfill.jpg",
-            "path": "files/photos/gmhgua4-New_Valve_Backfill.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/gmhgua4-New_Valve_Backfill.jpg",
-            "sha": "6515b6be88d6d74474f716cd2d23c2caa46bb8c6",
-            "size": 234842,
-            "mime": "image/jpeg"
+            "name": "NEW_HCB_Trench_01.png",
+            "path": "files/photos/94nvuu8-NEW_HCB_Trench_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/94nvuu8-NEW_HCB_Trench_01.png",
+            "sha": "d7df86b40ca405100f3af1b87735bbd93fdca6ae",
+            "size": 1733158,
+            "mime": "image/png"
+          },
+          {
+            "name": "NEW_HCB_WYE_01.png",
+            "path": "files/photos/0w5curs-NEW_HCB_WYE_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/0w5curs-NEW_HCB_WYE_01.png",
+            "sha": "45ab1f913e6ffcafff8d9720a6f54f0a2da870c1",
+            "size": 1813397,
+            "mime": "image/png"
+          },
+          {
+            "name": "ASCONS.png",
+            "path": "files/photos/nfrc0tu-ASCONS.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/nfrc0tu-ASCONS.png",
+            "sha": "19499f87302d519f02543009eb7e7e32079d1d3d",
+            "size": 1527302,
+            "mime": "image/png"
           }
         ]
       },
       {
-        "id": "jasdmf1",
-        "main": "New Valve Cut in_03",
+        "id": "b32lj09",
+        "main": "NEW SEW MH01",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
+        "x": {
+          "folderDate": "2026-09-04"
+        },
         "photos": [
           {
-            "name": "New Valve_Cutin_Thrust Blocks.jpg",
-            "path": "files/photos/0ip3fbp-New_Valve_Cutin_Thrust_Blocks.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/0ip3fbp-New_Valve_Cutin_Thrust_Blocks.jpg",
-            "sha": "474dee3e7af88407162ec7f91c6071bc461a72ce",
-            "size": 387945,
-            "mime": "image/jpeg"
+            "name": "MH01_EXCV_05.png",
+            "path": "files/photos/b7skprg-MH01_EXCV_05.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/b7skprg-MH01_EXCV_05.png",
+            "sha": "8b9817d341e07dec318066cf2a3994048d85ef86",
+            "size": 1801448,
+            "mime": "image/png"
+          },
+          {
+            "name": "MH01_HYDROTITE_01.png",
+            "path": "files/photos/0xqvw38-MH01_HYDROTITE_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/0xqvw38-MH01_HYDROTITE_01.png",
+            "sha": "423db1e096f16e006633d9a2f72bdb53f224746c",
+            "size": 1823219,
+            "mime": "image/png"
+          },
+          {
+            "name": "MH01_BENCH_01.png",
+            "path": "files/photos/ks7kni2-MH01_BENCH_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ks7kni2-MH01_BENCH_01.png",
+            "sha": "2c9967f24daa26cfcbef3cd5f48caf63947171e7",
+            "size": 1202735,
+            "mime": "image/png"
+          },
+          {
+            "name": "MH01_BASE_03.png",
+            "path": "files/photos/qmqs5lp-MH01_BASE_03.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/qmqs5lp-MH01_BASE_03.png",
+            "sha": "9ab0dcca09c71332ab9858bfb6dc807e58af8210",
+            "size": 1694439,
+            "mime": "image/png"
+          },
+          {
+            "name": "MH01_BASE_02.png",
+            "path": "files/photos/993lgi3-MH01_BASE_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/993lgi3-MH01_BASE_02.png",
+            "sha": "5314aa9d58aef8bbae6460ffd8a809ea0e3d06eb",
+            "size": 1760600,
+            "mime": "image/png"
           }
         ]
       },
       {
-        "id": "0gr7co6",
-        "main": "HDD_BYPASS_INSTALL_01",
+        "id": "7ksit87",
+        "main": "NEW SEW MH02",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
+        "x": {
+          "folderDate": "2026-09-04"
+        },
         "photos": [
           {
-            "name": "HDD_BYPASSDRILL_01.jpg",
-            "path": "files/photos/hh37iw3-HDD_BYPASSDRILL_01.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/hh37iw3-HDD_BYPASSDRILL_01.jpg",
-            "sha": "2f05403415d3495464d9781d35ee1e42af347664",
-            "size": 592831,
-            "mime": "image/jpeg"
+            "name": "MH02_BASE_04.png",
+            "path": "files/photos/ndu9bpn-MH02_BASE_04.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ndu9bpn-MH02_BASE_04.png",
+            "sha": "f9bac439edb8dee7b9f6d3830019f0e09aeb31a0",
+            "size": 1635460,
+            "mime": "image/png"
+          },
+          {
+            "name": "MH02_HYDROTITE_01.png",
+            "path": "files/photos/cy6nwqc-MH02_HYDROTITE_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/cy6nwqc-MH02_HYDROTITE_01.png",
+            "sha": "450397fc0434239b0a507590ff29a97a8e6856f5",
+            "size": 1517146,
+            "mime": "image/png"
+          },
+          {
+            "name": "MH02_BENCH_02.png",
+            "path": "files/photos/mzk33ci-MH02_BENCH_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/mzk33ci-MH02_BENCH_02.png",
+            "sha": "92e2f78546b412c403781eb293cd17d88032f099",
+            "size": 1046358,
+            "mime": "image/png"
+          },
+          {
+            "name": "MH02_BUILD_01.png",
+            "path": "files/photos/nuoqwsl-MH02_BUILD_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/nuoqwsl-MH02_BUILD_01.png",
+            "sha": "63dfc63344a7468a69c4f0c8bbe9f355b4855fc6",
+            "size": 1628281,
+            "mime": "image/png"
+          },
+          {
+            "name": "MH02_EXCV_05.png",
+            "path": "files/photos/72gfv0m-MH02_EXCV_05.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/72gfv0m-MH02_EXCV_05.png",
+            "sha": "7bf682ecd186fde896cd0adcead7fad4db7ed885",
+            "size": 3107170,
+            "mime": "image/png"
           }
         ]
       },
       {
-        "id": "yso3z3t",
-        "main": "HDD_BYPASS_INSTALL_02",
+        "id": "z1p3pnb",
+        "main": "Penetration Ex MH G4n16/4",
         "project": "pk4tcz76",
         "vis": {
           "site": true,
-          "client": true
+          "client": false
         },
         "sub": "",
-        "photos": [
-          {
-            "name": "HDD_BYPASSDRILL_03.jpg",
-            "path": "files/photos/od78z95-HDD_BYPASSDRILL_03.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/od78z95-HDD_BYPASSDRILL_03.jpg",
-            "sha": "d7adea5e0860cc42b0538eb85110c7fba9d54ed6",
-            "size": 543009,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "6efxwny",
-        "main": "HDD_BYPASS_INSTALL_03",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
+        "x": {
+          "folderDate": "2026-09-04"
         },
-        "sub": "",
         "photos": [
           {
-            "name": "HDD_BYPASSDRILL_02.jpg",
-            "path": "files/photos/kgnthl9-HDD_BYPASSDRILL_02.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/kgnthl9-HDD_BYPASSDRILL_02.jpg",
-            "sha": "9bfe69426fe778d5b31a22e2d5f65cbb1b265d89",
-            "size": 285229,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "8a8yv82",
-        "main": "SW_RATWALL_STEEL_01",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
+            "name": "G4n16.4_exposed_01.png",
+            "path": "files/photos/kxpsyt2-G4n16.4_exposed_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/kxpsyt2-G4n16.4_exposed_01.png",
+            "sha": "5128ab0c9435c08e28762ffcc2b64841968e72dc",
+            "size": 1769900,
+            "mime": "image/png"
+          },
           {
-            "name": "SW_RATWALL_STEEL.jpg",
-            "path": "files/photos/pv7mt6c-SW_RATWALL_STEEL.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/pv7mt6c-SW_RATWALL_STEEL.jpg",
-            "sha": "672889c922401b20e7ed08884f79e8bc4a448147",
-            "size": 284033,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "lt2maho",
-        "main": "SW_HEADWALL_01",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
+            "name": "G4n16.4_Penetration Seal_EXT_Form up_02.png",
+            "path": "files/photos/6tpjgjw-G4n16.4_Penetration_Seal_EXT_Form_up_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/6tpjgjw-G4n16.4_Penetration_Seal_EXT_Form_up_02.png",
+            "sha": "39193673419aa51f22119ef235542dbc81432b80",
+            "size": 1355839,
+            "mime": "image/png"
+          },
           {
-            "name": "SW_HEADWALL.jpg",
-            "path": "files/photos/ahrvkhw-SW_HEADWALL.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ahrvkhw-SW_HEADWALL.jpg",
-            "sha": "9474ba6c001d3a87d8dd26c4327130ebcad9c6a8",
-            "size": 317320,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "rrv25jj",
-        "main": "SEW_TRENCH_01",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "SEW_TRENCH_01.jpg",
-            "path": "files/photos/zjm4y4p-SEW_TRENCH_01.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/zjm4y4p-SEW_TRENCH_01.jpg",
-            "sha": "141f64ffe5d4581b4417c16460eb01c9155f76c4",
-            "size": 426514,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "u65nsk9",
-        "main": "SEW_TRENCH_02",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "SEW_TRENCH_02.jpg",
-            "path": "files/photos/8ss6p7q-SEW_TRENCH_02.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/8ss6p7q-SEW_TRENCH_02.jpg",
-            "sha": "da278ace5523306dfd7c00b63cb5a1fa2245d34a",
-            "size": 309871,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "mdx8b15",
-        "main": "SEW_MH_01_EXCAV_01",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "SEW_MH_01_EXCAV.jpg",
-            "path": "files/photos/uc4so9e-SEW_MH_01_EXCAV.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/uc4so9e-SEW_MH_01_EXCAV.jpg",
-            "sha": "e85635fc0901e346e4a88f077819a47d2cafd07d",
-            "size": 308846,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "6rkxb5d",
-        "main": "150mm_SEW_TRENCH",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "150_SEW_G4n16.6a.jpg",
-            "path": "files/photos/mp9obdz-150_SEW_G4n16.6a.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/mp9obdz-150_SEW_G4n16.6a.jpg",
-            "sha": "6f4e4c3c4697821fe35eaf1b4d95e5b539b839b8",
-            "size": 264808,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "pz5plas",
-        "main": "MH Ex - G4n16.5a",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "G4n16.5a.jpg",
-            "path": "files/photos/q47btu1-G4n16.5a.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/q47btu1-G4n16.5a.jpg",
-            "sha": "52b4c763b7c4696e5cad35fa9a02d79e7699d2ef",
-            "size": 261712,
-            "mime": "image/jpeg"
-          }
-        ]
-      },
-      {
-        "id": "dwlxxt7",
-        "main": "MH G4n16.7a",
-        "project": "pk4tcz76",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "photos": [
-          {
-            "name": "G4n16.7a.jpg",
-            "path": "files/photos/e03a9ep-G4n16.7a.jpg",
-            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/e03a9ep-G4n16.7a.jpg",
-            "sha": "74bffa01214e8f044e1ec367c8fcc5720946e689",
-            "size": 473153,
-            "mime": "image/jpeg"
+            "name": "G4n16.4_Penetration Seal_EXT_Pour_01.png",
+            "path": "files/photos/ar08tdc-G4n16.4_Penetration_Seal_EXT_Pour_01.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ar08tdc-G4n16.4_Penetration_Seal_EXT_Pour_01.png",
+            "sha": "f37e8a14e17bcbda318cd1da1a756bb2c721ce56",
+            "size": 1401635,
+            "mime": "image/png"
           }
         ]
       }
@@ -2681,7 +2808,7 @@
           "site": true,
           "client": true
         },
-        "pct": 75,
+        "pct": 70,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -7815,8 +7942,8 @@
       "client": true
     },
     "weeklyPhotos": {
-      "site": false,
-      "client": true
+      "site": true,
+      "client": false
     },
     "trafficControl": {
       "site": false,
@@ -7836,7 +7963,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-08-20T01:16:42.329Z"
+      "updated": "2026-09-04T04:44:31.345Z"
     },
     "staffAway": {
       "updated": "2026-08-20T02:26:35.473Z"
@@ -7887,7 +8014,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-09-03T22:13:55.345Z"
+      "updated": "2026-09-04T02:08:04.996Z"
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
@@ -8329,7 +8456,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:11:48.249Z",
-      "updatedAt": "2026-08-28T01:49:30.959Z",
+      "updatedAt": "2026-09-04T02:08:04.996Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -9663,10 +9790,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T00:15:21.680Z",
-      "updatedAt": "2026-08-12T03:32:46.582Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:24:30.843Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:24:30.843Z",
+      "removedReason": "deleted"
     },
     "oxvv3ra": {
       "id": "oxvv3ra",
@@ -9686,10 +9813,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T00:15:59.699Z",
-      "updatedAt": "2026-08-12T00:15:59.699Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:24:31.254Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:24:31.254Z",
+      "removedReason": "deleted"
     },
     "m0hepuf": {
       "id": "m0hepuf",
@@ -9709,10 +9836,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T00:16:21.735Z",
-      "updatedAt": "2026-08-12T00:16:21.735Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:24:31.486Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:24:31.486Z",
+      "removedReason": "deleted"
     },
     "opkgo03": {
       "id": "opkgo03",
@@ -9732,10 +9859,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T00:16:54.063Z",
-      "updatedAt": "2026-08-12T00:17:00.977Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:24:31.636Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:24:31.636Z",
+      "removedReason": "deleted"
     },
     "gonob7i": {
       "id": "gonob7i",
@@ -9755,10 +9882,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T05:49:48.288Z",
-      "updatedAt": "2026-08-12T05:49:48.288Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:43.934Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:43.934Z",
+      "removedReason": "deleted"
     },
     "b5pjtxk": {
       "id": "b5pjtxk",
@@ -9778,10 +9905,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T05:50:17.107Z",
-      "updatedAt": "2026-08-12T05:50:17.107Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:42.764Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:42.764Z",
+      "removedReason": "deleted"
     },
     "jasdmf1": {
       "id": "jasdmf1",
@@ -9801,10 +9928,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-12T05:50:30.834Z",
-      "updatedAt": "2026-08-12T05:50:30.834Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:41.646Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:41.646Z",
+      "removedReason": "deleted"
     },
     "3v2svzh": {
       "id": "3v2svzh",
@@ -9893,10 +10020,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-14T03:55:56.186Z",
-      "updatedAt": "2026-08-14T03:55:56.186Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:40.453Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:40.453Z",
+      "removedReason": "deleted"
     },
     "yso3z3t": {
       "id": "yso3z3t",
@@ -9916,10 +10043,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-14T03:56:25.851Z",
-      "updatedAt": "2026-08-14T03:56:25.851Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:39.119Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:39.119Z",
+      "removedReason": "deleted"
     },
     "6efxwny": {
       "id": "6efxwny",
@@ -9939,10 +10066,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-14T03:56:46.279Z",
-      "updatedAt": "2026-08-14T03:56:46.279Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:37.985Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:37.985Z",
+      "removedReason": "deleted"
     },
     "f7uf7p0": {
       "id": "f7uf7p0",
@@ -9985,10 +10112,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-14T03:57:46.923Z",
-      "updatedAt": "2026-08-14T03:57:46.923Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:37.310Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:37.310Z",
+      "removedReason": "deleted"
     },
     "lt2maho": {
       "id": "lt2maho",
@@ -10008,10 +10135,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-14T03:58:22.468Z",
-      "updatedAt": "2026-08-14T03:58:22.468Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:36.110Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:36.110Z",
+      "removedReason": "deleted"
     },
     "rrv25jj": {
       "id": "rrv25jj",
@@ -10031,10 +10158,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-14T04:02:44.898Z",
-      "updatedAt": "2026-08-14T04:02:44.898Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:35.248Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:35.248Z",
+      "removedReason": "deleted"
     },
     "u65nsk9": {
       "id": "u65nsk9",
@@ -10054,10 +10181,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-14T04:03:11.646Z",
-      "updatedAt": "2026-08-14T04:03:11.646Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:34.079Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:34.079Z",
+      "removedReason": "deleted"
     },
     "mdx8b15": {
       "id": "mdx8b15",
@@ -10077,10 +10204,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-14T04:03:41.196Z",
-      "updatedAt": "2026-08-14T04:03:41.196Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:32.819Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:32.819Z",
+      "removedReason": "deleted"
     },
     "p7uiua0": {
       "id": "p7uiua0",
@@ -10284,10 +10411,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-19T05:32:20.825Z",
-      "updatedAt": "2026-08-19T05:32:20.825Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:31.707Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:31.707Z",
+      "removedReason": "deleted"
     },
     "pz5plas": {
       "id": "pz5plas",
@@ -10307,10 +10434,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-19T05:32:42.501Z",
-      "updatedAt": "2026-08-19T05:32:42.501Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:30.305Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:30.305Z",
+      "removedReason": "deleted"
     },
     "dwlxxt7": {
       "id": "dwlxxt7",
@@ -10330,10 +10457,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-08-19T05:33:01.852Z",
-      "updatedAt": "2026-08-19T05:33:01.852Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-09-04T04:25:29.240Z",
+      "removed": true,
+      "removedAt": "2026-09-04T04:25:29.240Z",
+      "removedReason": "deleted"
     },
     "ts1yvvb": {
       "id": "ts1yvvb",
@@ -10955,6 +11082,213 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "yldi4jj": {
+      "id": "yldi4jj",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Stormwater Extension",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 6,
+      "createdAt": "2026-09-04T04:27:08.646Z",
+      "updatedAt": "2026-09-04T04:28:30.527Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "1rl8mf8": {
+      "id": "1rl8mf8",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Temp Bypass_Trenchless Road Drill",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 4,
+      "createdAt": "2026-09-04T04:29:42.270Z",
+      "updatedAt": "2026-09-04T04:29:42.270Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "7yntwe9": {
+      "id": "7yntwe9",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New DN150 SEW",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 4,
+      "createdAt": "2026-09-04T04:30:36.138Z",
+      "updatedAt": "2026-09-04T04:30:36.138Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "wkfm9gy": {
+      "id": "wkfm9gy",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New DN150 WAT Main",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 7,
+      "createdAt": "2026-09-04T04:35:01.430Z",
+      "updatedAt": "2026-09-04T04:35:01.430Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "6n10l6d": {
+      "id": "6n10l6d",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New DN225 SEW",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 7,
+      "createdAt": "2026-09-04T04:37:02.014Z",
+      "updatedAt": "2026-09-04T04:37:02.014Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "2rgg918": {
+      "id": "2rgg918",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "New HCB no.20 Andrew St",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 3,
+      "createdAt": "2026-09-04T04:37:40.889Z",
+      "updatedAt": "2026-09-04T04:39:18.447Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "b32lj09": {
+      "id": "b32lj09",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "NEW SEW MH01",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 5,
+      "createdAt": "2026-09-04T04:41:24.486Z",
+      "updatedAt": "2026-09-04T04:41:24.486Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "7ksit87": {
+      "id": "7ksit87",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "NEW SEW MH02",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 5,
+      "createdAt": "2026-09-04T04:42:40.848Z",
+      "updatedAt": "2026-09-04T04:42:40.848Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "z1p3pnb": {
+      "id": "z1p3pnb",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Penetration Ex MH G4n16/4",
+      "detail": "Folder date: 2026-09-04",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 3,
+      "createdAt": "2026-09-04T04:44:05.408Z",
+      "updatedAt": "2026-09-04T04:44:05.408Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -11001,5 +11335,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-04T01:51:18.275Z"
+  "publishedAt": "2026-09-04T04:44:35.503Z"
 }
