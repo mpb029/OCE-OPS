@@ -2049,8 +2049,8 @@
         "main": "Stormwater Extension",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -2112,8 +2112,8 @@
         "main": "Temp Bypass_Trenchless Road Drill",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -2159,8 +2159,8 @@
         "main": "New DN150 SEW",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -2206,8 +2206,8 @@
         "main": "New DN150 WAT Main",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -2277,8 +2277,8 @@
         "main": "New DN225 SEW",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -2348,8 +2348,8 @@
         "main": "New HCB no.20 Andrew St",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -2387,8 +2387,8 @@
         "main": "NEW SEW MH01",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -2442,8 +2442,8 @@
         "main": "NEW SEW MH02",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -2497,8 +2497,8 @@
         "main": "Penetration Ex MH G4n16/4",
         "project": "pk4tcz76",
         "vis": {
-          "site": true,
-          "client": false
+          "site": false,
+          "client": true
         },
         "sub": "",
         "x": {
@@ -7942,8 +7942,8 @@
       "client": true
     },
     "weeklyPhotos": {
-      "site": true,
-      "client": false
+      "site": false,
+      "client": true
     },
     "trafficControl": {
       "site": false,
@@ -7963,7 +7963,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-09-04T04:44:31.345Z"
+      "updated": "2026-09-04T04:52:09.423Z"
     },
     "staffAway": {
       "updated": "2026-08-20T02:26:35.473Z"
@@ -11335,5 +11335,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-04T04:44:35.503Z"
+  "publishedAt": "2026-09-04T04:52:13.946Z"
 }
