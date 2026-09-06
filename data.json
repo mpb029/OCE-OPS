@@ -2578,6 +2578,37 @@
             "mime": "image/png"
           }
         ]
+      },
+      {
+        "id": "096vz26",
+        "main": "Week Ending 11/09",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": false,
+          "client": true
+        },
+        "sub": "",
+        "x": {
+          "folderDate": "2026-09-07"
+        },
+        "photos": [
+          {
+            "name": "G4n16.7a_Penetration_02.png",
+            "path": "files/photos/lty259h-G4n16.7a_Penetration_02.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/lty259h-G4n16.7a_Penetration_02.png",
+            "sha": "6c761e5713f96ab6ed6387c562d6852b6aac3caa",
+            "size": 936827,
+            "mime": "image/png"
+          },
+          {
+            "name": "G4n16.7a_Penetration_Reinforcement.png",
+            "path": "files/photos/2hx947s-G4n16.7a_Penetration_Reinforcement.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/2hx947s-G4n16.7a_Penetration_Reinforcement.png",
+            "sha": "5891831781f633243ba14179cf45badb38a0058b",
+            "size": 907633,
+            "mime": "image/png"
+          }
+        ]
       }
     ],
     "workPackages": [
@@ -8011,7 +8042,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-09-06T21:15:50.824Z"
+      "updated": "2026-09-06T23:03:36.554Z"
     },
     "staffAway": {
       "updated": "2026-08-20T02:26:35.473Z"
@@ -11383,6 +11414,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "096vz26": {
+      "id": "096vz26",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Week Ending 11/09",
+      "detail": "Folder date: 2026-09-07",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 2,
+      "createdAt": "2026-09-06T23:03:36.553Z",
+      "updatedAt": "2026-09-06T23:03:36.553Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -11429,5 +11483,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-06T21:50:39.719Z"
+  "publishedAt": "2026-09-06T23:03:52.702Z"
 }
