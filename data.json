@@ -559,7 +559,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "inprogress"
+        "wstatus": "completed",
+        "resolvedAt": "2026-09-06T21:48:43.041Z"
       },
       {
         "id": "1f0bu21",
@@ -602,8 +603,9 @@
         "sub": "",
         "team": "site",
         "dateAssigned": "",
-        "dateRequired": "2026-09-04",
-        "wstatus": ""
+        "dateRequired": "",
+        "wstatus": "completed",
+        "resolvedAt": "2026-09-06T21:49:00.510Z"
       }
     ],
     "deliveries": [
@@ -1382,6 +1384,20 @@
         "dateAssigned": "2026-07-20",
         "dateRequired": "2026-07-21",
         "wstatus": "completed"
+      },
+      {
+        "id": "0xd8h08",
+        "main": "Measurements required for SW Alignment (VR#02)",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": false
+        },
+        "sub": "Plan with details provided to site",
+        "team": "site",
+        "dateAssigned": "2026-09-07",
+        "dateRequired": "",
+        "wstatus": "inprogress"
       }
     ],
     "plantTransport": [
@@ -1707,14 +1723,15 @@
           "client": true
         },
         "due": "",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
         "x": {
           "action": "Resident notified and agreeable. Access returned by EOD."
-        }
+        },
+        "resolvedAt": "2026-09-06T21:49:42.864Z"
       }
     ],
     "punchlist": [
@@ -2269,6 +2286,14 @@
             "sha": "331969a541a07a7dde9a363546728b27988d163c",
             "size": 1688380,
             "mime": "image/png"
+          },
+          {
+            "name": "DN150_WAT_TRENCH_10.png",
+            "path": "files/photos/6u93qdy-DN150_WAT_TRENCH_10.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/6u93qdy-DN150_WAT_TRENCH_10.png",
+            "sha": "d83b9b1e5292cc56d0c78d27b64a3ee22acb06c3",
+            "size": 1262872,
+            "mime": "image/png"
           }
         ]
       },
@@ -2527,6 +2552,29 @@
             "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/ar08tdc-G4n16.4_Penetration_Seal_EXT_Pour_01.png",
             "sha": "f37e8a14e17bcbda318cd1da1a756bb2c721ce56",
             "size": 1401635,
+            "mime": "image/png"
+          }
+        ]
+      },
+      {
+        "id": "pipz2cx",
+        "main": "PeneTration Ex MH G4n16/7a",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "x": {
+          "folderDate": "2026-09-07"
+        },
+        "photos": [
+          {
+            "name": "G4n16.7a_Penetration_&_TEMP SW BYPASS.png",
+            "path": "files/photos/3dlunbc-G4n16.7a_Penetration___TEMP_SW_BYPASS.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/3dlunbc-G4n16.7a_Penetration___TEMP_SW_BYPASS.png",
+            "sha": "e19fb1be2e713e4f4040fe80cf208f88f0c8bfa8",
+            "size": 1088210,
             "mime": "image/png"
           }
         ]
@@ -7963,7 +8011,7 @@
       "updated": "2026-08-04T05:37:11.192Z"
     },
     "weeklyPhotos": {
-      "updated": "2026-09-04T04:52:09.423Z"
+      "updated": "2026-09-06T21:15:50.824Z"
     },
     "staffAway": {
       "updated": "2026-08-20T02:26:35.473Z"
@@ -7975,7 +8023,7 @@
       "updated": "2026-09-04T01:34:09.325Z"
     },
     "stakeholders": {
-      "updated": "2026-09-03T20:53:52.666Z"
+      "updated": "2026-09-06T21:49:42.864Z"
     },
     "deliveries": {
       "updated": "2026-09-03T22:13:32.109Z"
@@ -7996,10 +8044,10 @@
       "updated": "2026-09-03T22:27:18.378Z"
     },
     "siteInputs": {
-      "updated": "2026-07-23T22:41:33.951Z"
+      "updated": "2026-09-06T21:50:33.605Z"
     },
     "dailyWorks": {
-      "updated": "2026-09-03T21:46:37.446Z"
+      "updated": "2026-09-06T21:49:00.510Z"
     },
     "trafficControl": {
       "updated": "2026-08-25T22:20:05.724Z"
@@ -10586,7 +10634,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -10595,7 +10643,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-20T01:52:09.768Z",
-      "updatedAt": "2026-08-21T02:17:18.177Z",
+      "updatedAt": "2026-09-06T21:48:43.041Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10909,7 +10957,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "",
       "start": "",
       "end": "",
@@ -10917,7 +10965,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T20:53:29.070Z",
-      "updatedAt": "2026-09-03T20:53:52.666Z",
+      "updatedAt": "2026-09-06T21:49:42.864Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11000,16 +11048,16 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "2026-09-04",
+      "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T21:46:26.321Z",
-      "updatedAt": "2026-09-03T21:46:37.446Z",
+      "updatedAt": "2026-09-06T21:49:00.510Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11168,9 +11216,9 @@
       "end": "",
       "dateAssigned": "",
       "dateRequired": "",
-      "photos": 7,
+      "photos": 8,
       "createdAt": "2026-09-04T04:35:01.430Z",
-      "updatedAt": "2026-09-04T04:35:01.430Z",
+      "updatedAt": "2026-09-06T21:15:50.824Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11289,6 +11337,52 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "pipz2cx": {
+      "id": "pipz2cx",
+      "panel": "Weekly Update Photos",
+      "project": "G4N Sewer Main Replacement",
+      "title": "PeneTration Ex MH G4n16/7a",
+      "detail": "Folder date: 2026-09-07",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-09-06T21:15:21.009Z",
+      "updatedAt": "2026-09-06T21:15:21.009Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "0xd8h08": {
+      "id": "0xd8h08",
+      "panel": "Site Inputs Required",
+      "project": "G4N Sewer Main Replacement",
+      "title": "Measurements required for SW Alignment (VR#02)",
+      "detail": "Plan with details provided to site",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "In Progress",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "2026-09-07",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-06T21:50:33.605Z",
+      "updatedAt": "2026-09-06T21:50:33.605Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -11335,5 +11429,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-04T04:52:13.946Z"
+  "publishedAt": "2026-09-06T21:50:39.719Z"
 }
