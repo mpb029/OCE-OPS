@@ -606,6 +606,20 @@
         "dateRequired": "",
         "wstatus": "completed",
         "resolvedAt": "2026-09-06T21:49:00.510Z"
+      },
+      {
+        "id": "sj8ypvf",
+        "main": "VR#02 - Excavate and Build new 1050 SW MH",
+        "project": "pk4tcz76",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": ""
       }
     ],
     "deliveries": [
@@ -814,14 +828,15 @@
           "client": true
         },
         "due": "2026-09-07",
-        "done": false,
+        "done": true,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
         "x": {
           "supplier": "Reece"
-        }
+        },
+        "resolvedAt": "2026-09-07T21:09:23.460Z"
       }
     ],
     "trafficControl": [
@@ -8057,7 +8072,7 @@
       "updated": "2026-09-06T21:49:42.864Z"
     },
     "deliveries": {
-      "updated": "2026-09-03T22:13:32.109Z"
+      "updated": "2026-09-07T21:09:23.460Z"
     },
     "documents": {
       "updated": "2026-07-20T03:52:20.818Z"
@@ -8078,7 +8093,7 @@
       "updated": "2026-09-06T21:50:33.605Z"
     },
     "dailyWorks": {
-      "updated": "2026-09-06T21:49:00.510Z"
+      "updated": "2026-09-07T21:09:11.595Z"
     },
     "trafficControl": {
       "updated": "2026-08-25T22:20:05.724Z"
@@ -10665,7 +10680,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "Completed",
+      "workStatus": "In Progress",
       "done": false,
       "due": "",
       "start": "",
@@ -10674,7 +10689,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-20T01:52:09.768Z",
-      "updatedAt": "2026-09-06T21:48:43.041Z",
+      "updatedAt": "2026-08-21T02:17:18.177Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10988,7 +11003,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "",
       "start": "",
       "end": "",
@@ -10996,7 +11011,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T20:53:29.070Z",
-      "updatedAt": "2026-09-06T21:49:42.864Z",
+      "updatedAt": "2026-09-03T20:53:52.666Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11079,16 +11094,16 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "Completed",
+      "workStatus": "",
       "done": false,
       "due": "",
       "start": "",
       "end": "",
       "dateAssigned": "",
-      "dateRequired": "",
+      "dateRequired": "2026-09-04",
       "photos": 0,
       "createdAt": "2026-09-03T21:46:26.321Z",
-      "updatedAt": "2026-09-06T21:49:00.510Z",
+      "updatedAt": "2026-09-03T21:46:37.446Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11103,7 +11118,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-09-07",
       "start": "",
       "end": "",
@@ -11111,7 +11126,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T22:13:32.109Z",
-      "updatedAt": "2026-09-03T22:13:32.109Z",
+      "updatedAt": "2026-09-07T21:09:23.460Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11247,9 +11262,9 @@
       "end": "",
       "dateAssigned": "",
       "dateRequired": "",
-      "photos": 8,
+      "photos": 7,
       "createdAt": "2026-09-04T04:35:01.430Z",
-      "updatedAt": "2026-09-06T21:15:50.824Z",
+      "updatedAt": "2026-09-04T04:35:01.430Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11437,6 +11452,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "sj8ypvf": {
+      "id": "sj8ypvf",
+      "panel": "Daily Works",
+      "project": "G4N Sewer Main Replacement",
+      "title": "VR#02 - Excavate and Build new 1050 SW MH",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-09-07T21:09:11.595Z",
+      "updatedAt": "2026-09-07T21:09:11.595Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -11459,14 +11497,14 @@
       "comp": "Mid-Late September",
       "compDate": "",
       "status": "green",
-      "statusComment": "New Sewer and Water near completion. Drill under driveway failed-off alignment - now trenching through",
-      "stage": "SEW & WAT Installation",
-      "milestone": "SEW penetration into top ex.MH 7a",
-      "achievement": "2nd MH Built and backfilled",
+      "statusComment": "Commencing on Variation 2; New SW install",
+      "stage": "VR2 - SW",
+      "milestone": "New 1050 SW MH Build",
+      "achievement": "Water and Sewer installed",
       "clientAction": "VR#02 submitted for review and approval",
       "risk": "",
       "impacts": "None - Weather forecast looks good, proceeding with SW VR Mid next week",
-      "scope": "New SW works - approved in principle -  Quote submitted"
+      "scope": ""
     },
     "pfvstolg": {
       "compType": "exact",
@@ -11483,5 +11521,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-06T23:03:52.702Z"
+  "publishedAt": "2026-09-08T01:12:57.120Z"
 }
