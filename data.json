@@ -258,8 +258,8 @@
     },
     {
       "id": "d8e0sji",
-      "lat": -26.18207211331156,
-      "lng": 152.6759846471537,
+      "lat": -26.18208655534171,
+      "lng": 152.6760524101413,
       "category": "traffic",
       "title": "Road Closure",
       "notes": "LONO in Effect",
@@ -619,7 +619,8 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": ""
+        "wstatus": "completed",
+        "resolvedAt": "2026-09-14T05:10:50.878Z"
       }
     ],
     "deliveries": [
@@ -1174,9 +1175,10 @@
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "",
+        "wstatus": "completed",
         "startDate": "2026-09-09",
-        "endDate": "2026-09-15"
+        "endDate": "2026-09-15",
+        "resolvedAt": "2026-09-14T05:10:44.585Z"
       }
     ],
     "subbiesToday": [
@@ -1416,7 +1418,8 @@
         "team": "site",
         "dateAssigned": "2026-09-07",
         "dateRequired": "",
-        "wstatus": "inprogress"
+        "wstatus": "completed",
+        "resolvedAt": "2026-09-14T05:10:32.732Z"
       }
     ],
     "plantTransport": [
@@ -3000,7 +3003,7 @@
           "site": true,
           "client": false
         },
-        "pct": 90,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -3028,7 +3031,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -3098,7 +3101,7 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -3112,7 +3115,7 @@
           "site": true,
           "client": true
         },
-        "pct": 50,
+        "pct": 100,
         "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
@@ -3209,12 +3212,13 @@
         },
         "sub": "Next Wednesday 9/09",
         "due": "2026-09-09",
-        "done": false,
+        "done": true,
         "team": "eng",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
-        "status": "pending"
+        "status": "pending",
+        "resolvedAt": "2026-09-14T05:10:23.439Z"
       }
     ],
     "designChanges": [],
@@ -8094,7 +8098,7 @@
       "updated": "2026-08-25T22:19:49.213Z"
     },
     "qualityTesting": {
-      "updated": "2026-09-04T01:34:09.325Z"
+      "updated": "2026-09-14T05:10:23.439Z"
     },
     "stakeholders": {
       "updated": "2026-09-06T21:49:42.864Z"
@@ -8115,13 +8119,13 @@
       "updated": "2026-08-28T01:50:08.158Z"
     },
     "upcoming": {
-      "updated": "2026-09-08T02:35:40.647Z"
+      "updated": "2026-09-14T05:10:44.585Z"
     },
     "siteInputs": {
-      "updated": "2026-09-06T21:50:33.605Z"
+      "updated": "2026-09-14T05:10:32.732Z"
     },
     "dailyWorks": {
-      "updated": "2026-09-07T21:09:11.595Z"
+      "updated": "2026-09-14T05:10:50.878Z"
     },
     "trafficControl": {
       "updated": "2026-09-08T02:35:28.648Z"
@@ -8136,7 +8140,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-09-08T02:37:18.349Z"
+      "updated": "2026-09-14T05:10:15.969Z"
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
@@ -8693,7 +8697,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:14:23.375Z",
-      "updatedAt": "2026-09-03T22:13:55.345Z",
+      "updatedAt": "2026-09-14T05:09:53.415Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -8739,7 +8743,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:16:35.493Z",
-      "updatedAt": "2026-07-30T23:16:35.493Z",
+      "updatedAt": "2026-09-14T05:10:02.296Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10341,7 +10345,7 @@
       "priority": "",
       "status": "Results pending",
       "workStatus": "",
-      "done": false,
+      "done": true,
       "due": "2026-09-09",
       "start": "",
       "end": "",
@@ -10349,7 +10353,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-14T04:09:07.797Z",
-      "updatedAt": "2026-09-04T01:34:09.325Z",
+      "updatedAt": "2026-09-14T05:10:23.439Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10732,7 +10736,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "",
       "start": "",
       "end": "",
@@ -10740,7 +10744,7 @@
       "dateRequired": "2026-08-26",
       "photos": 0,
       "createdAt": "2026-08-20T02:21:23.446Z",
-      "updatedAt": "2026-09-08T02:35:23.337Z",
+      "updatedAt": "2026-08-25T22:20:39.107Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10754,7 +10758,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "Completed",
+      "workStatus": "",
       "done": false,
       "due": "",
       "start": "",
@@ -10763,7 +10767,7 @@
       "dateRequired": "2026-08-26",
       "photos": 0,
       "createdAt": "2026-08-20T02:22:12.807Z",
-      "updatedAt": "2026-09-08T02:35:40.647Z",
+      "updatedAt": "2026-08-20T02:22:12.807Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10847,7 +10851,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "2026-08-26",
       "start": "",
       "end": "",
@@ -10855,7 +10859,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-20T02:26:06.222Z",
-      "updatedAt": "2026-09-08T02:35:28.648Z",
+      "updatedAt": "2026-08-20T02:26:06.222Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -10870,7 +10874,7 @@
       "priority": "",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "2026-08-26",
       "start": "",
       "end": "",
@@ -10878,7 +10882,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-20T02:27:25.757Z",
-      "updatedAt": "2026-09-08T02:35:31.221Z",
+      "updatedAt": "2026-08-20T02:27:25.757Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11062,7 +11066,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T21:40:54.509Z",
-      "updatedAt": "2026-09-08T02:37:18.349Z",
+      "updatedAt": "2026-09-14T05:10:15.969Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11085,7 +11089,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T21:41:14.480Z",
-      "updatedAt": "2026-09-08T02:36:58.872Z",
+      "updatedAt": "2026-09-14T05:10:13.201Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11168,7 +11172,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "2026-09-09",
@@ -11177,7 +11181,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T22:27:18.378Z",
-      "updatedAt": "2026-09-03T22:27:18.378Z",
+      "updatedAt": "2026-09-14T05:10:44.585Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11444,7 +11448,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "In Progress",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -11453,7 +11457,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-06T21:50:33.605Z",
-      "updatedAt": "2026-09-06T21:50:33.605Z",
+      "updatedAt": "2026-09-14T05:10:32.732Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11474,9 +11478,9 @@
       "end": "",
       "dateAssigned": "",
       "dateRequired": "",
-      "photos": 5,
+      "photos": 2,
       "createdAt": "2026-09-06T23:03:36.553Z",
-      "updatedAt": "2026-09-08T02:36:40.217Z",
+      "updatedAt": "2026-09-06T23:03:36.553Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11490,7 +11494,7 @@
       "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -11499,7 +11503,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-07T21:09:11.595Z",
-      "updatedAt": "2026-09-07T21:09:11.595Z",
+      "updatedAt": "2026-09-14T05:10:50.878Z",
       "removed": false,
       "removedAt": "",
       "removedReason": ""
@@ -11549,5 +11553,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-08T02:37:30.591Z"
+  "publishedAt": "2026-09-14T05:10:55.901Z"
 }
