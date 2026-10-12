@@ -22,6 +22,16 @@ module.exports = async (env, check) => {
     assert.equal(await p.locator('#map').isVisible(), true);
     await p.waitForTimeout(200);
     assert.equal(await p.evaluate(() => __opsTest.map.getSize().x), await p.locator('#map').evaluate(el => el.clientWidth));
+    await p.waitForFunction(()=>__opsTest.map.getZoom()>1);
+    await p.locator('.leaflet-control-zoom-in').click();
+    await p.waitForTimeout(300);
+    const selectedView=await p.evaluate(()=>({zoom:__opsTest.map.getZoom(),center:__opsTest.map.getCenter()}));
+    await p.locator('.mobile-map-toggle').click();
+    await p.locator('.mobile-map-toggle').click();
+    await p.waitForTimeout(200);
+    const reopenedView=await p.evaluate(()=>({zoom:__opsTest.map.getZoom(),center:__opsTest.map.getCenter()}));
+    assert.equal(reopenedView.zoom,selectedView.zoom,'Reopening must preserve the user zoom');
+    assert.ok(Math.abs(reopenedView.center.lat-selectedView.center.lat)<1e-6&&Math.abs(reopenedView.center.lng-selectedView.center.lng)<1e-6,'Reopening must preserve the user centre');
     await p.setViewportSize({width:1440,height:900});
     assert.equal(await p.locator('#map').isVisible(), true);
     assert.deepEqual(await p.evaluate(() => structuredClone(__opsTest.state)),state);
