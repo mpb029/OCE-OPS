@@ -1,0 +1,32 @@
+[
+  {
+    "report": "report",
+    "beforePages": 63,
+    "afterPages": 63,
+    "sameTextOnEveryPage": true
+  },
+  {
+    "report": "dailyWorks",
+    "beforePages": 1,
+    "afterPages": 1,
+    "sameTextOnEveryPage": true
+  },
+  {
+    "report": "punchlist",
+    "beforePages": 1,
+    "afterPages": 1,
+    "sameTextOnEveryPage": true
+  },
+  {
+    "report": "photos",
+    "beforePages": 7,
+    "afterPages": 7,
+    "sameTextOnEveryPage": true
+  },
+  {
+    "report": "client",
+    "beforePages": 2,
+    "afterPages": 2,
+    "sameTextOnEveryPage": true
+  }
+]
