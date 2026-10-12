@@ -31,7 +31,7 @@
     document.querySelector('.topbar').append(shortcuts);
     function syncShortcuts() {
       const links = [];
-      for (const [id, label] of [['dailyWorks', 'Daily works'], ['upcoming', 'Scheduled works'], ['rfis', 'RFIs']]) {
+      for (const [id, label] of [['dailyWorks', 'Daily works'], ['upcoming', 'Scheduled works']]) {
         const panel = document.querySelector(`[data-card="${id}"]`);
         if (!panel) continue;
         panel.id = `activity-${id}`;

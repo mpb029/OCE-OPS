@@ -349,6 +349,8 @@ body.viewer .header-menu { display: none; }
   .activity-shortcuts a:last-child { background: #246fa9; border-color: #4c9bd6; }
   .mobile-map-toggle { display: inline-flex; margin-left: auto; color: var(--primary); background: var(--primary-soft); border-color: #cbdfee; }
   .mobile-map-collapsed .map-toolbar, .mobile-map-collapsed #map, .mobile-map-collapsed .map-hint { display: none; }
+  .mobile-map-collapsed .map-hint { display: none !important; }
+  #modelCard.model-collapsed .model-list:has(.model-hint) { display: none; }
   .map-card .card-head .ttl { flex-basis: 140px; }
   .map-card.mobile-map-collapsed .card-head { border-bottom: 0; }
   .sum-row { grid-template-columns: minmax(100px, .8fr) minmax(0, 1fr); gap: 12px; }

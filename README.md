@@ -4,7 +4,7 @@ A single-page, static dashboard for a civil/water construction work area. It run
 entirely in the browser, so it hosts straight off **GitHub Pages** with no server,
 database, or build step.
 
-**Phase 1 interface review:** see [screenshots, regression evidence and known issues](docs/phase1/REVIEW.md).
+**Phase 1.1 interface review:** see [refinements, isolated repairs and current evidence](docs/phase1.1/REVIEW.md).
 This feature branch is for review only; merge and deployment require the owner's approval.
 
 ### Actual runtime structure
@@ -63,9 +63,9 @@ It shows:
 > quick local server: `python3 -m http.server` then open `http://localhost:8000`.
 > Markers still work either way — only the auto-load of the repo's GeoJSON needs a server.
 
-The current loader requests `data/workarea.geojson`, but this repository contains
-`workarea.geojson` at its root. That pre-existing path mismatch is recorded in the
-review notes; this presentation change does not move or replace operational files.
+The base loader now reads root `workarea.geojson`, with `data/workarea.geojson` as
+a fallback when the root file is missing. The existing root file is a sample
+work area near Rainbow Beach; its contents are preserved for owner review.
 
 ---
 
@@ -84,9 +84,9 @@ coordinate values). To force it, use **Settings → Imported GeoJSON coordinate 
 **Two ways to get features onto the map:**
 
 1. **Base layer (auto-loads for everyone):** export your main layer as
-   **`data/workarea.geojson`** in the repo. It loads on every visit as "Work area".
+   **`workarea.geojson`** in the repo. It loads on every visit as "Work area".
    - QGIS: Right-click layer → **Export → Save Features As…** → Format **GeoJSON** →
-     CRS **EPSG:28356** (or 4326) → save as `data/workarea.geojson`.
+     CRS **EPSG:28356** (or 4326) → save as `workarea.geojson`.
 2. **Add more layers in the app:** click **Add layers** on the map toolbar and select
    **one or more** GeoJSON files at once. Each becomes its own named, colour-coded layer
    with a show/hide/remove panel top-right of the map. These layers are **saved with the
@@ -95,7 +95,7 @@ coordinate values). To force it, use **Settings → Imported GeoJSON coordinate 
 
 > Tip: uploaded layers travel inside `data.json`, so keep them sensibly sized (simplify
 > dense layers in QGIS first). A very large permanent base map is lighter committed as
-> `data/workarea.geojson`.
+> `workarea.geojson`.
 
 Attribute columns (Asset, Stage, Status, etc.) appear in each feature's pop-up. A column
 named `Asset` or `name` is used as the heading.
@@ -256,10 +256,13 @@ stay on your machine until you connect and Publish.
 
 This is *near* real-time, not instant-to-the-second: after you Publish, the supervisor
 sees it on their next refresh (within ~45s), give or take a few seconds for GitHub's
-cache. **Export** produces a local snapshot. **Import has a known pre-existing
-data-preservation defect**: it omits projects, clients, models, history, panel
-metadata and project summaries from backups. Do not use it to restore operational
-data until that behaviour is addressed in a separately reviewed change.
+cache. **Export** produces a local JSON snapshot. The separate Phase 1.1 Import repair
+validates the backup, restores projects, clients, models, history, panel metadata and
+summaries, and retains unknown/legacy fields through export/import and local reloads.
+Storage or rendering failures roll back the board. Restoring is local and marks the
+board unpublished; publishing still requires the existing explicit Publish action.
+Backups contain attachment URLs, not binary attachment files. Publishing retains its
+existing explicit field list; unknown extension keys remain in local backups.
 
 ---
 
