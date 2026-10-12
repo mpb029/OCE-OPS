@@ -24,6 +24,40 @@
       }
     });
 
+    // Small-screen shortcuts use the existing, audience-filtered panels. No new views.
+    const shortcuts = document.createElement('nav');
+    shortcuts.className = 'activity-shortcuts';
+    shortcuts.setAttribute('aria-label', 'Activity shortcuts');
+    document.querySelector('.topbar').append(shortcuts);
+    function syncShortcuts() {
+      const links = [];
+      for (const [id, label] of [['dailyWorks', 'Daily works'], ['upcoming', 'Scheduled works'], ['rfis', 'RFIs']]) {
+        const panel = document.querySelector(`[data-card="${id}"]`);
+        if (!panel) continue;
+        panel.id = `activity-${id}`;
+        links.push(`<a href="#${panel.id}">${label}</a>`);
+      }
+      shortcuts.innerHTML = `<span>Site activities</span><div>${links.join('')}<a href="#panelsGrid">All panels <span aria-hidden="true">↓</span></a></div>`;
+    }
+    new MutationObserver(syncShortcuts).observe(document.getElementById('panelsGrid'), { childList: true });
+    syncShortcuts();
+
+    const mobile = matchMedia('(max-width: 680px)');
+    const mapCard = document.querySelector('.map-card');
+    const mapToggle = document.createElement('button');
+    mapToggle.type = 'button'; mapToggle.className = 'tool-btn mobile-map-toggle';
+    mapToggle.setAttribute('aria-controls', 'map');
+    mapCard.querySelector('.card-head').append(mapToggle);
+    function showMap(expanded) {
+      mapCard.classList.toggle('mobile-map-collapsed', !expanded);
+      mapToggle.setAttribute('aria-expanded', String(expanded));
+      mapToggle.textContent = expanded ? 'Close map' : 'Open map';
+      requestAnimationFrame(() => window.dispatchEvent(new Event('resize')));
+    }
+    mapToggle.addEventListener('click', () => showMap(mapCard.classList.contains('mobile-map-collapsed')));
+    mobile.addEventListener('change', () => showMap(!mobile.matches));
+    showMap(!mobile.matches);
+
     const model = document.getElementById('modelCard');
     const modelToggle = document.getElementById('btnModelToggle');
     let modelCount = 0;
@@ -51,6 +85,11 @@
         if (!button.hasAttribute('aria-label')) button.setAttribute('aria-label', button.title);
       });
       root.querySelectorAll('.vchip, .donebtn').forEach(button => button.setAttribute('aria-pressed', String(button.classList.contains('on'))));
+      root.querySelectorAll('.vchip').forEach(button => {
+        const hook = button.dataset.vis || button.dataset.pvis || button.dataset.stvis || '';
+        const label = hook.startsWith('site') ? 'Site' : hook.startsWith('client') ? 'Client' : '';
+        if (label && button.textContent !== label) button.textContent = label;
+      });
       root.querySelectorAll('.field').forEach(field => {
         const label = field.querySelector('label:not(.chkline)');
         const input = field.querySelector('input:not([type="checkbox"]), select, textarea');

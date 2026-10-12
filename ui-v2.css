@@ -316,3 +316,48 @@ body.viewer .header-menu { display: none; }
   .set-section { font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; scroll-behavior: auto !important; } }
+
+/* Phase 1.1: immediate mobile access, readable operational facts, quieter controls. */
+.activity-shortcuts, .mobile-map-toggle { display: none; }
+[data-card] { scroll-margin-top: 20px; }
+.sum-proj { font-size: 15px; line-height: 1.5; }
+.sum-status { font-size: 12px; }
+.sum-row { grid-template-columns: minmax(125px, .8fr) minmax(0, 1fr); padding: 11px 0; }
+.sum-row .sum-l { font-size: 13px; line-height: 1.5; color: #536579; }
+.sum-row .sum-v { font-size: 14px; line-height: 1.55; }
+.stat .lbl { font-size: 14px; line-height: 1.5; font-weight: 600; }
+.stat .tgt { font-size: 20px; line-height: 1.4; }
+.stat .sf { font-size: 13px; line-height: 1.5; gap: 8px; padding-top: 8px; }
+.stat .sf-l { color: #536579; }
+.stat .sf-v { color: var(--text); font-weight: 500; }
+.pvis, .list li .vis, .stat-vis { display: inline-flex; align-items: center; gap: 0; border: 1px solid var(--divider); border-radius: 8px; padding: 2px; background: #f7f9fb; }
+.vchip, .card-head .pvis .vchip, .stat .vchip { width: auto; min-width: 45px; height: 32px; padding: 0 7px; border: 0; border-radius: 5px; background: transparent; font: 500 11px var(--font-body); color: #617184; }
+.vchip.on, .card-head .pvis .vchip.on, .vchip[data-vis^="client"].on, .card-head .pvis .vchip[data-pvis^="client"].on, .vchip[data-stvis^="client"].on { color: #205d89; background: #e6eff7; border: 0; }
+.vchip::before { content: '−'; display: inline-block; margin-right: 4px; }
+.vchip.on::before { content: '✓'; }
+.vchip:hover { box-shadow: none; background: #dce9f4; }
+.list .row-act { gap: 0; margin-left: 8px; }
+.list .row-act button { border-color: transparent; background: transparent; border-radius: 6px; }
+.list .row-act button:hover, .card-head .pbtn:hover { background: #eaf0f6; color: var(--primary); }
+.card-head .pbtn { border-color: transparent; background: transparent; }
+.card-head .add { border-color: transparent; }
+@media (max-width: 680px) {
+  .activity-shortcuts { display: block; grid-column: 1 / -1; padding: 0 0 16px; }
+  .activity-shortcuts > span { display: block; font-size: 11px; font-weight: 500; color: #b9c9d9; margin-bottom: 8px; }
+  .activity-shortcuts > div { display: flex; flex-wrap: wrap; gap: 6px; }
+  .activity-shortcuts a { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 11px; border: 1px solid #435b72; border-radius: 7px; color: #fff; font-size: 12px; text-decoration: none; background: #263d53; }
+  .activity-shortcuts a:last-child { background: #246fa9; border-color: #4c9bd6; }
+  .mobile-map-toggle { display: inline-flex; margin-left: auto; color: var(--primary); background: var(--primary-soft); border-color: #cbdfee; }
+  .mobile-map-collapsed .map-toolbar, .mobile-map-collapsed #map, .mobile-map-collapsed .map-hint { display: none; }
+  .map-card .card-head .ttl { flex-basis: 140px; }
+  .map-card.mobile-map-collapsed .card-head { border-bottom: 0; }
+  .sum-row { grid-template-columns: minmax(100px, .8fr) minmax(0, 1fr); gap: 12px; }
+  .stat-grid { grid-template-columns: minmax(0, 1fr); }
+  .stat .sf { flex-direction: row; justify-content: space-between; }
+  .stat .sf-v { text-align: right; }
+  .vchip, .card-head .pvis .vchip, .stat .vchip { width: auto; min-width: 52px; height: 40px; font-size: 12px; }
+  .list .row-act { margin-left: auto; }
+}
+.stat .sf-l { flex: 1 1 auto; }
+.stat .sf-v { flex: 0 1 auto; min-width: 3ch; max-width: 50%; }
+.stat .stat-vis { width: fit-content; }
