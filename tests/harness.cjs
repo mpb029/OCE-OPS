@@ -15,6 +15,7 @@ const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript
 // These read-only probes exist only in the test server's response, never the deployed app.
 const probe = `window.__opsTest = {
  get state() { return state; }, get sync() { return sync; }, get map() { return map; },
+ get geoLayer() { return geoLayer; }, get markerLayer() { return markerLayer; },
  get three() { return three; }, get loadedObjs() { return loadedObjs; },
  get sessionModels() { return sessionModels; }, get rasterLayers() { return rasterLayers; },
  PANELS, CATEGORIES, shareableState, sortItemsForDisplay, visiblePanelItems, orderedPanels,
@@ -57,7 +58,7 @@ function fixture() {
  return data;
 }
 
-async function open(env, { version = 'after', width = 1440, height = 900, audience = '', data = fixture(), token = false, touch = false, liveClock = false } = {}) {
+async function open(env, { version = 'after', width = 1440, height = 900, audience = '', data = fixture(), token = false, touch = false, liveClock = false, workArea = 'root' } = {}) {
  const context = await env.browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, isMobile: touch, hasTouch: touch, locale: 'en-AU', timezoneId: 'Australia/Brisbane', acceptDownloads: true });
  const network = { writes: [], errors: [], console: [], failed: [], sharedReads: 0, publishFailure: false };
  const page = await context.newPage();
@@ -75,6 +76,10 @@ async function open(env, { version = 'after', width = 1440, height = 900, audien
  }, { token });
  await context.route('**/*', async route => {
   const req = route.request(), url = new URL(req.url());
+  if (url.pathname.endsWith('/workarea.geojson') && workArea !== 'root') {
+    if (workArea === 'legacy' && url.pathname.includes('/data/')) return route.fulfill({path:path.join(root,'workarea.geojson'),contentType:'application/json'});
+    return route.fulfill({status:404,body:'Missing fixture'});
+  }
   if (/\/data\.json$/.test(url.pathname) && url.hostname !== 'api.github.com') {
     network.sharedReads++;
     return route.fulfill({ json: data });

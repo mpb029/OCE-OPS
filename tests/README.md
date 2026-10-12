@@ -14,6 +14,19 @@ data comparisons use a fixed clock for deterministic history timestamps.
 
 `OCE_TEST_FILTER` is an optional regular expression for focused reruns. Results are merged by
 test name when filtering, so the report retains the latest result for every exercised check.
-The known original import defect is reported separately from passing checks.
+Phase 1.1 replaces the known-import-defect check with complete round trips, legacy
+compatibility, invalid-input rejection, storage/render rollback and model-cache tests.
+Map repairs and actual G4N framing have dedicated checks. Every full report records
+the candidate commit, latest fetched main commit, clean/dirty status and timestamps.
 
-See [the review report](../docs/phase1/REVIEW.md) for results, limitations and the approval gate.
+Run `python -m pip install pypdf==6.10.0` followed by `python tests/compare-print.py`
+after the suite to compare all five PDFs. `node tests/model-inspection.cjs` records
+real geometry measurements and default/Y-up/close-up captures using existing controls.
+
+The pull-request CI workflow checks the exact PR head, fetches main, runs all checks,
+compares PDFs and retains screenshots/results for 14 days. It has read-only repository
+permissions, does not retain checkout credentials, and contains no deployment step.
+External CDN availability is still required. CI does not exercise real GitHub writes.
+
+See [the Phase 1 report](../docs/phase1/REVIEW.md) for the original comparison and
+[Phase 1.1](../docs/phase1.1/REVIEW.md) for the subsequent refinements and isolated repairs.

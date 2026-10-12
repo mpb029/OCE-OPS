@@ -7,10 +7,14 @@ const { start, open, output } = require('./harness.cjs');
   const version = process.argv[2] || 'after';
   for (const [name, width, height] of [['desktop',1440,900], ['mobile',390,844], ...(version==='after' ? [['1920x1080',1920,1080],['1366x768',1366,768],['1024x768',1024,768],['768x1024',768,1024],['375x812',375,812],['360x800',360,800]] : [])]) {
    const run = await open(env, { version, width, height, touch: width < 1100, liveClock: true });
-   await run.page.locator('[data-lc-zoom]').first().click();
+   if(version==='after' && width<=680) await run.page.locator('.mobile-map-toggle').click();
+   const savedLayer = await run.page.evaluate(() => __opsTest.state.mapLayers.find(l => l.type !== 'tiles')?.id);
+   await run.page.locator(`[data-lc-zoom="${savedLayer}"]`).click();
    // Use the same real location and satellite zoom in both review captures.
    while(await run.page.evaluate(()=>__opsTest.map.getZoom())>18)await run.page.locator('.leaflet-control-zoom-out').click();
    await run.page.waitForTimeout(1200);
+   if(version==='after' && width<=680) await run.page.locator('.mobile-map-toggle').click();
+   await run.page.evaluate(()=>scrollTo(0,0));
    await run.page.screenshot({ path: path.join(output, `${version}-${name}.png`) });
    if(version==='after' && (name==='desktop'||name==='mobile')){
     await run.page.screenshot({path:path.join(output,`after-${width}x${height}.png`)});
@@ -34,7 +38,8 @@ const { start, open, output } = require('./harness.cjs');
   }
   if(version==='after')for(const [name,audience]of [['site','?crew=test-site'],['client-1','?view=test-client-1']]){
    const run=await open(env,{audience,liveClock:true});const p=run.page;
-   await p.locator('[data-lc-zoom]').first().click();while(await p.evaluate(()=>__opsTest.map.getZoom())>18)await p.locator('.leaflet-control-zoom-out').click();await p.waitForTimeout(1200);
+   const savedLayer=await p.evaluate(()=>__opsTest.state.mapLayers.find(l=>l.type!=='tiles')?.id);
+   await p.locator(`[data-lc-zoom="${savedLayer}"]`).click();while(await p.evaluate(()=>__opsTest.map.getZoom())>18)await p.locator('.leaflet-control-zoom-out').click();await p.waitForTimeout(1200);
    await p.screenshot({path:path.join(output,`${name}-view.png`)});
    await p.setViewportSize({width:390,height:844});await p.screenshot({path:path.join(output,`${name}-mobile.png`)});await run.close();
   }

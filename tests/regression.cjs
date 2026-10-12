@@ -1,11 +1,14 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const assert = require('node:assert/strict');
-const crypto = require('node:crypto');
 const { execFileSync } = require('node:child_process');
 const { root, baseline, original, output, start, open, fixture } = require('./harness.cjs');
 
 const results = [], observations = [];
+const startedAt = new Date().toISOString();
+const git = args => execFileSync('git',args,{cwd:root}).toString().trim();
+const startCommit = git(['rev-parse','HEAD']);
+const cleanAtStart = !git(['status','--porcelain']);
 const readState = page => page.evaluate(() => structuredClone(__opsTest.state));
 const value = (page, expression) => page.evaluate(expression);
 async function check(name, action) {
@@ -46,10 +49,14 @@ async function printSnapshot(page) {
 async function main() {
  const baselineHTML = execFileSync('git', ['show', `${baseline}:index.html`], { cwd:root, maxBuffer:2e6 }).toString();
  const currentHTML = fs.readFileSync(path.join(root,'index.html'),'utf8');
- await check('Source contract: business script and original stylesheet byte-identical', () => {
+ await check('Source contract: original print stylesheet and non-repaired business code unchanged', () => {
   const script = html => html.match(/<script>\s*\/\*[^]*?<\/script>/)[0].replace(/\r\n/g,'\n');
   const style = html => html.match(/<style>[^]*?<\/style>/)[0].replace(/\r\n/g,'\n');
-  assert.equal(script(currentHTML), script(baselineHTML)); assert.equal(style(currentHTML),style(baselineHTML));
+  // Deliberately isolated, separately tested repairs. Everything outside these functions
+  // must still match the original application, including publishing and role filtering.
+  const approved = ['frameAll', 'load', 'importData', 'normaliseBackup', 'loadWorkArea', 'fitFeatures'];
+  const unchanged = html => approved.reduce((s,name)=>s.replace(new RegExp('  function '+name+'\\([^]*?\\n  }\\n?'),''),script(html)).replace(/\n{3,}/g,'\n\n');
+  assert.equal(unchanged(currentHTML), unchanged(baselineHTML)); assert.equal(style(currentHTML),style(baselineHTML));
  });
  await check('Source contract: all original static IDs and data hooks retained', () => {
   const ids = html => new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(x=>x[1]));
@@ -58,14 +65,11 @@ async function main() {
   const hooks = html => [...html.matchAll(/\bdata-[a-z-]+(?==)/g)].map(x=>x[0]).sort();
   assert.deepEqual(hooks(currentHTML),hooks(baselineHTML));
  });
- await check('Operational data and attachments unchanged from baseline', () => {
-  const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'data.json'),'utf8').replace(/\r\n/g,'\n')).digest('hex');
-  assert.equal(hash,'0e2310fe1d07573b4cea10ca335afd76b545a34952abebbed02665ca7fe45d36');
-  assert.equal(execFileSync('git',['diff',baseline,'--','data.json','files','aerial','G4N.obj','workarea.geojson'],{cwd:root}).length,0);
-  return { sha256:hash };
- });
+ await check('Operational data and all attachments unchanged from latest main', () => require('./preservation.cjs')(root,output));
  const env = await start();
  try {
+  await require('./phase11-checks.cjs')(env, check);
+  await require('./map-repair-checks.cjs')(env, check);
   const views = [['1920x1080',1920,1080],['1440x900',1440,900],['1366x768',1366,768],['1024x768',1024,768],['768x1024',768,1024],['390x844',390,844],['375x812',375,812],['360x800',360,800]];
   for (const [name,width,height] of views) await check(`Layout ${name}: 21 panels, no overflow, controls and dialogs`, async () => {
     const run = await open(env,{width,height,touch:width<=1024});
@@ -97,7 +101,9 @@ async function main() {
       assert.equal(await p.locator('[data-add="rfis"]').evaluate(el=>el===document.activeElement),true);
       const row = p.locator('.row-act:visible').first();assert.equal(await row.evaluate(el=>getComputedStyle(el).opacity),'1');
       if(width<=680) assert.ok((await row.locator('button').first().boundingBox()).width>=40);
+      if(width<=680) await p.locator('.mobile-map-toggle').click();
       await p.locator('[data-lc-zoom]').first().click();
+      if(width<=680) await p.locator('.mobile-map-toggle').click();
       await p.evaluate(()=>scrollTo(0,0));await p.waitForTimeout(800);
       await p.screenshot({path:path.join(output,`after-${name}.png`)});
       if(width===1440||width===390) {await p.locator('#panelsGrid').evaluate(el=>el.scrollIntoView({block:'start'})); await p.screenshot({path:path.join(output,`panels-${name}.png`)});}
@@ -207,14 +213,7 @@ async function main() {
     const run=await open(env,{data,width:360,height:800,touch:true});try{assert.equal(await run.page.locator('[data-card]').count(),21);assert.equal(await run.page.locator('[data-empty-add]').count(),21);assert.ok(await run.page.locator('#btnModelUpload').isVisible());assert.equal(await run.page.evaluate(()=>document.documentElement.scrollWidth),360);await run.page.screenshot({path:path.join(output,'empty-mobile.png')});}finally{await run.close();}
   });
 
-  await check('Import parity: document pre-existing data loss without changing the importer', async () => {
-    const imported=[];
-    for(const version of ['before','after']) {const run=await open(env,{version});try{const data=fixture();data.futureExtension={retained:true};data.panels.subbiesTomorrow=[{id:'legacy-test',main:'Legacy record'}];await run.page.locator('#fileImport').setInputFiles({name:'fixture-backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(data))});await run.page.waitForFunction(()=>__opsTest.state.panels.subbiesTomorrow.length===1);imported.push(await readState(run.page));}finally{await run.close();}}
-    assert.deepEqual(imported[1],imported[0]);
-    const omitted=['projects','clients','models','history','panelMeta','projectSummary','futureExtension'].filter(k=>!Object.hasOwn(imported[1],k));assert.equal(omitted.length,7);
-    observations.push({severity:'pre-existing defect',area:'Import',detail:'Both baseline and redesign omit '+omitted.join(', ')+' when importing a backup. Do not use Import on operational data until a separately reviewed data fix is made.'});
-    return { parity:true, preservation:'KNOWN BASELINE FAILURE', omitted };
-  });
+  await require('./backup-checks.cjs')(env, check);
 
   await check('Print parity: full report, single panel, punch sheet and photo folder selection', async () => {
     const a=await open(env,{version:'before'}),b=await open(env);
@@ -252,10 +251,12 @@ async function main() {
  const previousPath=path.join(output,'regression-results.json');
  let merged=results, notes=observations;
  if(process.env.OCE_TEST_FILTER && fs.existsSync(previousPath)) {const previous=JSON.parse(fs.readFileSync(previousPath));const byName=new Map(previous.tests.map(r=>[r.name,r]));results.forEach(r=>byName.set(r.name,r));merged=[...byName.values()];notes=[...previous.observations,...observations.filter(o=>!previous.observations.some(p=>p.detail===o.detail))];}
- const report={ baseline, date:'2026-10-13', environment:'Chromium, isolated local server, real Leaflet/proj4/Three dependencies; synthetic weather and intercepted GitHub API; test credentials only', tests:merged, observations:notes };
+ const endCommit = git(['rev-parse','HEAD']);
+ const report={ baseline, commit:startCommit, endCommit, sourceChangedDuringRun:startCommit!==endCommit, mainCommit:git(['rev-parse','origin/main']), worktreeClean:cleanAtStart&&!git(['status','--porcelain']), startedAt, completedAt:new Date().toISOString(), fullRun:!process.env.OCE_TEST_FILTER, environment:'Chromium, isolated local server, real Leaflet/proj4/Three dependencies; synthetic weather and intercepted GitHub API; test credentials only', tests:merged, observations:notes };
  fs.writeFileSync(path.join(output,'regression-results.json'),JSON.stringify(report,null,2));
  console.log(JSON.stringify({passed:results.filter(r=>r.status==='PASS').length,failed:results.filter(r=>r.status==='FAIL').length,knownBaselineDefects:results.filter(r=>r.status==='KNOWN BASELINE DEFECT').length,observations},null,2));
  if(results.some(r=>r.status==='FAIL'))process.exitCode=1;
+ if(process.env.CI && (report.sourceChangedDuringRun || !report.worktreeClean)) { console.error('CI source changed or was not clean during verification');process.exitCode=1; }
 }
 
 // Appended below: real map/3D, files, lock and polling exercises.
@@ -294,7 +295,7 @@ async function spatialChecks(env) {
    const previousBase=(await readState(p)).base;await p.locator('#btnBase').click();assert.notEqual((await readState(p)).base,previousBase);await p.locator('#btnBase').click();
    const responses=['https://tiles.example.test/{z}/{x}/{y}.png','Test imagery'];await p.route('https://tiles.example.test/**',route=>route.fulfill({contentType:'image/png',body:require('./fixtures.cjs').pixel}));
    p.on('dialog',dialog=>dialog.accept(responses.shift()));await p.locator('#btnImagery').click();await p.waitForFunction(()=>__opsTest.state.mapLayers.some(l=>l.name==='Test imagery'));
-   await p.setViewportSize({width:390,height:844});await p.waitForTimeout(250);assert.equal(await p.evaluate(()=>__opsTest.map.getSize().x),await p.locator('#map').evaluate(el=>el.clientWidth));
+   await p.setViewportSize({width:390,height:844});await p.locator('.mobile-map-toggle').click();await p.waitForTimeout(250);assert.equal(await p.evaluate(()=>__opsTest.map.getSize().x),await p.locator('#map').evaluate(el=>el.clientWidth));
    await p.locator(`[data-lc-remove="${id}"]`).click();assert.ok(!(await readState(p)).mapLayers.some(l=>l.id===id));assert.deepEqual(run.network.errors,[]);
   } finally {await run.close();}
  });
@@ -421,7 +422,8 @@ async function finalChecks(env) {
     await p.locator('[data-print-panel="punchlist"]').click();await p.emulateMedia({media:'print'});
     await p.waitForFunction(()=>[...document.querySelectorAll('.photo-appendix img')].every(i=>i.complete&&i.naturalWidth));
     assert.equal(await p.locator('.print-this .print-sheet:visible').count(),1);assert.match(await p.locator('.ap-label').textContent(),/1\. TEST evidence reference/);
-    snapshots.push(await p.locator('.print-this').textContent());
+    assert.equal(await p.locator('.print-this .vchip:visible').count(),0);
+    snapshots.push(await p.locator('.print-this').innerText());
     if(version==='after')await p.pdf({path:path.join(output,'print-punch-evidence.pdf'),format:'A4',printBackground:true});
    } finally {await run.close();}
   }
