@@ -2633,11 +2633,13 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   function loadWorkArea() {
-    fetch("data/workarea.geojson", { cache: "no-store" })
+    fetch("workarea.geojson", { cache: "no-store" })
+      // Older installations used data/. Keep that path as a 404-only fallback.
+      .then((r) => r.status === 404 ? fetch("data/workarea.geojson", { cache: "no-store" }) : r)
       .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then((d) => { reportGeo(addGeoJSON(d, true), "Work area"); })
       .catch(() => {
-        setMapHint(`No <b>data/workarea.geojson</b> loaded yet — use <b>Load GeoJSON</b> to open your QGIS export, or drop the file into the repo's <b>data/</b> folder.`);
+        setMapHint(`No work-area GeoJSON loaded — use <b>Add layers</b> to open your QGIS export, or place <b>workarea.geojson</b> in the repository root (legacy <b>data/</b> is also supported).`);
       });
   }
 
@@ -2651,13 +2653,20 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   function fitFeatures() {
-    const groups = [];
-    if (geoLayer && repoVisible) groups.push(geoLayer);
-    (state.mapLayers || []).forEach((ml) => { if (ml.type !== "tiles" && userLayers[ml.id]) groups.push(userLayers[ml.id]); });
-    if (markerLayer && markerLayer.getLayers().length) groups.push(markerLayer);
-    if (!groups.length) return;
-    const fg = L.featureGroup(groups);
-    try { map.fitBounds(fg.getBounds().pad(0.2)); } catch (e) {}
+    if (!map) return;
+    const bounds = L.latLngBounds([]);
+    function include(layer) {
+      if (!layer || !map.hasLayer(layer)) return;
+      // LayerGroup has no getBounds; descend into its visible marker children.
+      if (layer.eachLayer) layer.eachLayer(include);
+      else if (layer.getBounds) { const b = layer.getBounds(); if (b && b.isValid()) bounds.extend(b); }
+      else if (layer.getLatLng) bounds.extend(layer.getLatLng());
+    }
+    if (repoVisible) include(geoLayer);
+    include(markerLayer);
+    Object.values(userLayers).forEach(include);
+    Object.values(rasterLayers).forEach((r) => include(r.layer));
+    if (bounds.isValid()) map.fitBounds(bounds.pad(0.2), { maxZoom: map.getMaxZoom() });
   }
 
   function setMapHint(html) {
