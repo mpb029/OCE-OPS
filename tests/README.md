@@ -22,6 +22,9 @@ the candidate commit, latest fetched main commit, clean/dirty status and timesta
 Run `python -m pip install pypdf==6.10.0` followed by `python tests/compare-print.py`
 after the suite to compare all five PDFs. `node tests/model-inspection.cjs` records
 real geometry measurements and default/Y-up/close-up captures using existing controls.
+Print parity selects the same operational map layer/zoom in both versions and waits
+for the app's image-preload/print callback; the repaired base loader intentionally
+changes the initial map extent. No production print behavior is altered by this setup.
 
 The pull-request CI workflow checks the exact PR head, fetches main, runs all checks,
 compares PDFs and retains screenshots/results for 14 days. It has read-only repository

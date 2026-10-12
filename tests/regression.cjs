@@ -218,14 +218,25 @@ async function main() {
   await check('Print parity: full report, single panel, punch sheet and photo folder selection', async () => {
     const a=await open(env,{version:'before'}),b=await open(env);
     try {
+      // The repaired base-map loader intentionally changes the initial map extent.
+      // Compare print layout using the same selected operational layer and zoom.
+      for(const run of [a,b]) {
+        const p=run.page;
+        const layer=await p.evaluate(()=>__opsTest.state.mapLayers.find(l=>l.type!=='tiles').id);
+        await p.locator(`[data-lc-zoom="${layer}"]`).click();
+        while(await p.evaluate(()=>__opsTest.map.getZoom())>18)await p.locator('.leaflet-control-zoom-out').click();
+      }
       for(const mode of ['report','dailyWorks','punchlist','photos']) {
         const snapshots=[];
         for(const run of [a,b]) {
           const p=run.page;await endPrint(p);
+          const printCalls=await p.evaluate(()=>window.__printCalls||0);
           if(mode==='report')await clickCommand(p,'btnPrint');
           else if(mode==='photos'){await p.locator('[data-photo-report="weeklyPhotos"]').click();const picks=p.locator('#photoFolderList input');for(let i=1;i<await picks.count();i++)await picks.nth(i).uncheck();await p.locator('#photoPrintGo').click();}
           else await p.locator(`[data-print-panel="${mode}"]`).click();
-          await p.waitForFunction(()=>!!document.body.dataset.print);snapshots.push(await printSnapshot(p));
+          // Honour the application's image preload/print callback before capturing.
+          await p.waitForFunction(n=>(window.__printCalls||0)>n,printCalls,{timeout:15000});
+          snapshots.push(await printSnapshot(p));
         }
         assert.deepEqual(snapshots[1],snapshots[0],mode);
         assert.equal(snapshots[1].models,false);
