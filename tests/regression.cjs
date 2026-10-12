@@ -37,7 +37,7 @@ async function printSnapshot(page) {
   return {
    mode: document.body.dataset.print,
    panels: [...document.querySelectorAll('#panelsGrid [data-card]')].filter(visible).map(el => ({ id:el.dataset.card, text:el.innerText, width:Math.round(el.getBoundingClientRect().width) })),
-   map: visible(document.querySelector('.map-card')), summary: visible(document.querySelector('#summaryCard')),
+   map: visible(document.querySelector('.map-card')), mapPosition: getComputedStyle(document.getElementById('map')).position, summary: visible(document.querySelector('#summaryCard')),
    models: visible(document.querySelector('#modelCard')), weather: visible(document.querySelector('#weatherCard')),
    header: document.getElementById('phTitle').textContent,
    fonts: getComputedStyle(document.body).fontFamily,

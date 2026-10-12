@@ -18,6 +18,9 @@ module.exports = async (env, check) => {
     }
     assert.equal(await p.locator('#map').isVisible(), false);
     assert.equal(await p.locator('#mapHint').isVisible(), false);
+    await p.emulateMedia({media:'print'});
+    assert.equal(await p.locator('#map').evaluate(el=>getComputedStyle(el).position),'relative','Leaflet positioning must survive print media');
+    await p.emulateMedia({media:'screen'});
     await p.locator('.mobile-map-toggle').click();
     assert.equal(await p.locator('#map').isVisible(), true);
     await p.waitForTimeout(200);
