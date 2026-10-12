@@ -2321,9 +2321,20 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     const center = box.getCenter(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
     const cam = three.camera, controls = three.controls;
-    cam.near = maxDim / 1000; cam.far = maxDim * 1000; cam.updateProjectionMatrix();
-    const d = maxDim * 1.9;
-    cam.position.set(center.x + d, center.y + d * 0.7, center.z + d);
+    // Fit all eight bounds corners to the actual viewport/FOV, with 15% breathing room.
+    // A fixed max-dimension multiplier made long pipe networks needlessly tiny.
+    three.resize();
+    const direction = new THREE.Vector3(1, 0.7, 1).normalize();
+    cam.position.copy(center).add(direction); cam.lookAt(center);
+    const rotation = cam.quaternion.clone().invert();
+    const tanY = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)), tanX = tanY * cam.aspect;
+    let distance = 0;
+    for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+      const corner = new THREE.Vector3(x, y, z).sub(center).applyQuaternion(rotation);
+      distance = Math.max(distance, corner.z + Math.abs(corner.x) / tanX, corner.z + Math.abs(corner.y) / tanY);
+    }
+    cam.near = maxDim / 10000; cam.far = maxDim * 100; cam.updateProjectionMatrix();
+    cam.position.copy(center).addScaledVector(direction, Math.max(distance * 1.15, maxDim * 0.1));
     controls.target.copy(center); controls.update();
     if (three.grid) three.scene.remove(three.grid);
     three.grid = new THREE.GridHelper(maxDim * 3, 24, 0x6b7a88, 0x424c56);
