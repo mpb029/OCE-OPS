@@ -69,6 +69,7 @@ button:disabled { cursor: progress; opacity: .65; }
 #btnPublish:hover { background: var(--primary-hover); color: #fff; }
 #btnPublish.pub-clean { background: #203e3c; border-color: #426964; }
 .header-menu { position: relative; }
+body.viewer .header-menu { display: none; }
 .header-menu summary { list-style: none; cursor: pointer; }
 .header-menu summary::-webkit-details-marker { display: none; }
 .header-menu summary .fa-chevron-down { font-size: 9px; color: #aabacc; }
@@ -132,6 +133,7 @@ button:disabled { cursor: progress; opacity: .65; }
 .model-name { font-size: 13px; }
 .model-toolbar { max-width: calc(100% - 20px); flex-wrap: wrap; }
 .model-toolbar .mt { width: 38px; height: 38px; }
+.model-toolbar .mt.on { background: var(--primary); color: #fff; border-color: var(--primary); }
 .model-flip, .model-del { width: 36px; height: 36px; }
 .sum-proj { font-size: 13px; font-weight: 600; }
 .sum-status { font-size: 10px; letter-spacing: .1px; }
@@ -167,8 +169,8 @@ button:disabled { cursor: progress; opacity: .65; }
 .list .row-act button { width: 32px; height: 32px; border: 1px solid var(--divider); color: var(--muted); border-radius: 6px; }
 .list .row-act .donebtn.on { background: var(--success); color: #fff; border-color: var(--success); }
 .vchip, .card-head .pvis .vchip { width: 32px; height: 32px; font-size: 11px; color: #637387; background: #fff; }
-.vchip.on { color: #126548; background: #edf8f3; border-color: #b9dfce; }
-.vchip[data-vis^="client"].on, .vchip[data-pvis^="client"].on, .vchip[data-stvis^="client"].on { color: #195e94; background: #edf5fc; border-color: #bad7ed; }
+.vchip.on, .card-head .pvis .vchip.on { color: #126548; background: #edf8f3; border-color: #b9dfce; }
+.vchip[data-vis^="client"].on, .card-head .pvis .vchip[data-pvis^="client"].on, .vchip[data-stvis^="client"].on { color: #195e94; background: #edf5fc; border-color: #bad7ed; }
 .vchip:hover { box-shadow: 0 0 0 2px #dfeaf4; }
 .stbadge, .team-tag { text-transform: none; font: 500 10px var(--font-body); letter-spacing: 0; padding: 4px 7px; line-height: 1.5; white-space: normal; }
 .team-tag { background: #eef2f6 !important; color: #536579; border: 1px solid #e0e7ee; }
@@ -245,6 +247,7 @@ button:disabled { cursor: progress; opacity: .65; }
   .sum-block + .sum-block { border: 0; padding-top: 0; }
 }
 @media (max-width: 900px) {
+  body.viewer .header-menu { display: block; }
   .topbar { grid-template-columns: minmax(200px, 1fr) minmax(150px, 210px) auto; }
   .header-secondary:empty { display: none; }
   .topbar .clock { display: none; }
