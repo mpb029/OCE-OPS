@@ -44,6 +44,8 @@
 
     const mobile = matchMedia('(max-width: 680px)');
     const mapCard = document.querySelector('.map-card');
+    // Leaflet normally sets this inline. Retain it for print when starting collapsed.
+    document.getElementById('map').style.position = 'relative';
     const mapToggle = document.createElement('button');
     mapToggle.type = 'button'; mapToggle.className = 'tool-btn mobile-map-toggle';
     mapToggle.setAttribute('aria-controls', 'map');

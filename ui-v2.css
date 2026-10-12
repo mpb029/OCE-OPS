@@ -110,7 +110,7 @@ body.viewer .header-menu { display: none; }
 .map-toolbar { background: #fafbfd; padding: 12px 16px; gap: 8px; }
 .map-toolbar .grp { flex-wrap: wrap; max-width: 100%; }
 .cat-select { min-height: 40px; font-size: 12px; }
-#map { position: relative; height: 464px; }
+#map { height: 464px; }
 .map-hint { max-width: calc(100% - 24px); font-size: 11px; background: rgb(23 38 55 / 92%); }
 .map-hint b { color: #a9d8fb; }
 .layer-ctl { max-width: min(280px, calc(100vw - 108px)); box-shadow: 0 4px 16px rgb(23 38 55 / 15%); }
@@ -351,7 +351,7 @@ body.viewer .header-menu { display: none; }
   .mobile-map-collapsed .map-toolbar, .mobile-map-collapsed .map-hint { display: none; }
   /* Keep Leaflet's viewport measurable while removing the map from the card flow.
      display:none made initial Fit use zero bounds and disrupted later pan/zoom. */
-  .mobile-map-collapsed #map { position: absolute; inset: 0 0 auto; visibility: hidden; pointer-events: none; }
+  .mobile-map-collapsed #map { position: absolute !important; inset: 0 0 auto; visibility: hidden; pointer-events: none; }
   .mobile-map-collapsed .map-hint { display: none !important; }
   #modelCard.model-collapsed .model-list:has(.model-hint) { display: none; }
   .map-card .card-head .ttl { flex-basis: 140px; }
