@@ -110,7 +110,7 @@ body.viewer .header-menu { display: none; }
 .map-toolbar { background: #fafbfd; padding: 12px 16px; gap: 8px; }
 .map-toolbar .grp { flex-wrap: wrap; max-width: 100%; }
 .cat-select { min-height: 40px; font-size: 12px; }
-#map { height: 464px; }
+#map { position: relative; height: 464px; }
 .map-hint { max-width: calc(100% - 24px); font-size: 11px; background: rgb(23 38 55 / 92%); }
 .map-hint b { color: #a9d8fb; }
 .layer-ctl { max-width: min(280px, calc(100vw - 108px)); box-shadow: 0 4px 16px rgb(23 38 55 / 15%); }
@@ -348,7 +348,10 @@ body.viewer .header-menu { display: none; }
   .activity-shortcuts a { display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 8px 11px; border: 1px solid #435b72; border-radius: 7px; color: #fff; font-size: 12px; text-decoration: none; background: #263d53; }
   .activity-shortcuts a:last-child { background: #246fa9; border-color: #4c9bd6; }
   .mobile-map-toggle { display: inline-flex; margin-left: auto; color: var(--primary); background: var(--primary-soft); border-color: #cbdfee; }
-  .mobile-map-collapsed .map-toolbar, .mobile-map-collapsed #map, .mobile-map-collapsed .map-hint { display: none; }
+  .mobile-map-collapsed .map-toolbar, .mobile-map-collapsed .map-hint { display: none; }
+  /* Keep Leaflet's viewport measurable while removing the map from the card flow.
+     display:none made initial Fit use zero bounds and disrupted later pan/zoom. */
+  .mobile-map-collapsed #map { position: absolute; inset: 0 0 auto; visibility: hidden; pointer-events: none; }
   .mobile-map-collapsed .map-hint { display: none !important; }
   #modelCard.model-collapsed .model-list:has(.model-hint) { display: none; }
   .map-card .card-head .ttl { flex-basis: 140px; }
