@@ -94,7 +94,10 @@ retained in the attached review package, local delivery folder and CI artifact.
 
 [Five actual PDF comparisons](print-comparison.json) retain identical page counts and text
 on every corresponding page: full board 63, Daily Works 1, punch list 1, selected photo
-folder 7, client 2. The full suite and screenshot commands are documented in [tests](../../tests/README.md).
+folder 7, client 2. The print comparison selects the same operational layer and map zoom
+in both versions and waits for the application's image-preload/print callback. This
+avoids comparing different initial extents after the base-map repair. The full suite
+and screenshot commands are documented in [tests](../../tests/README.md).
 
 ## Latest main and operational data
 
