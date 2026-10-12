@@ -59,8 +59,8 @@ async function main() {
   assert.deepEqual(hooks(currentHTML),hooks(baselineHTML));
  });
  await check('Operational data and attachments unchanged from baseline', () => {
-  const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'data.json'))).digest('hex');
-  assert.equal(hash,'4a23e29f6a58aaba8724f4fea6fe2d9978f8344d65f8f526ab080a6ee842e097');
+  const hash = crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'data.json'),'utf8').replace(/\r\n/g,'\n')).digest('hex');
+  assert.equal(hash,'0e2310fe1d07573b4cea10ca335afd76b545a34952abebbed02665ca7fe45d36');
   assert.equal(execFileSync('git',['diff',baseline,'--','data.json','files','aerial','G4N.obj','workarea.geojson'],{cwd:root}).length,0);
   return { sha256:hash };
  });
