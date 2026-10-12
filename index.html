@@ -1005,6 +1005,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 }
 
 </style>
+  <!-- Phase 1 screen design. Existing print styles and application logic stay in this file. -->
+  <link rel="stylesheet" href="ui-v2.css" media="screen" />
+  <script src="ui-v2.js" defer></script>
 </head>
 <body>
 
@@ -1036,19 +1039,25 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       <label for="projSelect" title="Project"><i class="fa-solid fa-folder-tree"></i></label>
       <select id="projSelect" title="Select project"></select>
     </div>
-    <div class="topbar-spacer"></div>
-    <div id="syncPill" class="sync-pill" style="display:none"></div>
-    <div class="clock">
-      <div class="day" id="clockDay">&mdash;</div>
-      <div class="date" id="clockDate">&mdash;</div>
-    </div>
     <div class="topbar-actions">
-      <button class="icon-btn" id="btnPrint" title="Print the dashboard as a report"><i class="fa-solid fa-print"></i><span>Print</span></button>
       <button class="icon-btn pub-connect" id="btnPublish" title="Publish your changes so the site supervisor can see them"><i class="fa-solid fa-cloud-arrow-up"></i><span>Connect</span></button>
-      <button class="icon-btn" id="btnSettings" title="Project, weather location &amp; publishing"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
-      <button class="icon-btn" id="btnExport" title="Download all dashboard data as a backup file"><i class="fa-solid fa-download"></i><span>Export</span></button>
-      <button class="icon-btn" id="btnImport" title="Load a previously exported backup file"><i class="fa-solid fa-upload"></i><span>Import</span></button>
+      <div class="header-secondary" id="headerSecondary">
+        <button class="icon-btn" id="btnPrint" title="Print the dashboard as a report"><i class="fa-solid fa-print"></i><span>Print</span></button>
+        <button class="icon-btn" id="btnSettings" title="Project, weather location &amp; publishing"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
+      </div>
+      <details class="header-menu" id="headerMenu">
+        <summary class="icon-btn" aria-label="Board actions"><i class="fa-solid fa-ellipsis"></i><span>Actions</span><i class="fa-solid fa-chevron-down"></i></summary>
+        <div class="header-action-list" id="headerActionList">
+          <button class="icon-btn" id="btnExport" title="Download all dashboard data as a backup file"><i class="fa-solid fa-download"></i><span>Export backup</span></button>
+          <button class="icon-btn" id="btnImport" title="Load a previously exported backup file"><i class="fa-solid fa-upload"></i><span>Import backup</span></button>
+        </div>
+      </details>
       <input type="file" id="fileImport" class="hidden-file" accept="application/json,.json" />
+    </div>
+    <div class="header-meta">
+      <nav class="board-nav" aria-label="Board sections"><a href="#overview" class="nav-overview">Overview</a><a href="#panelsGrid">All panels <i class="fa-solid fa-arrow-down"></i></a></nav>
+      <div id="syncPill" class="sync-pill" role="status" aria-live="polite" style="display:none"></div>
+      <div class="clock"><div class="day" id="clockDay">&mdash;</div><div class="date" id="clockDate">&mdash;</div></div>
     </div>
   </header>
   <div class="hazard"></div>
@@ -1065,7 +1074,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <!-- ============================ BODY ============================ -->
   <div class="wrap">
 
-    <div class="grid-main">
+    <div class="grid-main" id="overview">
+
+      <div class="spatial-column">
 
       <!-- ---------- MAP ---------- -->
       <section class="card map-card">
@@ -1097,10 +1108,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       </section>
 
       <!-- ---------- 3D MODEL VIEWER (below the map) ---------- -->
-      <section class="card" id="modelCard" style="margin-top:18px; display:none">
+      <section class="card" id="modelCard" style="display:none">
         <div class="card-head">
           <span class="ttl"><span class="tag" style="background:#0f9b8e"><i class="fa-solid fa-cube"></i></span>3D Models</span>
           <span class="spacer"></span>
+          <button class="tool-btn model-disclosure" id="btnModelToggle" aria-expanded="true" aria-controls="modelStage modelList" title="Expand or collapse the 3D viewer"><i class="fa-solid fa-chevron-up"></i><span>Close viewer</span></button>
           <div class="model-tools" id="modelTools">
             <button class="tool-btn" id="btnModelUpload" title="View a 3D model (.stl/.glb/.gltf) this session"><i class="fa-solid fa-file-import"></i><span class="lbl">Add file</span></button>
             <button class="tool-btn" id="btnModelUrl" title="Add a hosted 3D model URL (shared with everyone)"><i class="fa-solid fa-link"></i><span class="lbl">Add URL</span></button>
@@ -1120,9 +1132,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         </div>
         <div class="model-list" id="modelList"></div>
       </section>
+      </div>
 
       <!-- ---------- RIGHT COLUMN: status + weather + stats ---------- -->
-      <div>
+      <div class="overview-column">
         <section class="card" id="summaryCard" style="margin-bottom:18px">
           <div class="card-head">
             <span class="ttl"><span class="tag" style="background:#6b4fb0"><i class="fa-solid fa-clipboard-check"></i></span>Project Status</span>

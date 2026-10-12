@@ -1,0 +1,7 @@
+{
+  "name": "oce-ops-ui-checks",
+  "private": true,
+  "description": "Optional browser regression checks; the deployed application needs no build step.",
+  "scripts": { "test": "node tests/regression.cjs", "screenshots": "node tests/capture.cjs" },
+  "devDependencies": { "playwright": "1.62.1" }
+}
