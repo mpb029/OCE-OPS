@@ -1862,6 +1862,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       const d = defaultState();
       // shallow-merge to tolerate older saves
       const merged = {
+        ...parsed, // retain forward-compatible backup fields across local reloads
         settings: Object.assign({}, d.settings, parsed.settings),
         clients: (parsed.clients && parsed.clients.length) ? parsed.clients
           : [ { id: DEFAULT_CLIENT, name: "Client", key: "client" } ],
@@ -3852,27 +3853,68 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   function importData(file) {
     const fr = new FileReader();
     fr.onload = () => {
+      let previous;
       try {
-        const parsed = JSON.parse(fr.result);
-        state = {
-          settings: Object.assign(defaultState().settings, parsed.settings),
-          base: parsed.base || "street",
-          markers: parsed.markers || [],
-          stats: parsed.stats || [],
-          panels: Object.assign(defaultState().panels, parsed.panels),
-          mapLayers: parsed.mapLayers || [],
-          panelVis: parsed.panelVis || {}
-        };
-        save();
-        renderHeader(); renderStats(); renderPanels(); renderMarkers();
-        if (map) renderUserLayers();
+        const candidate = normaliseBackup(JSON.parse(fr.result));
+        previous = { state, project: currentProject, raw: localStorage.getItem(STORE_KEY), projectRaw: localStorage.getItem(PROJ_KEY) };
+        // A quota/storage error must leave the current board untouched.
+        localStorage.setItem(STORE_KEY, JSON.stringify(candidate));
+        state = candidate;
+        if (currentProject !== "all" && !projects().some((p) => p.id === currentProject)) currentProject = "all";
+        localStorage.setItem(PROJ_KEY, currentProject);
+        // Imported model IDs can refer to different URLs; do not reuse stale cached objects.
+        Object.keys(loadedObjs).forEach((id) => { const obj = loadedObjs[id]; if (obj.parent) obj.parent.remove(obj); delete loadedObjs[id]; });
+        renderAll();
+        if (map) { applyBase(); renderUserLayers(); map.setView([state.settings.loc.lat, state.settings.loc.lng]); }
         loadWeather();
-        if (map) map.setView([state.settings.loc.lat, state.settings.loc.lng]);
+        markDirty();
+        toast("Backup restored locally — review before publishing");
       } catch (e) {
-        alert("That file couldn't be read as a dashboard backup. Make sure it's a JSON file exported from this dashboard.");
+        let restored = true;
+        if (previous && state !== previous.state) {
+          state = previous.state; currentProject = previous.project;
+          try {
+            previous.raw === null ? localStorage.removeItem(STORE_KEY) : localStorage.setItem(STORE_KEY, previous.raw);
+            previous.projectRaw === null ? localStorage.removeItem(PROJ_KEY) : localStorage.setItem(PROJ_KEY, previous.projectRaw);
+            renderAll(); if (map) { applyBase(); renderUserLayers(); map.setView([state.settings.loc.lat, state.settings.loc.lng]); } loadWeather();
+          } catch (restoreError) { restored = false; console.error("Could not refresh after a failed import", restoreError); }
+        }
+        alert((restored ? "Backup was not imported. Your current board is unchanged. " : "Backup restore failed and browser storage could not be rolled back. Keep this tab open and export the retained board before reloading. ") + (e.message || "Choose a JSON backup exported from this dashboard."));
       }
     };
+    fr.onerror = () => alert("Backup could not be read. Your current board is unchanged.");
     fr.readAsText(file);
+  }
+
+  function normaliseBackup(parsed) {
+    const object = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+    const fail = (name) => { throw new Error("Invalid backup field: " + name); };
+    if (!object(parsed) || !object(parsed.settings) || !object(parsed.panels)) fail("settings / panels");
+    const arrays = ["clients", "projects", "markers", "stats", "mapLayers", "models"];
+    arrays.forEach((name) => {
+      if (parsed[name] !== undefined && (!Array.isArray(parsed[name]) || !parsed[name].every(object))) fail(name);
+    });
+    ["panelVis", "panelMeta", "history", "projectSummary"].forEach((name) => {
+      if (parsed[name] !== undefined && !object(parsed[name])) fail(name);
+    });
+    Object.keys(parsed.panels).forEach((name) => {
+      const items = parsed.panels[name];
+      if (!Array.isArray(items) || !items.every(object)) fail("panels." + name);
+      items.forEach((item) => { if (item.photos !== undefined && (!Array.isArray(item.photos) || !item.photos.every(object))) fail("photos"); });
+    });
+    (parsed.stats || []).forEach((stat) => { if (stat.fields !== undefined && (!Array.isArray(stat.fields) || !stat.fields.every(object))) fail("stats.fields"); });
+    (parsed.projects || []).forEach((project) => { if (project.clients !== undefined && !Array.isArray(project.clients)) fail("projects.clients"); });
+    (parsed.markers || []).forEach((marker) => { if (!Number.isFinite(marker.lat) || !Number.isFinite(marker.lng)) fail("marker coordinates"); });
+    if (parsed.settings.loc !== undefined && (!object(parsed.settings.loc) || !Number.isFinite(parsed.settings.loc.lat) || !Number.isFinite(parsed.settings.loc.lng))) fail("settings.loc");
+    if (parsed.base !== undefined && !["street", "sat"].includes(parsed.base)) fail("base");
+    const d = defaultState();
+    return {
+      ...d, ...parsed,
+      settings: { ...d.settings, ...parsed.settings },
+      panels: { ...d.panels, ...parsed.panels },
+      clients: parsed.clients || d.clients,
+      projects: parsed.projects || [{ id: DEFAULT_PROJ, name: parsed.settings.projectName || "Main project", clients: [DEFAULT_CLIENT] }]
+    };
   }
 
   /* =======================================================================
