@@ -1,4 +1,4 @@
-/* Stage B1: transient, read-only presentation. The runtime supplies permitted data.
+/* Stage B2: transient, read-only presentation. The B1 runtime supplies permitted data.
  * No operational records, persistence, polling, editing or publishing live here.
  */
 window.OCEOverview = Object.freeze({
@@ -6,6 +6,11 @@ window.OCEOverview = Object.freeze({
     'use strict';
     let data;
     document.dispatchEvent(new CustomEvent('oce:overview-read', {detail:{accept:value => { data = value; }}}));
+    // Preserve a user's disclosure choice only while the permitted project context
+    // is unchanged. Never retain data/markup from an earlier project or audience.
+    const previous = container.querySelector('.ov-briefing');
+    const context = data && JSON.stringify(data.projects.map(p => [p.id,p.name]));
+    const expanded = previous && previous.dataset.context === context ? previous.open : matchMedia('(min-width:1200px)').matches;
     container.replaceChildren();
     if (!data) return;
     const el = (tag, cls, text) => {
@@ -37,11 +42,20 @@ window.OCEOverview = Object.freeze({
     const panelSection = panel => {
       const section = el('section','ov-card'); section.dataset.ovPanel = panel.id;
       section.append(head(panel.title,`${panel.items.length} active ${panel.items.length === 1 ? 'record' : 'records'} · ${panel.id === 'dailyWorks' ? 'As listed, not limited to today' : 'As recorded in the panel'}`, panelLink(panel)));
-      section.append(panel.items.length ? list(panel) : empty('No active records in this view.'));
+      section.append(panel.items.length ? list(panel) : empty('No active records in this view. Open the panel for completed records and available history.'));
       if (panel.items.length > 3) section.append(el('p','ov-list-foot',`Showing 3 of ${panel.items.length} · Open the panel for the complete list.`));
       return section;
     };
 
+    const briefing = el('details','ov-card ov-briefing'); briefing.open = expanded; briefing.dataset.context = context;
+    const toggle = el('summary','ov-briefing-toggle'), briefingTitle = el('span','ov-briefing-title');
+    briefingTitle.append(el('strong','','Project briefing'),el('span','ov-note','Recorded status, milestones & outlook'));
+    toggle.append(briefingTitle);
+    if (data.projects.length === 1 && data.projects[0].status) {
+      const badge = el('span','ov-rag',data.projects[0].status); badge.dataset.rag = data.projects[0].status; toggle.append(badge);
+    }
+    toggle.append(el('span','ov-disclosure-icon','')); briefing.append(toggle);
+    const briefingBody = el('div','ov-briefing-body');
     for (const project of data.projects) {
       const section = el('section','ov-card ov-summary'); section.dataset.ovProject = project.id;
       const intro = el('div','ov-summary-intro');
@@ -63,18 +77,23 @@ window.OCEOverview = Object.freeze({
         project.outlook.forEach(([label,value]) => { const row=el('div');row.append(el('dt','',label),el('dd','',value));dl.append(row); });
         more.append(dl); section.append(more);
       }
-      container.append(section);
+      briefingBody.append(section);
     }
-    if (!data.projects.length) container.append(empty('No project summary available in this view.'));
+    if (data.projects.length) { briefing.append(briefingBody); container.append(briefing); }
+    else container.append(empty('No project summary available in this view.'));
 
     const quick = el('nav','ov-quick'); quick.setAttribute('aria-label','Overview activity counts');
+    quick.append(el('p','ov-quick-label','Active records · Open original panel'));
     for (const id of ['dailyWorks','upcoming','issuesDelays','qualityTesting']) {
       const panel = panelById(id); if (!panel) continue;
       const a = panelLink(panel); a.className = 'ov-metric'; a.dataset.ovCount = id; a.replaceChildren();
-      a.append(el('span','ov-metric-label',panel.title),el('strong','',String(panel.items.length)),el('span','ov-note','Active records'),el('span','ov-arrow','↗'));
+      a.append(el('span','ov-metric-label',panel.title),el('strong','',String(panel.items.length)),el('span','ov-arrow','↗'));
+      a.setAttribute('aria-label',`${panel.title}: ${panel.items.length} active records. Open original panel.`);
       quick.append(a);
     }
-    if (quick.childElementCount) container.append(quick);
+    if (quick.childElementCount > 1) {
+      quick.style.setProperty('--ov-count',String(quick.childElementCount - 1)); container.append(quick);
+    }
     const columns = el('div','ov-columns');
     for (const id of ['dailyWorks','upcoming','issuesDelays']) { const panel=panelById(id);if(panel)columns.append(panelSection(panel)); }
     const attention = data.panels.filter(p => ['qualityTesting','punchlist','incidents'].includes(p.id));
