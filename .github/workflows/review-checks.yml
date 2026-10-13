@@ -39,7 +39,9 @@ jobs:
           npm run screenshots -- after
           node tests/model-inspection.cjs
       - name: Exercise complete offline repository recovery
-        run: node tests/recovery.cjs
+        run: |
+          node tests/recovery.cjs
+          python tests/verify-recovery.py
       - name: Retain review evidence
         if: always()
         uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
