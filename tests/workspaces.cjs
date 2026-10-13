@@ -54,12 +54,18 @@ async function enabled(env,options={}) {
    const run=await open(env,{data:synthetic()}); const p=run.page;
    try {
     assert.equal(await p.locator('body').evaluate(e=>e.classList.contains('ws-enabled')),false);
+    await p.evaluate(()=>{window.__workspaceReveals=0;document.addEventListener('oce:workspace-reveal',()=>window.__workspaceReveals++);});
+    for(const size of [{width:768,height:1024},{width:390,height:844},{width:1440,height:900}]){await p.setViewportSize(size);await p.waitForTimeout(100);}
+    assert.equal(await p.evaluate(()=>window.__workspaceReveals),0,'Classic mode must not add viewport callbacks');
     const before=await snapshot(p); await p.locator('#wsOptIn').click();
     assert.equal(await p.locator('#wsTitle').innerText(),'All Panels'); assert.equal((await ids(p)).length,21);
     assert.equal(await p.locator('#wsDestinations a').count(),8);
     await nav(p,'operations'); await p.locator('#wsOriginal').click();
     assert.equal(await p.locator('#wsSidebar').isVisible(),false); assert.equal((await ids(p)).length,21);
     assert.deepEqual(await snapshot(p),before); assert.equal(run.network.writes.length,0);
+    await p.waitForTimeout(100);await p.evaluate(()=>window.__workspaceReveals=0);
+    await p.setViewportSize({width:768,height:1024});await p.waitForTimeout(100);
+    assert.equal(await p.evaluate(()=>window.__workspaceReveals),0,'Opt-out must stop viewport callbacks');
     await p.reload(); await p.waitForFunction(()=>window.__opsTest?.ready);
     assert.equal(await p.locator('#wsSidebar').isVisible(),false);
    } finally {await run.close();}
