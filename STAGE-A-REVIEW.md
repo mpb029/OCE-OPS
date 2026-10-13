@@ -40,6 +40,8 @@ Map/model/layer controls remain unchanged. Navigation retains Leaflet, Three.js,
 
 ## Repeatable verification
 
+For subsequent development, use the [FAST / FOCUSED / FULL workflow](VERIFICATION.md). The commands below describe the comprehensive original checks; they are retained by FULL and are not required on every edit. A green FAST/FOCUSED run does not replace exact-commit FULL milestone acceptance.
+
 With Node.js 24 and Python installed:
 
 ```sh
