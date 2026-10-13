@@ -15,6 +15,7 @@ module.exports = function workspaceFixture() {
   panels.dailyWorks.push({id:'demo-daily-2',project:'default',main:'Prepare bedding · Crossing 3',sub:'Pipe crew · Hold point before backfill',team:'pipe',wstatus:'pending',vis:{site:true,client:false}});
   panels.dailyWorks.push({id:'demo-east-only',project:'east',main:'East project · Drainage set out',sub:'Synthetic East record',vis:{site:true,client:true}});
   panels.workPackages[0].pct = 40;
+  panels.upcoming[0].startDate = '2026-10-14'; panels.upcoming[0].endDate = '2026-10-16';
   panels.qualityTesting[0].status = 'pending'; panels.punchlist[0].priority = 'high'; panels.punchlist[0].status = 'open';
   panels.documents = [{id:'demo-document',project:'default',name:'Synthetic construction notes.txt',size:160,mime:'text/plain',path:'tests/fixture-file.txt',url:'tests/fixture-file.txt',vis:{site:true,client:true}}];
   panels.weeklyPhotos[0].photos = [{name:'Synthetic progress image.png',url:'tests/fixture-image.png',path:'tests/fixture-image.png',mime:'image/png'}];

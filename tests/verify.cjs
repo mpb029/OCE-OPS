@@ -9,6 +9,7 @@ const read = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const write = (file, value) => fs.writeFileSync(file, JSON.stringify(value, null, 2));
 const scopes = {
   workflow: ['', ''],
+  overview: ['^Source contract:', '^Overview:'],
   navigation: ['', '^Opt-in,|^Navigation 768×1024|^Keyboard and discoverable drawer 768×1024'],
   audience: ['^Audience parity', '^Audience compatibility|^Absent whole workspace|^Empty permitted'],
   editing: ['^CRUD parity: (dailyWorks|rfis),|^Production stat:', '^Workspace CRUD'],
@@ -87,8 +88,9 @@ function suite(report, engine, full, commit) {
   assert.ok(report.tests.every(t => t.status === 'PASS'), 'Every selected assertion must pass');
   if (full) {
     assert.equal(report.fullRun, true, 'Partial runs never satisfy FULL');
+    if (!report.environment) assert.equal(report.tests.filter(t=>t.name?.startsWith('Overview:')).length,13,'All B1 Overview contracts required');
     assert.equal(report.worktreeClean, true);
-    assert.ok(report.tests.length >= (report.environment ? 83 : 34), 'Incomplete acceptance suite');
+    assert.ok(report.tests.length >= (report.environment ? 83 : 47), 'Incomplete acceptance suite');
   }
 }
 
@@ -170,11 +172,11 @@ function fullEvidence(directory, receipt, commit, main) {
   for (const engine of ['chromium','firefox']) for (const file of ['regression-results.json','stage-a-results.json'])
     suite(read(path.join(directory,engine,file)),engine,true,commit);
   const chrome=path.join(directory,'chromium');
-  for (const [file,count] of [['print-comparison.json',5],['workspace-pdfs/comparison-results.json',15]]) {
+  for (const [file,count] of [['print-comparison.json',5],['workspace-pdfs/comparison-results.json',20]]) {
     const result=read(path.join(chrome,file));assert.equal(result.length,count);assert.ok(result.every(r=>r.sameTextOnEveryPage));
   }
   const shots=read(path.join(chrome,'screenshots/manifest.json'));
-  assert.equal(shots.commit,commit);assert.equal(shots.fullRun,true);assert.equal(shots.screenshots.length,42);
+  assert.equal(shots.commit,commit);assert.equal(shots.fullRun,true);assert.equal(shots.screenshots.length,48);
   for (const shot of shots.screenshots) assert.ok(fs.statSync(path.join(chrome,'screenshots',shot.name)).size>0);
   const recovery=read(path.join(directory,'recovery/recovery-manifest.json'));
   assert.equal(recovery.commit,commit);assert.equal(recovery.main,main);assert.deepEqual(recovery.prerequisites,[]);
