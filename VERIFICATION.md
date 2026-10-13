@@ -1,6 +1,6 @@
 # Verification levels
 
-Development tooling only. The accepted Stage A milestone remains `938ad274d232aa8a045e54b5b15531b6a9c61b3a`; retain its existing review/recovery artifacts. PR #1 and PR #2 stay draft. The workflow does not authorise application changes: Stage B1 is separately approved and documented in STAGE-B1-REVIEW.md. PR #3 remains at 2e371d7. Operational data, attachments, location defaults, schema and publishing code remain protected.
+Development tooling only. The accepted Stage A milestone remains `938ad274d232aa8a045e54b5b15531b6a9c61b3a`; retain its existing review/recovery artifacts. PR #1 and PR #2 stay draft. The workflow does not authorise application changes: Stages B1 and B2 are separately approved and documented in STAGE-B1-REVIEW.md and STAGE-B2-REVIEW.md. PR #3 remains at 2e371d7; PR #4 remains at 8315740. Operational data, attachments, location defaults, schema and publishing code remain protected.
 
 Use Node.js 24, `npm ci`, and Playwright's Chromium/Firefox installations. FOCUSED/FULL also require Python and `pypdf==6.10.0`. On Linux use `LIBGL_ALWAYS_SOFTWARE=1` and `xvfb-run --auto-servernum` as CI does. Tests use isolated browser contexts and intercept publishing requests; never supply production credentials. One browser engine runs at a time.
 
@@ -8,7 +8,7 @@ Use Node.js 24, `npm ci`, and Playwright's Chromium/Firefox installations. FOCUS
 |---|---|---|
 | FAST | `npm run verify:fast -- --scope navigation` | Syntax, inline-script compilation, diff/integrity checks, protected assets, orchestration tests, selected Chromium checks. No bulk screenshots/PDF comparisons/recovery. |
 | FOCUSED | `npm run verify:focused -- --scope navigation` | Selected feature checks in Chromium and Firefox, plus original source contracts, project/audience filtering, persistence, deep links and print safeguards; five Chromium report comparisons. No bulk captures or recovery. |
-| FULL | `npm run verify:full` | Complete 83 original + 34 Stage A + 13 B1 assertions in each engine, 5 original + 20 workspace PDF comparisons (including Overview), all 48 workspace screenshots, original responsive/model evidence, protected assets, standalone bundle/archive and independent recovery verification. |
+| FULL | `npm run verify:full` | Complete 83 original + 34 Stage A + 13 B1 + 12 B2 assertions in each engine, 5 original + 20 workspace PDF comparisons (including Overview), all 48 workspace screenshots, original responsive/model evidence, protected assets, standalone bundle/archive and independent recovery verification. |
 
 Scopes: `workflow` (FAST source/tooling only), `navigation`, `overview`, `audience`, `editing`, `backup`, `spatial`, `print`. Select the affected scope after reviewing the diff; run multiple scopes for unrelated changes. For a tooling-only edit start with `npm run verify:fast`. Add `--plan` to inspect the exact command/filter selection without executing tests. Existing `npm test`, `test:workspaces` and other individual commands remain available.
 
@@ -24,7 +24,7 @@ npm run verify:fast -- --scope navigation --shots '^editor-tablet-drawer\.png$'
 
 Every invocation writes a fresh `test-results/verification/<level>-<commit>-<unique>/` directory and `verification.json`. It never merges filtered results into an old JSON or overwrites accepted evidence. `OCE_VERIFY_OUTPUT` can select a different parent; `OCE_TEST_OUTPUT` is assigned separately to each engine. `OCE_PYTHON` selects a Python executable; `OCE_BROWSER` selects Chromium only and is removed for Firefox. Receipts record commit, command plan, selected filters, tool/platform/browser fingerprints and artifact SHA-256 hashes. Dirty development trees are labelled; FULL requires a clean committed tree throughout.
 
-For B1 development: `npm run verify:fast -- --scope overview --shots 'editor-(desktop|tablet)-overview'`. At feature completion: `npm run verify:focused -- --scope overview`. The 13 Overview contracts run inside the existing workspace suite, use `OCE_STAGE_A_FILTER`, and are mandatory in FULL. FULL also compares five report families from Overview and captures editor/site/client Overview at all three sizes.
+For Overview development: `npm run verify:fast -- --scope overview --shots 'editor-(desktop|tablet)-overview'`. At feature completion: `npm run verify:focused -- --scope overview`. The unchanged 13 B1 and 12 additional B2 Overview contracts run inside the existing workspace suite, use `OCE_STAGE_A_FILTER`, and are mandatory in FULL. FULL also compares five report families from Overview and captures editor/site/client Overview at all three sizes.
 
 ## Evidence reuse
 
@@ -40,7 +40,7 @@ This saves repeated execution after documentation/review-only changes. It does n
 
 ## CI and the acceptance gate
 
-On the B1 branch, PR open/reopen/update events run FAST Overview checks plus source/integrity/tooling checks. Select navigation explicitly for navigation-only changes. They upload small scoped evidence for seven days. They do not create recovery bundles, PDF comparison batches or the 48-image gallery.
+On the B1/B2 branches, PR open/reopen/update events run FAST Overview checks plus source/integrity/tooling checks. Select navigation explicitly for navigation-only changes. They upload small scoped evidence for seven days. They do not create recovery bundles, PDF comparison batches or the 48-image gallery.
 
 Add the PR label `verification:focused` or `verification:full` to request that level on its exact head SHA. The label-add event runs once; later pushes remain FAST even if the label remains. Remove/re-add the label to request another run. Unrelated label events run no tests. This works on draft PRs before this workflow exists on main. Once available on the default branch, Actions **Run workflow** also provides level/scope choices and a branch selector. GitHub documents the [default-branch requirement for workflow_dispatch](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch).
 

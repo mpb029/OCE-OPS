@@ -9,7 +9,7 @@ const read = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 const write = (file, value) => fs.writeFileSync(file, JSON.stringify(value, null, 2));
 const scopes = {
   workflow: ['', ''],
-  overview: ['^Source contract:', '^Overview:'],
+  overview: ['^Source contract:', '^Overview(:| refinement:)'],
   navigation: ['', '^Opt-in,|^Navigation 768×1024|^Keyboard and discoverable drawer 768×1024'],
   audience: ['^Audience parity', '^Audience compatibility|^Absent whole workspace|^Empty permitted'],
   editing: ['^CRUD parity: (dailyWorks|rfis),|^Production stat:', '^Workspace CRUD'],
@@ -88,9 +88,12 @@ function suite(report, engine, full, commit) {
   assert.ok(report.tests.every(t => t.status === 'PASS'), 'Every selected assertion must pass');
   if (full) {
     assert.equal(report.fullRun, true, 'Partial runs never satisfy FULL');
-    if (!report.environment) assert.equal(report.tests.filter(t=>t.name?.startsWith('Overview:')).length,13,'All B1 Overview contracts required');
+    if (!report.environment) {
+      assert.equal(report.tests.filter(t=>t.name?.startsWith('Overview:')).length,13,'All B1 Overview contracts required');
+      assert.equal(report.tests.filter(t=>t.name?.startsWith('Overview refinement:')).length,12,'All B2 refinement contracts required');
+    }
     assert.equal(report.worktreeClean, true);
-    assert.ok(report.tests.length >= (report.environment ? 83 : 47), 'Incomplete acceptance suite');
+    assert.ok(report.tests.length >= (report.environment ? 83 : 59), 'Incomplete acceptance suite');
   }
 }
 

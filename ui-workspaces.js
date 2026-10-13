@@ -83,7 +83,7 @@ function initWorkspaces() {
   }
 
   const optIn = element('a','ws-chrome ws-optin','Try workspaces');
-  optIn.id = 'wsOptIn'; optIn.href = routeURL('all').href;
+  optIn.id = 'wsOptIn'; optIn.href = routeURL('overview').href;
   document.querySelector('.board-nav').append(optIn);
 
   const sidebar = element('aside','ws-chrome ws-sidebar'); sidebar.id = 'wsSidebar';
@@ -93,7 +93,7 @@ function initWorkspaces() {
   const nav = element('nav','ws-destinations'); nav.id = 'wsDestinations'; nav.setAttribute('aria-label','Workspaces');
   const footer = element('div','ws-sidebar-footer');
   const original = element('a','ws-original','Original board'); original.id = 'wsOriginal'; original.href = routeURL('all','',false).href;
-  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage B1 · opt-in workspaces'));
+  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage B2 · opt-in workspaces'));
   sidebar.append(brand,menu,nav,footer); body.append(sidebar);
   const shade = button('Close navigation','wsShade'); shade.className = 'ws-chrome ws-shade'; shade.tabIndex = -1; shade.hidden = true; body.append(shade);
 
@@ -183,7 +183,7 @@ function initWorkspaces() {
     const more = button('Menu','wsMobileMenu','bars'); more.setAttribute('aria-controls','wsSidebar'); more.setAttribute('aria-expanded','false');
     more.addEventListener('click',() => toggleMenu(more)); bottom.append(more);
     original.href = routeURL('all','',false).href;
-    optIn.href = routeURL('all').href;
+    optIn.href = routeURL('overview').href;
     updateMenu();
   }
   function present() {
@@ -245,7 +245,7 @@ function initWorkspaces() {
     cards.forEach(c => { c.id = 'activity-'+c.dataset.card; });
     available = destinations.filter(d => !d.panels.length || d.panels.some(permitted));
     const target = usableTarget(url.hash);
-    const requested = target ? targetWorkspace(url.hash) : url.searchParams.get('workspace');
+    const requested = target ? targetWorkspace(url.hash) : (url.searchParams.get('workspace') || 'overview');
     active = available.some(d => d.id === requested) ? requested : 'all';
     lastProject = project.value;
     present();
@@ -269,7 +269,7 @@ function initWorkspaces() {
   document.addEventListener('click',event => {
     if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
     const a = event.target.closest('a'); if (!a) return;
-    if (a === optIn) { event.preventDefault(); navigate('all'); return; }
+    if (a === optIn) { event.preventDefault(); navigate('overview'); return; }
     if (a === original) { event.preventDefault(); navigate('all','',false); return; }
     if (!enabled) return;
     if (a.dataset.wsRoute) { event.preventDefault(); navigate(a.dataset.wsRoute,a.dataset.wsTarget || ''); return; }
