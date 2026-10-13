@@ -29,6 +29,13 @@ const evidence=[];
      }else await p.locator(`[data-print-panel="${mode}"]`).evaluate(e=>e.click());
      await p.waitForFunction(n=>(window.__printCalls||0)>n,count,{timeout:15000});
      await p.emulateMedia({media:'print'});
+     // Screen-only Phase 1 typography can leave the original print fonts unused.
+     // Flush print layout and await those font faces before Chromium snapshots it.
+     const printLayout=await p.evaluate(async()=>{
+      document.body.getBoundingClientRect();await document.fonts.ready;
+      return {fonts:document.fonts.status,headerFont:getComputedStyle(document.getElementById('phTitle')).fontFamily,
+       cards:[...document.querySelectorAll('#overview > *,#panelsGrid > [data-card]')].map(e=>({id:e.id||e.dataset.card,height:e.getBoundingClientRect().height}))};
+     });
      assert.equal(await p.locator('.ws-chrome:visible').count(),0);
      const panels=await p.locator('[data-card]:visible').evaluateAll(es=>es.map(e=>e.dataset.card));
      if(mode==='report')assert.equal(panels.length,21);else if(mode!=='client')assert.equal(panels.length,1);
@@ -36,7 +43,7 @@ const evidence=[];
      await p.pdf({path:path.join(directory,`${route}-${mode}.pdf`),format:'A4',printBackground:true});
      await p.emulateMedia({media:'screen'});await p.evaluate(()=>dispatchEvent(new Event('afterprint')));
      assert.deepEqual(run.network.errors,[]);assert.equal(run.network.writes.length,0);
-     evidence.push({mode,route,panels,status:'PASS'});console.log(`PASS PDF ${route}/${mode}`);
+     evidence.push({mode,route,panels,printLayout,status:'PASS'});console.log(`PASS PDF ${route}/${mode}`);
     }finally{await run.close();}
    }
   }
