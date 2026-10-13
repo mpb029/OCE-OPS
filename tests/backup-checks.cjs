@@ -31,7 +31,7 @@ module.exports=async(env,check)=>{
    assert.ok((await p.locator('#projSelect option').allTextContents()).includes('Restored project'));
    assert.ok((await p.locator('#modelList').innerText()).includes('Retained model'));
    assert.equal(await p.evaluate(()=>__opsTest.sync.dirty),true);assert.equal(run.network.writes.length,0);
-   await p.reload({waitUntil:'networkidle'});assert.deepEqual(await read(p),backup);assert.deepEqual(await exported(p),backup);
+   await p.reload({waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__opsTest?.ready);assert.deepEqual(await read(p),backup);assert.deepEqual(await exported(p),backup);
    assert.equal(run.network.writes.length,0);assert.deepEqual(run.network.errors,[]);
    return {roundTrip:'all keys and identifiers deep-equal, including unknown/legacy fields',historyRecords:Object.keys(backup.history).length};
   }finally{await run.close();}
@@ -67,7 +67,7 @@ module.exports=async(env,check)=>{
    await p.evaluate(()=>Storage.prototype.setItem=window.savedSetItem);
    candidate.mapLayers=[{id:'invalid-geometry',data:{type:'UnsupportedGeometry'}}];
    waiting=p.waitForEvent('dialog').then(dialog=>dialog.accept());await upload(p,candidate);await waiting;assert.deepEqual(await read(p),state);assert.equal(await p.evaluate(()=>localStorage.getItem('offaly_ops_v1')),stored);assert.equal(await p.evaluate(()=>__opsTest.sync.dirty),true);
-   await p.reload({waitUntil:'networkidle'});assert.deepEqual(await read(p),state);
+   await p.reload({waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__opsTest?.ready);assert.deepEqual(await read(p),state);
    assert.equal(run.network.writes.length,0);
   }finally{await run.close();}
  });

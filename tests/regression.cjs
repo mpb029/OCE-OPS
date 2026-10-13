@@ -394,7 +394,7 @@ async function accessChecks(env) {
  await check('Local persistence: unpublished edits survive reload and stale remote data',async()=>{
   const run=await open(env);const p=run.page;try{
    await p.locator('[data-add="dailyWorks"]').click();await p.waitForTimeout(50);await p.locator('#fMain').fill('LOCAL PERSISTENCE TEST');await p.locator('#itemSave').click();const before=await readState(p);
-   await p.reload({waitUntil:'networkidle'});assert.deepEqual(await readState(p),before);assert.equal(await p.evaluate(()=>__opsTest.sync.dirty),true);assert.ok((await readState(p)).panels.dailyWorks.some(i=>i.main==='LOCAL PERSISTENCE TEST'));
+   await p.reload({waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__opsTest?.ready);assert.deepEqual(await readState(p),before);assert.equal(await p.evaluate(()=>__opsTest.sync.dirty),true);assert.ok((await readState(p)).panels.dailyWorks.some(i=>i.main==='LOCAL PERSISTENCE TEST'));
   }finally{await run.close();}
  });
 }
