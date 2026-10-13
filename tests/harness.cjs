@@ -2,7 +2,8 @@ const fs = require('node:fs');
 const path = require('node:path');
 const http = require('node:http');
 const { execFileSync } = require('node:child_process');
-const { chromium } = require('playwright');
+const playwright = require('playwright');
+const engine = process.env.OCE_ENGINE || 'chromium';
 const fixtures = require('./fixtures.cjs');
 
 const root = path.resolve(__dirname, '..');
@@ -14,6 +15,7 @@ const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript
 
 // These read-only probes exist only in the test server's response, never the deployed app.
 const probe = `window.__opsTest = {
+ get ready() { return remoteResolved; },
  get state() { return state; }, get sync() { return sync; }, get map() { return map; },
  get geoLayer() { return geoLayer; }, get markerLayer() { return markerLayer; },
  get three() { return three; }, get loadedObjs() { return loadedObjs; },
@@ -45,8 +47,8 @@ async function start() {
   } catch { res.writeHead(404); res.end('Not found'); }
  });
  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
- const browser = await chromium.launch({ headless: true, executablePath: process.env.OCE_BROWSER || undefined, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] }).catch(error => { server.close(); throw error; });
- return { browser, url: `http://127.0.0.1:${server.address().port}`, close: async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
+ const browser = await playwright[engine].launch({ headless: true, executablePath: process.env.OCE_BROWSER || undefined, ...(engine==='chromium'?{args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}:{firefoxUserPrefs:{'webgl.force-enabled':true}}) }).catch(error => { server.close(); throw error; });
+ return { browser, engine, url: `http://127.0.0.1:${server.address().port}`, close: async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
 }
 
 function fixture() {
@@ -59,7 +61,7 @@ function fixture() {
 }
 
 async function open(env, { version = 'after', width = 1440, height = 900, audience = '', data = fixture(), token = false, touch = false, liveClock = false, workArea = 'root' } = {}) {
- const context = await env.browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, isMobile: touch, hasTouch: touch, locale: 'en-AU', timezoneId: 'Australia/Brisbane', acceptDownloads: true });
+ const context = await env.browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, ...(engine==='chromium'?{isMobile:touch}:{}), hasTouch: touch, locale: 'en-AU', timezoneId: 'Australia/Brisbane', acceptDownloads: true });
  const network = { writes: [], errors: [], console: [], failed: [], sharedReads: 0, publishFailure: false };
  const page = await context.newPage();
  page.setDefaultTimeout(12000);
@@ -106,8 +108,9 @@ async function open(env, { version = 'after', width = 1440, height = 900, audien
   }
   return route.continue();
  });
- await page.goto(`${env.url}/${version}/index.html${audience}`, { waitUntil: 'networkidle', timeout: 60000 });
- await page.waitForFunction(() => window.__opsTest && document.querySelector('#panelsGrid .card'));
+ await page.goto(`${env.url}/${version}/index.html${audience}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+ // Board readiness is independent of continuously loading third-party map tiles.
+ await page.waitForFunction(() => window.__opsTest?.ready && document.querySelector('#panelsGrid .card'));
  await page.evaluate(() => document.fonts.ready);
  return { page, context, network, data, close: () => context.close() };
 }

@@ -10,6 +10,8 @@ const git = args => execFileSync('git',args,{cwd:root}).toString().trim();
 const startCommit = git(['rev-parse','HEAD']);
 const cleanAtStart = !git(['status','--porcelain']);
 const readState = page => page.evaluate(() => structuredClone(__opsTest.state));
+// Firefox supports print-media assertions but Playwright PDF export is Chromium-only.
+const savePDF = (page, options) => process.env.OCE_ENGINE === 'firefox' ? Promise.resolve() : page.pdf(options);
 const value = (page, expression) => page.evaluate(expression);
 async function check(name, action) {
  if (process.env.OCE_TEST_FILTER && !new RegExp(process.env.OCE_TEST_FILTER).test(name)) return;
@@ -63,12 +65,13 @@ async function main() {
   const before = ids(baselineHTML), after = ids(currentHTML);
   for(const id of before) assert.ok(after.has(id), `Missing ${id}`);
   const hooks = html => [...html.matchAll(/\bdata-[a-z-]+(?==)/g)].map(x=>x[0]).sort();
-  assert.deepEqual(hooks(currentHTML),hooks(baselineHTML));
+  assert.deepEqual(hooks(currentHTML.replace(/<!-- Backup replacement[^]*?<!-- ============================ ITEM MODAL/, '<!-- ============================ ITEM MODAL')),hooks(baselineHTML));
  });
  await check('Operational data and all attachments unchanged from latest main', () => require('./preservation.cjs')(root,output));
  const env = await start();
  try {
   await require('./phase11-checks.cjs')(env, check);
+  await require('./readiness-checks.cjs')(env, check);
   await require('./map-repair-checks.cjs')(env, check);
   const views = [['1920x1080',1920,1080],['1440x900',1440,900],['1366x768',1366,768],['1024x768',1024,768],['768x1024',768,1024],['390x844',390,844],['375x812',375,812],['360x800',360,800]];
   for (const [name,width,height] of views) await check(`Layout ${name}: 21 panels, no overflow, controls and dialogs`, async () => {
@@ -244,14 +247,14 @@ async function main() {
         if(mode==='photos')assert.equal(snapshots[1].photos.length,1);
         if(mode==='punchlist')assert.ok(await b.page.locator('.print-this .print-sheet:visible').count()>0);
         await b.page.screenshot({path:path.join(output,`print-${mode}.png`)});
-        await a.page.pdf({path:path.join(output,`before-print-${mode}.pdf`),format:'A4',printBackground:true});
-        await b.page.pdf({path:path.join(output,`print-${mode}.pdf`),format:'A4',printBackground:true});
+        await savePDF(a.page,{path:path.join(output,`before-print-${mode}.pdf`),format:'A4',printBackground:true});
+        await savePDF(b.page,{path:path.join(output,`print-${mode}.pdf`),format:'A4',printBackground:true});
       }
     } finally {await a.close();await b.close();}
   });
   await check('Client report parity: same authorized panels, no map or weather', async () => {
     const a=await open(env,{version:'before',audience:'?view=test-client-1'}),b=await open(env,{audience:'?view=test-client-1'});
-    try{for(const run of[a,b])await clickCommand(run.page,'btnPrint');const actual=await printSnapshot(b.page);assert.deepEqual(actual,await printSnapshot(a.page));assert.equal(actual.map,false);assert.equal(actual.weather,false);await a.page.pdf({path:path.join(output,'before-print-client.pdf'),format:'A4',printBackground:true});await b.page.pdf({path:path.join(output,'print-client.pdf'),format:'A4',printBackground:true});}finally{await a.close();await b.close();}
+    try{for(const run of[a,b])await clickCommand(run.page,'btnPrint');const actual=await printSnapshot(b.page);assert.deepEqual(actual,await printSnapshot(a.page));assert.equal(actual.map,false);assert.equal(actual.weather,false);await savePDF(a.page,{path:path.join(output,'before-print-client.pdf'),format:'A4',printBackground:true});await savePDF(b.page,{path:path.join(output,'print-client.pdf'),format:'A4',printBackground:true});}finally{await a.close();await b.close();}
   });
 
   await spatialChecks(env);
@@ -263,7 +266,7 @@ async function main() {
  let merged=results, notes=observations;
  if(process.env.OCE_TEST_FILTER && fs.existsSync(previousPath)) {const previous=JSON.parse(fs.readFileSync(previousPath));const byName=new Map(previous.tests.map(r=>[r.name,r]));results.forEach(r=>byName.set(r.name,r));merged=[...byName.values()];notes=[...previous.observations,...observations.filter(o=>!previous.observations.some(p=>p.detail===o.detail))];}
  const endCommit = git(['rev-parse','HEAD']);
- const report={ baseline, commit:startCommit, endCommit, sourceChangedDuringRun:startCommit!==endCommit, mainCommit:git(['rev-parse','origin/main']), worktreeClean:cleanAtStart&&!git(['status','--porcelain']), startedAt, completedAt:new Date().toISOString(), fullRun:!process.env.OCE_TEST_FILTER, environment:'Chromium, isolated local server, real Leaflet/proj4/Three dependencies; synthetic weather and intercepted GitHub API; test credentials only', tests:merged, observations:notes };
+ const report={ baseline, commit:startCommit, endCommit, sourceChangedDuringRun:startCommit!==endCommit, mainCommit:git(['rev-parse','origin/main']), worktreeClean:cleanAtStart&&!git(['status','--porcelain']), startedAt, completedAt:new Date().toISOString(), fullRun:!process.env.OCE_TEST_FILTER, environment:{engine:env.engine,browserVersion:env.browser.version(),platform:process.platform,fixtures:'isolated server; real Leaflet/proj4/Three; synthetic weather; intercepted GitHub writes',limitations:env.engine==='firefox'?['Native print dialog and PDF export untested; print-media parity checked']:[]}, tests:merged, observations:notes };
  fs.writeFileSync(path.join(output,'regression-results.json'),JSON.stringify(report,null,2));
  console.log(JSON.stringify({passed:results.filter(r=>r.status==='PASS').length,failed:results.filter(r=>r.status==='FAIL').length,knownBaselineDefects:results.filter(r=>r.status==='KNOWN BASELINE DEFECT').length,observations},null,2));
  if(results.some(r=>r.status==='FAIL'))process.exitCode=1;
@@ -278,6 +281,8 @@ async function spatialChecks(env) {
   try {
    assert.equal(await p.locator('#catSelect option').count(),9);
    await p.locator('#catSelect').selectOption('tie');await p.locator('#btnAddMode').click();await p.locator('#map').click({position:{x:180,y:190}});
+   // The original modal schedules title focus after 30 ms; allow that callback before typing.
+   await p.waitForTimeout(50);
    await p.locator('#mkTitle').fill('TEST tie-in');await p.locator('#mkNotes').fill('Survey check');await p.locator('#mkLetter').fill('Q');await p.locator('#mkVisClient').check();await p.locator('#mkSave').click();
    let marker=(await readState(p)).markers[0];assert.equal(marker.letter,'Q');assert.equal(marker.notes,'Survey check');assert.equal(marker.vis.client,true);
    await p.locator('.leaflet-marker-icon').click();await p.locator(`[data-mk-edit="${marker.id}"]`).click();await p.locator('#mkTitle').fill('TEST updated tie-in');await p.locator('#mkSave').click();
@@ -375,7 +380,7 @@ async function accessChecks(env) {
   const data=fixture();data.settings.editPass=hash;const run=await open(env,{data});const p=run.page;try{
    assert.equal(await p.locator('#lockScreen').isVisible(),true);await p.locator('#lockPass').fill('wrong');await p.locator('#lockBtn').click();assert.equal(await p.locator('#lockErr').isVisible(),true);
    await p.locator('#lockPass').fill('test-password');await p.locator('#lockBtn').click();assert.equal(await p.locator('#lockScreen').isVisible(),false);assert.equal(await p.locator('[data-card]').count(),21);
-   await p.reload({waitUntil:'networkidle'});assert.equal(await p.locator('#lockScreen').isVisible(),false);
+   await p.reload({waitUntil:'domcontentloaded'});await p.waitForFunction(()=>window.__opsTest?.ready);assert.equal(await p.locator('#lockScreen').isVisible(),false);
   }finally{await run.close();}
   const viewer=await open(env,{data,audience:'?crew=test-site'});try{assert.equal(await viewer.page.locator('#lockScreen').isVisible(),false);assert.equal(await viewer.page.evaluate(()=>__opsTest.sync.audience),'site');}finally{await viewer.close();}
  });
@@ -435,7 +440,7 @@ async function finalChecks(env) {
     assert.equal(await p.locator('.print-this .print-sheet:visible').count(),1);assert.match(await p.locator('.ap-label').textContent(),/1\. TEST evidence reference/);
     assert.equal(await p.locator('.print-this .vchip:visible').count(),0);
     snapshots.push(await p.locator('.print-this').innerText());
-    if(version==='after')await p.pdf({path:path.join(output,'print-punch-evidence.pdf'),format:'A4',printBackground:true});
+    if(version==='after')await savePDF(p,{path:path.join(output,'print-punch-evidence.pdf'),format:'A4',printBackground:true});
    } finally {await run.close();}
   }
   assert.equal(snapshots[1],snapshots[0]);

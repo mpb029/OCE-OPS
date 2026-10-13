@@ -7,7 +7,8 @@ module.exports = async (env, check) => {
    const run = await open(env, { width:360, height:800, touch:true, audience }); const p = run.page;
    try {
     const state = await p.evaluate(() => structuredClone(__opsTest.state));
-    const links = p.locator('.activity-shortcuts a');
+    const links = p.locator('.activity-shortcuts a:visible');
+    assert.equal(await p.locator('.tablet-shortcut:visible').count(),0);
     assert.ok(await links.count());
     assert.ok((await links.last().boundingBox()).y < 400);
     for (const link of await links.all()) {

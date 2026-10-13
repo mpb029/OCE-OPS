@@ -12,7 +12,8 @@ module.exports=function(root,output){
  const sha256=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'data.json'),'utf8').replace(/\r\n/g,'\n')).digest('hex');
  const mainHash=crypto.createHash('sha256').update(execFileSync('git',['show',ref+':data.json'],{cwd:root})).digest('hex');
  assert.equal(sha256,mainHash);
- const evidence={mainCommit:git(['rev-parse',ref]),candidateCommit:git(['rev-parse','HEAD']),protectedFiles:assets.length,dataSHA256:sha256,unchanged:true,assets:git(['ls-tree','-r',ref,'--',...assets]).split('\n')};
+ const worktreeFiles=assets.map(name=>({path:name,sha256:crypto.createHash('sha256').update(fs.readFileSync(path.join(root,name))).digest('hex')}));
+ const evidence={mainCommit:git(['rev-parse',ref]),candidateCommit:git(['rev-parse','HEAD']),protectedFiles:assets.length,dataSHA256:sha256,worktreeDataSHA256:worktreeFiles.find(f=>f.path==='data.json').sha256,unchanged:true,assets:git(['ls-tree','-r',ref,'--',...assets]).split('\n'),worktreeFiles};
  fs.writeFileSync(path.join(output,'preservation.json'),JSON.stringify(evidence,null,2));
  return {mainCommit:evidence.mainCommit,protectedFiles:assets.length,dataSHA256:sha256};
 };

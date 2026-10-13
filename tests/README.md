@@ -33,3 +33,11 @@ External CDN availability is still required. CI does not exercise real GitHub wr
 
 See [the Phase 1 report](../docs/phase1/REVIEW.md) for the original comparison and
 [Phase 1.1](../docs/phase1.1/REVIEW.md) for the subsequent refinements and isolated repairs.
+# Release-readiness additions
+
+`readiness-checks.cjs` covers portrait-tablet hierarchy at 768, 820 and 1024 px; editor/site/client shortcuts; recovery-download confirmation and cancellation; stale-backup prevention; invalid required records and explicit empty project/client arrays; exact storage/publishing/map/model preservation after injected storage/render failures; and the unchanged global sample-GeoJSON behaviour.
+
+Run the same suite with `OCE_ENGINE=firefox` after installing the Playwright Firefox browser. Clear `OCE_BROWSER` if it points to Chromium. Firefox checks print-media parity; Playwright PDF export remains Chromium-only. Tests intercept all GitHub writes and use isolated browser contexts, never the live dashboard.
+
+`node tests/recovery.cjs` requires a clean committed tree and a current `origin/main`. It creates a complete Git bundle without prerequisite commits, a ZIP containing all tracked source and attachments, recovery instructions and a SHA-256 manifest in `OCE_TEST_OUTPUT` (default `test-results`). It clones the bundle into a new temporary directory without network access, runs `git fsck --full` and verifies every recovered tracked file against its Git blob ID. The temporary recovery checkout is retained for inspection. This is repository recovery; browser-local edits need an application Export, and CDN/remote resources remain external dependencies.
+

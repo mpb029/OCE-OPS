@@ -7,6 +7,10 @@ const { start, open, output } = require('./harness.cjs');
   const version = process.argv[2] || 'after';
   for (const [name, width, height] of [['desktop',1440,900], ['mobile',390,844], ...(version==='after' ? [['1920x1080',1920,1080],['1366x768',1366,768],['1024x768',1024,768],['768x1024',768,1024],['375x812',375,812],['360x800',360,800]] : [])]) {
    const run = await open(env, { version, width, height, touch: width < 1100, liveClock: true });
+   if(version==='after'&&['desktop','mobile','768x1024'].includes(name)){
+    await run.page.waitForTimeout(1200);
+    await run.page.screenshot({path:path.join(output,`initial-${name}.png`)});
+   }
    if(version==='after' && width<=680) await run.page.locator('.mobile-map-toggle').click();
    const savedLayer = await run.page.evaluate(() => __opsTest.state.mapLayers.find(l => l.type !== 'tiles')?.id);
    await run.page.locator(`[data-lc-zoom="${savedLayer}"]`).click();

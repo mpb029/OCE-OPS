@@ -1,0 +1,31 @@
+// Build and exercise a complete, standalone Git recovery bundle. No network required.
+const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),crypto=require('node:crypto');
+const {execFileSync}=require('node:child_process');const assert=require('node:assert/strict');
+const root=path.resolve(__dirname,'..'),output=path.resolve(process.env.OCE_TEST_OUTPUT||path.join(root,'test-results'));
+fs.mkdirSync(output,{recursive:true});
+const git=(args,cwd=root)=>execFileSync('git',args,{cwd,maxBuffer:20e6,stdio:['ignore','pipe','pipe']}).toString().trim();
+assert.equal(git(['status','--porcelain']),'','Recovery must describe a clean committed tree');
+const commit=git(['rev-parse','HEAD']),main=git(['rev-parse','origin/main']);
+const bundle=path.join(output,'OCE-OPS-complete.bundle'),archive=path.join(output,'OCE-OPS-source-and-attachments.zip');
+git(['bundle','create',bundle,'HEAD','origin/main']);
+const header=fs.readFileSync(bundle).subarray(0,4096).toString().split('\n\n')[0];
+assert.ok(!header.split('\n').some(line=>line.startsWith('-')),'Incremental prerequisites are forbidden');
+const scratch=fs.mkdtempSync(path.join(process.env.OCE_RECOVERY_SCRATCH||os.tmpdir(),'oce-recovery-'));
+const restored=path.join(scratch,'restored');
+git(['-c','core.autocrlf=false','clone','--no-checkout',bundle,restored]);
+git(['-c','core.autocrlf=false','checkout','--detach',commit],restored);
+git(['fsck','--full'],restored);
+assert.equal(git(['rev-parse','HEAD'],restored),commit);
+const sha256=bytes=>crypto.createHash('sha256').update(bytes).digest('hex');
+const files=git(['ls-tree','-r','HEAD']).split('\n').map(line=>{
+ const [meta,name]=line.split('\t'),oid=meta.split(' ')[2],bytes=fs.readFileSync(path.join(restored,name));
+ const actual=crypto.createHash('sha1').update(Buffer.from('blob '+bytes.length+'\0')).update(bytes).digest('hex');
+ assert.equal(actual,oid,'Recovered bytes differ: '+name);
+ return {path:name,gitBlob:oid,bytes:bytes.length,sha256:sha256(bytes)};
+});
+git(['archive','--format=zip','--output='+archive,'HEAD']);
+const artifacts=[bundle,archive].map(p=>({file:path.basename(p),bytes:fs.statSync(p).size,sha256:sha256(fs.readFileSync(p))}));
+const report={commit,main,createdAt:new Date().toISOString(),prerequisites:[],offlineClone:true,fsck:'PASS',allTrackedBytesVerified:true,filesVerified:files.length,files,artifacts,restoredDirectory:restored};
+fs.writeFileSync(path.join(output,'recovery-manifest.json'),JSON.stringify(report,null,2));
+fs.writeFileSync(path.join(output,'RECOVERY.txt'),`OCE-OPS complete recovery — ${commit}\n\nThe bundle includes all history and blobs needed for this commit and main ${main}. It has no incremental prerequisites. An offline clone, git fsck, and every tracked-file byte check passed.\n\nRestore into a NEW directory (never overwrite a working/live board):\n  git -c core.autocrlf=false clone --no-checkout OCE-OPS-complete.bundle OCE-OPS-restored\n  git -C OCE-OPS-restored -c core.autocrlf=false checkout --detach ${commit}\n  git -C OCE-OPS-restored fsck --full\n\nWithout Git, extract OCE-OPS-source-and-attachments.zip into a new empty directory. It contains the complete tracked source and attachments, without Git history. Serve it over local HTTP for review. Neither procedure publishes or deploys anything.\n\nBrowser-local unpublished changes are not part of a repository archive: use Export/current-board recovery download in the application for those. JSON backups contain attachment references, not attachment binaries. CDN libraries, map tiles, hosted models and external resources still require internet access; this is self-contained repository recovery, not an offline replacement for those services. No credentials are included.\n\nVerify SHA-256 hashes against recovery-manifest.json before use.\n`);
+console.log(JSON.stringify({commit,filesVerified:files.length,prerequisites:[],offlineClone:true,artifacts},null,2));
