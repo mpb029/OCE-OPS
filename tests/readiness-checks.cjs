@@ -45,7 +45,14 @@ module.exports=async(env,check)=>{
    await p.setViewportSize({width:390,height:844});await p.screenshot({path:path.join(output,'import-confirmation-mobile.png')});
    assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth),390);
    await p.setViewportSize({width:1440,height:900});
-   const saved=await recovery(p);assert.deepEqual(saved,before.state);await p.keyboard.press('Escape');assert.deepEqual(await snapshot(p),before);
+   // Resize belongs to the screenshot exercise, not Import cancellation. Leaflet
+   // rounds pixel origins; keep exact non-spatial checks and bound that rounding.
+   await p.evaluate(()=>new Promise(ok=>requestAnimationFrame(()=>requestAnimationFrame(()=>requestAnimationFrame(ok)))));
+   const beforeCancel=await snapshot(p);
+   const {center:initialCenter,...initialRest}=before,{center:resizedCenter,...resizedRest}=beforeCancel;
+   assert.deepEqual(resizedRest,initialRest);
+   assert.ok(await p.evaluate(([a,b])=>__opsTest.map.project(a).distanceTo(__opsTest.map.project(b))<1,[initialCenter,resizedCenter]),'Resize must retain the map view within one pixel');
+   const saved=await recovery(p);assert.deepEqual(saved,before.state);await p.keyboard.press('Escape');assert.deepEqual(await snapshot(p),beforeCancel);
    await upload(p,candidate);await recovery(p);await p.locator('#importBackupSaved').check();
    // A pending remote refresh or another edit must invalidate the downloaded snapshot.
    await p.evaluate(()=>__opsTest.state.settings.projectName='Changed while confirming');

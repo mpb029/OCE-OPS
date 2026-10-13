@@ -1,4 +1,4 @@
-name: Phase 1 review checks
+name: OCE-OPS review checks
 
 on:
   pull_request:
@@ -34,6 +34,14 @@ jobs:
         run: npm test
       - name: Compare report pagination and text
         run: python tests/compare-print.py
+      - name: Integrated opt-in Stage A contracts
+        run: npm run test:workspaces
+      - name: Compare all five report families from three workspace routes
+        run: |
+          npm run test:workspace-print
+          python tests/compare-workspace-print.py
+      - name: Capture Stage A using synthetic review data
+        run: npm run screenshots:workspaces
       - name: Capture responsive and actual-model evidence
         run: |
           npm run screenshots -- after
@@ -68,6 +76,11 @@ jobs:
       - run: git fetch origin main
       - name: Firefox browser regression suite (print-media checks; Chromium exports PDFs)
         run: xvfb-run --auto-servernum npm test
+        env:
+          OCE_ENGINE: firefox
+          LIBGL_ALWAYS_SOFTWARE: '1'
+      - name: Firefox integrated opt-in Stage A contracts
+        run: xvfb-run --auto-servernum npm run test:workspaces
         env:
           OCE_ENGINE: firefox
           LIBGL_ALWAYS_SOFTWARE: '1'

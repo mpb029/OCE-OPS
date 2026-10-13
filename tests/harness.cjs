@@ -108,7 +108,9 @@ async function open(env, { version = 'after', width = 1440, height = 900, audien
   }
   return route.continue();
  });
- await page.goto(`${env.url}/${version}/index.html${audience}`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+ const target = new URL(`${env.url}/${version}/index.html${audience}`);
+ if (env.workspaces && version === 'after') { target.searchParams.set('ui','workspaces'); if(!target.searchParams.has('workspace'))target.searchParams.set('workspace','all'); }
+ await page.goto(target.href, { waitUntil: 'domcontentloaded', timeout: 60000 });
  // Board readiness is independent of continuously loading third-party map tiles.
  await page.waitForFunction(() => window.__opsTest?.ready && document.querySelector('#panelsGrid .card'));
  await page.evaluate(() => document.fonts.ready);
