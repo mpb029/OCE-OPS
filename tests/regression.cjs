@@ -57,7 +57,14 @@ async function main() {
   // Deliberately isolated, separately tested repairs. Everything outside these functions
   // must still match the original application, including publishing and role filtering.
   const approved = ['frameAll', 'load', 'importData', 'normaliseBackup', 'loadWorkArea', 'fitFeatures'];
-  const unchanged = html => approved.reduce((s,name)=>s.replace(new RegExp('  function '+name+'\\([^]*?\\n  }\\n?'),''),script(html)).replace(/\n{3,}/g,'\n\n');
+  // Only the two exact, presentation-only Stage A hooks may differ in the runtime.
+  // Keeping this an exact subtraction still catches changes inside any CRUD handler.
+  const stageAHooks = [
+    '    // Stage A presentation hook: the original renderer remains authoritative.\n    document.dispatchEvent(new Event("oce:panels-rendered"));\n',
+    '  // Stage A viewport adapter: resize existing instances without fitting or saving.\n  document.addEventListener("oce:workspace-reveal", () => {\n    if (map && document.getElementById("map").getClientRects().length) map.invalidateSize({ animate: false });\n    if (three && document.getElementById("modelStage").getClientRects().length) three.resize();\n  });\n\n'
+  ];
+  for (const hook of stageAHooks) assert.equal(script(currentHTML).split(hook).length,2,'Stage A hook must be exact and occur once');
+  const unchanged = html => approved.reduce((s,name)=>s.replace(new RegExp('  function '+name+'\\([^]*?\\n  }\\n?'),''),stageAHooks.reduce((s,hook)=>s.replace(hook,''),script(html))).replace(/\n{3,}/g,'\n\n');
   assert.equal(unchanged(currentHTML), unchanged(baselineHTML)); assert.equal(style(currentHTML),style(baselineHTML));
  });
  await check('Source contract: all original static IDs and data hooks retained', () => {
