@@ -48,13 +48,13 @@ function initWorkspaces() {
     const id = hash.replace(/^#/,'');
     if (id.startsWith('activity-')) return permitted(id.slice(9)) ? byId(id) : null;
     if (id === 'panelsGrid' || id === 'mapCard') return byId(id);
-    if (id === 'modelCard' && byId(id)?.style.display !== 'none') return byId(id);
+    if (['modelCard','summaryCard','prodStatsCard'].includes(id) && byId(id)?.style.display !== 'none') return byId(id);
     return null;
   };
   const targetWorkspace = hash => {
     if (hash.startsWith('#activity-')) return groupFor(hash.slice(10))?.id;
     if (hash === '#mapCard' || hash === '#modelCard') return 'site';
-    if (hash === '#panelsGrid') return 'all';
+    if (['#panelsGrid','#summaryCard','#prodStatsCard'].includes(hash)) return 'all';
     return null;
   };
   function routeURL(workspace, target = '', optIn = true) {
@@ -93,7 +93,7 @@ function initWorkspaces() {
   const nav = element('nav','ws-destinations'); nav.id = 'wsDestinations'; nav.setAttribute('aria-label','Workspaces');
   const footer = element('div','ws-sidebar-footer');
   const original = element('a','ws-original','Original board'); original.id = 'wsOriginal'; original.href = routeURL('all','',false).href;
-  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage A · opt-in navigation'));
+  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage B1 · opt-in workspaces'));
   sidebar.append(brand,menu,nav,footer); body.append(sidebar);
   const shade = button('Close navigation','wsShade'); shade.className = 'ws-chrome ws-shade'; shade.tabIndex = -1; shade.hidden = true; body.append(shade);
 
@@ -105,8 +105,8 @@ function initWorkspaces() {
   const allLink = link('All Panels','all','','ws-all-link'); allLink.prepend(icon('table-cells-large'));
   heading.append(headingText,allLink); wrap.prepend(heading);
   const shortcuts = element('nav','ws-chrome ws-shortcuts'); shortcuts.setAttribute('aria-label','Available panels in this workspace'); heading.after(shortcuts);
-  const placeholder = element('section','ws-chrome ws-placeholder');
-  placeholder.append(icon('compass'),element('h2','','Your workspaces are ready'),element('p','','The project Overview is planned for Stage B. For now, start in All Panels or open an operational workspace.'),link('Open All Panels','all','','ws-primary-link'));
+  const placeholder = element('section','ws-chrome ws-overview'); placeholder.id = 'wsOverview';
+  placeholder.setAttribute('aria-label','Project overview');
   shortcuts.after(placeholder);
   const bottom = element('nav','ws-chrome ws-bottom'); bottom.setAttribute('aria-label','Quick navigation'); body.append(bottom);
   const chrome = [sidebar,heading,shortcuts,placeholder,bottom];
@@ -166,7 +166,7 @@ function initWorkspaces() {
     scope.textContent = project.selectedOptions[0]?.textContent || 'Project board';
     title.textContent = destination.title;
     const visibleCards = active === 'all' ? cards : cards.filter(c => destination.panels.includes(c.dataset.card));
-    description.textContent = active === 'site' ? 'Map and model tools · Board-wide references' : active === 'overview' ? 'Planned for Stage B' : `${visibleCards.length} available ${visibleCards.length === 1 ? 'panel' : 'panels'}${active === 'all' ? ' · Original board layout' : ''}`;
+    description.textContent = active === 'site' ? 'Map and model tools · Board-wide references' : active === 'overview' ? 'Project status and active work · Open any record in its original panel' : `${visibleCards.length} available ${visibleCards.length === 1 ? 'panel' : 'panels'}${active === 'all' ? ' · Original board layout' : ''}`;
     allLink.hidden = active === 'all'; allLink.href = routeURL('all').href;
     const targets = active === 'site'
       ? [['mapCard','Work Area Map'],...(byId('modelCard')?.style.display !== 'none' ? [['modelCard','3D Models']] : [])]
@@ -194,6 +194,7 @@ function initWorkspaces() {
     optIn.hidden = enabled;
     chrome.forEach(el => { el.hidden = !enabled; });
     if (!enabled) {
+      placeholder.replaceChildren();
       grid.removeAttribute('data-ws-suppressed'); byId('overview').removeAttribute('data-ws-suppressed');
       cards.forEach(c => c.removeAttribute('data-ws-suppressed'));
       closeDrawer(); history.scrollRestoration = 'auto'; lastLayout = '';
@@ -207,6 +208,11 @@ function initWorkspaces() {
     const d = destinations.find(d => d.id === active);
     cards.forEach(c => c.toggleAttribute('data-ws-suppressed',active !== 'all' && !d.panels.includes(c.dataset.card)));
     placeholder.hidden = active !== 'overview';
+    if (active === 'overview') window.OCEOverview.render(placeholder,(label,id,cls) => {
+      const target = ['summaryCard','prodStatsCard','mapCard'].includes(id) ? '#'+id : '#activity-'+id;
+      return link(label,targetWorkspace(target),target,cls);
+    });
+    else placeholder.replaceChildren();
     renderNavigation();
     const layout = [active,collapsed,wrap.clientWidth].join(':');
     if (layout !== lastLayout) { lastLayout = layout; reveal(); }
@@ -233,7 +239,7 @@ function initWorkspaces() {
     const url = new URL(location.href);
     const savedEntry = entry();
     // Do not canonicalise deep links against the temporary, locked startup board.
-    if (!project.options.length || body.classList.contains('locked')) { chrome.forEach(el => {el.hidden = true;}); return; }
+    if (!project.options.length || body.classList.contains('locked')) { chrome.forEach(el => {el.hidden = true;}); placeholder.replaceChildren(); return; }
     if (enabled && initialRoute) setProject(url.searchParams.get('workspaceProject') || entry()?.project);
     cards = [...grid.querySelectorAll(':scope > [data-card]')];
     cards.forEach(c => { c.id = 'activity-'+c.dataset.card; });

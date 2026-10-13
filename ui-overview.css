@@ -1,0 +1,70 @@
+/* Screen-only B1 presentation. Original print styles and panel nodes are untouched. */
+@media screen {
+  .ws-overview { display:grid; gap:20px; color:#15334b; }
+  .ws-overview[hidden] { display:none; }
+  .ov-card { min-width:0; background:#fff; border:1px solid #d5e1ed; border-radius:12px; overflow:hidden; }
+  .ws-overview h2,.ws-overview h3,.ws-overview p,.ws-overview dl,.ws-overview dd { margin:0; }
+  .ws-overview h2 { font-size:18px; line-height:1.4; font-weight:650; }
+  .ws-overview h3 { font-size:15px; line-height:1.5; font-weight:600; }
+  .ov-note,.ov-detail { color:#526b80; font-size:14px; line-height:1.6; }
+  .ov-detail { overflow-wrap:anywhere; white-space:pre-line; }
+  .ov-link { display:inline-flex; align-items:center; min-height:44px; font-size:14px; font-weight:600; color:#1b5fa8; text-decoration:none; }
+  .ov-link:hover,.ov-record-link:hover { text-decoration:underline; }
+  .ws-overview a:focus-visible,.ov-outlook summary:focus-visible { outline:3px solid #3189d4; outline-offset:3px; border-radius:4px; }
+  .ov-summary { display:grid; grid-template-columns:1.1fr 1fr; border-left:4px solid #2c6697; }
+  .ov-summary-intro { padding:24px 28px; }
+  .ov-eyebrow { font-size:12px; font-weight:650; letter-spacing:.09em; line-height:1.6; text-transform:uppercase; color:#55718b; }
+  .ov-summary h2 { margin-top:10px; font-size:21px; overflow-wrap:anywhere; }
+  .ov-stage { margin-top:8px!important; font-size:15px; font-weight:600; }
+  .ov-summary .ov-detail { margin-top:6px; }
+  .ov-rag { display:inline-block; margin-left:14px; padding:3px 9px; border-radius:5px; letter-spacing:.04em; }
+  .ov-rag[data-rag=GREEN] { background:#e7f4ec;color:#216440; }
+  .ov-rag[data-rag=AMBER] { background:#fff1ce;color:#785100; }
+  .ov-rag[data-rag=RED] { background:#fdeae8;color:#a6302b; }
+  .ov-summary-facts { display:grid; grid-template-columns:1fr 1fr; gap:24px; padding:28px; align-content:center; border-left:1px solid #e2eaf1; }
+  .ov-summary-facts dd { margin-top:8px; font-size:17px; font-weight:600; line-height:1.6; overflow-wrap:anywhere; }
+  .ov-outlook { grid-column:1/-1; border-top:1px solid #e2eaf1; background:#f8fafc; }
+  .ov-outlook summary { cursor:pointer; padding:14px 28px; font-size:14px; font-weight:600; min-height:48px; box-sizing:border-box; }
+  .ov-outlook dl { padding:0 28px 18px; }
+  .ov-outlook dl>div { display:grid; grid-template-columns:190px 1fr; gap:16px; padding:10px 0; border-top:1px solid #e2eaf1; font-size:14px; line-height:1.6; }
+  .ov-outlook dt { color:#526b80; }.ov-outlook dd { white-space:pre-line; overflow-wrap:anywhere; }
+  .ov-quick { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+  .ov-metric { position:relative; display:grid; grid-template-columns:1fr auto; align-items:end; gap:8px; min-height:98px; padding:16px 18px; border:1px solid #d5e1ed; border-radius:10px; background:#fff; color:#15334b; text-decoration:none; box-sizing:border-box; }
+  .ov-metric-label { grid-column:1/-1; font-size:14px; font-weight:600; padding-right:20px; }
+  .ov-metric strong { font-size:28px; font-weight:650; line-height:1.2; }
+  .ov-arrow { position:absolute; top:14px; right:16px; color:#55718b; }
+  .ov-metric:hover { border-color:#3189d4; background:#fafdff; }
+  .ov-columns { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+  .ov-section-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:18px 22px; border-bottom:1px solid #e2eaf1; }
+  .ov-section-head .ov-link { flex-shrink:0; }
+  .ov-section-head .ov-note { margin-top:5px; }
+  .ov-list { list-style:none; padding:0; margin:0; }
+  .ov-list>li { padding:12px 22px 18px; border-bottom:1px solid #e8eef4; }
+  .ov-list>li:last-child { border-bottom:0; }
+  .ov-record-link { display:flex; align-items:center; min-height:44px; color:#15334b; font-size:15px; font-weight:600; line-height:1.5; text-decoration:none; overflow-wrap:anywhere; }
+  .ov-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+  .ov-tag,.ov-project-tag { padding:4px 8px; border-radius:4px; font-size:13px; line-height:1.5; background:#edf4fb; color:#27577f; overflow-wrap:anywhere; }
+  .ov-project-tag { background:#f0f3f6;color:#516576; }
+  .ov-empty,.ov-list-foot { padding:18px 22px; color:#526b80; font-size:14px; line-height:1.6; }
+  .ov-attention-group { border-bottom:1px solid #e2eaf1; }.ov-attention-group:last-child { border-bottom:0; }
+  .ov-attention-group h3 { padding:5px 22px 0; }
+  .ov-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; padding:22px; }
+  .ov-stat-value { font-size:24px; font-weight:650; padding:12px 0; line-height:1.4; }
+  .ov-bar { height:7px; border-radius:5px; background:#e5edf5; overflow:hidden; margin-bottom:14px; }.ov-bar span { display:block; height:100%; background:#2c70b9; }
+  .ov-stat dl>div { display:flex; gap:12px; justify-content:space-between; font-size:14px; line-height:1.8; }.ov-stat dt { color:#526b80; }
+  .ov-footer { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:2px 4px 20px; }.ov-footer .ov-link { flex-shrink:0; }
+  @media(max-width:1199px) {
+    .ov-summary { grid-template-columns:1fr; }.ov-summary-intro { padding:20px 22px 4px; }
+    .ov-summary-facts { padding:14px 22px 20px; border-left:0; }
+    .ov-columns { grid-template-columns:1fr; }.ov-quick { grid-template-columns:repeat(2,minmax(0,1fr)); }
+  }
+  @media(max-width:680px) {
+    .ws-overview { gap:14px; }.ov-summary h2 { font-size:19px; }
+    .ov-summary-intro { padding:18px 18px 0; }.ov-summary-facts { padding:10px 18px 18px; gap:18px; }
+    .ov-summary-facts dd { font-size:15px; }.ov-eyebrow { font-size:11px; }
+    .ov-section-head { padding:16px; gap:12px; flex-wrap:wrap; }.ov-list>li { padding:8px 16px 16px; }
+    .ov-metric { padding:14px; }.ov-metric .ov-note { font-size:12px; }.ov-metric strong { font-size:25px; }
+    .ov-outlook summary { padding:14px 18px; }.ov-outlook dl { padding:0 18px 14px; }.ov-outlook dl>div { grid-template-columns:1fr; gap:3px; }
+    .ov-footer { display:block; }.ov-footer .ov-link { margin-top:8px; }
+  }
+}
