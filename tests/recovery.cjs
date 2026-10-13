@@ -23,7 +23,8 @@ const files=git(['ls-tree','-r','HEAD']).split('\n').map(line=>{
  assert.equal(actual,oid,'Recovered bytes differ: '+name);
  return {path:name,gitBlob:oid,bytes:bytes.length,sha256:sha256(bytes)};
 });
-git(['archive','--format=zip','--output='+archive,'HEAD']);
+// Windows autocrlf also affects git archive; retain exact repository blob bytes.
+git(['-c','core.autocrlf=false','archive','--format=zip','--output='+archive,'HEAD']);
 const artifacts=[bundle,archive].map(p=>({file:path.basename(p),bytes:fs.statSync(p).size,sha256:sha256(fs.readFileSync(p))}));
 const report={commit,main,createdAt:new Date().toISOString(),prerequisites:[],offlineClone:true,fsck:'PASS',allTrackedBytesVerified:true,filesVerified:files.length,files,artifacts,restoredDirectory:restored};
 fs.writeFileSync(path.join(output,'recovery-manifest.json'),JSON.stringify(report,null,2));

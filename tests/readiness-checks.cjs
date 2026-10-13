@@ -100,7 +100,13 @@ module.exports=async(env,check)=>{
    try{
     await p.waitForFunction(()=>__opsTest.geoLayer?.getLayers().length===4);
     const projects=await p.locator('#projSelect option').evaluateAll(es=>es.map(e=>e.value));
-    for(const project of projects){await p.locator('#projSelect').selectOption(project);assert.equal(await p.evaluate(()=>__opsTest.map.hasLayer(__opsTest.geoLayer)),true);}
+    if(await p.locator('#projSelect').isVisible()){
+     for(const project of projects){await p.locator('#projSelect').selectOption(project);assert.equal(await p.evaluate(()=>__opsTest.map.hasLayer(__opsTest.geoLayer)),true);}
+    }else{
+     assert.deepEqual(projects,['all'],'Unassigned client has no project choices');
+     assert.equal(await p.evaluate(()=>__opsTest.markerLayer.getLayers().length),0);
+    }
+    assert.equal(await p.evaluate(()=>__opsTest.map.hasLayer(__opsTest.geoLayer)),true);
     await p.locator('#btnFit').click();await p.waitForTimeout(250);
     assert.equal(await p.evaluate(()=>__opsTest.map.getBounds().contains(__opsTest.geoLayer.getBounds())),true);
     const withSample=await p.evaluate(()=>({zoom:__opsTest.map.getZoom(),bounds:__opsTest.map.getBounds().toBBoxString()}));
