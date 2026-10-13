@@ -1008,6 +1008,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <!-- Phase 1 screen design. Existing print styles and application logic stay in this file. -->
   <link rel="stylesheet" href="ui-v2.css" media="screen" />
   <script src="ui-v2.js" defer></script>
+  <link rel="stylesheet" href="ui-workspaces.css" />
+  <script src="ui-workspaces.js" defer></script>
 </head>
 <body>
 
@@ -3551,6 +3553,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         state.panelVis[pid][who] = !state.panelVis[pid][who];
         touchPanel(pid); save(); renderPanels();
       }));
+    // Stage A presentation hook: the original renderer remains authoritative.
+    document.dispatchEvent(new Event("oce:panels-rendered"));
   }
 
   let editingItem = { panel: null, id: null };
@@ -4521,6 +4525,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     toast("Preparing photos for print\u2026");
     preloadPrintImages().then(() => setTimeout(() => window.print(), 250));
   }
+
+  // Stage A viewport adapter: resize existing instances without fitting or saving.
+  document.addEventListener("oce:workspace-reveal", () => {
+    if (map && document.getElementById("map").getClientRects().length) map.invalidateSize({ animate: false });
+    if (three && document.getElementById("modelStage").getClientRects().length) three.resize();
+  });
 
   function setViewerMode(audience) {
     sync.audience = audience;
