@@ -10,7 +10,7 @@ const evidence=[];
  try{
   for(const mode of ['report','dailyWorks','punchlist','photos','client']){
    const audience=mode==='client'?'?view=test-client-1':'';
-   for(const route of ['baseline','operations','site','all']){
+   for(const route of ['baseline','operations','site','all','overview']){
     console.log(`START PDF ${route}/${mode}`);
     const run=await open({...env,workspaces:route!=='baseline'},{version:route==='baseline'?'before':'after',audience:audience+(audience?'&':'?')+(route==='baseline'?'':'workspace='+route)});const p=run.page;
     try{

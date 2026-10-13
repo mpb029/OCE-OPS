@@ -10,7 +10,7 @@ const selected=name=>!expression||expression.test(name);
 (async()=>{const env=await start();try{
  for(const [device,width,height] of [['desktop',1440,900],['tablet',768,1024],['mobile',390,844]]){
   for(const [audience,key] of [['editor',''],['site','crew=test-site'],['client','view=test-client-0']]){
-   const routes=audience==='editor'?['all','operations','quality','coordination','documents','resources','site','overview']:['operations','all'];
+   const routes=audience==='editor'?['all','operations','quality','coordination','documents','resources','site','overview']:['operations','all','overview'];
    const extras=audience==='editor'?['rfi',...(device==='desktop'?[]:['drawer'])]:[];
    if(![...routes,...extras].some(route=>selected(`${audience}-${device}-${route}.png`)))continue;
    const run=await open(env,{width,height,touch:width<1100,data:fixture(),liveClock:true,audience:`?ui=workspaces&workspace=operations&workspaceProject=default&${key}`});const p=run.page;

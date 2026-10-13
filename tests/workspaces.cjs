@@ -39,9 +39,11 @@ async function enabled(env,options={}) {
 (async()=>{
  const env=await start();
  try {
+  await require('./overview-checks.cjs')(env,check);
   await check('Exact accepted Phase 1 source retained outside the explicit Stage A adapter',()=>{
    const before=execFileSync('git',['show','35f23679f1c97c5f781067f11d28b24740e25b5b:index.html'],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n');
-   let after=fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/\r\n/g,'\n');
+   let after=require('./overview-source.cjs')(fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/\r\n/g,'\n'));
+   after=after.replace('  <link rel="stylesheet" href="ui-overview.css" />\n  <script src="ui-overview.js" defer></script>\n','');
    for(const addition of [
     '  <link rel="stylesheet" href="ui-workspaces.css" />\n  <script src="ui-workspaces.js" defer></script>\n',
     '    // Stage A presentation hook: the original renderer remains authoritative.\n    document.dispatchEvent(new Event("oce:panels-rendered"));\n',

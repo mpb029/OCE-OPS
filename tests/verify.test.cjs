@@ -7,6 +7,10 @@ test('FAST workflow runs no browsers, PDFs, screenshots or recovery by default',
   const navigation=plan(options(['fast','--scope','navigation'],{}));
   assert.equal(navigation.length,1);assert.equal(navigation[0].engine,'chromium');
   assert.match(navigation[0].filter,/Navigation 768/);
+  const overview=plan(options(['fast','--scope','overview'],{}));
+  assert.ok(overview.some(s=>s.filter==='^Overview:'));
+  assert.ok(overview.every(s=>s.engine==='chromium'));
+  assert.ok(!overview.some(s=>/recovery|screenshots/.test(s.id)));
 });
 test('existing filters select FAST checks; FOCUSED cannot lose audience, persistence or print guards',()=>{
   const env={OCE_STAGE_A_FILTER:'^Opt-in,',OCE_TEST_FILTER:'^Production stat:'};
@@ -37,7 +41,7 @@ test('children cannot inherit unrelated filters, stale output paths, main overri
   assert.equal(env.OCE_TEST_OUTPUT,'fresh');assert.equal(env.OCE_ENGINE,'firefox');
 });
 test('zero matches, failed assertions, partial suites, wrong commit and dirty FULL runs cannot pass',()=>{
-  const report={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:34},()=>({status:'PASS'}))};
+  const report={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:47},(_,i)=>({name:i<13?'Overview: '+i:'Existing '+i,status:'PASS'}))};
   suite(report,'chromium',true,'head');
   for(const change of [{tests:[]},{tests:[{status:'FAIL'}]},{fullRun:false},{commit:'old'},{endCommit:'new'},{worktreeClean:false},{tests:[{status:'PASS'}]}])
     assert.throws(()=>suite({...report,...change},'chromium',true,'head'));

@@ -1009,6 +1009,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <link rel="stylesheet" href="ui-v2.css" media="screen" />
   <script src="ui-v2.js" defer></script>
   <link rel="stylesheet" href="ui-workspaces.css" />
+  <link rel="stylesheet" href="ui-overview.css" />
+  <script src="ui-overview.js" defer></script>
   <script src="ui-workspaces.js" defer></script>
 </head>
 <body>
@@ -4525,6 +4527,41 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     toast("Preparing photos for print\u2026");
     preloadPrintImages().then(() => setTimeout(() => window.print(), 250));
   }
+
+  // BEGIN B1 read-only adapter. Original filters/formatters remain authoritative.
+  document.addEventListener("oce:overview-read", (event) => {
+    if (!remoteResolved || editLocked || typeof event.detail?.accept !== "function") return;
+    const text = (value) => value == null ? "" : String(value);
+    const plain = (html) => { const node = document.createElement("span"); node.innerHTML = html; return node.textContent.trim(); };
+    const inScope = projects().filter((p) => projInScope(p.id));
+    const summaries = inScope.filter((p) => sync.audience === "editor" || sumHasContent((state.projectSummary || {})[p.id])).map((p) => {
+      const s = (state.projectSummary || {})[p.id] || {};
+      return { id: text(p.id), name: text(p.name), status: SUM_STATUS[s.status]?.rag || "", stage: text(s.stage),
+        note: text(s.statusComment), milestone: text(s.milestone), completion: text(compValue(s)),
+        outlook: SUM_ROWS.filter(([key]) => !["stage", "milestone"].includes(key) && s[key]).map(([key, label]) => [label, text(s[key])]) };
+    });
+    const panels = orderedPanels().filter((p) => ["dailyWorks", "upcoming", "issuesDelays", "qualityTesting", "punchlist", "incidents"].includes(p.id))
+      .filter((p) => sync.audience === "editor" || panelVisOf(p.id)[sync.audience]).map((p) => ({
+        id: p.id, title: p.title,
+        items: sortItemsForDisplay(visiblePanelItems(p.id)).filter((it) => !isResolved(it)).map((it) => ({
+          title: text(it.main), detail: text(it.sub), project: text(projName(effProj(it))),
+          labels: [p.dateRange ? plain(rangeBadge(it.startDate, it.endDate)) : "",
+            p.kind === "dated" ? plain(dueBadge(it.due, false)) : "",
+            fmtDay(it.dateAssigned) ? "Assigned " + fmtDay(it.dateAssigned) : "", plain(reqBadge(it.dateRequired, false)),
+            wstatusDef(it.wstatus)?.label, priorityDef(p, it.priority)?.label, statusDef(p, it.status)?.label, teamDef(it.team)?.label].filter(Boolean)
+        }))
+      }));
+    // Reuse renderStats' audience-filtered presentation, including legacy target/frequency handling.
+    // Copy text and bar width only: never clone IDs, controls, handlers or mutable records.
+    const stats = document.getElementById("prodStatsCard").style.display === "none" ? null
+      : [...document.querySelectorAll("#statGrid > .stat")].map((node) => ({
+        label: node.querySelector(".lbl").textContent, value: node.querySelector(".tgt")?.textContent || "",
+        bar: node.querySelector(".bar span")?.style.width || "",
+        fields: [...node.querySelectorAll(".sf")].map((field) => [field.querySelector(".sf-l").textContent, field.querySelector(".sf-v").textContent])
+      }));
+    event.detail.accept({projects:summaries, multipleProjects:inScope.length > 1, panels, stats});
+  });
+  // END B1 read-only adapter.
 
   // Stage A viewport adapter: resize existing instances without fitting or saving.
   document.addEventListener("oce:workspace-reveal", () => {

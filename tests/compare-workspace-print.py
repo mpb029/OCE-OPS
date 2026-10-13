@@ -9,7 +9,7 @@ folder = Path(os.environ.get('OCE_TEST_OUTPUT', 'test-results')) / 'workspace-pd
 results = []
 for mode in ['report', 'dailyWorks', 'punchlist', 'photos', 'client']:
     original = [' '.join(p.extract_text().split()) for p in PdfReader(folder / f'baseline-{mode}.pdf').pages]
-    for route in ['operations', 'site', 'all']:
+    for route in ['operations', 'site', 'all', 'overview']:
         actual = [' '.join(p.extract_text().split()) for p in PdfReader(folder / f'{route}-{mode}.pdf').pages]
         result = {'family': mode, 'workspace': route, 'baselinePages': len(original), 'actualPages': len(actual), 'sameTextOnEveryPage': actual == original}
         results.append(result)

@@ -64,7 +64,7 @@ async function main() {
     '  // Stage A viewport adapter: resize existing instances without fitting or saving.\n  document.addEventListener("oce:workspace-reveal", () => {\n    if (map && document.getElementById("map").getClientRects().length) map.invalidateSize({ animate: false });\n    if (three && document.getElementById("modelStage").getClientRects().length) three.resize();\n  });\n\n'
   ];
   for (const hook of stageAHooks) assert.equal(script(currentHTML).split(hook).length,2,'Stage A hook must be exact and occur once');
-  const unchanged = html => approved.reduce((s,name)=>s.replace(new RegExp('  function '+name+'\\([^]*?\\n  }\\n?'),''),stageAHooks.reduce((s,hook)=>s.replace(hook,''),script(html))).replace(/\n{3,}/g,'\n\n');
+  const unchanged = html => approved.reduce((s,name)=>s.replace(new RegExp('  function '+name+'\\([^]*?\\n  }\\n?'),''),stageAHooks.reduce((s,hook)=>s.replace(hook,''),(html===currentHTML ? require('./overview-source.cjs')(script(html)) : script(html)))).replace(/\n{3,}/g,'\n\n');
   assert.equal(unchanged(currentHTML), unchanged(baselineHTML)); assert.equal(style(currentHTML),style(baselineHTML));
  });
  await check('Source contract: all original static IDs and data hooks retained', () => {
