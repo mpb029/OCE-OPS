@@ -291,7 +291,7 @@ function initWorkspaces() {
   });
   addEventListener('scroll',() => { clearTimeout(scrollTimer); scrollTimer = setTimeout(remember,150); },{passive:true});
   addEventListener('pagehide',remember);
-  const responsive = () => { closeDrawer(); updateMenu(); reveal(); };
+  const responsive = () => { if (!enabled) return; closeDrawer(); updateMenu(); reveal(); };
   desktop.addEventListener('change',responsive); phone.addEventListener('change',responsive);
   document.addEventListener('oce:panels-rendered',scheduleRefresh);
   refresh();
