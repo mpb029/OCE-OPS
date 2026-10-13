@@ -32,7 +32,7 @@ const snapshot = p => p.evaluate(()=>{
 const ids = p => p.locator('#panelsGrid > [data-card]:visible').evaluateAll(es=>es.map(e=>e.dataset.card));
 const command = async (p,id) => {if(!await p.locator('#'+id).isVisible())await p.locator('#headerMenu summary').click();await p.locator('#'+id).click();};
 async function enabled(env,options={}) {
- const run = await open(env,{data:synthetic(),...options,audience:'?ui=workspaces&'+(options.audience || '')});
+ const run = await open(env,{data:synthetic(),...options,audience:'?ui=workspaces&'+(options.audience?.includes('workspace=') ? '' : 'workspace=all&')+(options.audience || '')});
  await run.page.waitForFunction(()=>document.body.classList.contains('ws-enabled'));
  return run;
 }
@@ -40,6 +40,7 @@ async function enabled(env,options={}) {
  const env=await start();
  try {
   await require('./overview-checks.cjs')(env,check);
+  await require('./overview-refinement.cjs')(env,check);
   await check('Exact accepted Phase 1 source retained outside the explicit Stage A adapter',()=>{
    const before=execFileSync('git',['show','35f23679f1c97c5f781067f11d28b24740e25b5b:index.html'],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n');
    let after=require('./overview-source.cjs')(fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/\r\n/g,'\n'));
@@ -52,7 +53,7 @@ async function enabled(env,options={}) {
    assert.equal(after,before);
    assert.equal(git(['diff','35f2367','--','ui-v2.js','ui-v2.css','package-lock.json']),'');
   });
-  await check('Opt-in, All Panels landing, URL opt-out and exact original runtime hooks',async()=>{
+  await check('Opt-in, Overview landing, URL opt-out and exact original runtime hooks',async()=>{
    const run=await open(env,{data:synthetic()}); const p=run.page;
    try {
     assert.equal(await p.locator('body').evaluate(e=>e.classList.contains('ws-enabled')),false);
@@ -60,7 +61,8 @@ async function enabled(env,options={}) {
     for(const size of [{width:768,height:1024},{width:390,height:844},{width:1440,height:900}]){await p.setViewportSize(size);await p.waitForTimeout(100);}
     assert.equal(await p.evaluate(()=>window.__workspaceReveals),0,'Classic mode must not add viewport callbacks');
     const before=await snapshot(p); await p.locator('#wsOptIn').click();
-    assert.equal(await p.locator('#wsTitle').innerText(),'All Panels'); assert.equal((await ids(p)).length,21);
+    assert.equal(await p.locator('#wsTitle').innerText(),'Overview'); assert.equal((await ids(p)).length,0);
+    await nav(p,'all'); assert.equal((await ids(p)).length,21);
     assert.equal(await p.locator('#wsDestinations a').count(),8);
     await nav(p,'operations'); await p.locator('#wsOriginal').click();
     assert.equal(await p.locator('#wsSidebar').isVisible(),false); assert.equal((await ids(p)).length,21);
@@ -199,7 +201,7 @@ async function enabled(env,options={}) {
     await p.waitForTimeout(200);
     const read=()=>p.evaluate(()=>({center:__opsTest.map.getCenter(),zoom:__opsTest.map.getZoom(),position:__opsTest.three.camera.position.toArray(),target:__opsTest.three.controls.target.toArray(),objects:Object.values(__opsTest.loadedObjs).map(o=>[o.uuid,o.parent?.uuid]),session:__opsTest.sessionModels}));
     const before=await read(),board=await snapshot(p);
-    for(const route of ['operations','quality','documents','all','site','coordination','site']){
+    for(const route of ['overview','operations','quality','documents','all','overview','site','coordination','site']){
      await nav(p,route);
      // Leaflet rounds pixel origins on resize; require less than one screen pixel,
      // at EVERY transition, rather than masking an intervening jump on return.
