@@ -37,13 +37,15 @@
         panel.id = `activity-${id}`;
         links.push(`<a href="#${panel.id}">${label}</a>`);
       }
-      shortcuts.innerHTML = `<span>Site activities</span><div>${links.join('')}<a href="#panelsGrid">All panels <span aria-hidden="true">↓</span></a></div>`;
+      const spatial = `<a class="tablet-shortcut" href="#mapCard">Map</a>${document.getElementById('modelCard').style.display !== 'none' ? '<a class="tablet-shortcut" href="#modelCard">3D viewer</a>' : ''}`;
+      shortcuts.innerHTML = `<span>Site activities</span><div>${links.join('')}${spatial}<a href="#panelsGrid">All panels <span aria-hidden="true">↓</span></a></div>`;
     }
     new MutationObserver(syncShortcuts).observe(document.getElementById('panelsGrid'), { childList: true });
     syncShortcuts();
 
     const mobile = matchMedia('(max-width: 680px)');
     const mapCard = document.querySelector('.map-card');
+    mapCard.id = 'mapCard';
     // Leaflet normally sets this inline. Retain it for print when starting collapsed.
     document.getElementById('map').style.position = 'relative';
     const mapToggle = document.createElement('button');
@@ -76,6 +78,7 @@
       if (count > modelCount) expandModel(true);
       else if (!count) expandModel(false);
       modelCount = count;
+      syncShortcuts();
     }
     modelToggle.addEventListener('click', () => expandModel(model.classList.contains('model-collapsed')));
     new MutationObserver(syncModel).observe(document.getElementById('modelList'), { childList: true });

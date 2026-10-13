@@ -366,3 +366,23 @@ body.viewer .header-menu { display: none; }
 .stat .sf-l { flex: 1 1 auto; }
 .stat .sf-v { flex: 0 1 auto; min-width: 3ch; max-width: 50%; }
 .stat .stat-vis { width: fit-content; }
+
+/* Portrait tablets: status and direct work access before the spatial tools.
+   Screen-only CSS preserves the original document/print order. */
+.activity-shortcuts .tablet-shortcut { display: none; }
+@media (min-width: 681px) and (max-width: 1100px) and (orientation: portrait) {
+  .activity-shortcuts { display: block; grid-column: 1 / -1; padding: 12px 0 16px; }
+  .activity-shortcuts .tablet-shortcut { display: inline-flex; }
+  .activity-shortcuts > span { display: block; font-size: 12px; color: #b9c9d9; margin-bottom: 8px; }
+  .activity-shortcuts > div { display: flex; flex-wrap: wrap; gap: 8px; }
+  .activity-shortcuts a { display: inline-flex; align-items: center; min-height: 44px; padding: 8px 14px; border: 1px solid #435b72; border-radius: 7px; color: #fff; font-size: 13px; text-decoration: none; background: #263d53; }
+  .activity-shortcuts a:last-child { background: #246fa9; border-color: #4c9bd6; }
+  .grid-main { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .spatial-column, .overview-column { display: contents; }
+  #summaryCard { grid-column: 1 / -1; grid-row: 1; }
+  .map-card { grid-column: 1 / -1; grid-row: 2; }
+  #modelCard { grid-column: 1 / -1; grid-row: 3; }
+  #weatherCard, #prodStatsCard { grid-row: 4; }
+  #modelCard.model-collapsed .model-list:has(.model-hint) { display: none; }
+  #mapCard, #modelCard { scroll-margin-top: 20px; }
+}
