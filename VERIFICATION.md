@@ -8,9 +8,9 @@ Use Node.js 24, `npm ci`, and Playwright's Chromium/Firefox installations. FOCUS
 |---|---|---|
 | FAST | `npm run verify:fast -- --scope navigation` | Syntax, inline-script compilation, diff/integrity checks, protected assets, orchestration tests, selected Chromium checks. No bulk screenshots/PDF comparisons/recovery. |
 | FOCUSED | `npm run verify:focused -- --scope navigation` | Selected feature checks in Chromium and Firefox, plus original source contracts, project/audience filtering, persistence, deep links and print safeguards; five Chromium report comparisons. No bulk captures or recovery. |
-| FULL | `npm run verify:full` | Complete 83 original + 34 Stage A + 13 B1 + 12 B2 assertions in each engine, 5 original + 20 workspace PDF comparisons (including Overview), all 48 workspace screenshots, original responsive/model evidence, protected assets, standalone bundle/archive and independent recovery verification. |
+| FULL | `npm run verify:full` | Complete 83 original + 34 Stage A + 13 B1 + 12 B2 + 12 C1 + 12 C2 assertions in each engine (332 total), 5 original + 20 workspace PDF comparisons, all 81 workspace screenshots, original responsive/model evidence, protected assets, standalone bundle/archive and independent recovery verification. |
 
-Scopes: `workflow` (FAST source/tooling only), `navigation`, `overview`, `audience`, `editing`, `backup`, `spatial`, `print`. Select the affected scope after reviewing the diff; run multiple scopes for unrelated changes. For a tooling-only edit start with `npm run verify:fast`. Add `--plan` to inspect the exact command/filter selection without executing tests. Existing `npm test`, `test:workspaces` and other individual commands remain available.
+Scopes: `workflow` (FAST source/tooling only), `navigation`, `overview`, `audience`, `editing`, `backup`, `spatial`, `field`, `print`. Select the affected scope after reviewing the diff; run multiple scopes for unrelated changes. For a tooling-only edit start with `npm run verify:fast`. Add `--plan` to inspect the exact command/filter selection without executing tests. Existing `npm test`, `test:workspaces` and other individual commands remain available.
 
 For more precise FAST selection, set the existing `OCE_STAGE_A_FILTER` and/or `OCE_TEST_FILTER` to a test-name regular expression. A filter matching zero tests fails the runner. FOCUSED adds its common safeguards even when custom filters are set. FULL clears both filters, screenshot filters and alternate main references; it rejects scoped screenshots and reuse. A partial or failed run cannot satisfy acceptance.
 
@@ -76,6 +76,12 @@ Preserve failing receipts/logs, browser/version, exact commit and event/focus/va
 Stage C1 is based on accepted B2 `97a2f9a` and documented in `STAGE-C1-REVIEW.md`. Use `--scope spatial` for its original spatial checks, twelve C1 contracts, navigation and audience checks. Optional `--shots '^c1-'` captures only thirteen affected spatial views with actual G4N geometry at desktop, portrait/landscape tablet and mobile resolutions. The tests remain selectable using `OCE_STAGE_A_FILTER` with `^Spatial usability:` during development.
 
 On C1, ordinary PR events run FAST **spatial** checks. FOCUSED/FULL triggers and artifact retention stay unchanged. FULL now requires all 308 browser checks, all previous 25 PDF comparisons and 48 workspace captures **plus** thirteen C1 captures (61 total), protected assets and independently verified self-contained recovery. Original B1/B2/source/STAT-001 assertions remain mandatory and unchanged. Physical Android acceptance remains separate from browser emulation. Keep PRs #1–#5 unchanged and draft.
+
+## Stage C2 field scope
+
+C2 is based on accepted C1 `be9a80d` and documented in `STAGE-C2-REVIEW.md`. Use `npm run verify:fast -- --scope field` and `npm run verify:focused -- --scope field`. FAST can select just `^Field usability:` using `OCE_STAGE_A_FILTER`. Optional `--shots '^c2-.*-operations\.png$'` captures the four affected Operations layouts. FULL adds twelve C2 contracts per engine and twenty C2 captures (sixteen workspaces and four original RFI forms), with every previous contract/capture retained.
+
+On C2, ordinary PR events run FAST **field** checks, including the unchanged STAT-001 assertion. FOCUSED adds project/audience/persistence/print guards and five PDF comparisons. FULL requires 332 complete browser assertions, all 25 PDF comparisons, 81 workspace captures, protected assets and self-contained recovery. No recovery archive is generated during FAST/FOCUSED work. Reduced-visual-viewport tests simulate keyboard geometry; they do not constitute physical Android/IME acceptance. The owner deferred physical findings until later. Keep PRs #1–#6 unchanged and draft.
 
 ## Tooling rollback
 

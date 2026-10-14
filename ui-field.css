@@ -1,0 +1,52 @@
+/* C2: opt-in field controls only. Native records, forms and reports are retained. */
+@media print {
+  .fo-label,.fo-disclosure-icon,.fo-navigation { display:none !important; }
+  .fo-collapse { display:contents !important;font:inherit;color:inherit; }
+}
+@media screen {
+  .fo-workspace { --fo-nav-height:60px; }
+  .fo-workspace .ws-shortcuts { position:sticky;top:8px;z-index:25;display:block;padding:8px;margin:0 0 16px;background:#f3f6fa;border:1px solid #d3dfe9;border-radius:8px; }
+  .fo-navigation { display:flex;align-items:center;gap:8px;min-width:0; }
+  .fo-links { display:flex;gap:8px;overflow-x:auto;min-width:0;flex:1;scroll-padding:8px;scrollbar-width:thin; }
+  .fo-links a { flex-shrink:0;white-space:nowrap;font-size:14px; }
+  .fo-links a[aria-current] { background:#e9f2f9;border-color:#8bafca;color:#174d75; }
+  .fo-jump { display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;min-width:0; }
+  .fo-jump select { min-height:44px;width:190px;max-width:100%;border:1px solid #aebfce;border-radius:6px;background:white;color:#193149;font:500 14px var(--font-body);padding:8px; }
+  .fo-history,.fo-collapse { min-height:44px;min-width:44px;padding:8px 10px;border:1px solid #c7d7e5;border-radius:6px;background:white;color:#245b83;font:500 13px var(--font-body);flex-shrink:0; }
+  .fo-history[hidden] { display:none; }
+  .fo-workspace #panelsGrid .fo-collapse { display:inline-flex;align-items:center;gap:8px;background:transparent;border:0;padding:0;color:inherit;font:inherit;min-width:0; }
+  .fo-disclosure-icon { font-size:12px;color:#477291; }
+  .fo-collapse[aria-expanded="false"] .fo-disclosure-icon { transform:rotate(180deg); }
+  .fo-workspace #panelsGrid .card { overflow:visible; }
+  .fo-workspace #panelsGrid .card-head { position:sticky;top:calc(var(--fo-nav-height) + 24px);z-index:10;background:white;border-radius:12px 12px 0 0; }
+  .fo-workspace [id^="activity-"] { scroll-margin-top:calc(var(--fo-nav-height) + 32px); }
+  .fo-workspace [data-fo-collapsed] .card-body { display:none; }
+  .fo-workspace #panelsGrid .card-head .add,.fo-workspace #panelsGrid .card-head .pbtn { display:inline-flex;align-items:center;justify-content:center;width:auto;min-width:44px;height:44px;flex:0 0 auto;padding:8px;gap:6px;font-size:13px; }
+  .fo-workspace .fo-label { display:inline;margin-left:5px;font:500 13px var(--font-body); }
+  .fo-workspace #panelsGrid .list .row-act button { min-width:44px;width:auto;height:44px;padding:8px; }
+  .fo-workspace #panelsGrid .vchip { min-width:58px;height:44px;font-size:13px; }
+  .fo-workspace #panelsGrid .list .txt .main { font-size:15px; }
+  .fo-workspace #panelsGrid .list .txt .sub,.fo-workspace #panelsGrid .fb-v,.fo-workspace #panelsGrid .fb-l { font-size:14px; }
+  .fo-workspace #panelsGrid .stbadge,.fo-workspace #panelsGrid .team-tag,.fo-workspace #panelsGrid .due,.fo-workspace #panelsGrid .dt-badge { font-size:13px;line-height:1.5; }
+  .fo-workspace #panelsGrid .list li { gap:8px; }
+  .fo-workspace #panelsGrid .list .row-act { gap:2px;margin-left:0; }
+  .fo-workspace .fo-history:focus-visible,.fo-workspace .fo-collapse:focus-visible,.fo-jump select:focus-visible { outline:3px solid #70afe1;outline-offset:2px; }
+  #itemModal.fo-item-form { top:var(--fo-visible-top,0px);bottom:auto;height:var(--fo-visible-height,100dvh);padding:8px; }
+  #itemModal.fo-item-form .modal { max-height:calc(var(--fo-visible-height,100dvh) - 16px); }
+  #itemModal.fo-item-form .modal-head,#itemModal.fo-item-form .modal-foot { flex-shrink:0; }
+  #itemModal.fo-item-form .modal-body { min-height:0;overflow-y:auto; }
+  #itemModal.fo-item-form input:not([type="checkbox"]),#itemModal.fo-item-form select,#itemModal.fo-item-form textarea { font-size:16px;min-height:44px; }
+  #itemModal.fo-item-form .chkline { min-height:44px; }
+  #itemModal.fo-item-form .modal-foot button,#itemModal.fo-item-form .modal-close { min-height:44px;min-width:44px; }
+  @media(min-width:1200px) { .fo-jump { display:none; } }
+  @media(max-width:680px) {
+    .fo-jump { flex:0 1 180px; }
+    .fo-jump select { width:150px; }
+    .fo-links { flex-basis:70px; }
+    .fo-history { max-width:70px;white-space:normal;padding:6px;font-size:12px; }
+    .fo-workspace .ws-shortcuts { padding:6px; }
+    .fo-workspace #panelsGrid .card-head { gap:8px; }
+    #itemModal.fo-item-form .modal-head { padding:8px 12px; }
+    #itemModal.fo-item-form .modal-foot { padding:8px 12px; }
+  }
+}
