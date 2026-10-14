@@ -28,7 +28,7 @@ async function initialAnchor(env,width,height){
 }
 module.exports=async(env,check)=>{
 await check('Field usability: exact C1 runtime, forms, spatial presentation and mandatory assertions retained',()=>{
- for(const file of ['index.html','ui-v2.js','ui-v2.css','ui-workspaces.css','ui-spatial.css','ui-overview.js','ui-overview.css','tests/regression.cjs','tests/spatial-usability.cjs','tests/overview-checks.cjs','tests/overview-refinement.cjs'])assert.equal(fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n'),execFileSync('git',['show',baseline+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n'),file);
+ for(const file of ['index.html','ui-v2.js','ui-v2.css','ui-workspaces.css','ui-spatial.css','ui-overview.js','ui-overview.css','tests/regression.cjs','tests/spatial-usability.cjs','tests/overview-checks.cjs','tests/overview-refinement.cjs'])assert.equal(require('./stage-e-source.cjs').normalise(file,fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n')),execFileSync('git',['show',baseline+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n'),file);
  let source=fs.readFileSync(path.join(root,'ui-workspaces.js'),'utf8').replace(/\r\n/g,'\n');
  const adapter=source.match(/\/\/ C2 consumes[\s\S]+?(?=function initSitePresentation\(clearTarget\))/)[0];
  assert.doesNotMatch(adapter,/localStorage|sessionStorage|fetch\(|__opsTest|shareableState|\.setView\(|frameAll\(|\bstate\./);

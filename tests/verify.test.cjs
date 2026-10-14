@@ -1,6 +1,6 @@
 const {test}=require('node:test'), assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
-const {options,plan,childEnv,suite,reusable,formsScreenshots,fullEvidence,sha}=require('./verify.cjs');
+const {options,plan,childEnv,suite,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha}=require('./verify.cjs');
 
 test('FAST workflow runs no browsers, PDFs, screenshots or recovery by default',()=>{
   assert.deepEqual(plan(options(['fast'],{})),[]);
@@ -36,13 +36,48 @@ test('existing filters select FAST checks; FOCUSED cannot lose audience, persist
   }
   assert.ok(!focused.some(s=>/recovery|screenshots|workspace-pdf/.test(s.id)));
 });
-test('FULL includes complete suites, both PDF comparisons, three Stage D captures, model inspection and standalone recovery',()=>{
+test('project spatial scope selects map, models, backup, audience, STAT-001 and all new contracts without bulk evidence',()=>{
+  const selected=plan(options(['fast','--scope','project-spatial'],{}));
+  for(const name of ['Map: imported layers','Map repair: Fit','3D: actual geometry','Backup repair: full state','Readiness: failed import','Production stat: edit','Project spatial: assignments','Spatial usability: state','Spatial instances preserve state','Audience compatibility client'])
+    assert.ok(selected.some(s=>new RegExp(s.filter).test(name)),name);
+  assert.ok(selected.every(s=>s.engine==='chromium'));
+  assert.ok(!selected.some(s=>/recovery|screenshots|comparison/.test(s.id)));
+  const focused=plan(options(['focused','--scope','project-spatial'],{}));
+  for(const engine of ['chromium','firefox'])for(const name of ['Project selection one','Audience parity client','Local persistence: reload','Print parity: report'])
+    assert.ok(focused.some(s=>s.engine===engine&&new RegExp(s.filter).test(name)),engine+' '+name);
+  const capture=plan(options(['fast','--scope','project-spatial','--shots','stage-e-tablet'],{})).find(s=>s.id==='project-spatial-screenshots');
+  assert.equal(capture.file,'tests/capture-project-spatial.cjs');assert.equal(capture.filter,'stage-e-tablet');
+  assert.equal(childEnv(capture,'fresh',{}).OCE_SCREENSHOT_FILTER,'stage-e-tablet');
+});
+test('Stage E source allowance reverses only exact integration edits and preserves all prior runtime/assertion bodies',()=>{
+  const {execFileSync}=require('node:child_process'),root=path.resolve(__dirname,'..');
+  const {normalise,sourcePatches,start,end,link}=require('./stage-e-source.cjs');
+  const baseline='aeac20f872c092337849f7360cd1746da1940ee1';
+  for(const file of ['index.html',...Object.keys(sourcePatches)]) {
+    const before=execFileSync('git',['show',baseline+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n');
+    const current=fs.readFileSync(path.join(root,file),'utf8');
+    assert.equal(normalise(file,current),before,file+' previous functions and assertion bodies unchanged');
+    assert.notEqual(normalise(file,current+'\n// unexpected edit'),before,file+' cannot conceal an unrelated edit');
+  }
+  const sample='prefix\n'+link+start+'  extension();\n'+end+'suffix\n';
+  assert.equal(normalise('index.html',sample),'prefix\nsuffix\n');
+  for(const changed of [sample.replace(start,''),sample.replace(end,''),sample.replace(link,''),sample+start,sample+end,sample+link,end+start+link])
+    assert.throws(()=>normalise('index.html',changed),'Missing, repeated or out-of-order allowances must fail');
+  for(const [file,patches] of Object.entries(sourcePatches)) {
+    const current=fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n');
+    for(const [,after] of patches) {
+      assert.throws(()=>normalise(file,current.replace(after,'')),file+' deleted source allowance');
+      assert.throws(()=>normalise(file,current+after),file+' repeated source allowance');
+    }
+  }
+});
+test('FULL includes complete suites, both PDF comparisons, three Stage E captures, model inspection and standalone recovery',()=>{
   const steps=plan(options(['full'],{OCE_TEST_FILTER:'nothing',OCE_STAGE_A_FILTER:'nothing',OCE_SCREENSHOT_FILTER:'nothing'}));
   assert.equal(steps.length,11);assert.ok(steps.every(s=>s.filter===''));
   for(const id of ['chromium-regression','chromium-workspaces','firefox-regression','firefox-workspaces',
-    'report-comparison','workspace-pdfs','workspace-pdf-comparison','forms-screenshots',
+    'report-comparison','workspace-pdfs','workspace-pdf-comparison','project-spatial-screenshots',
     'model-evidence','complete-recovery','recovery-verification']) assert.ok(steps.some(s=>s.id===id));
-  assert.equal(steps.find(s=>s.id==='forms-screenshots').file,'tests/capture-forms.cjs');
+  assert.equal(steps.find(s=>s.id==='project-spatial-screenshots').file,'tests/capture-project-spatial.cjs');
   assert.deepEqual(steps.find(s=>s.id==='model-evidence').args,['--no-screenshots']);
   assert.ok(!steps.some(s=>['tests/capture-workspaces.cjs','tests/capture.cjs'].includes(s.file)));
   assert.throws(()=>options(['full','--reuse','old'],{}));assert.throws(()=>options(['full','--shots','mobile'],{}));
@@ -56,12 +91,13 @@ test('children cannot inherit unrelated filters, stale output paths, main overri
   assert.equal(childEnv({file:'tests/capture-forms.cjs',engine:'chromium',filter:'stage-d-tablet'},'fresh',inherited).OCE_SCREENSHOT_FILTER,'stage-d-tablet');
 });
 test('zero matches, failed assertions, partial suites, wrong commit and dirty FULL runs cannot pass',()=>{
-  const report={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:94},(_,i)=>({name:i<13?'Overview: '+i:i<25?'Overview refinement: '+i:i<37?'Spatial usability: '+i:i<49?'Field usability: '+i:i<60?'Forms and Settings: '+i:'Existing '+i,status:'PASS'}))};
+  const report={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:104},(_,i)=>({name:i<13?'Overview: '+i:i<25?'Overview refinement: '+i:i<37?'Spatial usability: '+i:i<49?'Field usability: '+i:i<60?'Forms and Settings: '+i:i<70?'Project spatial: '+i:'Existing '+i,status:'PASS'}))};
   suite(report,'chromium',true,'head');
   assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Overview refinement:'))},'chromium',true,'head'),/All B2 refinement contracts required/);
   assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Spatial usability:'))},'chromium',true,'head'),/All C1 spatial usability contracts required/);
   assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Field usability:'))},'chromium',true,'head'),/All C2 field usability contracts required/);
   assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Forms and Settings:'))},'chromium',true,'head'),/All Stage D forms and Settings contracts required/);
+  assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Project spatial:'))},'chromium',true,'head'),/All Stage E project spatial contracts required/);
   assert.throws(()=>suite({...report,tests:report.tests.slice(0,-1)},'chromium',true,'head'),/Incomplete acceptance suite/);
   const original={...report,environment:{engine:'chromium'},tests:Array.from({length:83},()=>({status:'PASS'}))};
   suite(original,'chromium',true,'head');
@@ -86,6 +122,22 @@ test('Stage D capture gate rejects stale, missing, duplicate, partial, invalid o
     fs.writeFileSync(file,'not a PNG');assert.throws(()=>formsScreenshots(manifest,directory,'head'),/Invalid PNG/);
     fs.unlinkSync(file);assert.throws(()=>formsScreenshots(manifest,directory,'head'));
   } finally {for(const [name] of entries){const file=path.join(directory,name);if(fs.existsSync(file))fs.unlinkSync(file);}fs.rmdirSync(directory);}
+});
+test('Stage E capture gate rejects stale, missing, duplicate, partial, invalid or wrong-size images',()=>{
+  const directory=fs.mkdtempSync(path.join(os.tmpdir(),'oce-stage-e-captures-'));
+  const entries=[['stage-e-desktop.png',1440,900],['stage-e-tablet.png',768,1024],['stage-e-mobile.png',390,844]];
+  const png=(width,height)=>{const bytes=Buffer.alloc(33);Buffer.from([137,80,78,71,13,10,26,10]).copy(bytes);bytes.writeUInt32BE(13,8);bytes.write('IHDR',12);bytes.writeUInt32BE(width,16);bytes.writeUInt32BE(height,20);return bytes;};
+  const manifest={commit:'head',fullRun:true,screenshots:entries.map(([name,width,height])=>({name,width,height}))};
+  try {
+    for(const [name,width,height] of entries)fs.writeFileSync(path.join(directory,name),png(width,height));
+    projectSpatialScreenshots(manifest,directory,'head');
+    for(const change of [{commit:'old'},{fullRun:false},{screenshots:manifest.screenshots.slice(1)},{screenshots:[manifest.screenshots[0],manifest.screenshots[0],manifest.screenshots[2]]},{screenshots:manifest.screenshots.map((s,i)=>i?s:{...s,width:1200})}])
+      assert.throws(()=>projectSpatialScreenshots({...manifest,...change},directory,'head'));
+    const file=path.join(directory,entries[0][0]);
+    fs.writeFileSync(file,png(1200,900));assert.throws(()=>projectSpatialScreenshots(manifest,directory,'head'),/Captured PNG width/);
+    fs.writeFileSync(file,'not a PNG');assert.throws(()=>projectSpatialScreenshots(manifest,directory,'head'),/Invalid PNG/);
+    fs.unlinkSync(file);assert.throws(()=>projectSpatialScreenshots(manifest,directory,'head'));
+  }finally{for(const [name] of entries){const file=path.join(directory,name);if(fs.existsSync(file))fs.unlinkSync(file);}fs.rmdirSync(directory);}
 });
 test('model inspection can omit only PNG writes; all original object and interaction inspection stays intact',()=>{
   const {execFileSync}=require('node:child_process'),root=path.resolve(__dirname,'..');

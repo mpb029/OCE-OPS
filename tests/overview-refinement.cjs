@@ -11,7 +11,7 @@ module.exports=async function refinementChecks(env,check){
   await check('Overview refinement: exact accepted B1 runtime, adapter and metric contracts retained',()=>{
     for(const file of ['index.html','ui-v2.js','ui-v2.css','ui-workspaces.css','tests/overview-checks.cjs','tests/overview-source.cjs','tests/regression.cjs']){
       const before=execFileSync('git',['show',`${baseline}:${file}`],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n');
-      assert.equal(fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n'),before,file);
+      assert.equal(require('./stage-e-source.cjs').normalise(file,fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n')),before,file);
     }
   });
   await check('Overview refinement: default only within opt-in; explicit routes, anchors and audience aliases survive',async()=>{

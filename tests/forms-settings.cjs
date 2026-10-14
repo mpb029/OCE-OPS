@@ -96,7 +96,7 @@ async function delayedStylesheet(env,kind) {
 module.exports = async (env,check) => {
  await check('Forms and Settings: exact C2 domain runtime, settings handlers and mandatory regression assertions retained',()=>{
   for(const file of ['index.html','ui-v2.js','ui-v2.css','ui-field.css','ui-spatial.css','ui-overview.js','ui-overview.css','tests/regression.cjs']) {
-   assert.equal(fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n'),execFileSync('git',['show',baseline+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n'),file);
+   assert.equal(require('./stage-e-source.cjs').normalise(file,fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n')),execFileSync('git',['show',baseline+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n'),file);
   }
   const adapter=fs.readFileSync(path.join(root,'ui-forms.js'),'utf8');
   assert.doesNotMatch(adapter,/\bfetch\s*\(|localStorage\s*\.|sessionStorage\s*\.|__opsTest|shareableState|\.setView\s*\(|\bstate\./,'Presentation must not read or write operational state');
