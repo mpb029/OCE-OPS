@@ -316,6 +316,9 @@ function initWorkspaces() {
 // Local disclosure/navigation choices never enter saved records or publishing.
 function initFieldPresentation() {
   'use strict';
+  // Stage D: load presentation only; existing forms and handlers stay authoritative.
+  const formsScript = document.createElement('script');
+  formsScript.src = 'ui-forms.js'; document.head.append(formsScript);
   const body = document.body, grid = document.getElementById('panelsGrid');
   const item = document.getElementById('itemModal');
   const style = document.createElement('link'); style.rel = 'stylesheet'; style.href = 'ui-field.css'; document.head.append(style);
