@@ -153,6 +153,12 @@
   function apply() {
     const next = styled && body.classList.contains('ws-enabled') && !body.classList.contains('viewer') && !body.classList.contains('locked');
     if (next === active) return;
+    // Moving the original controls must not interrupt an already-open form when
+    // the stylesheet arrives late, or replace the original focus-return target.
+    const focused = document.activeElement;
+    const openDialog = [item,settings].find(back => back.classList.contains('open') && back.contains(focused));
+    const selection = openDialog && typeof focused.selectionStart === 'number' ?
+      [focused.selectionStart,focused.selectionEnd,focused.selectionDirection] : null;
     active = next;
     body.classList.toggle('d-forms-enabled',active);
     if (active) {
@@ -169,6 +175,11 @@
       if (settingsFrame) {settingsFrame.before(settings.querySelector('.modal-body')); settingsFrame.remove(); settingsFrame = null;}
       added.forEach(el => el.remove()); added = []; sections = [];
       modals.forEach(back => {back.classList.remove('d-form');back.style.removeProperty('--d-visible-height');back.style.removeProperty('--d-visible-top');});
+    }
+    if (openDialog?.classList.contains('open') && focused.isConnected && focused.getClientRects().length &&
+        !body.classList.contains('viewer') && !body.classList.contains('locked')) {
+      focused.focus({preventScroll:true});
+      if (selection) focused.setSelectionRange(...selection);
     }
   }
   new MutationObserver(apply).observe(body,{attributes:true,attributeFilter:['class']});
