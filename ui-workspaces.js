@@ -27,6 +27,7 @@ function initWorkspaces() {
   const desktop = matchMedia('(min-width: 1200px)');
   const phone = matchMedia('(max-width: 680px)');
   const spatial = initSitePresentation(() => navigate('site'));
+  const field = initFieldPresentation();
   const icon = name => {
     const el = document.createElement('i');
     el.className = 'fa-solid fa-' + name; el.setAttribute('aria-hidden','true'); return el;
@@ -94,7 +95,7 @@ function initWorkspaces() {
   const nav = element('nav','ws-destinations'); nav.id = 'wsDestinations'; nav.setAttribute('aria-label','Workspaces');
   const footer = element('div','ws-sidebar-footer');
   const original = element('a','ws-original','Original board'); original.id = 'wsOriginal'; original.href = routeURL('all','',false).href;
-  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage C1 · opt-in workspaces'));
+  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage C2 · opt-in workspaces'));
   sidebar.append(brand,menu,nav,footer); body.append(sidebar);
   const shade = button('Close navigation','wsShade'); shade.className = 'ws-chrome ws-shade'; shade.tabIndex = -1; shade.hidden = true; body.append(shade);
 
@@ -200,6 +201,7 @@ function initWorkspaces() {
       cards.forEach(c => c.removeAttribute('data-ws-suppressed'));
       closeDrawer(); history.scrollRestoration = 'auto'; lastLayout = '';
       spatial.present(false,shortcuts);
+      field.present(false,active,shortcuts);
       if (wasEnabled) reveal(); return;
     }
     history.scrollRestoration = 'manual';
@@ -217,6 +219,7 @@ function initWorkspaces() {
     else placeholder.replaceChildren();
     renderNavigation();
     spatial.present(active === 'site',shortcuts);
+    field.present(enabled,active,shortcuts);
     const layout = [active,collapsed,wrap.clientWidth].join(':');
     if (layout !== lastLayout) { lastLayout = layout; reveal(); }
   }
@@ -231,7 +234,7 @@ function initWorkspaces() {
       const el = usableTarget(target || '');
       if (typeof y === 'number' && !focus) scrollTo(0,y);
       else if (el) {
-        el.scrollIntoView({block:'start'});
+        if (!field.scrollTarget(el)) el.scrollIntoView({block:'start'});
         if (focus) { el.tabIndex = -1; el.focus({preventScroll:true}); }
       } else { scrollTo(0,y || 0); if (focus) title.focus({preventScroll:true}); }
     });
@@ -309,6 +312,129 @@ function initWorkspaces() {
 
 // C1 presentation adapter. Original DOM, Leaflet/Three instances and handlers stay
 // authoritative. This adapter owns only transient layout/disclosure choices.
+// C2 consumes only original rendered cards/links and invokes existing controls.
+// Local disclosure/navigation choices never enter saved records or publishing.
+function initFieldPresentation() {
+  'use strict';
+  const body = document.body, grid = document.getElementById('panelsGrid');
+  const item = document.getElementById('itemModal');
+  const style = document.createElement('link'); style.rel = 'stylesheet'; style.href = 'ui-field.css'; document.head.append(style);
+  const layoutReady = new Promise(resolve => { style.addEventListener('load',resolve,{once:true}); style.addEventListener('error',resolve,{once:true}); });
+  const groups = new Set(['operations','resources','quality','coordination']);
+  const collapsed = new Set();
+  let active = false, links = [], currentProject = '', frame, viewportFrame, alignment = 0;
+  // Late font/layout readiness must not override subsequent user interaction.
+  for(const event of ['wheel','touchstart','pointerdown','keydown']) addEventListener(event,()=>{alignment++;},{passive:true});
+  const create = (tag,cls,text) => { const e=document.createElement(tag);e.className=cls;if(text)e.textContent=text;return e; };
+  const toolbar = create('div','fo-navigation');
+  const label = create('label','fo-jump','Panel'); label.htmlFor='foPanelJump';
+  const select = create('select',''); select.id='foPanelJump'; select.setAttribute('aria-label','Go to panel'); label.append(select);
+  const linkStrip = create('div','fo-links');
+  const history = create('button','fo-history','History CSV'); history.type='button'; history.id='foHistory';
+  history.title='Download existing history for all projects (CSV)'; history.setAttribute('aria-label',history.title);
+  history.addEventListener('click',() => {
+    if(active && !body.classList.contains('viewer') && !body.classList.contains('locked')) document.getElementById('btnHistory').click();
+  });
+  toolbar.append(label,linkStrip,history);
+  select.addEventListener('change',() => links.find(a=>a.dataset.wsTarget===select.value)?.click());
+  function markPanel() {
+    if(!active || !links.length) return;
+    const bottom = toolbar.getBoundingClientRect().bottom + 12;
+    const candidates = links.map(a=>({a,card:document.getElementById(a.dataset.wsTarget.slice(1))})).filter(x=>x.card);
+    const at = candidates.filter(x=>x.card.getBoundingClientRect().bottom>bottom).sort((a,b)=>Math.abs(a.card.getBoundingClientRect().top-bottom)-Math.abs(b.card.getBoundingClientRect().top-bottom))[0] || candidates.at(-1);
+    if(!at) return;
+    select.value=at.a.dataset.wsTarget;
+    links.forEach(a=>a===at.a?a.setAttribute('aria-current','location'):a.removeAttribute('aria-current'));
+  }
+  function schedulePosition() { cancelAnimationFrame(frame);frame=requestAnimationFrame(markPanel); }
+  addEventListener('scroll',schedulePosition,{passive:true});
+  const size = new ResizeObserver(() => {
+    if(active) body.style.setProperty('--fo-nav-height',toolbar.getBoundingClientRect().height+'px');
+  }); size.observe(toolbar);
+  style.addEventListener('load',schedulePosition);
+  function disclosure(card,open) {
+    const pid=card.dataset.card;
+    if(open) collapsed.delete(pid); else collapsed.add(pid);
+    card.toggleAttribute('data-fo-collapsed',!open);
+    const button=card.querySelector('.fo-collapse');
+    if(button){button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',(open?'Collapse ':'Expand ')+card.querySelector('.ttl').textContent.trim());button.title=open?'Hide this panel’s records':'Show this panel’s records';}
+  }
+  // A direct panel link reveals records even if the owner previously collapsed it.
+  document.addEventListener('click',event=>{
+    const target=event.target.closest('a[data-ws-target]')?.dataset.wsTarget;
+    if(target?.startsWith('#activity-')) collapsed.delete(target.slice(10));
+  },true);
+  function labelActions(card) {
+    for(const [selector,text] of [['[data-add]','Add'],['[data-print-panel]','Print'],['[data-edit]','Edit']]) {
+      card.querySelectorAll(selector).forEach(button=>{
+        if(!button.querySelector('.fo-label')) button.append(create('span','fo-label',text));
+      });
+    }
+    let button=card.querySelector('.fo-collapse');
+    if(!button){
+      const content=card.querySelector('.card-body'); content.id='foBody-'+card.dataset.card; content.dataset.foBody='';
+      button=create('button','fo-collapse');button.type='button';button.setAttribute('aria-controls',content.id);
+      button.addEventListener('click',()=>disclosure(card,card.hasAttribute('data-fo-collapsed')));
+      const title=card.querySelector('.ttl'),glyph=create('i','fo-disclosure-icon fa-solid fa-chevron-up');glyph.setAttribute('aria-hidden','true');
+      button.append(...title.childNodes,glyph);title.append(button);
+    }
+    disclosure(card,!collapsed.has(card.dataset.card));
+  }
+  function clearCards() {
+    grid.querySelectorAll('.fo-label').forEach(e=>e.remove());
+    grid.querySelectorAll('.fo-collapse').forEach(e=>{e.querySelector('.fo-disclosure-icon').remove();e.replaceWith(...e.childNodes);});
+    grid.querySelectorAll('[data-fo-collapsed]').forEach(e=>e.removeAttribute('data-fo-collapsed'));
+    grid.querySelectorAll('[data-fo-body]').forEach(e=>{e.removeAttribute('id');e.removeAttribute('data-fo-body');});
+  }
+  function viewport() {
+    cancelAnimationFrame(viewportFrame);
+    viewportFrame=requestAnimationFrame(()=>{
+      const opened=active && item.classList.contains('open');
+      item.classList.toggle('fo-item-form',opened);
+      if(!opened){item.style.removeProperty('--fo-visible-height');item.style.removeProperty('--fo-visible-top');return;}
+      const visible=window.visualViewport;
+      item.style.setProperty('--fo-visible-height',Math.max(1,visible?.height || innerHeight)+'px');
+      item.style.setProperty('--fo-visible-top',Math.max(0,visible?.offsetTop || 0)+'px');
+      const content=item.querySelector('.modal-body'),focus=document.activeElement;
+      if(content.contains(focus)){
+        const c=content.getBoundingClientRect(),f=focus.getBoundingClientRect();
+        if(f.bottom>c.bottom-8) content.scrollTop+=f.bottom-c.bottom+8;
+        else if(f.top<c.top+8) content.scrollTop-=c.top-f.top+8;
+      }
+    });
+  }
+  new MutationObserver(viewport).observe(item,{attributes:true,attributeFilter:['class']});
+  item.addEventListener('focusin',viewport);
+  window.visualViewport?.addEventListener('resize',viewport);
+  window.visualViewport?.addEventListener('scroll',viewport);
+  addEventListener('resize',viewport);
+  return {scrollTarget(target){
+    if(!active || !target.hasAttribute('data-card')) return false;
+    // Align after stylesheet/fonts and their layout frame. An earlier document
+    // limit can clamp an initial anchor while viewer/layout sizing is pending.
+    const request=++alignment,href=location.href;
+    layoutReady.then(()=>document.fonts.ready).then(()=>requestAnimationFrame(()=>{
+      if(request!==alignment || !active || !target.isConnected || href!==location.href) return;
+      const margin=parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+      scrollTo(0,Math.max(0,scrollY+target.getBoundingClientRect().top-margin));
+    }));
+    return true;
+  },present(enabled,workspace,shortcuts){
+    active=enabled && groups.has(workspace) && !body.classList.contains('locked');
+    body.classList.toggle('fo-workspace',active);
+    const project=document.getElementById('projSelect').value;
+    if(project!==currentProject){collapsed.clear();currentProject=project;}
+    if(!active){clearCards();toolbar.remove();body.style.removeProperty('--fo-nav-height');viewport();return;}
+    links=[...shortcuts.querySelectorAll('a[data-ws-target]')];
+    linkStrip.replaceChildren(...links);
+    select.replaceChildren(...links.map(a=>{const option=document.createElement('option');option.value=a.dataset.wsTarget;option.textContent=a.textContent;return option;}));
+    history.hidden=body.classList.contains('viewer');
+    shortcuts.append(toolbar);
+    for(const a of links){const card=document.getElementById(a.dataset.wsTarget.slice(1));if(card)labelActions(card);}
+    schedulePosition();viewport();
+  }};
+}
+
 function initSitePresentation(clearTarget) {
   const byId = id => document.getElementById(id), body = document.body;
   const mapCard = byId('mapCard'), modelCard = byId('modelCard');

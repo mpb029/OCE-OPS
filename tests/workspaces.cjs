@@ -42,6 +42,7 @@ async function enabled(env,options={}) {
   await require('./overview-checks.cjs')(env,check);
   await require('./overview-refinement.cjs')(env,check);
   await require('./spatial-usability.cjs')(env,check);
+  await require('./field-usability.cjs')(env,check);
   await check('Exact accepted Phase 1 source retained outside the explicit Stage A adapter',()=>{
    const before=execFileSync('git',['show','35f23679f1c97c5f781067f11d28b24740e25b5b:index.html'],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n');
    let after=require('./overview-source.cjs')(fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/\r\n/g,'\n'));

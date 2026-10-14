@@ -11,6 +11,10 @@ test('FAST workflow runs no browsers, PDFs, screenshots or recovery by default',
   assert.ok(overview.some(s=>s.filter==='^Overview(:| refinement:)'));
   assert.ok(overview.every(s=>s.engine==='chromium'));
   assert.ok(!overview.some(s=>/recovery|screenshots/.test(s.id)));
+  const field=plan(options(['fast','--scope','field'],{}));
+  assert.ok(field.some(s=>new RegExp(s.filter).test('Field usability: mobile controls')));
+  assert.ok(field.some(s=>new RegExp(s.filter).test('Production stat: extra fields, target, edit, visibility and delete')));
+  assert.ok(!field.some(s=>/recovery|screenshots/.test(s.id)));
 });
 test('existing filters select FAST checks; FOCUSED cannot lose audience, persistence or print guards',()=>{
   const env={OCE_STAGE_A_FILTER:'^Opt-in,',OCE_TEST_FILTER:'^Production stat:'};
@@ -41,10 +45,11 @@ test('children cannot inherit unrelated filters, stale output paths, main overri
   assert.equal(env.OCE_TEST_OUTPUT,'fresh');assert.equal(env.OCE_ENGINE,'firefox');
 });
 test('zero matches, failed assertions, partial suites, wrong commit and dirty FULL runs cannot pass',()=>{
-  const report={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:71},(_,i)=>({name:i<13?'Overview: '+i:i<25?'Overview refinement: '+i:i<37?'Spatial usability: '+i:'Existing '+i,status:'PASS'}))};
+  const report={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:83},(_,i)=>({name:i<13?'Overview: '+i:i<25?'Overview refinement: '+i:i<37?'Spatial usability: '+i:i<49?'Field usability: '+i:'Existing '+i,status:'PASS'}))};
   suite(report,'chromium',true,'head');
   assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Overview refinement:'))},'chromium',true,'head'),/All B2 refinement contracts required/);
   assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Spatial usability:'))},'chromium',true,'head'),/All C1 spatial usability contracts required/);
+  assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Field usability:'))},'chromium',true,'head'),/All C2 field usability contracts required/);
   for(const change of [{tests:[]},{tests:[{status:'FAIL'}]},{fullRun:false},{commit:'old'},{endCommit:'new'},{worktreeClean:false},{tests:[{status:'PASS'}]}])
     assert.throws(()=>suite({...report,...change},'chromium',true,'head'));
   assert.throws(()=>fullEvidence('.', {level:'focused',status:'PASS'},'head','main'));
