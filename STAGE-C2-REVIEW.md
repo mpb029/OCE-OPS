@@ -27,6 +27,8 @@ Original forms retain their DOM instances, fields, input order, default values, 
 
 Print styles reveal every original record even when a panel is collapsed. Navigation, disclosure icons and added action labels are excluded. Report content remains independent of the current workspace. Original board removes C2 panel enhancements immediately; no reload or migration is needed. Spatial instances, models/layers, backup compatibility, retirement/history, storage, project selection and publishing remain under the original runtime.
 
+The second committed candidate's FULL passed all 332 browser assertions but caught uppercase panel titles becoming title case in the Operations full-board PDF. The disclosure button now inherits the original print `text-transform`; the native uppercase presentation and unchanged title data are explicitly tested. No original PDF assertion is relaxed. The repaired Operations report matched all 63 baseline pages in a targeted comparison with identical map extent before the final freeze. Both failed candidate receipts remain retained; no same-commit FULL or CI assertion retries are used.
+
 ## Source and verification
 
 | File | Purpose |

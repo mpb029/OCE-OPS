@@ -1,7 +1,7 @@
 /* C2: opt-in field controls only. Native records, forms and reports are retained. */
 @media print {
   .fo-label,.fo-disclosure-icon,.fo-navigation { display:none !important; }
-  .fo-collapse { display:contents !important;font:inherit;color:inherit; }
+  .fo-collapse { display:contents !important;font:inherit;color:inherit;text-transform:inherit; }
 }
 @media screen {
   .fo-workspace { --fo-nav-height:60px; }
