@@ -319,9 +319,12 @@ function initFieldPresentation() {
   const body = document.body, grid = document.getElementById('panelsGrid');
   const item = document.getElementById('itemModal');
   const style = document.createElement('link'); style.rel = 'stylesheet'; style.href = 'ui-field.css'; document.head.append(style);
+  const layoutReady = new Promise(resolve => { style.addEventListener('load',resolve,{once:true}); style.addEventListener('error',resolve,{once:true}); });
   const groups = new Set(['operations','resources','quality','coordination']);
   const collapsed = new Set();
-  let active = false, links = [], currentProject = '', frame, viewportFrame;
+  let active = false, links = [], currentProject = '', frame, viewportFrame, alignment = 0;
+  // Late font/layout readiness must not override subsequent user interaction.
+  for(const event of ['wheel','touchstart','pointerdown','keydown']) addEventListener(event,()=>{alignment++;},{passive:true});
   const create = (tag,cls,text) => { const e=document.createElement(tag);e.className=cls;if(text)e.textContent=text;return e; };
   const toolbar = create('div','fo-navigation');
   const label = create('label','fo-jump','Panel'); label.htmlFor='foPanelJump';
@@ -407,10 +410,14 @@ function initFieldPresentation() {
   addEventListener('resize',viewport);
   return {scrollTarget(target){
     if(!active || !target.hasAttribute('data-card')) return false;
-    // Use the document scroller with the actual sticky-strip offset. Native
-    // scrollIntoView can stop before the window limit on a short workspace.
-    const margin=parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
-    scrollTo(0,Math.max(0,scrollY+target.getBoundingClientRect().top-margin));
+    // Align after stylesheet/fonts and their layout frame. An earlier document
+    // limit can clamp an initial anchor while viewer/layout sizing is pending.
+    const request=++alignment,href=location.href;
+    layoutReady.then(()=>document.fonts.ready).then(()=>requestAnimationFrame(()=>{
+      if(request!==alignment || !active || !target.isConnected || href!==location.href) return;
+      const margin=parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+      scrollTo(0,Math.max(0,scrollY+target.getBoundingClientRect().top-margin));
+    }));
     return true;
   },present(enabled,workspace,shortcuts){
     active=enabled && groups.has(workspace) && !body.classList.contains('locked');
