@@ -43,5 +43,6 @@ const selected=name=>!expression||expression.test(name);
  try{const p=run.page;await p.locator('#fileModel').setInputFiles(path.join(root,'G4N.obj'));await p.waitForFunction(()=>__opsTest.three?.renderer.info.render.triangles>0,null,{timeout:60000});await p.locator('#modelCard').scrollIntoViewIfNeeded();await p.waitForTimeout(300);const name='editor-desktop-site-g4n.png';await p.screenshot({path:path.join(shots,name)});records.push({name,width:1440,height:900,audience:'editor',workspace:'site',fixture:'Synthetic board',model:'Actual unchanged G4N.obj, session import'});}finally{await run.close();}
  }
  await require('./capture-spatial.cjs')({env,selected,shots,records});
+ await require('./capture-field.cjs')({env,selected,shots,records});
  assert.ok(records.length,'Screenshot filter matched zero captures');
 }finally{await env.close();fs.writeFileSync(path.join(shots,'manifest.json'),JSON.stringify({commit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),fullRun:!filter,filter,screenshots:records},null,2));console.log('Captured '+records.length+' actual application screenshots');}})().catch(e=>{console.error(e);process.exitCode=1;});
