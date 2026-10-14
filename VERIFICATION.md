@@ -1,67 +1,73 @@
 # Verification levels
 
-Development tooling only. The accepted Stage A milestone remains `938ad274d232aa8a045e54b5b15531b6a9c61b3a`; retain its existing review/recovery artifacts. PR #1 and PR #2 stay draft. The workflow does not authorise application changes: Stages B1 and B2 are separately approved and documented in STAGE-B1-REVIEW.md and STAGE-B2-REVIEW.md. PR #3 remains at 2e371d7; PR #4 remains at 8315740. Operational data, attachments, location defaults, schema and publishing code remain protected.
+## Current policy
 
-Use Node.js 24, `npm ci`, and Playwright's Chromium/Firefox installations. FOCUSED/FULL also require Python and `pypdf==6.10.0`. On Linux use `LIBGL_ALWAYS_SOFTWARE=1` and `xvfb-run --auto-servernum` as CI does. Tests use isolated browser contexts and intercept publishing requests; never supply production credentials. One browser engine runs at a time.
+- **FAST during development.** Run only relevant checks, basic source/integrity checks and protected-asset hashes. Capture only an affected view when useful. Do not generate recovery archives, extensive galleries or comprehensive PDF packages.
+- **FOCUSED at feature completion.** Test affected workflows in Chromium and Firefox, with relevant audience/project, persistence and print safeguards. Reuse valid evidence only under the exact-input rules below. Feature completion does not automatically require FULL.
+- **FULL only at the consolidated production release gate, or when a specific high-risk change justifies it.** Record the risk and reason before a discretionary FULL run. A feature milestone, draft PR or ordinary iteration alone is not a reason. FULL remains mandatory before production merge authorisation; it is not run automatically after every feature.
 
-| Level | Command | Evidence and purpose |
+This policy supersedes earlier milestone-specific instructions to run FULL after every stage. Historical accepted evidence and recovery artifacts remain preserved. It does not authorise merging, deployment, production publishing or operational-data changes.
+
+Use Node.js 24, `npm ci`, Playwright Chromium/Firefox and, for PDF comparisons, Python with `pypdf==6.10.0`. Linux uses `LIBGL_ALWAYS_SOFTWARE=1` and `xvfb-run --auto-servernum`. Tests use isolated contexts and intercepted synthetic publishing requests; never provide production credentials. Run one browser engine at a time.
+
+| Level | Example | Evidence |
 |---|---|---|
-| FAST | `npm run verify:fast -- --scope navigation` | Syntax, inline-script compilation, diff/integrity checks, protected assets, orchestration tests, selected Chromium checks. No bulk screenshots/PDF comparisons/recovery. |
-| FOCUSED | `npm run verify:focused -- --scope navigation` | Selected feature checks in Chromium and Firefox, plus original source contracts, project/audience filtering, persistence, deep links and print safeguards; five Chromium report comparisons. No bulk captures or recovery. |
-| FULL | `npm run verify:full` | Complete 83 original + 104 workspace assertions in each engine (374 total, including all 11 Stage D and 10 Stage E contracts per engine), 5 original + 20 workspace PDF comparisons, three representative Stage E screenshots, original workflow/model inspection evidence, protected assets, standalone bundle/archive and independent recovery verification. |
+| FAST | `npm run verify:fast -- --scope report-refinement` | Relevant Chromium checks, syntax, integrity, protected-file hashes and orchestration tests. No PDFs or recovery. |
+| FOCUSED | `npm run verify:focused -- --scope report-refinement` | Both engines test only full-board/weekly-photo report behavior and relevant project/audience/read-only contracts. Four representative Chromium PDFs (before/after for two reports), with complete ordered text and photograph preservation checks. No broad browser suites, 25-report package, galleries or recovery. |
+| FULL | `npm run verify:full` | Complete original and workspace suites in both engines, all mandatory assertions, report comparisons, required screenshots, protected assets and independently verified self-contained recovery. Production release or documented high-risk use only. |
 
-Scopes: `workflow` (FAST source/tooling only), `navigation`, `overview`, `audience`, `editing`, `backup`, `spatial`, `project-spatial`, `field`, `forms`, `print`. Select the affected scope after reviewing the diff; run multiple scopes for unrelated changes. For a tooling-only edit start with `npm run verify:fast`. Add `--plan` to inspect the exact command/filter selection without executing tests. Existing `npm test`, `test:workspaces` and other individual commands remain available.
+Scopes: `workflow` (FAST source/tooling only), `navigation`, `overview`, `audience`, `editing`, `backup`, `spatial`, `project-spatial`, `field`, `forms`, `print`, `report-refinement`. Select the affected scope; use multiple scopes only for independently affected workflows. `--plan` prints the exact commands without executing them. Existing standalone test commands remain available.
 
-For more precise FAST selection, set the existing `OCE_STAGE_A_FILTER` and/or `OCE_TEST_FILTER` to a test-name regular expression. A filter matching zero tests fails the runner. FOCUSED adds its common safeguards even when custom filters are set. FULL clears both filters, screenshot filters and alternate main references; it rejects scoped screenshots and reuse. A partial or failed run cannot satisfy acceptance.
+General FOCUSED scopes retain their established common source, audience/project, persistence, navigation and print guards plus five report comparisons. **`report-refinement` deliberately uses its own narrow standalone contracts**: neither broad browser suite nor unrelated deep-link tests run in this scope. Those assertions remain unchanged and mandatory at the production FULL gate. This is task selection, not a waiver of open release issues.
 
-Capture only an affected view when useful:
+For precise FAST selection in existing suites use `OCE_STAGE_A_FILTER` and/or `OCE_TEST_FILTER`. A zero-match selection fails. General FOCUSED adds its common guards. The dedicated report-refinement runner always executes its complete small contract set and ignores unrelated suite filters. FULL clears all filters and rejects scoped screenshots and reuse. Partial or failed evidence never satisfies the production gate.
 
-```sh
-npm run verify:fast -- --scope navigation --shots '^editor-tablet-drawer\.png$'
-```
+## Stage F1: full-board and weekly-photo reporting
 
-`--shots` selects actual synthetic workspace captures by filename: `{editor|site|client}-{desktop|tablet|mobile}-{route}.png`; editor forms use `rfi`, navigation uses `drawer` (tablet/mobile), actual model evidence uses `editor-desktop-site-g4n.png`. For `--scope forms`, it selects `stage-d-{desktop|tablet|mobile}.png` through the dedicated Stage D capture script. For `--scope project-spatial`, it selects `stage-e-{desktop|tablet|mobile}.png`. Existing standalone capture supports `OCE_SCREENSHOT_FILTER`. Omitting a screenshot selection in FAST/FOCUSED captures nothing extra. Current FULL captures the three representative Stage E views. Tests that themselves record a failure/workflow image retain that evidence.
+Baseline: Stage E `76cb688`. Only those two report layouts may intentionally repaginate. Compare their complete ordered text and actual drawn photograph content; page-count or per-page-text changes alone are not failures. The historical `client` PDF is the same full-board handler in Client view, so it follows the same content-preservation rule. Daily Works and punchlist reports retain their existing per-page parity requirements. Test source normalization allows only one exact print-only stylesheet link; earlier application functions and regression assertions remain unchanged.
 
-Every invocation writes a fresh `test-results/verification/<level>-<commit>-<unique>/` directory and `verification.json`. It never merges filtered results into an old JSON or overwrites accepted evidence. `OCE_VERIFY_OUTPUT` can select a different parent; `OCE_TEST_OUTPUT` is assigned separately to each engine. `OCE_PYTHON` selects a Python executable; `OCE_BROWSER` selects Chromium only and is removed for Firefox. Receipts record commit, command plan, selected filters, tool/platform/browser fingerprints and artifact SHA-256 hashes. Dirty development trees are labelled; FULL requires a clean committed tree throughout.
+During development run `npm run verify:fast -- --scope report-refinement`; at completion run `npm run verify:focused -- --scope report-refinement`. The latter creates exactly `before-report.pdf`, `after-report.pdf`, `before-photos.pdf` and `after-photos.pdf` in the run's Chromium `report-refinement/` folder. Chromium produces the representative PDFs; Firefox verifies the same report DOM/print behavior. Native Firefox print-to-PDF and physical printer behavior remain manual checks. No FULL run is required for F1.
 
-For Overview development: `npm run verify:fast -- --scope overview --shots 'editor-(desktop|tablet)-overview'`. At feature completion: `npm run verify:focused -- --scope overview`. The unchanged 13 B1 and 12 additional B2 Overview contracts run inside the existing workspace suite, use `OCE_STAGE_A_FILTER`, and are mandatory in FULL. FULL also compares five report families from Overview and captures editor/site/client Overview at all three sizes.
+Future consolidated FULL includes the new report contracts in both engines and the two representative content comparisons, in addition to existing suites. It retains 83 original and 104 workspace contracts per engine, 5 original plus 20 workspace report comparisons, three representative Stage E captures, model inspection, all protected assets and complete recovery. Intentional pagination is permitted only for full-board and weekly photos; content loss remains a failure. Do not regenerate this package during ordinary feature development.
+
+## Scoped captures and receipts
+
+Use `--shots` only when a changed screen needs evidence, for example `npm run verify:fast -- --scope navigation --shots '^editor-tablet-drawer\.png$'`. Existing workspace captures use `{editor|site|client}-{desktop|tablet|mobile}-{route}.png`; forms use `stage-d-{desktop|tablet|mobile}.png`; project-spatial uses `stage-e-{desktop|tablet|mobile}.png`. Report-refinement rejects `--shots` because its deliverable is the two PDF comparisons. Omitting `--shots` captures no extra gallery. Original assertion-generated failure/workflow images remain evidence.
+
+Every invocation creates a fresh `test-results/verification/<level>-<commit>-<unique>/` directory with `verification.json`. It never appends filtered results to old accepted evidence. `OCE_VERIFY_OUTPUT` sets an alternative parent; `OCE_PYTHON` selects Python; `OCE_BROWSER` selects Chromium only. Receipts record commit, filters/commands, source/input hashes, browser/tool/platform fingerprints and artifact hashes. Dirty development work is labelled. FULL requires a clean committed checkout throughout.
 
 ## Evidence reuse
 
-Within 24 hours, an explicitly requested FOCUSED reuse is available:
+Within 24 hours explicitly request FOCUSED reuse with `npm run verify:focused -- --scope navigation --reuse test-results/verification/focused-COMMIT-UNIQUE`.
 
-```sh
-npm run verify:focused -- --scope navigation --reuse test-results/verification/focused-COMMIT-UNIQUE
-```
+The original executed run must have passed. All non-documentation repository inputs (including untracked source, tests, fixtures, data and assets), selected commands, main baseline, tool/browser bytes and platform must match. Every artifact must exist with its original hash. Changed or missing inputs reject reuse. Basic integrity checks always rerun. The new receipt identifies the original run and does not claim fresh browser execution. Chained reuse is forbidden. FULL never reuses prior acceptance evidence.
 
-The original executed FOCUSED run must have passed. Every non-documentation repository input (including untracked source, all tests/configuration, fixtures, data and protected assets), selected commands, main baseline, Node/Python/Playwright versions, browser executable bytes and OS must match. Every recorded artifact must still exist with its recorded hash. A change or missing artifact rejects reuse; run without `--reuse` to execute anew. Basic integrity checks always run. The new receipt names the original commit/run and explicitly marks reuse; it never claims a fresh browser test. Chained reuse is forbidden.
+This saves duplicate testing after documentation-only changes. It does not recheck CDN availability, physical devices, native printing or real publishing; rerun relevant checks when those conditions change.
 
-This saves repeated execution after documentation/review-only changes. It does not recheck external CDN/map-tile availability, hardware, native printing or real publishing. Rerun if those conditions may have changed. FULL never reuses prior browser, PDF, screenshot or recovery evidence, even at the same commit.
+## CI and production acceptance
 
-## CI and the acceptance gate
+Ordinary PR open/reopen/update events run FAST in the current affected scope (F1: `report-refinement`). Small scoped artifacts remain for seven days. No recovery, comprehensive PDFs or screenshot gallery is generated by default. CI never automatically retries failed assertions.
 
-On the B1/B2 branches, PR open/reopen/update events run FAST Overview checks plus source/integrity/tooling checks. Select navigation explicitly for navigation-only changes. They upload small scoped evidence for seven days. They do not create recovery bundles, PDF comparison batches or the 48-image gallery.
+Adding `verification:focused` explicitly requests FOCUSED on the exact PR head. Adding `verification:full` explicitly requests FULL **only for the consolidated release or a documented high-risk reason**. Each label-add event runs once; later pushes remain FAST. Workflow dispatch provides level/scope/branch choices once the workflow is on the default branch. FULL checkout uses the actual PR head, fetches main, retains complete evidence for 30 days and validates the gate. Permissions remain `contents: read`; there is no deployment, publishing, ready-for-review or merge job.
 
-Add the PR label `verification:focused` or `verification:full` to request that level on its exact head SHA. The label-add event runs once; later pushes remain FAST even if the label remains. Remove/re-add the label to request another run. Unrelated label events run no tests. This works on draft PRs before this workflow exists on main. Once available on the default branch, Actions **Run workflow** also provides level/scope choices and a branch selector. GitHub documents the [default-branch requirement for workflow_dispatch](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch).
-
-FULL CI checks out the PR head (not the synthetic merge commit), fetches main, runs both engines, exports the complete evidence and independently validates the receipt again. Full artifacts are retained for 30 days with compression disabled for the already-compressed recovery files. Download and preserve them outside temporary CI storage. Permissions remain `contents: read`; there is no deployment, publishing, PR-ready or merge job. CI performs no automatic test retry.
-
-**Before any merge authorisation**, obtain a successful FULL run at the current exact candidate SHA, then in that same clean verification environment run:
+Before production merge authorisation obtain a successful FULL run at the current exact candidate SHA, then in the same clean environment run:
 
 ```sh
 git fetch origin main
 npm run verify:gate -- --evidence test-results/verification/full-COMMIT-UNIQUE
 ```
 
-The gate checks the complete command plan, both full suites, PDF comparisons, the milestone's required captures, recovery results, hashes, current source/tool environment and latest fetched main. New commits, operational-main changes, missing evidence, partial suites or failed assertions invalidate acceptance. Fetch the current PR head and confirm it still equals that candidate; a green FAST/FOCUSED check, a skipped job or an older FULL run is insufficient. Keep owner approval, physical-device review and the existing separate disposable-publishing acceptance requirements. This change does not configure GitHub branch protection; do not mistake the documented owner gate for a server-enforced merge lock. If configuring branch rules separately, require the actual FULL check and owner review, never the generic workflow's green status.
+The gate verifies the complete command plan, both full suites, report content/pagination rules, required captures, recovery, hashes, current environment and latest fetched main. New commits, operational-main changes, missing evidence, partial suites or failed assertions invalidate release acceptance. Fetch the PR head and confirm the same SHA. FAST/FOCUSED or an older FULL cannot authorise production merge. Preserve owner approval, physical-device review and separate disposable-publishing acceptance requirements. The documented gate is not GitHub branch protection; configure any server-side rules separately.
 
-For independently checking downloaded evidence, use its exact source commit, tool versions and recorded artifacts; paths/platform changes require a fresh FULL execution rather than pretending to reproduce the original environment. The bundle and source ZIP remain self-contained repository recovery. Browser-local unpublished data still requires the application's existing export/recovery download.
+Downloaded evidence must be checked against its exact source, tool versions and recorded artifacts. Different paths/platforms require a fresh release FULL rather than claiming reproduction. The Git bundle and source ZIP provide self-contained repository recovery; unpublished browser-local data still needs the application's export/recovery download.
 
-## Open intermittent failure: STAT-001
+## Open release issues
 
-At Stage A commit `938ad27`, Linux CI run `38450800909` attempt 1 failed **Production stat: extra fields, target, edit, visibility and delete**: the immediate read after Save returned `120`, expected `180`. Other checks passed. An unchanged rerun passed, as did the final local Chromium/Firefox suites and 30 separate baseline/candidate rapid-edit probes. Root cause is **unresolved**; a scheduled initial-focus callback is only a hypothesis, not an established explanation.
+### STAT-001 — intermittent production-stat editing
 
-Keep the original assertion in `tests/regression.cjs` unchanged. Do not suppress the test, accept `120`, add arbitrary sleeps, automatically retry it into green or remove the failed attempt from the report. It remains included in FULL and the `editing` scope. For targeted investigation in PowerShell:
+At Stage A `938ad27`, Linux CI run `38450800909` attempt 1 read `120` after Save, expected `180`, in **Production stat: extra fields, target, edit, visibility and delete**. An unchanged rerun and subsequent local probes passed. Root cause remains unresolved; scheduled initial focus is only a hypothesis.
+
+Keep the original `tests/regression.cjs` assertion unchanged. Do not suppress it, accept `120`, add arbitrary sleeps, automatically retry into green or remove failed evidence. It remains in FULL and the editing scope. Diagnostic command:
 
 ```powershell
 $env:OCE_TEST_FILTER = '^Production stat:'
@@ -69,38 +75,12 @@ npm run verify:focused -- --scope workflow
 Remove-Item Env:OCE_TEST_FILTER
 ```
 
-Preserve failing receipts/logs, browser/version, exact commit and event/focus/value timing evidence. A diagnostic rerun is separate evidence, not a replacement for the failure. Any remedy needs a demonstrated cause and a regression test; final acceptance still requires a complete successful FULL run and disclosure of earlier failures. Original evidence is retained in the Stage A delivery (`ci-attempts.json`, `development/stat-timing.json`) and [CI run 38450800909](https://github.com/mpb029/OCE-OPS/actions/runs/38450800909).
+Preserve failed receipts, browser/version, exact commit and event/focus/value timing. A diagnostic rerun is separate evidence, not a replacement. Any remedy needs a demonstrated cause and regression test. Original evidence remains in Stage A `ci-attempts.json`, `development/stat-timing.json` and [CI run 38450800909](https://github.com/mpb029/OCE-OPS/actions/runs/38450800909).
 
-## Stage C1 spatial scope
+### NAV-001 — Firefox initial deep-link positioning
 
-Stage C1 is based on accepted B2 `97a2f9a` and documented in `STAGE-C1-REVIEW.md`. Use `--scope spatial` for its original spatial checks, twelve C1 contracts, navigation and audience checks. Optional `--shots '^c1-'` captures only thirteen affected spatial views with actual G4N geometry at desktop, portrait/landscape tablet and mobile resolutions. The tests remain selectable using `OCE_STAGE_A_FILTER` with `^Spatial usability:` during development.
+Stage E `76cb688` FULL passed 373/374 checks; Firefox initial deep-link positioning failed and was reproduced diagnostically. The punchlist target was measured at approximately `y=100.35` after the browser moved it. Root cause is unproven. Preserve the original deep-link assertion, failed receipt and diagnostic evidence in `outputs/stage-e`; do not weaken thresholds or hide the result with retries. This remains a production release-gate blocker. F1 does not modify navigation or claim to resolve this issue.
 
-On C1, ordinary PR events run FAST **spatial** checks. FOCUSED/FULL triggers and artifact retention stay unchanged. FULL now requires all 308 browser checks, all previous 25 PDF comparisons and 48 workspace captures **plus** thirteen C1 captures (61 total), protected assets and independently verified self-contained recovery. Original B1/B2/source/STAT-001 assertions remain mandatory and unchanged. Physical Android acceptance remains separate from browser emulation. Keep PRs #1–#5 unchanged and draft.
+## Rollback
 
-## Stage C2 field scope
-
-C2 is based on accepted C1 `be9a80d` and documented in `STAGE-C2-REVIEW.md`. Use `npm run verify:fast -- --scope field` and `npm run verify:focused -- --scope field`. FAST can select just `^Field usability:` using `OCE_STAGE_A_FILTER`. Optional `--shots '^c2-.*-operations\.png$'` captures the four affected Operations layouts. FULL adds twelve C2 contracts per engine and twenty C2 captures (sixteen workspaces and four original RFI forms), with every previous contract/capture retained.
-
-On C2, ordinary PR events run FAST **field** checks, including the unchanged STAT-001 assertion. FOCUSED adds project/audience/persistence/print guards and five PDF comparisons. FULL requires 332 complete browser assertions, all 25 PDF comparisons, 81 workspace captures, protected assets and self-contained recovery. No recovery archive is generated during FAST/FOCUSED work. Reduced-visual-viewport tests simulate keyboard geometry; they do not constitute physical Android/IME acceptance. The owner deferred physical findings until later. Keep PRs #1–#6 unchanged and draft.
-
-## Stage D forms and Settings scope
-
-Stage D starts from C2 `76501b5`. Use `npm run verify:fast -- --scope forms` while coding and `npm run verify:focused -- --scope forms` at feature completion. The scope includes existing priority-panel CRUD, Settings editing and the unchanged production-stat assertion, plus eleven `^Forms and Settings:` contracts per engine. FOCUSED retains the common project, audience, persistence, navigation and print safeguards. Ordinary PR events now run FAST **forms** checks; there are no automatic retries or deployment jobs. STAT-001 remains open and a failing attempt must be retained.
-
-Run FULL once against the final clean committed milestone, followed by the gate. It requires all 354 browser assertions, all 25 PDF comparisons, protected operational assets and independently verified complete recovery. At the owner's request, the representative gallery is limited to `stage-d-desktop.png` (1440 × 900), `stage-d-tablet.png` (768 × 1024) and `stage-d-mobile.png` (390 × 844). The gate checks the three names and actual PNG dimensions. This replaces the earlier bulk workspace/classic screenshot steps for Stage D only; existing assertion-generated workflow/failure images remain unmodified evidence. Model inspection runs with `--no-screenshots`, retaining all original object measurements and interactions. Earlier capture scripts and milestone artifacts remain available.
-
-Optional development capture: `npm run verify:fast -- --scope forms --shots '^stage-d-tablet\.png$'`. No large galleries or recovery packages are generated during intermediate work. Physical Android keyboard/IME acceptance remains distinct from browser emulation. Keep previous PRs unchanged and draft; no merge, deployment or operational publishing is authorised.
-
-## Stage E project-specific mapping scope
-
-Stage E starts from accepted Stage D `aeac20f`. Use `npm run verify:fast -- --scope project-spatial` during development and `npm run verify:focused -- --scope project-spatial` at feature completion. The scope combines original map/model, backup and STAT-001 checks with C1 preservation, navigation/audience checks and ten `^Project spatial:` contracts. FOCUSED also includes the usual project, persistence and print guards. PR events default to FAST project-spatial checks; no automatic retries or deployment jobs are added.
-
-The optional spatial `project` metadata is the only authorised data extension: existing records without it remain Global and are not migrated. All original runtime functions and historical regression assertion bodies remain byte-for-byte intact outside the explicitly delimited Stage E adapter and one stylesheet link. `tests/stage-e-source.cjs` removes only that exact allowance and reverses enumerated source-check integration edits; tooling tests compare the result to `aeac20f`, so unrelated edits, missing markers and duplicated allowances fail.
-
-Run FULL and its gate once on the final clean committed candidate. FULL requires 374 browser assertions, all 25 PDF comparisons, unchanged protected assets and complete independent recovery verification. The gallery contains only `stage-e-desktop.png` (1440 × 900), `stage-e-tablet.png` (768 × 1024) and `stage-e-mobile.png` (390 × 844), verified by actual PNG dimensions. Previous Stage D captures and assertions remain available; their gallery is not regenerated. For a single development view use `npm run verify:fast -- --scope project-spatial --shots '^stage-e-tablet\.png$'`.
-
-Retain STAT-001 as open. Browser touch emulation is not physical Android acceptance. Project/client layer filtering remains a display rule, not secure access control. Keep PRs #1–#8 unchanged; no merge, deployment or production publishing is authorised.
-
-## Tooling rollback
-
-Revert only the workflow/tooling commit to restore the previous per-PR full pipeline. Do not reset data/assets or rebuild the accepted Stage A recovery packages for ordinary iterations. The application at `938ad27` remains unchanged by either workflow choice.
+Revert only the applicable workflow/tooling or interface commit. Never reset protected data/assets or regenerate old recovery packages for ordinary iterations. Earlier PRs and milestone artifacts stay preserved. A successful focused feature review does not change the owner's separate merge/deployment approval boundary.
