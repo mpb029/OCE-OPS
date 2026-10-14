@@ -61,6 +61,11 @@ for(const [device,width,height] of sizes)await check(`Spatial usability: ${devic
   await p.locator('#fileGeo').setInputFiles({name:'synthetic-vector.geojson',mimeType:'application/json',buffer:Buffer.from(JSON.stringify({type:'FeatureCollection',features:[{type:'Feature',properties:{name:'Synthetic pipeline'},geometry:{type:'LineString',coordinates:[[153.087,-25.9055],[153.089,-25.9065]]}}]}))});
   await p.waitForFunction(()=>__opsTest.state.mapLayers.length===1);
   await focus(p,'mapCard');await p.locator('#spLayers').click();
+  const bounds=await p.evaluate(()=>{const map=document.getElementById('map').getBoundingClientRect(),layers=document.querySelector('.layer-ctl').getBoundingClientRect();return {mapBottom:map.bottom,layersBottom:layers.bottom};});
+  assert.ok(bounds.layersBottom<=bounds.mapBottom,'Layer list must fit inside its map viewport: '+JSON.stringify(bounds));
+  const rasterToggle=p.locator('[data-lc-toggle][data-lc-kind="raster"]');
+  await rasterToggle.scrollIntoViewIfNeeded();await rasterToggle.uncheck();await rasterToggle.check();
+  assert.ok(await rasterToggle.evaluate(el=>{const b=el.getBoundingClientRect(),m=document.getElementById('map').getBoundingClientRect();return b.top>=m.top&&b.bottom<=m.bottom;}),'Last imported layer is reachable through the scrollable list');
   await p.locator('[data-lc-toggle="__repo__"]').uncheck();
   const vectorId=await p.evaluate(()=>__opsTest.state.mapLayers[0].id);
   await p.locator(`[data-lc-toggle="${vectorId}"]`).uncheck();await p.locator('#spLayersClose').click();
