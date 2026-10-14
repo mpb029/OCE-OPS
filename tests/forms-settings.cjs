@@ -59,6 +59,40 @@ async function keyboardViewport(p,modal,save) {
  },modal);
  await p.evaluate(()=>{delete visualViewport.height;delete visualViewport.offsetTop;visualViewport.dispatchEvent(new Event('resize'));});
 }
+async function delayedStylesheet(env,kind) {
+ let release,seen,pageCreated,run;
+ const withheld=new Promise(resolve=>release=resolve),intercepted=new Promise(resolve=>seen=resolve),created=new Promise(resolve=>pageCreated=resolve);
+ const delayed={...env,browser:{newContext:async options=>{
+  const context=await env.browser.newContext(options);
+  context.on('page',async page=>{
+   // Page routing takes precedence over the harness's broad context route.
+   await page.route('**/ui-forms.css',async route=>{seen();await withheld;await route.continue();});pageCreated(page);
+  });return context;
+ }}};
+ const opening=open(delayed,{data:fixture(),audience:'?ui=workspaces&workspace=all&workspaceProject=default'});
+ try {
+  const p=await Promise.race([created,opening.then(result=>result.page)]);
+  await p.waitForFunction(()=>window.__opsTest?.ready&&document.querySelector('[data-add="dailyWorks"]'));await intercepted;
+  assert.equal(await p.locator('body').evaluate(e=>e.classList.contains('d-forms-enabled')),false,'The new stylesheet is genuinely withheld');
+  const before=await snapshot(p),modal=kind==='item'?'itemModal':'settingsModal',field=kind==='item'?'fMain':'setProj';
+  if(kind==='item')await item(p,'dailyWorks');else await settings(p);
+  await p.locator('#'+field).fill('Synthetic text entered before the stylesheet loads');
+  await p.evaluate(({field,kind})=>{
+   window.__dDelayedField=document.getElementById(field);
+   window.__dDelayedOpener=kind==='item'?document.querySelector('[data-add="dailyWorks"]'):document.getElementById('btnSettings');
+   __dDelayedField.setSelectionRange(5,19,'backward');
+  },{field,kind});
+  const selection=()=>p.locator('#'+field).evaluate(e=>({focused:e===document.activeElement,value:e.value,start:e.selectionStart,end:e.selectionEnd,direction:e.selectionDirection}));
+  const previous=await selection();assert.equal(previous.focused,true);
+  release();run=await opening;await ready(p);
+  await p.evaluate(async()=>{await document.fonts.ready;await new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)));});
+  assert.deepEqual(await selection(),previous,kind+' retains in-progress focus, text and selection when presentation loads');
+  assert.ok(await p.evaluate(()=>__dDelayedField.isConnected&&document.getElementById(__dDelayedField.id)===__dDelayedField),'Original field instance retained');
+  assert.deepEqual(await snapshot(p),before,'Late presentation does not save or mark the board dirty');
+  await cancel(p,modal);await p.waitForFunction(()=>document.activeElement===__dDelayedOpener);
+  assert.deepEqual(await snapshot(p),before,'Cancel still discards the unsaved modal value');assert.equal(run.network.writes.length,0);assert.deepEqual(run.network.errors,[]);
+ }finally{release();run=run||await opening;await run.close();}
+}
 module.exports = async (env,check) => {
  await check('Forms and Settings: exact C2 domain runtime, settings handlers and mandatory regression assertions retained',()=>{
   for(const file of ['index.html','ui-v2.js','ui-v2.css','ui-field.css','ui-spatial.css','ui-overview.js','ui-overview.css','tests/regression.cjs']) {
@@ -95,6 +129,7 @@ module.exports = async (env,check) => {
    assert.ok(await p.evaluate(()=>__dOriginalControls.every(e=>e.isConnected)),'All original static form controls remain mounted');
    assert.deepEqual(await snapshot(p),before);assert.equal(run.network.writes.length,0);assert.deepEqual(run.network.errors,[]);
   }finally{await run.close();}
+  await delayedStylesheet(env,'item');await delayedStylesheet(env,'settings');
  });
  for(const [device,width,height] of sizes)await check(`Forms and Settings: ${device} priority forms, validation, keyboard, CRUD, context and persistence`,async()=>{
   const run=await open(env,{width,height,touch:width<1200,data:fixture(),audience:'?ui=workspaces&workspace=all&workspaceProject=default'}),p=run.page;
