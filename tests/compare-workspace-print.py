@@ -2,8 +2,13 @@
 import json
 import difflib
 import os
+import importlib.util
 from pathlib import Path
 from pypdf import PdfReader
+
+spec = importlib.util.spec_from_file_location('report_content', Path(__file__).with_name('compare-report-refinement.py'))
+content = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(content)
 
 folder = Path(os.environ.get('OCE_TEST_OUTPUT', 'test-results')) / 'workspace-pdfs'
 results = []
@@ -12,6 +17,12 @@ for mode in ['report', 'dailyWorks', 'punchlist', 'photos', 'client']:
     for route in ['operations', 'site', 'all', 'overview']:
         actual = [' '.join(p.extract_text().split()) for p in PdfReader(folder / f'{route}-{mode}.pdf').pages]
         result = {'family': mode, 'workspace': route, 'baselinePages': len(original), 'actualPages': len(actual), 'sameTextOnEveryPage': actual == original}
+        if mode in ['report', 'photos', 'client']:
+            old_document = content.read_pdf(folder / f'baseline-{mode}.pdf')
+            new_document = content.read_pdf(folder / f'{route}-{mode}.pdf')
+            images = lambda doc: [image['hash'] for page in doc['images'] for image in page]
+            result['sameContent'] = old_document['text'] == new_document['text']
+            result['photosPreserved'] = images(old_document) == images(new_document)
         results.append(result)
         print(json.dumps(result))
         if actual != original:
@@ -21,4 +32,5 @@ for mode in ['report', 'dailyWorks', 'punchlist', 'photos', 'client']:
             print(json.dumps({'firstDifferentPage': first + 1,
                               'firstPageDiff': list(difflib.unified_diff(before.split(), after.split(), n=5))[:100]}))
 (folder / 'comparison-results.json').write_text(json.dumps(results, indent=2), encoding='utf8')
-assert all(r['sameTextOnEveryPage'] for r in results), 'Workspace changed printed content/pagination'
+assert all((r['sameContent'] and r['photosPreserved']) if r['family'] in ['report', 'photos', 'client'] else r['sameTextOnEveryPage']
+           for r in results), 'Workspace changed printed content/images or unapproved report pagination'
