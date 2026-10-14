@@ -71,6 +71,12 @@ Remove-Item Env:OCE_TEST_FILTER
 
 Preserve failing receipts/logs, browser/version, exact commit and event/focus/value timing evidence. A diagnostic rerun is separate evidence, not a replacement for the failure. Any remedy needs a demonstrated cause and a regression test; final acceptance still requires a complete successful FULL run and disclosure of earlier failures. Original evidence is retained in the Stage A delivery (`ci-attempts.json`, `development/stat-timing.json`) and [CI run 38450800909](https://github.com/mpb029/OCE-OPS/actions/runs/38450800909).
 
-## Rollback
+## Stage C1 spatial scope
+
+Stage C1 is based on accepted B2 `97a2f9a` and documented in `STAGE-C1-REVIEW.md`. Use `--scope spatial` for its original spatial checks, twelve C1 contracts, navigation and audience checks. Optional `--shots '^c1-'` captures only thirteen affected spatial views with actual G4N geometry at desktop, portrait/landscape tablet and mobile resolutions. The tests remain selectable using `OCE_STAGE_A_FILTER` with `^Spatial usability:` during development.
+
+On C1, ordinary PR events run FAST **spatial** checks. FOCUSED/FULL triggers and artifact retention stay unchanged. FULL now requires all 308 browser checks, all previous 25 PDF comparisons and 48 workspace captures **plus** thirteen C1 captures (61 total), protected assets and independently verified self-contained recovery. Original B1/B2/source/STAT-001 assertions remain mandatory and unchanged. Physical Android acceptance remains separate from browser emulation. Keep PRs #1–#5 unchanged and draft.
+
+## Tooling rollback
 
 Revert only the workflow/tooling commit to restore the previous per-PR full pipeline. Do not reset data/assets or rebuild the accepted Stage A recovery packages for ordinary iterations. The application at `938ad27` remains unchanged by either workflow choice.

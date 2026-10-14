@@ -41,9 +41,10 @@ test('children cannot inherit unrelated filters, stale output paths, main overri
   assert.equal(env.OCE_TEST_OUTPUT,'fresh');assert.equal(env.OCE_ENGINE,'firefox');
 });
 test('zero matches, failed assertions, partial suites, wrong commit and dirty FULL runs cannot pass',()=>{
-  const report={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:59},(_,i)=>({name:i<13?'Overview: '+i:i<25?'Overview refinement: '+i:'Existing '+i,status:'PASS'}))};
+  const report={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:71},(_,i)=>({name:i<13?'Overview: '+i:i<25?'Overview refinement: '+i:i<37?'Spatial usability: '+i:'Existing '+i,status:'PASS'}))};
   suite(report,'chromium',true,'head');
   assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Overview refinement:'))},'chromium',true,'head'),/All B2 refinement contracts required/);
+  assert.throws(()=>suite({...report,tests:report.tests.filter(t=>!t.name.startsWith('Spatial usability:'))},'chromium',true,'head'),/All C1 spatial usability contracts required/);
   for(const change of [{tests:[]},{tests:[{status:'FAIL'}]},{fullRun:false},{commit:'old'},{endCommit:'new'},{worktreeClean:false},{tests:[{status:'PASS'}]}])
     assert.throws(()=>suite({...report,...change},'chromium',true,'head'));
   assert.throws(()=>fullEvidence('.', {level:'focused',status:'PASS'},'head','main'));

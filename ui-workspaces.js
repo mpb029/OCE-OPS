@@ -26,6 +26,7 @@ function initWorkspaces() {
   let lastProject = project.value, drawerReturn = null, poppedURL = '', lastLayout = '';
   const desktop = matchMedia('(min-width: 1200px)');
   const phone = matchMedia('(max-width: 680px)');
+  const spatial = initSitePresentation(() => navigate('site'));
   const icon = name => {
     const el = document.createElement('i');
     el.className = 'fa-solid fa-' + name; el.setAttribute('aria-hidden','true'); return el;
@@ -93,7 +94,7 @@ function initWorkspaces() {
   const nav = element('nav','ws-destinations'); nav.id = 'wsDestinations'; nav.setAttribute('aria-label','Workspaces');
   const footer = element('div','ws-sidebar-footer');
   const original = element('a','ws-original','Original board'); original.id = 'wsOriginal'; original.href = routeURL('all','',false).href;
-  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage B2 · opt-in workspaces'));
+  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage C1 · opt-in workspaces'));
   sidebar.append(brand,menu,nav,footer); body.append(sidebar);
   const shade = button('Close navigation','wsShade'); shade.className = 'ws-chrome ws-shade'; shade.tabIndex = -1; shade.hidden = true; body.append(shade);
 
@@ -198,6 +199,7 @@ function initWorkspaces() {
       grid.removeAttribute('data-ws-suppressed'); byId('overview').removeAttribute('data-ws-suppressed');
       cards.forEach(c => c.removeAttribute('data-ws-suppressed'));
       closeDrawer(); history.scrollRestoration = 'auto'; lastLayout = '';
+      spatial.present(false,shortcuts);
       if (wasEnabled) reveal(); return;
     }
     history.scrollRestoration = 'manual';
@@ -214,6 +216,7 @@ function initWorkspaces() {
     });
     else placeholder.replaceChildren();
     renderNavigation();
+    spatial.present(active === 'site',shortcuts);
     const layout = [active,collapsed,wrap.clientWidth].join(':');
     if (layout !== lastLayout) { lastLayout = layout; reveal(); }
   }
@@ -247,6 +250,7 @@ function initWorkspaces() {
     const target = usableTarget(url.hash);
     const requested = target ? targetWorkspace(url.hash) : (url.searchParams.get('workspace') || 'overview');
     active = available.some(d => d.id === requested) ? requested : 'all';
+    if (enabled && active === 'site' && target) spatial.select(target.id);
     lastProject = project.value;
     present();
     if (enabled) {
@@ -301,6 +305,140 @@ function initWorkspaces() {
   desktop.addEventListener('change',responsive); phone.addEventListener('change',responsive);
   document.addEventListener('oce:panels-rendered',scheduleRefresh);
   refresh();
+}
+
+// C1 presentation adapter. Original DOM, Leaflet/Three instances and handlers stay
+// authoritative. This adapter owns only transient layout/disclosure choices.
+function initSitePresentation(clearTarget) {
+  const byId = id => document.getElementById(id), body = document.body;
+  const mapCard = byId('mapCard'), modelCard = byId('modelCard');
+  const wide = matchMedia('(min-width: 1200px)');
+  const stylesheet = document.createElement('link');
+  stylesheet.rel = 'stylesheet'; stylesheet.href = 'ui-spatial.css';
+  document.head.append(stylesheet);
+  let active = false, preference = '', firstVisit = true, shortcuts, layerControl;
+  const makeButton = (text,id) => {
+    const b = document.createElement('button'); b.type = 'button';
+    b.id = id; b.className = 'sp-chrome tool-btn'; b.textContent = text; return b;
+  };
+  const layers = makeButton('Layers','spLayers');
+  layers.setAttribute('aria-controls','spLayerControl'); layers.setAttribute('aria-expanded','false');
+  mapCard.querySelector('.card-head').append(layers);
+  const both = makeButton('Side by side','spBoth');
+  const mapTools = makeButton('Map tools','spMapTools');
+  const toolbar = mapCard.querySelector('.map-toolbar'); toolbar.id = 'spMapToolbar';
+  mapTools.setAttribute('aria-controls','spMapToolbar'); mapTools.setAttribute('aria-expanded','false');
+  toolbar.append(mapTools);
+  mapTools.addEventListener('click',() => {
+    const open = !mapCard.hasAttribute('data-sp-tools-open');
+    mapCard.toggleAttribute('data-sp-tools-open',open); mapTools.setAttribute('aria-expanded',String(open)); resize();
+  });
+  const resize = () => requestAnimationFrame(() => {
+    if (!active) return;
+    // Size the inspection area to the available screen, not to a fixed giant card.
+    // Scrolling never resizes it. A 260 px floor keeps small-screen inspection usable.
+    if (!document.fullscreenElement) {
+      const bottom = document.querySelector('.ws-bottom').getBoundingClientRect().height;
+      for (const stage of [byId('map'),byId('modelStage')]) {
+        const top = stage.getBoundingClientRect().top + scrollY;
+        stage.style.setProperty('--sp-height',Math.min(640,Math.max(260,innerHeight-top-bottom-20))+'px');
+      }
+    }
+    document.dispatchEvent(new Event('oce:workspace-reveal'));
+  });
+  stylesheet.addEventListener('load',resize);
+  addEventListener('resize',resize);
+  const controlSize = new ResizeObserver(resize);
+  [toolbar,mapCard.querySelector('.card-head'),modelCard.querySelector('.card-head')].forEach(el => controlSize.observe(el));
+  const hasModel = () => modelCard.style.display !== 'none';
+  const layerOpen = () => mapCard.hasAttribute('data-sp-layers-open');
+  function toggleLayers(open,focus = false) {
+    mapCard.toggleAttribute('data-sp-layers-open',open);
+    layers.setAttribute('aria-expanded',String(open));
+    if (layerControl) layerControl.inert = active && !open;
+    if (focus) (open ? layerControl?.querySelector('button,input') : layers)?.focus();
+  }
+  layers.addEventListener('click',() => toggleLayers(!layerOpen()));
+  mapCard.addEventListener('keydown',event => {
+    if (active && event.key === 'Escape' && layerOpen()) {
+      event.preventDefault(); toggleLayers(false,true);
+    }
+  });
+  function labelLayers() {
+    if (!layerControl) return;
+    layers.hidden = layerControl.style.display === 'none';
+    layerControl.querySelectorAll('.lc-row').forEach((row,i) => {
+      const input = row.querySelector('[data-lc-toggle]'), name = row.querySelector('.lc-name');
+      if (!input || !name) return;
+      input.id = 'spLayerToggle'+i; input.setAttribute('aria-label',name.textContent);
+      if (name.tagName !== 'LABEL') {
+        const label = document.createElement('label'); label.className = name.className;
+        label.textContent = name.textContent; label.htmlFor = input.id; name.replaceWith(label);
+      } else name.htmlFor = input.id;
+      row.querySelectorAll('button[title],input[title],select[title]').forEach(el => el.setAttribute('aria-label',el.title+' · '+name.textContent));
+    });
+    const head = layerControl.querySelector('.lc-head');
+    if (head && !head.querySelector('.sp-layer-close')) {
+      const close = makeButton('Close','spLayersClose'); close.classList.add('sp-layer-close');
+      close.addEventListener('click',() => toggleLayers(false,true)); head.append(close);
+    }
+  }
+  function findLayers() {
+    if (layerControl) return;
+    layerControl = mapCard.querySelector('.layer-ctl');
+    if (!layerControl) return;
+    layerControl.id = 'spLayerControl';
+    new MutationObserver(labelLayers).observe(layerControl,{childList:true,attributes:true,attributeFilter:['style']});
+    labelLayers(); toggleLayers(layerOpen());
+  }
+  findLayers();
+  if (!layerControl) {
+    const waiting = new MutationObserver(() => {findLayers(); if (layerControl) waiting.disconnect();});
+    waiting.observe(byId('map'),{childList:true,subtree:true});
+  }
+  for (const [tool,label] of [['orbit','Orbit'],['pan','Pan'],['zoomin','Zoom in'],['zoomout','Zoom out'],['reset','Fit'],['full','Full screen']]) {
+    const button = document.querySelector(`[data-mtool="${tool}"]`);
+    const text = document.createElement('span'); text.className = 'sp-tool-label'; text.textContent = label; button.append(text);
+  }
+  function apply() {
+    body.classList.toggle('sp-site',active);
+    if (!active) {if (layerControl) layerControl.inert = false; return;}
+    const view = hasModel() ? (preference || (wide.matches ? 'both' : 'map')) : 'map';
+    const effective = view === 'both' && !wide.matches ? 'map' : view;
+    body.dataset.spView = effective;
+    mapCard.toggleAttribute('data-sp-hidden',effective === 'model');
+    modelCard.toggleAttribute('data-sp-hidden',effective === 'map');
+    both.hidden = !wide.matches || !hasModel(); both.setAttribute('aria-pressed',String(effective === 'both'));
+    if (shortcuts) {
+      if (both.parentNode !== shortcuts) shortcuts.append(both);
+      for (const a of shortcuts.querySelectorAll('a')) {
+        const model = a.dataset.wsTarget === '#modelCard';
+        a.hidden = model && !hasModel();
+        a.toggleAttribute('data-sp-current',effective === (model ? 'model' : 'map'));
+        a.setAttribute('aria-current',effective === (model ? 'model' : 'map') ? 'true' : 'false');
+      }
+    }
+    if (layerControl) layerControl.inert = !layerOpen();
+    resize();
+  }
+  both.addEventListener('click',() => {preference = 'both'; clearTarget();});
+  wide.addEventListener('change',apply);
+  new MutationObserver(apply).observe(modelCard,{attributes:true,attributeFilter:['style']});
+  // A selected viewer expands through its original disclosure handler.
+  function select(id) {
+    if (!['mapCard','modelCard'].includes(id)) return;
+    preference = id === 'modelCard' ? 'model' : 'map';
+    const card = byId(id), collapsed = id === 'mapCard' ? 'mobile-map-collapsed' : 'model-collapsed';
+    if (card.classList.contains(collapsed)) card.querySelector(id === 'mapCard' ? '.mobile-map-toggle' : '#btnModelToggle').click();
+  }
+  return {select,present(show,nav) {
+    active = show; shortcuts = nav;
+    if (active && firstVisit) {
+      firstVisit = false;
+      if (mapCard.classList.contains('mobile-map-collapsed')) mapCard.querySelector('.mobile-map-toggle').click();
+    }
+    apply();
+  }};
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded',initWorkspaces,{once:true});
 else initWorkspaces();

@@ -34,7 +34,7 @@ jobs:
     timeout-minutes: 40
     env:
       VERIFY_LEVEL: ${{ inputs.level || (github.event.action == 'labeled' && github.event.label.name == 'verification:full' && 'full') || (github.event.action == 'labeled' && github.event.label.name == 'verification:focused' && 'focused') || 'fast' }}
-      VERIFY_SCOPE: ${{ inputs.scope || 'overview' }}
+      VERIFY_SCOPE: ${{ inputs.scope || 'spatial' }}
       LIBGL_ALWAYS_SOFTWARE: '1'
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
