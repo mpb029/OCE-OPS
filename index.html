@@ -4893,7 +4893,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       if (restoreFocus) {
         const selector = kind === "model" ? "data-model-project" : "data-lc-project";
         const replacement = document.querySelector(`[${selector}="${CSS.escape(id)}"]`);
-        (replacement || document.getElementById(kind === "model" ? "btnModelUpload" : "btnLoadGeo"))?.focus({preventScroll:true});
+        const fallbackIds = kind === "model" ? ["btnModelUpload"] : ["spLayers", "btnFit"];
+        const fallback = fallbackIds.map((key) => document.getElementById(key)).find((el) => el?.getClientRects().length
+          && (el.id !== "spLayers" || layerCtlEl?.style.display !== "none"));
+        (replacement || fallback)?.focus({preventScroll:true});
       }
     };
     label.append(title, select); return label;
