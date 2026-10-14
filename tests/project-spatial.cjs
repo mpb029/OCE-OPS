@@ -31,8 +31,8 @@ const modelIds=p=>p.evaluate(()=>Object.keys(__opsTest.loadedObjs).filter(id=>__
 const rowIds=(p,kind)=>p.locator(kind==='model'?'[data-model-toggle]':'[data-lc-toggle]:not([data-lc-toggle="__repo__"])').evaluateAll(es=>es.map(e=>e.getAttribute(e.hasAttribute('data-model-toggle')?'data-model-toggle':'data-lc-toggle')).sort());
 async function selected(p,project){await p.locator('#projSelect').selectOption(project);await p.waitForFunction(id=>__opsTest.currentProject===id,project);}
 async function scene(p,ids){await p.waitForFunction(ids=>window.__opsTest?.three&&Object.keys(__opsTest.loadedObjs).filter(id=>__opsTest.loadedObjs[id]?.parent===__opsTest.three.scene).sort().join('|')===ids.slice().sort().join('|'),ids,{timeout:60000});}
-async function layers(p){if(await p.locator('#spLayers').isVisible()&&await p.locator('#spLayers').getAttribute('aria-expanded')!=='true')await p.locator('#spLayers').click();}
-async function focus(p,id){if(await p.locator(`.ws-shortcuts [data-ws-target="#${id}"]`).count())await p.locator(`.ws-shortcuts [data-ws-target="#${id}"]`).click();}
+async function layers(p){await p.locator('#spLayers').waitFor({state:'visible'});if(await p.locator('#spLayers').getAttribute('aria-expanded')!=='true')await p.locator('#spLayers').click();await p.locator('.layer-ctl').waitFor({state:'visible'});await p.waitForFunction(()=>!document.querySelector('.layer-ctl').inert);}
+async function focus(p,id){await p.locator(`.ws-shortcuts [data-ws-target="#${id}"]`).click();await p.waitForFunction(id=>!document.getElementById(id).hasAttribute('data-sp-hidden'),id);}
 async function nav(p,route){if(await p.locator('#wsMobileMenu').isVisible()&&!await p.locator('#wsSidebar').isVisible())await p.locator('#wsMobileMenu').click();await p.locator(`#wsDestinations [data-ws-route="${route}"]`).click();await p.waitForFunction(r=>document.body.dataset.workspace===r,route);}
 async function settled(p){await p.evaluate(()=>new Promise(resolve=>{let last=[],same=0;function tick(){const t=__opsTest.three,now=t?[...t.camera.position.toArray(),...t.controls.target.toArray()]:[];same=now.every((v,i)=>Math.abs(v-last[i])<1e-8)?same+1:0;last=now;if(same>=8&&!__opsTest.map._panAnim?._inProgress&&!__opsTest.map._animatingZoom)resolve();else requestAnimationFrame(tick);}tick();}));}
 async function exported(p){if(!await p.locator('#btnExport').isVisible())await p.locator('#headerMenu summary').click();const pending=p.waitForEvent('download');await p.locator('#btnExport').click();return JSON.parse(fs.readFileSync(await(await pending).path(),'utf8'));}
@@ -79,7 +79,10 @@ module.exports=async(env,check)=>{
    if(!await p.locator('#btnSettings').isVisible())await p.locator('#headerMenu summary').click();await p.locator('#btnSettings').click();await p.locator('[data-proj-del="east"]').click();await p.locator('#settingsModal .modal-close').click();
    const removed=await read(p);assert.ok(!removed.projects.some(project=>project.id==='east'));assert.deepEqual(removed.mapLayers,cleared.mapLayers);assert.deepEqual(removed.models,cleared.models,'Deleting a project retains spatial IDs and assignments without guessing a replacement');
    await focus(p,'mapCard');await layers(p);assert.equal(await p.locator('[data-lc-project="east-vector"] option:checked').innerText(),'Unavailable project');await focus(p,'modelCard');assert.equal(await p.locator('[data-model-project="east-model"] option:checked').innerText(),'Unavailable project');
-   const client=await open(env,{data:removed,audience:'?ui=workspaces&workspace=site&view=test-client-1'});
+   // Viewer fixtures use the existing published payload, whose timestamp is kept
+   // separately from editor state. No actual Publish request is performed.
+   const clientPayload=await p.evaluate(()=>__opsTest.shareableState());assert.deepEqual(clientPayload.mapLayers,removed.mapLayers);assert.deepEqual(clientPayload.models,removed.models);
+   const client=await open(env,{data:clientPayload,audience:'?ui=workspaces&workspace=site&view=test-client-1'});
    try{await scene(client.page,['global-model']);assert.deepEqual(await mapIds(client.page),['global-vector','north-imagery']);assert.deepEqual(await rowIds(client.page,'model'),['global-model']);assert.doesNotMatch(await client.page.locator('.layer-ctl,#modelList').allTextContents().then(a=>a.join(' ')),/East project|unavailable-project/);assert.equal(client.network.writes.length,0);assert.deepEqual(client.network.errors,[]);}finally{await client.close();}
   }finally{await run.close();}
  });
