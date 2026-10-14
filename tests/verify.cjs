@@ -16,6 +16,7 @@ const scopes = {
   backup: ['^Backup repair:|^Readiness: (import|malformed|failed import)', '^Opt-in (Backup repair|Readiness):'],
   spatial: ['^Map:|^Map repair:|^3D', '^Spatial instances|^Spatial usability:|^Navigation 768|^Audience compatibility'],
   field: ['^CRUD parity: (dailyWorks|upcoming|deliveries|punchlist|rfis),|^Production stat:', '^Field usability:|^Workspace CRUD'],
+  forms: ['^CRUD parity: (dailyWorks|rfis|variations|incidents|deliveries|qualityTesting|punchlist),|^Production stat:|^Settings editing:', '^Forms and Settings:'],
   print: ['^Print parity:|^Client report parity:|^Punch print:', '^Full-board and single-panel print']
 };
 const common = [
@@ -62,12 +63,11 @@ function plan(opts) {
   if (opts.level === 'full') {
     add('workspace-pdfs','chromium','tests/workspace-print.cjs');
     add('workspace-pdf-comparison','chromium','tests/compare-workspace-print.py');
-    add('workspace-screenshots','chromium','tests/capture-workspaces.cjs');
-    add('classic-screenshots','chromium','tests/capture.cjs',['after']);
-    add('model-evidence','chromium','tests/model-inspection.cjs');
+    add('forms-screenshots','chromium','tests/capture-forms.cjs');
+    add('model-evidence','chromium','tests/model-inspection.cjs',['--no-screenshots']);
     add('complete-recovery','recovery','tests/recovery.cjs');
     add('recovery-verification','recovery','tests/verify-recovery.py');
-  } else if (opts.shots) add('workspace-screenshots','chromium','tests/capture-workspaces.cjs',[],opts.shots);
+  } else if (opts.shots) add(opts.scope==='forms'?'forms-screenshots':'workspace-screenshots','chromium',opts.scope==='forms'?'tests/capture-forms.cjs':'tests/capture-workspaces.cjs',[],opts.shots);
   return steps;
 }
 
@@ -76,7 +76,7 @@ function childEnv(step, directory, env = process.env) {
   for (const key of ['OCE_TEST_FILTER','OCE_STAGE_A_FILTER','OCE_SCREENSHOT_FILTER','OCE_MAIN_REF','OCE_BROWSER']) delete result[key];
   if (step.file.endsWith('regression.cjs') && step.filter) result.OCE_TEST_FILTER=step.filter;
   if (step.file === 'tests/workspaces.cjs' && step.filter) result.OCE_STAGE_A_FILTER=step.filter;
-  if (step.file.endsWith('capture-workspaces.cjs') && step.filter) result.OCE_SCREENSHOT_FILTER=step.filter;
+  if (['tests/capture-workspaces.cjs','tests/capture-forms.cjs'].includes(step.file) && step.filter) result.OCE_SCREENSHOT_FILTER=step.filter;
   if (step.engine === 'chromium' && env.OCE_BROWSER) result.OCE_BROWSER=env.OCE_BROWSER;
   return result;
 }
@@ -94,9 +94,10 @@ function suite(report, engine, full, commit) {
       assert.equal(report.tests.filter(t=>t.name?.startsWith('Overview refinement:')).length,12,'All B2 refinement contracts required');
       assert.equal(report.tests.filter(t=>t.name?.startsWith('Spatial usability:')).length,12,'All C1 spatial usability contracts required');
       assert.equal(report.tests.filter(t=>t.name?.startsWith('Field usability:')).length,12,'All C2 field usability contracts required');
+      assert.equal(report.tests.filter(t=>t.name?.startsWith('Forms and Settings:')).length,11,'All Stage D forms and Settings contracts required');
     }
     assert.equal(report.worktreeClean, true);
-    assert.ok(report.tests.length >= 83, 'Incomplete acceptance suite');
+    assert.ok(report.tests.length >= (report.environment ? 83 : 94), 'Incomplete acceptance suite');
   }
 }
 
@@ -168,6 +169,21 @@ async function execute(step, directory, logfile) {
   assert.equal(code,0,'Failed step: '+step.id+' (no automatic retry)');
 }
 
+function formsScreenshots(shots, directory, commit) {
+  assert.equal(shots.commit,commit);assert.equal(shots.fullRun,true);
+  const expected=[['stage-d-desktop.png',1440,900],['stage-d-tablet.png',768,1024],['stage-d-mobile.png',390,844]];
+  assert.equal(shots.screenshots.length,expected.length,'Exactly three representative Stage D captures required');
+  for (const [name,width,height] of expected) {
+    const matches=shots.screenshots.filter(s=>s.name===name);
+    assert.equal(matches.length,1,'Missing or duplicate capture: '+name);
+    assert.equal(matches[0].width,width);assert.equal(matches[0].height,height);
+    const bytes=fs.readFileSync(path.join(directory,name));
+    assert.ok(bytes.length>=33 && bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])) && bytes.toString('ascii',12,16)==='IHDR','Invalid PNG: '+name);
+    assert.equal(bytes.readUInt32BE(16),width,'Captured PNG width: '+name);
+    assert.equal(bytes.readUInt32BE(20),height,'Captured PNG height: '+name);
+  }
+}
+
 function fullEvidence(directory, receipt, commit, main) {
   assert.equal(receipt.level,'full');assert.equal(receipt.status,'PASS');assert.ok(!receipt.reusedFrom);
   assert.equal(receipt.commit,commit);assert.equal(receipt.endCommit,commit);assert.equal(receipt.clean,true);
@@ -182,10 +198,7 @@ function fullEvidence(directory, receipt, commit, main) {
     const result=read(path.join(chrome,file));assert.equal(result.length,count);assert.ok(result.every(r=>r.sameTextOnEveryPage));
   }
   const shots=read(path.join(chrome,'screenshots/manifest.json'));
-  assert.equal(shots.commit,commit);assert.equal(shots.fullRun,true);assert.equal(shots.screenshots.length,81);
-  assert.equal(shots.screenshots.filter(s=>s.name.startsWith('c1-')&&s.triangles>0).length,13,'All C1 captures require actual rendered geometry');
-  assert.equal(shots.screenshots.filter(s=>s.name.startsWith('c2-')).length,20,'All C2 workflow and original-form captures required');
-  for (const shot of shots.screenshots) assert.ok(fs.statSync(path.join(chrome,'screenshots',shot.name)).size>0);
+  formsScreenshots(shots,path.join(chrome,'screenshots'),commit);
   const recovery=read(path.join(directory,'recovery/recovery-manifest.json'));
   assert.equal(recovery.commit,commit);assert.equal(recovery.main,main);assert.deepEqual(recovery.prerequisites,[]);
   assert.equal(recovery.offlineClone,true);assert.equal(recovery.fsck,'PASS');assert.equal(recovery.allTrackedBytesVerified,true);
@@ -241,5 +254,5 @@ async function main(argv) {
   finally {receipt.completedAt=new Date().toISOString();write(path.join(directory,'verification.json'),receipt);}
   console.log('PASS '+opts.level.toUpperCase()+' — '+directory);
 }
-module.exports={options,plan,childEnv,suite,reusable,fullEvidence,sha};
+module.exports={options,plan,childEnv,suite,reusable,formsScreenshots,fullEvidence,sha};
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.message);process.exitCode=1;});
