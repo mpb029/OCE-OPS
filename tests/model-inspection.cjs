@@ -1,6 +1,7 @@
 const fs = require('node:fs');
 const path = require('node:path');
 const { start, open, root, output } = require('./harness.cjs');
+const noScreenshots = process.argv.includes('--no-screenshots');
 (async () => {
  const env = await start(), results = [];
  try {
@@ -17,13 +18,13 @@ const { start, open, root, output } = require('./harness.cjs');
      return { objects, triangles: three.renderer.info.render.triangles, camera: three.camera.position.toArray(), target: three.controls.target.toArray(), aspect: three.camera.aspect, near: three.camera.near, far: three.camera.far };
     });
     results.push({ version, ...await measure() });
-    await p.screenshot({ path: path.join(output, `g4n-${version}-default.png`) });
+    if (!noScreenshots) await p.screenshot({ path: path.join(output, `g4n-${version}-default.png`) });
     await p.locator('[data-model-flip]').click();
     await p.waitForTimeout(350);
-    await p.screenshot({ path: path.join(output, `g4n-${version}-y-up.png`) });
+    if (!noScreenshots) await p.screenshot({ path: path.join(output, `g4n-${version}-y-up.png`) });
     for (let i = 0; i < 5; i++) await p.locator('[data-mtool="zoomin"]').click();
     await p.waitForTimeout(350);
-    await p.screenshot({ path: path.join(output, `g4n-${version}-detail.png`) });
+    if (!noScreenshots) await p.screenshot({ path: path.join(output, `g4n-${version}-detail.png`) });
    } finally { await run.close(); }
   }
   fs.writeFileSync(path.join(output, 'g4n-inspection.json'), JSON.stringify(results, null, 2));
