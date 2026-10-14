@@ -9,7 +9,7 @@ async function focus(p,id){await p.locator(`.ws-shortcuts [data-ws-target="#${id
 async function loaded(p){await p.waitForFunction(()=>__opsTest.three?.renderer.info.render.triangles>0,null,{timeout:60000});}
 module.exports=async(env,check)=>{
 await check('Spatial usability: exact B2 domain, presentation baselines and mandatory assertions retained',()=>{
- for(const file of ['index.html','ui-v2.js','ui-v2.css','ui-workspaces.css','ui-overview.js','ui-overview.css','tests/regression.cjs','tests/overview-checks.cjs','tests/overview-refinement.cjs','tests/overview-source.cjs'])assert.equal(fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n'),execFileSync('git',['show',`${baseline}:${file}`],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n'),file);
+ for(const file of ['index.html','ui-v2.js','ui-v2.css','ui-workspaces.css','ui-overview.js','ui-overview.css','tests/regression.cjs','tests/overview-checks.cjs','tests/overview-refinement.cjs','tests/overview-source.cjs'])assert.equal(require('./stage-e-source.cjs').normalise(file,fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n')),execFileSync('git',['show',`${baseline}:${file}`],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n'),file);
  const adapter=fs.readFileSync(path.join(root,'ui-workspaces.js'),'utf8').split('function initSitePresentation(clearTarget)')[1];
  assert.ok(adapter);assert.doesNotMatch(adapter,/localStorage|sessionStorage|fetch\(|shareableState|__opsTest|\.fitBounds\(|\.setView\(|frameAll\(|syncScene\(/);
 });

@@ -15,6 +15,7 @@ const scopes = {
   editing: ['^CRUD parity: (dailyWorks|rfis),|^Production stat:', '^Workspace CRUD'],
   backup: ['^Backup repair:|^Readiness: (import|malformed|failed import)', '^Opt-in (Backup repair|Readiness):'],
   spatial: ['^Map:|^Map repair:|^3D', '^Spatial instances|^Spatial usability:|^Navigation 768|^Audience compatibility'],
+  'project-spatial': ['^Map:|^Map repair:|^3D|^Backup repair:|^Readiness: (import|malformed|failed import)|^Production stat:', '^Project spatial:|^Spatial instances|^Spatial usability:|^Navigation 768|^Audience compatibility|^Opt-in (Backup repair|Readiness):'],
   field: ['^CRUD parity: (dailyWorks|upcoming|deliveries|punchlist|rfis),|^Production stat:', '^Field usability:|^Workspace CRUD'],
   forms: ['^CRUD parity: (dailyWorks|rfis|variations|incidents|deliveries|qualityTesting|punchlist),|^Production stat:|^Settings editing:', '^Forms and Settings:'],
   print: ['^Print parity:|^Client report parity:|^Punch print:', '^Full-board and single-panel print']
@@ -63,11 +64,15 @@ function plan(opts) {
   if (opts.level === 'full') {
     add('workspace-pdfs','chromium','tests/workspace-print.cjs');
     add('workspace-pdf-comparison','chromium','tests/compare-workspace-print.py');
-    add('forms-screenshots','chromium','tests/capture-forms.cjs');
+    add('project-spatial-screenshots','chromium','tests/capture-project-spatial.cjs');
     add('model-evidence','chromium','tests/model-inspection.cjs',['--no-screenshots']);
     add('complete-recovery','recovery','tests/recovery.cjs');
     add('recovery-verification','recovery','tests/verify-recovery.py');
-  } else if (opts.shots) add(opts.scope==='forms'?'forms-screenshots':'workspace-screenshots','chromium',opts.scope==='forms'?'tests/capture-forms.cjs':'tests/capture-workspaces.cjs',[],opts.shots);
+  } else if (opts.shots) {
+    const captures = {forms:['forms-screenshots','tests/capture-forms.cjs'],'project-spatial':['project-spatial-screenshots','tests/capture-project-spatial.cjs']};
+    const [id,file] = captures[opts.scope] || ['workspace-screenshots','tests/capture-workspaces.cjs'];
+    add(id,'chromium',file,[],opts.shots);
+  }
   return steps;
 }
 
@@ -76,7 +81,7 @@ function childEnv(step, directory, env = process.env) {
   for (const key of ['OCE_TEST_FILTER','OCE_STAGE_A_FILTER','OCE_SCREENSHOT_FILTER','OCE_MAIN_REF','OCE_BROWSER']) delete result[key];
   if (step.file.endsWith('regression.cjs') && step.filter) result.OCE_TEST_FILTER=step.filter;
   if (step.file === 'tests/workspaces.cjs' && step.filter) result.OCE_STAGE_A_FILTER=step.filter;
-  if (['tests/capture-workspaces.cjs','tests/capture-forms.cjs'].includes(step.file) && step.filter) result.OCE_SCREENSHOT_FILTER=step.filter;
+  if (['tests/capture-workspaces.cjs','tests/capture-forms.cjs','tests/capture-project-spatial.cjs'].includes(step.file) && step.filter) result.OCE_SCREENSHOT_FILTER=step.filter;
   if (step.engine === 'chromium' && env.OCE_BROWSER) result.OCE_BROWSER=env.OCE_BROWSER;
   return result;
 }
@@ -95,9 +100,10 @@ function suite(report, engine, full, commit) {
       assert.equal(report.tests.filter(t=>t.name?.startsWith('Spatial usability:')).length,12,'All C1 spatial usability contracts required');
       assert.equal(report.tests.filter(t=>t.name?.startsWith('Field usability:')).length,12,'All C2 field usability contracts required');
       assert.equal(report.tests.filter(t=>t.name?.startsWith('Forms and Settings:')).length,11,'All Stage D forms and Settings contracts required');
+      assert.equal(report.tests.filter(t=>t.name?.startsWith('Project spatial:')).length,10,'All Stage E project spatial contracts required');
     }
     assert.equal(report.worktreeClean, true);
-    assert.ok(report.tests.length >= (report.environment ? 83 : 94), 'Incomplete acceptance suite');
+    assert.ok(report.tests.length >= (report.environment ? 83 : 104), 'Incomplete acceptance suite');
   }
 }
 
@@ -170,9 +176,15 @@ async function execute(step, directory, logfile) {
 }
 
 function formsScreenshots(shots, directory, commit) {
+  return screenshots(shots,directory,commit,'d');
+}
+function projectSpatialScreenshots(shots, directory, commit) {
+  return screenshots(shots,directory,commit,'e');
+}
+function screenshots(shots, directory, commit, stage) {
   assert.equal(shots.commit,commit);assert.equal(shots.fullRun,true);
-  const expected=[['stage-d-desktop.png',1440,900],['stage-d-tablet.png',768,1024],['stage-d-mobile.png',390,844]];
-  assert.equal(shots.screenshots.length,expected.length,'Exactly three representative Stage D captures required');
+  const expected=[['desktop',1440,900],['tablet',768,1024],['mobile',390,844]].map(([view,width,height])=>['stage-'+stage+'-'+view+'.png',width,height]);
+  assert.equal(shots.screenshots.length,expected.length,'Exactly three representative Stage '+stage.toUpperCase()+' captures required');
   for (const [name,width,height] of expected) {
     const matches=shots.screenshots.filter(s=>s.name===name);
     assert.equal(matches.length,1,'Missing or duplicate capture: '+name);
@@ -198,7 +210,7 @@ function fullEvidence(directory, receipt, commit, main) {
     const result=read(path.join(chrome,file));assert.equal(result.length,count);assert.ok(result.every(r=>r.sameTextOnEveryPage));
   }
   const shots=read(path.join(chrome,'screenshots/manifest.json'));
-  formsScreenshots(shots,path.join(chrome,'screenshots'),commit);
+  projectSpatialScreenshots(shots,path.join(chrome,'screenshots'),commit);
   const recovery=read(path.join(directory,'recovery/recovery-manifest.json'));
   assert.equal(recovery.commit,commit);assert.equal(recovery.main,main);assert.deepEqual(recovery.prerequisites,[]);
   assert.equal(recovery.offlineClone,true);assert.equal(recovery.fsck,'PASS');assert.equal(recovery.allTrackedBytesVerified,true);
@@ -254,5 +266,5 @@ async function main(argv) {
   finally {receipt.completedAt=new Date().toISOString();write(path.join(directory,'verification.json'),receipt);}
   console.log('PASS '+opts.level.toUpperCase()+' — '+directory);
 }
-module.exports={options,plan,childEnv,suite,reusable,formsScreenshots,fullEvidence,sha};
+module.exports={options,plan,childEnv,suite,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.message);process.exitCode=1;});

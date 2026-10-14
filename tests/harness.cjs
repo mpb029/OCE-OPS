@@ -18,6 +18,7 @@ const probe = `window.__opsTest = {
  get ready() { return remoteResolved; },
  get state() { return state; }, get sync() { return sync; }, get map() { return map; },
  get geoLayer() { return geoLayer; }, get markerLayer() { return markerLayer; },
+ get userLayers() { return userLayers; }, get currentProject() { return currentProject; },
  get three() { return three; }, get loadedObjs() { return loadedObjs; },
  get sessionModels() { return sessionModels; }, get rasterLayers() { return rasterLayers; },
  PANELS, CATEGORIES, shareableState, sortItemsForDisplay, visiblePanelItems, orderedPanels,

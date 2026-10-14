@@ -1009,6 +1009,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <link rel="stylesheet" href="ui-v2.css" media="screen" />
   <script src="ui-v2.js" defer></script>
   <link rel="stylesheet" href="ui-workspaces.css" />
+  <link rel="stylesheet" href="ui-project-spatial.css" />
   <link rel="stylesheet" href="ui-overview.css" />
   <script src="ui-overview.js" defer></script>
   <script src="ui-workspaces.js" defer></script>
@@ -4862,6 +4863,186 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("btnPublish").onclick = () => { hasToken() ? publish() : openSettings(); };
     startSync();
   }
+
+  // BEGIN E project spatial adapter.
+  // Spatial project metadata is optional. Unlike task/marker effProj(), an absent
+  // or empty assignment means Global. Original records and save paths own it.
+  function spatialInScope(record) {
+    return !!record && !editLocked && (!record.project || projInScope(record.project));
+  }
+  const spatialLayerRecord = (id, kind) => kind === "raster" ? rasterLayers[id]
+    : (state.mapLayers || []).find((record) => record.id === id);
+  function spatialAssignment(record, id, kind) {
+    const label = document.createElement("label"); label.className = "sp-project-assignment";
+    const title = document.createElement("span"); title.textContent = "Project";
+    const select = document.createElement("select");
+    select.setAttribute(kind === "model" ? "data-model-project" : "data-lc-project", id);
+    select.setAttribute("aria-label", "Project for " + (record.name || "spatial asset"));
+    select.append(new Option("Global (all projects)", ""));
+    projects().forEach((project) => select.append(new Option(project.name, project.id)));
+    if (record.project && !projById(record.project)) select.append(new Option("Unavailable project", record.project));
+    select.value = record.project || "";
+    select.onchange = () => {
+      if (sync.audience !== "editor" || editLocked) return;
+      const current = kind === "model" ? modelRecord(id) : spatialLayerRecord(id, kind);
+      if (!current || (select.value && !projById(select.value))) return;
+      const restoreFocus = document.activeElement === select;
+      if (select.value) current.project = select.value; else delete current.project;
+      if (kind !== "raster" && !(kind === "model" && sessionModels[id])) save();
+      refreshSpatialScope();
+      if (restoreFocus) {
+        const selector = kind === "model" ? "data-model-project" : "data-lc-project";
+        const replacement = document.querySelector(`[${selector}="${CSS.escape(id)}"]`);
+        const fallbackIds = kind === "model" ? ["btnModelUpload"] : ["spLayers", "btnFit"];
+        const fallback = fallbackIds.map((key) => document.getElementById(key)).find((el) => el?.getClientRects().length
+          && (el.id !== "spLayers" || layerCtlEl?.style.display !== "none"));
+        (replacement || fallback)?.focus({preventScroll:true});
+      }
+    };
+    label.append(title, select); return label;
+  }
+  function syncMapScope() {
+    if (!map) return;
+    const show = (record, layer) => {
+      if (!layer) return;
+      const eligible = spatialInScope(record) && record.visible !== false;
+      if (eligible && !map.hasLayer(layer)) layer.addTo(map);
+      else if (!eligible && map.hasLayer(layer)) map.removeLayer(layer);
+    };
+    (state.mapLayers || []).forEach((record) => show(record, userLayers[record.id]));
+    Object.values(rasterLayers).forEach((record) => show(record, record.layer));
+  }
+  const originalRenderLayerControl = renderLayerControl;
+  renderLayerControl = function () {
+    syncMapScope(); originalRenderLayerControl();
+    if (!layerCtlEl) return;
+    layerCtlEl.querySelectorAll("[data-lc-toggle]").forEach((toggle) => {
+      const id = toggle.getAttribute("data-lc-toggle"), kind = toggle.getAttribute("data-lc-kind");
+      if (id === "__repo__") return; // Preserved repository sample stays Global.
+      const record = spatialLayerRecord(id, kind), row = toggle.closest(".lc-row");
+      if (!spatialInScope(record)) { row.remove(); return; }
+      if (sync.audience === "editor") row.append(spatialAssignment(record, id, kind));
+    });
+    // Clear retains its original all-records behaviour; make that scope explicit.
+    const clear = layerCtlEl.querySelector("[data-lc-clear]");
+    if (clear && (state.mapLayers || []).some((record) => record.project)) {
+      clear.textContent = "Clear all projects";
+      clear.title = "Remove all added layers, including other projects and session files";
+    }
+    if (!layerCtlEl.querySelector(".lc-row")) { layerCtlEl.style.display = "none"; layerCtlEl.innerHTML = ""; }
+  };
+  // Reuse cached Leaflet layers on context/assignment/visibility changes. The
+  // original builder still handles actual geometry, imagery and styling edits.
+  const originalRenderUserLayers = renderUserLayers;
+  let spatialLayerSource = null;
+  renderUserLayers = function () {
+    if (!map) return;
+    const records = state.mapLayers || [];
+    const source = JSON.stringify(records.map((r) => [r.id,r.type,r.url,r.maxNativeZoom,r.opacity,r.attribution,r.data,r.color,r.style]));
+    if (source !== spatialLayerSource || records.some((r) => !userLayers[r.id])) {
+      spatialLayerSource = source; originalRenderUserLayers();
+    } else renderLayerControl();
+  };
+  const originalToggleRaster = toggleRaster;
+  toggleRaster = function (id, show) {
+    if (rasterLayers[id]) rasterLayers[id].visible = show;
+    originalToggleRaster(id, show); syncMapScope();
+  };
+  const originalToggleUserLayer = toggleUserLayer;
+  toggleUserLayer = function (id, show) { originalToggleUserLayer(id, show); syncMapScope(); };
+  const originalFitFeatures = fitFeatures;
+  fitFeatures = function () { syncMapScope(); originalFitFeatures(); };
+
+  const originalAllModels = allModels;
+  allModels = function () { return originalAllModels().filter((model) => spatialInScope(modelRecord(model.id))); };
+  const originalRenderModelList = renderModelList;
+  renderModelList = function () {
+    originalRenderModelList();
+    if (sync.audience !== "editor" || editLocked) return;
+    document.querySelectorAll("#modelList [data-model-toggle]").forEach((toggle) => {
+      const id = toggle.getAttribute("data-model-toggle"), record = modelRecord(id);
+      if (record) toggle.closest(".model-row").append(spatialAssignment(record, id, "model"));
+    });
+  };
+  const originalLoadOne = loadOne, spatialLoads = new Map(), spatialModelSources = new Map();
+  const modelSource = (record) => JSON.stringify([record.url,record.fmt || modelFmt(record.url)]);
+  loadOne = function (model) {
+    const source = modelSource(model), pending = spatialLoads.get(model.id);
+    if (pending) return pending.source === source ? pending.promise
+      : pending.promise.catch(() => null).then(() => loadOne(model));
+    if (loadedObjs[model.id] && spatialModelSources.get(model.id) !== source) {
+      const previous = loadedObjs[model.id]; if (previous.parent) previous.parent.remove(previous);
+      delete loadedObjs[model.id];
+    }
+    spatialModelSources.set(model.id, source);
+    const promise = originalLoadOne(model).then((object) => {
+      const current = modelRecord(model.id);
+      // A removed/replaced model may finish loading after the context changed.
+      if (!current || modelSource(current) !== source) {
+        if (loadedObjs[model.id] === object) delete loadedObjs[model.id];
+        if (object.parent) object.parent.remove(object);
+        return null;
+      }
+      return object;
+    }).finally(() => { if (spatialLoads.get(model.id)?.promise === promise) spatialLoads.delete(model.id); });
+    spatialLoads.set(model.id, {source, promise}); return promise;
+  };
+  let spatialSceneRevision = 0, spatialRequestFrame = false, spatialViewEstablished = false;
+  syncScene = function () {
+    const revision = ++spatialSceneRevision;
+    const models = allModels(), visible = models.filter((model) => model.visible);
+    const ids = new Set(visible.map((model) => model.id));
+    const shouldFrame = spatialRequestFrame || !spatialViewEstablished; spatialRequestFrame = false;
+    const empty = document.getElementById("modelEmpty"), toolbar = document.getElementById("modelToolbar");
+    Object.entries(loadedObjs).forEach(([id, object]) => {
+      if (!ids.has(id) && object.parent) object.parent.remove(object);
+    });
+    if (!visible.length) {
+      if (empty) { empty.style.display = ""; empty.textContent = models.length ? "No models shown — tick one below." : "No 3D model added yet."; }
+      if (toolbar) toolbar.style.display = "none";
+      return;
+    }
+    if (empty && visible.some((model) => !loadedObjs[model.id])) { empty.style.display = ""; empty.textContent = "Loading…"; }
+    Promise.all(visible.map((model) => loadOne(model).then((object) => {
+      const current = modelRecord(model.id);
+      if (!object || revision !== spatialSceneRevision || !spatialInScope(current) || current.visible === false) return;
+      applyUpAxis(object, current.upAxis || defaultUpAxis(current.fmt || modelFmt(current.url)));
+      if (!object.parent) three.scene.add(object);
+    }).catch((error) => console.warn("model load failed", model.name, error)))).then(() => {
+      if (revision !== spatialSceneRevision) return;
+      const shown = visible.some((model) => loadedObjs[model.id]?.parent === three?.scene);
+      if (empty) { empty.style.display = shown ? "none" : ""; if (!shown) empty.textContent = "Model could not be loaded. Check its URL or file."; }
+      if (toolbar) toolbar.style.display = shown ? "" : "none";
+      if (shown && shouldFrame) { frameAll(); spatialViewEstablished = true; }
+    });
+  };
+  // Explicit import/toggle/remove actions retain their existing Fit behaviour.
+  // Project changes and ordinary rerenders leave the inspection camera alone.
+  const originalAddModelFile = addModelFile, originalAddModelUrl = addModelUrl;
+  const originalToggleModel = toggleModel, originalRemoveModel = removeModel;
+  addModelFile = function (...args) { spatialRequestFrame = true; originalAddModelFile(...args); spatialRequestFrame = false; };
+  addModelUrl = function (...args) { spatialRequestFrame = true; originalAddModelUrl(...args); spatialRequestFrame = false; };
+  toggleModel = function (...args) { spatialRequestFrame = true; originalToggleModel(...args); spatialRequestFrame = false; };
+  removeModel = function (...args) { spatialRequestFrame = true; originalRemoveModel(...args); spatialRequestFrame = false; };
+  const originalRenderModels = renderModels;
+  renderModels = function () {
+    renderLayerControl();
+    originalRenderModels();
+    if (!allModels().length) { renderModelList(); syncScene(); }
+  };
+  function refreshSpatialScope() { renderLayerControl(); renderModels(); }
+  // Do not hook renderProjectSelect: backup restoration calls it before its
+  // fallible storage/map transaction commits. Model work must stay post-commit.
+  const originalAddProject = addProject, originalRemoveProject = removeProject;
+  addProject = function (name) { originalAddProject(name); refreshSpatialScope(); };
+  removeProject = function (id) { originalRemoveProject(id); refreshSpatialScope(); };
+  const originalRemoveClient = removeClient;
+  removeClient = function (id) { originalRemoveClient(id); refreshSpatialScope(); };
+  document.addEventListener("change", (event) => {
+    // Bubble after the authoritative project-picker handler updates its state.
+    if (event.target.matches("#projSelect,[data-proj-name],[data-pc]")) refreshSpatialScope();
+  });
+  // END E project spatial adapter.
 
   if (document.readyState === "loading")
     document.addEventListener("DOMContentLoaded", init);

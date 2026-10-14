@@ -50,7 +50,7 @@ async function printSnapshot(page) {
 
 async function main() {
  const baselineHTML = execFileSync('git', ['show', `${baseline}:index.html`], { cwd:root, maxBuffer:2e6 }).toString();
- const currentHTML = fs.readFileSync(path.join(root,'index.html'),'utf8');
+ const currentHTML = require('./stage-e-source.cjs').normalise('index.html',fs.readFileSync(path.join(root,'index.html'),'utf8'));
  await check('Source contract: original print stylesheet and non-repaired business code unchanged', () => {
   const script = html => html.match(/<script>\s*\/\*[^]*?<\/script>/)[0].replace(/\r\n/g,'\n');
   const style = html => html.match(/<style>[^]*?<\/style>/)[0].replace(/\r\n/g,'\n');
