@@ -35,6 +35,17 @@ async function layers(p){await p.locator('#spLayers').waitFor({state:'visible'})
 async function focus(p,id){await p.locator(`.ws-shortcuts [data-ws-target="#${id}"]`).click();await p.waitForFunction(id=>!document.getElementById(id).hasAttribute('data-sp-hidden'),id);}
 async function nav(p,route){if(await p.locator('#wsMobileMenu').isVisible()&&!await p.locator('#wsSidebar').isVisible())await p.locator('#wsMobileMenu').click();await p.locator(`#wsDestinations [data-ws-route="${route}"]`).click();await p.waitForFunction(r=>document.body.dataset.workspace===r,route);}
 async function settled(p){await p.evaluate(()=>new Promise(resolve=>{let last=[],same=0;function tick(){const t=__opsTest.three,now=t?[...t.camera.position.toArray(),...t.controls.target.toArray()]:[];same=now.every((v,i)=>Math.abs(v-last[i])<1e-8)?same+1:0;last=now;if(same>=8&&!__opsTest.map._panAnim?._inProgress&&!__opsTest.map._animatingZoom)resolve();else requestAnimationFrame(tick);}tick();}));}
+async function fitAndWait(p){
+ // Leaflet queues zoom setup: idle flags can pass before movestart. Observe the
+ // actual Fit movement, ignoring any earlier pan-stop moveend from setView.
+ await p.evaluate(()=>{
+  window.__projectFitDone=false;
+  document.getElementById('btnFit').addEventListener('click',()=>{
+   __opsTest.map.once('movestart',()=>__opsTest.map.once('moveend',()=>{window.__projectFitDone=true;}));
+  },{capture:true,once:true});
+ });
+ await p.locator('#btnFit').click();await p.waitForFunction(()=>window.__projectFitDone&&!__opsTest.map._panAnim?._inProgress&&!__opsTest.map._animatingZoom);
+}
 async function exported(p){if(!await p.locator('#btnExport').isVisible())await p.locator('#headerMenu summary').click();const pending=p.waitForEvent('download');await p.locator('#btnExport').click();return JSON.parse(fs.readFileSync(await(await pending).path(),'utf8'));}
 const upload=(p,data)=>p.locator('#fileImport').setInputFiles({name:'synthetic-project-spatial-backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(data))});
 async function restore(p,data){await upload(p,data);const pending=p.waitForEvent('download');await p.locator('#importBackup').click();const backup=JSON.parse(fs.readFileSync(await(await pending).path(),'utf8'));await p.locator('#importBackupSaved').check();await p.locator('#importConfirm').click();return backup;}
@@ -56,10 +67,10 @@ module.exports=async(env,check)=>{
    await scene(p,['global-model','north-model','east-model','orphan-model']);await p.waitForFunction(()=>__opsTest.geoLayer?.getLayers().length===4);await layers(p);await p.locator('[data-lc-toggle="__repo__"]').uncheck();
    const before=await stable(p);
    await selected(p,'default');await scene(p,['global-model','north-model']);assert.deepEqual(await mapIds(p),['global-vector','north-imagery','north-vector']);assert.deepEqual(await rowIds(p,'layer'),['global-vector','hidden-vector','north-imagery','north-vector']);assert.deepEqual(await rowIds(p,'model'),['global-model','hidden-model','north-model']);
-   await p.locator('#btnFit').click();await p.waitForFunction(()=>!__opsTest.map._panAnim?._inProgress&&!__opsTest.map._animatingZoom);
+   await fitAndWait(p);
    assert.ok(await p.evaluate(()=>{const b=__opsTest.map.getBounds();return b.contains([-25.91,153.08])&&b.contains([-25.899,153.092])&&!b.contains([-27.2,152.7])&&!b.contains([-10,160]);}),'Fit includes visible North/Global geometry only');
    await selected(p,'east');await scene(p,['global-model','east-model']);assert.deepEqual(await mapIds(p),['east-vector','global-vector']);assert.deepEqual(await rowIds(p,'layer'),['east-vector','global-vector']);
-   await p.locator('#btnFit').click();await p.waitForFunction(()=>!__opsTest.map._panAnim?._inProgress&&!__opsTest.map._animatingZoom);assert.ok(await p.evaluate(()=>__opsTest.map.getBounds().contains([-27.2,152.7])));
+   await fitAndWait(p);assert.ok(await p.evaluate(()=>__opsTest.map.getBounds().contains([-27.2,152.7])));
    await selected(p,'all');await scene(p,['global-model','north-model','east-model','orphan-model']);assert.equal(await p.locator('[data-lc-project="orphan-vector"] option:checked').innerText(),'Unavailable project');
    assert.deepEqual(await stable(p),before);assert.equal(await p.locator('[data-card]').count(),21);assert.equal(run.network.writes.length,0);assert.deepEqual(run.network.errors,[]);
   }finally{await run.close();}
