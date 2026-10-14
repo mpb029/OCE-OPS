@@ -5,12 +5,16 @@
   const byId = id => document.getElementById(id), body = document.body;
   const item = byId('itemModal'), settings = byId('settingsModal');
   if (!item || !settings) return;
+  let styled = false;
   const sheet = document.createElement('link');
-  sheet.rel = 'stylesheet'; sheet.href = 'ui-forms.css'; document.head.append(sheet);
+  sheet.rel = 'stylesheet'; sheet.href = 'ui-forms.css';
+  sheet.addEventListener('load',() => {styled = true; apply();},{once:true});
+  document.head.append(sheet);
   const modals = ['itemModal','settingsModal','summaryModal','statModal','markerModal'].map(byId);
   const original = new Map([item,settings].map(back => [back,[...back.querySelector('.modal-body').childNodes]]));
   let active = false, viewportFrame, sections = [], added = [], settingsFrame;
-  const extraLabels = {fAssigned:'Date assigned',fRequired:'Date required',fWStatus:'Work status',fPctRange:'Percentage complete',fPct:'Percentage complete'};
+  const textChanges = new Map(), labelled = new Set();
+  const extraLabels = {fAssigned:'Date assigned',fRequired:'Date required',fWStatus:'Work status',fPctRange:'Percentage complete',fPct:'Percentage complete',newClientName:'New client name',newProjName:'New project name'};
   const make = (tag,cls,text) => {
     const el = document.createElement(tag); el.className = cls;
     if (text) el.textContent = text; return el;
@@ -79,8 +83,20 @@
     area.prepend(note); added.push(note);
     const warning = make('p','d-settings-note','Site and Client links filter the display; they are not access control. Anyone with repository access can read the underlying data.');
     byId('d-settings-publishing').append(warning); added.push(warning);
+    for (const node of chunks.get('Clients')[1].childNodes) if (node.nodeType === Node.TEXT_NODE && node.textContent.includes('further down')) {
+      textChanges.set(node,node.textContent); node.textContent = node.textContent.replace('further down','in the Projects section');
+    }
     appendNote(settings,'Save configuration locally. Publish separately when ready.','d-save-note');
   }
+  function labelSettings() {
+    if (!active) return;
+    for (const [selector,label] of [['[data-proj-name]','Project name'],['[data-client-name]','Client name'],['[data-client-link]','Client display link']]) {
+      settings.querySelectorAll(selector).forEach(el => {
+        if (!el.hasAttribute('aria-label')) {el.setAttribute('aria-label',label);labelled.add(el);}
+      });
+    }
+  }
+  [byId('projList'),byId('clientList')].forEach(el => new MutationObserver(labelSettings).observe(el,{childList:true,subtree:true}));
   function clearFeedback() {
     const error = byId('dMainError'); if (error) {error.hidden = true; error.textContent = '';}
     byId('fMain').removeAttribute('aria-invalid'); byId('fMain').removeAttribute('aria-describedby');
@@ -135,18 +151,20 @@
   window.visualViewport?.addEventListener('scroll',scheduleViewport);
   addEventListener('resize',scheduleViewport);
   function apply() {
-    const next = body.classList.contains('ws-enabled') && !body.classList.contains('viewer') && !body.classList.contains('locked');
+    const next = styled && body.classList.contains('ws-enabled') && !body.classList.contains('viewer') && !body.classList.contains('locked');
     if (next === active) return;
     active = next;
     body.classList.toggle('d-forms-enabled',active);
     if (active) {
-      groupForm(); groupSettings();
+      groupForm(); groupSettings(); labelSettings();
       Object.entries(extraLabels).forEach(([id,label]) => byId(id).setAttribute('aria-label',label));
       modals.forEach(back => back.classList.add('d-form')); refreshSections(); scheduleViewport();
     }
     else {
       clearFeedback(); byId('fMain').removeAttribute('aria-required');
       Object.keys(extraLabels).forEach(id => byId(id).removeAttribute('aria-label'));
+      labelled.forEach(el => el.removeAttribute('aria-label')); labelled.clear();
+      textChanges.forEach((text,node) => {node.textContent = text;}); textChanges.clear();
       for (const [back,nodes] of original) back.querySelector('.modal-body').replaceChildren(...nodes);
       if (settingsFrame) {settingsFrame.before(settings.querySelector('.modal-body')); settingsFrame.remove(); settingsFrame = null;}
       added.forEach(el => el.remove()); added = []; sections = [];

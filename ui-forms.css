@@ -46,7 +46,8 @@
   .d-settings-section > p { font-size:14px!important;line-height:1.55; }
   .d-settings-note { color:#3c5368;background:#edf4fa;border-left:3px solid #6c97bc;padding:12px 14px;font-size:13px;line-height:1.55;margin:0 0 16px; }
   .d-form :is(.proj-row,.client-row) { gap:10px; }
-  .d-form .proj-clients label { min-height:44px;font-size:14px; }
+  .d-form .proj-row .proj-clients .chkline { min-height:44px;font-size:14px; }
+  .d-form .proj-row .proj-del,.d-form .client-row .proj-del,.d-form .client-row .mini-btn,.d-form .sf-del { min-width:44px;min-height:44px;flex-basis:44px; }
   #summaryModal.d-form .modal-body,#statModal.d-form .modal-body,#markerModal.d-form .modal-body { gap:16px 20px; }
   #statModal.d-form .field,#markerModal.d-form .field { margin-bottom:16px; }
   @media(max-width:800px) {
