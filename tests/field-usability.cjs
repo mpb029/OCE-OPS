@@ -133,7 +133,9 @@ await check('Field usability: all-project history CSV, collapsed print parity, c
   await p.locator('[data-card="dailyWorks"] .fo-collapse').click();
   await p.locator('[data-print-panel="dailyWorks"]').click();await p.emulateMedia({media:'print'});
   assert.ok(await p.locator('[data-card="dailyWorks"] .card-body').isVisible());assert.equal(await p.locator('.fo-navigation:visible,.fo-disclosure-icon:visible,.fo-label:visible').count(),0);
-  assert.match(await p.locator('[data-card="dailyWorks"] .card-head').innerText(),/Daily Works/,'Print retains original panel title');
+  assert.match(await p.locator('[data-card="dailyWorks"] .card-head').innerText(),/DAILY WORKS/,'Print retains original uppercase panel presentation');
+  assert.equal((await p.locator('[data-card="dailyWorks"] .ttl').textContent()).trim(),'Daily Works','Original title data remains unchanged');
+  assert.equal(await p.locator('[data-card="dailyWorks"] .fo-collapse').evaluate(e=>getComputedStyle(e).textTransform),await p.locator('[data-card="dailyWorks"] .ttl').evaluate(e=>getComputedStyle(e).textTransform),'Disclosure inherits original print title casing');
   await p.emulateMedia({media:'screen'});await p.evaluate(()=>dispatchEvent(new Event('afterprint')));
   assert.equal(await p.locator('[data-card="dailyWorks"] .card-body').isVisible(),false);
   await p.locator('[data-add="dailyWorks"]').click();await p.waitForFunction(()=>document.getElementById('itemModal').classList.contains('open'));await p.locator('#fMain').fill('Cancelled C2 edit');await p.locator('#itemModal [data-close]').click();assert.deepEqual(await snapshot(p),before);
