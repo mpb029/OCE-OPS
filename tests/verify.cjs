@@ -14,7 +14,7 @@ const scopes = {
   audience: ['^Audience parity', '^Audience compatibility|^Absent whole workspace|^Empty permitted'],
   editing: ['^CRUD parity: (dailyWorks|rfis),|^Production stat:', '^Workspace CRUD'],
   backup: ['^Backup repair:|^Readiness: (import|malformed|failed import)', '^Opt-in (Backup repair|Readiness):'],
-  spatial: ['^Map:|^Map repair:|^3D', '^Spatial instances'],
+  spatial: ['^Map:|^Map repair:|^3D', '^Spatial instances|^Spatial usability:|^Navigation 768|^Audience compatibility'],
   print: ['^Print parity:|^Client report parity:|^Punch print:', '^Full-board and single-panel print']
 };
 const common = [
@@ -91,9 +91,10 @@ function suite(report, engine, full, commit) {
     if (!report.environment) {
       assert.equal(report.tests.filter(t=>t.name?.startsWith('Overview:')).length,13,'All B1 Overview contracts required');
       assert.equal(report.tests.filter(t=>t.name?.startsWith('Overview refinement:')).length,12,'All B2 refinement contracts required');
+      assert.equal(report.tests.filter(t=>t.name?.startsWith('Spatial usability:')).length,12,'All C1 spatial usability contracts required');
     }
     assert.equal(report.worktreeClean, true);
-    assert.ok(report.tests.length >= (report.environment ? 83 : 59), 'Incomplete acceptance suite');
+    assert.ok(report.tests.length >= (report.environment ? 83 : 71), 'Incomplete acceptance suite');
   }
 }
 
@@ -179,7 +180,8 @@ function fullEvidence(directory, receipt, commit, main) {
     const result=read(path.join(chrome,file));assert.equal(result.length,count);assert.ok(result.every(r=>r.sameTextOnEveryPage));
   }
   const shots=read(path.join(chrome,'screenshots/manifest.json'));
-  assert.equal(shots.commit,commit);assert.equal(shots.fullRun,true);assert.equal(shots.screenshots.length,48);
+  assert.equal(shots.commit,commit);assert.equal(shots.fullRun,true);assert.equal(shots.screenshots.length,61);
+  assert.equal(shots.screenshots.filter(s=>s.name.startsWith('c1-')&&s.triangles>0).length,13,'All C1 captures require actual rendered geometry');
   for (const shot of shots.screenshots) assert.ok(fs.statSync(path.join(chrome,'screenshots',shot.name)).size>0);
   const recovery=read(path.join(directory,'recovery/recovery-manifest.json'));
   assert.equal(recovery.commit,commit);assert.equal(recovery.main,main);assert.deepEqual(recovery.prerequisites,[]);
