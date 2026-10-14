@@ -7,6 +7,9 @@ const shots=path.join(output,'screenshots');fs.mkdirSync(shots,{recursive:true})
  for(const [device,width,height,view] of [['desktop',1440,900,'map-and-model'],['tablet',768,1024,'project-layers'],['mobile',390,844,'project-model']]){
   const name=`stage-e-${device}.png`;if(selected&&!selected.test(name))continue;
   const data=spatial.fixture(env);data.models=[{id:'north-review-model',name:'North workfront · Civil model',project:'default',url:env.url+'/after/G4N.obj',fmt:'obj',upAxis:'z',visible:true}];
+  // Keep the synthetic one-pixel XYZ test layer listed without covering the
+  // street map in review images. Its real visibility behaviour is tested above.
+  data.mapLayers.find(layer=>layer.type==='tiles').visible=false;
   const run=await open(env,{width,height,touch:width<1200,data,liveClock:true,audience:'?ui=workspaces&workspace=site&workspaceProject=default'}),p=run.page;
   try{
    await p.waitForFunction(()=>__opsTest.three?.renderer.info.render.triangles>0,null,{timeout:60000});await p.waitForFunction(()=>__opsTest.geoLayer?.getLayers().length===4);
@@ -14,6 +17,7 @@ const shots=path.join(output,'screenshots');fs.mkdirSync(shots,{recursive:true})
    if(view==='project-model')await p.locator('.ws-shortcuts [data-ws-target="#modelCard"]').click();
    else{await p.locator('.ws-shortcuts [data-ws-target="#mapCard"]').click();if(view==='map-and-model')await p.locator('#spBoth').click();else await p.locator('#spLayers').click();}
    await p.evaluate(async()=>{await document.fonts.ready;document.activeElement?.blur();scrollTo(0,0);await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));});
+   if(view==='project-model')await p.locator('[data-model-project="north-review-model"]').scrollIntoViewIfNeeded();
    assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth),width);await p.screenshot({path:path.join(shots,name)});
    records.push({name,width,height,view,project:'Synthetic North workfront',fixture:'Synthetic project assignments and operational records',model:'Unchanged G4N.obj; hosted locally by test harness',triangles:await p.evaluate(()=>__opsTest.three.renderer.info.render.triangles),physicalDevice:false});assert.equal(run.network.writes.length,0);assert.deepEqual(run.network.errors,[]);
   }finally{await run.close();}
