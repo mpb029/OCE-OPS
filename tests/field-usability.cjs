@@ -7,6 +7,25 @@ const routes=['operations','resources','quality','coordination'];
 const snapshot=p=>p.evaluate(()=>{const payload=__opsTest.shareableState();delete payload.publishedAt;return {state:structuredClone(__opsTest.state),storage:{...localStorage},sync:{...__opsTest.sync},payload};});
 async function nav(p,route){if(await p.locator('#wsMobileMenu').isVisible()&&!await p.locator('#wsSidebar').isVisible())await p.locator('#wsMobileMenu').click();await p.locator(`#wsDestinations [data-ws-route="${route}"]`).click();await p.waitForFunction(r=>document.body.dataset.workspace===r,route);}
 async function ready(p){await p.waitForFunction(()=>document.body.classList.contains('fo-workspace')&&getComputedStyle(document.querySelector('.fo-navigation')).display==='flex');}
+async function initialAnchor(env,width,height){
+ let release,run,intercepted=false;const withheld=new Promise(resolve=>release=resolve);
+ let pageReady;const created=new Promise(resolve=>pageReady=resolve);
+ const delayed={...env,browser:{newContext:async options=>{
+  const context=await env.browser.newContext(options);context.on('page',async page=>{
+   await page.route('**/ui-field.css',async route=>{intercepted=true;await withheld;await route.continue();});pageReady(page);
+  });return context;
+ }}};
+ const opening=open(delayed,{width,height,touch:width<1200,data:fixture(),audience:'?ui=workspaces&workspace=quality&workspaceProject=default&keep=original#activity-punchlist'});
+ try{
+  const page=await Promise.race([created,opening.then(r=>r.page)]);
+  await page.waitForFunction(()=>window.__opsTest?.ready&&document.body.classList.contains('fo-workspace')&&document.getElementById('activity-punchlist'));
+  assert.equal(intercepted,true,'The field stylesheet was actually withheld');
+  assert.notEqual(await page.locator('.fo-navigation').evaluate(e=>getComputedStyle(e).display),'flex','No field layout before stylesheet release');
+  release();run=await opening;await ready(page);
+  await page.waitForFunction(()=>{const y=document.getElementById('activity-punchlist').getBoundingClientRect().y;return y>=0&&(y<100||scrollY>=document.documentElement.scrollHeight-innerHeight-2);});
+  assert.equal(new URL(page.url()).searchParams.get('keep'),'original');assert.equal(run.network.writes.length,0);
+ }finally{release();run=run||await opening;await run.close();}
+}
 module.exports=async(env,check)=>{
 await check('Field usability: exact C1 runtime, forms, spatial presentation and mandatory assertions retained',()=>{
  for(const file of ['index.html','ui-v2.js','ui-v2.css','ui-workspaces.css','ui-spatial.css','ui-overview.js','ui-overview.css','tests/regression.cjs','tests/spatial-usability.cjs','tests/overview-checks.cjs','tests/overview-refinement.cjs'])assert.equal(fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n'),execFileSync('git',['show',baseline+':'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n'),file);
@@ -50,6 +69,7 @@ for(const [device,width,height] of sizes)await check(`Field usability: ${device}
   assert.ok(await p.locator('#panelsGrid>[data-card]').evaluateAll(es=>es.every(e=>e.querySelector('.ttl').textContent.trim()===__opsTest.PANELS.find(p=>p.id===e.dataset.card).title)),'Original titles restored after disclosure rollback');
   if(await p.locator('#wsMobileMenu').isVisible())await p.locator('#wsMobileMenu').click();await p.locator('#wsOriginal').click();assert.equal(await p.locator('body').evaluate(e=>e.classList.contains('fo-workspace')),false);
  }finally{await run.close();}
+ await initialAnchor(env,width,height);
 });
 for(const [device,width,height] of sizes)await check(`Field usability: ${device} original forms, simulated keyboard viewport, save/edit/complete and persistence`,async()=>{
  const run=await open(env,{width,height,touch:width<1200,data:fixture(),audience:'?ui=workspaces&workspace=operations&workspaceProject=default'}),p=run.page;
