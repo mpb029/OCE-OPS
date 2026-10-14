@@ -18,6 +18,7 @@ const scopes = {
   'project-spatial': ['^Map:|^Map repair:|^3D|^Backup repair:|^Readiness: (import|malformed|failed import)|^Production stat:', '^Project spatial:|^Spatial instances|^Spatial usability:|^Navigation 768|^Audience compatibility|^Opt-in (Backup repair|Readiness):'],
   field: ['^CRUD parity: (dailyWorks|upcoming|deliveries|punchlist|rfis),|^Production stat:', '^Field usability:|^Workspace CRUD'],
   forms: ['^CRUD parity: (dailyWorks|rfis|variations|incidents|deliveries|qualityTesting|punchlist),|^Production stat:|^Settings editing:', '^Forms and Settings:'],
+  'report-refinement': ['', ''],
   print: ['^Print parity:|^Client report parity:|^Punch print:', '^Full-board and single-panel print']
 };
 const common = [
@@ -47,7 +48,11 @@ function options(argv, env = process.env) {
   if (opts.reuse) assert.equal(level, 'focused', 'Evidence reuse is only for FOCUSED');
   const filters = scopes[opts.scope].map((value, i) => env[i ? 'OCE_STAGE_A_FILTER' : 'OCE_TEST_FILTER'] || value);
   if (level === 'full') opts.filters = ['', ''];
-  else opts.filters = filters.map((value, i) => level === 'focused' ? [value,common[i]].filter(Boolean).join('|') : value);
+  else opts.filters = filters.map((value, i) => level === 'focused' && opts.scope !== 'report-refinement' ? [value,common[i]].filter(Boolean).join('|') : value);
+  if (opts.scope === 'report-refinement') {
+    assert.ok(!opts.shots, 'Report refinement produces only its two representative PDF comparisons');
+    opts.filters = ['', '']; // This standalone scope owns report/audience guards, not unrelated suites.
+  }
   opts.filters.filter(Boolean).forEach(value => new RegExp(value));
   if (opts.shots) new RegExp(opts.shots);
   return opts;
@@ -56,12 +61,22 @@ function options(argv, env = process.env) {
 function plan(opts) {
   const steps = [];
   const add = (id, engine, file, args=[], filter='') => steps.push({id,engine,file,args,filter});
+  if (opts.scope === 'report-refinement') {
+    for (const engine of opts.level === 'fast' ? ['chromium'] : ['chromium','firefox']) {
+      add(engine+'-report-refinement',engine,'tests/report-refinement.cjs',engine === 'chromium' && opts.level === 'focused' ? ['--pdf'] : []);
+      if (engine === 'chromium' && opts.level === 'focused') add('report-refinement-comparison',engine,'tests/compare-report-refinement.py');
+    }
+    return steps;
+  }
   for (const engine of opts.level === 'fast' ? ['chromium'] : ['chromium','firefox']) {
     if (opts.level === 'full' || opts.filters[0]) add(engine+'-regression',engine,'tests/regression.cjs',[],opts.filters[0]);
     if (opts.level === 'full' || opts.filters[1]) add(engine+'-workspaces',engine,'tests/workspaces.cjs',[],opts.filters[1]);
     if (engine === 'chromium' && ['focused','full'].includes(opts.level)) add('report-comparison',engine,'tests/compare-print.py');
   }
   if (opts.level === 'full') {
+    add('chromium-report-refinement','chromium','tests/report-refinement.cjs',['--pdf']);
+    add('firefox-report-refinement','firefox','tests/report-refinement.cjs');
+    add('report-refinement-comparison','chromium','tests/compare-report-refinement.py');
     add('workspace-pdfs','chromium','tests/workspace-print.cjs');
     add('workspace-pdf-comparison','chromium','tests/compare-workspace-print.py');
     add('project-spatial-screenshots','chromium','tests/capture-project-spatial.cjs');
@@ -104,6 +119,30 @@ function suite(report, engine, full, commit) {
     }
     assert.equal(report.worktreeClean, true);
     assert.ok(report.tests.length >= (report.environment ? 83 : 104), 'Incomplete acceptance suite');
+  }
+}
+
+function reportRefinement(report, engine, commit, pdfs) {
+  assert.equal(report.commit,commit);assert.equal(report.endCommit,commit);
+  assert.equal(report.engine,engine);assert.equal(report.pdfs,pdfs);
+  assert.equal(report.tests.length,25,'All report refinement contracts required');
+  assert.ok(report.tests.every(t=>t.status==='PASS'),'Every report assertion must pass');
+}
+function reportComparisons(results) {
+  assert.equal(results.length,2,'Both affected report comparisons required');
+  for(const mode of ['report','photos']) {
+    const matches=results.filter(r=>r.mode===mode);
+    assert.equal(matches.length,1);assert.equal(matches[0].sameContent,true);
+    assert.equal(matches[0].photosPreserved,true);
+    if(mode==='photos')assert.equal(matches[0].firstPhotoPage,1,'Weekly opening page must contain a photograph');
+  }
+}
+function historicalPrintComparisons(results,count) {
+  assert.equal(results.length,count);
+  for(const result of results) {
+    const mode=result.report || result.family;
+    assert.ok(['report','photos','client'].includes(mode) ? result.sameContent === true && result.photosPreserved === true : result.sameTextOnEveryPage === true,
+      'Preserve complete content/order; pagination may change only for full-board and weekly photos');
   }
 }
 
@@ -207,8 +246,10 @@ function fullEvidence(directory, receipt, commit, main) {
     suite(read(path.join(directory,engine,file)),engine,true,commit);
   const chrome=path.join(directory,'chromium');
   for (const [file,count] of [['print-comparison.json',5],['workspace-pdfs/comparison-results.json',20]]) {
-    const result=read(path.join(chrome,file));assert.equal(result.length,count);assert.ok(result.every(r=>r.sameTextOnEveryPage));
+    historicalPrintComparisons(read(path.join(chrome,file)),count);
   }
+  for(const engine of ['chromium','firefox'])reportRefinement(read(path.join(directory,engine,'report-refinement-results.json')),engine,commit,engine==='chromium');
+  reportComparisons(read(path.join(chrome,'report-refinement-comparison.json')));
   const shots=read(path.join(chrome,'screenshots/manifest.json'));
   projectSpatialScreenshots(shots,path.join(chrome,'screenshots'),commit);
   const recovery=read(path.join(directory,'recovery/recovery-manifest.json'));
@@ -255,6 +296,8 @@ async function main(argv) {
       await execute(step,target,path.join(directory,step.id+'.log'));
       if (step.file === 'tests/regression.cjs' || step.file === 'tests/workspaces.cjs')
         suite(read(path.join(target,step.file.endsWith('regression.cjs')?'regression-results.json':'stage-a-results.json')),step.engine,opts.level==='full',commit);
+      if (step.file === 'tests/report-refinement.cjs') reportRefinement(read(path.join(target,'report-refinement-results.json')),step.engine,commit,step.args.includes('--pdf'));
+      if (step.file === 'tests/compare-report-refinement.py') reportComparisons(read(path.join(target,'report-refinement-comparison.json')));
       result.status='PASS';
     }
     receipt.endCommit=git(['rev-parse','HEAD']);assert.equal(receipt.endCommit,commit);
@@ -266,5 +309,5 @@ async function main(argv) {
   finally {receipt.completedAt=new Date().toISOString();write(path.join(directory,'verification.json'),receipt);}
   console.log('PASS '+opts.level.toUpperCase()+' — '+directory);
 }
-module.exports={options,plan,childEnv,suite,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
+module.exports={options,plan,childEnv,suite,reportRefinement,reportComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.message);process.exitCode=1;});

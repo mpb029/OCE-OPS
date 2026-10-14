@@ -21,6 +21,7 @@ const sourcePatches = {
 const start = '  // BEGIN E project spatial adapter.\n';
 const end = '  // END E project spatial adapter.\n\n';
 const link = '  <link rel="stylesheet" href="ui-project-spatial.css" />\n';
+const printLink = '  <link rel="stylesheet" href="ui-report-print.css" media="print" />\n';
 function once(source, from, to, label) {
   assert.equal(source.split(from).length, 2, label + ' must occur exactly once');
   return source.replace(from, to);
@@ -28,6 +29,7 @@ function once(source, from, to, label) {
 function normalise(file, source) {
   source = source.replace(/\r\n/g, '\n');
   if (file === 'index.html') {
+    if(source.includes(printLink))source=once(source,printLink,'','Stage F1 print stylesheet');
     assert.equal(source.split(start).length, 2, 'One Stage E adapter start');
     assert.equal(source.split(end).length, 2, 'One Stage E adapter end');
     const from = source.indexOf(start), to = source.indexOf(end);
@@ -38,4 +40,4 @@ function normalise(file, source) {
   for (const [before, after] of sourcePatches[file] || []) source = once(source, after, before, file + ' exact source allowance');
   return source;
 }
-module.exports = {normalise, sourcePatches, start, end, link};
+module.exports = {normalise, sourcePatches, start, end, link, printLink};
