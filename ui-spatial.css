@@ -26,8 +26,8 @@
   .sp-site .mobile-map-collapsed .map-toolbar, .sp-site .mobile-map-collapsed .map-hint { display: none !important; }
   .sp-site .mobile-map-collapsed #map { position: absolute !important; inset: 0 0 auto; visibility: hidden; pointer-events: none; }
   .sp-site #mapCard:not([data-sp-layers-open]) .layer-ctl { display: none !important; }
-  .sp-site .layer-ctl { width: 320px; max-width: calc(100vw - 110px); max-height: 330px; overflow-y: auto; overscroll-behavior: contain; border: 1px solid #b8cbdc; }
-  .sp-site .layer-ctl .lc-head { padding: 8px 10px; font-size: 14px; gap: 8px; }
+  .sp-site .layer-ctl { width: 320px; max-width: calc(100vw - 110px); max-height: min(330px,calc(var(--sp-height,400px) - 20px)); overflow-y: auto; overscroll-behavior: contain; border: 1px solid #b8cbdc; }
+  .sp-site .layer-ctl .lc-head { position: sticky; top: 0; z-index: 2; padding: 8px 10px; font-size: 14px; gap: 8px; }
   .sp-site .layer-ctl .lc-head > i { display: none; }
   .sp-site .layer-ctl .lc-row { padding: 8px 10px; font-size: 14px; }
   .sp-site .layer-ctl .lc-main { gap: 6px; }
