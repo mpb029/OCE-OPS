@@ -1817,6 +1817,105 @@
         "wstatus": "",
         "priority": "med",
         "photos": []
+      },
+      {
+        "id": "0hx0w6o",
+        "main": "Service Proving - ex.Vent depth and size at proposed connection point, also confirm inlet of existing Vent in wet well - measure from ground",
+        "project": "py0cs3dz",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-10-06",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "priority": "high",
+        "photos": [
+          {
+            "name": "G1b Vent.png",
+            "path": "files/photos/oesgw6b-G1b_Vent.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/oesgw6b-G1b_Vent.png",
+            "sha": "8dd87458f8fb1c43615881246ab41cbff48e8972",
+            "size": 562155,
+            "mime": "image/png"
+          }
+        ]
+      },
+      {
+        "id": "3zx29fr",
+        "main": "Mark out concrete demo extents and Mesh off retained assets in prep for Demo",
+        "project": "py0cs3dz",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-10-06",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "priority": "high",
+        "photos": [
+          {
+            "name": "G1B demo.png",
+            "path": "files/photos/jkzevxg-G1B_demo.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/jkzevxg-G1B_demo.png",
+            "sha": "2668d988ab1c667c22ac9cfb662f985bfd0b7458",
+            "size": 384091,
+            "mime": "image/png"
+          }
+        ]
+      },
+      {
+        "id": "kpgb5ly",
+        "main": "Service Proving - Identify and mark all UG elec and relevant existing services",
+        "project": "py0cs3dz",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-10-06",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "priority": "high",
+        "photos": []
+      },
+      {
+        "id": "y19hhzc",
+        "main": "Setup Compound Fencing",
+        "project": "py0cs3dz",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "due": "2026-10-06",
+        "done": false,
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "priority": "high",
+        "photos": [
+          {
+            "name": "compound.png",
+            "path": "files/photos/xb9r9k2-compound.png",
+            "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/photos/xb9r9k2-compound.png",
+            "sha": "7ae5aed1b350df585252edae969e60ad026055e1",
+            "size": 1260679,
+            "mime": "image/png"
+          }
+        ]
       }
     ],
     "materialPickup": [
@@ -31750,7 +31849,7 @@
   },
   "panelMeta": {
     "punchlist": {
-      "updated": "2026-08-04T05:37:11.192Z"
+      "updated": "2026-10-05T19:46:30.743Z"
     },
     "weeklyPhotos": {
       "updated": "2026-09-08T02:36:40.217Z"
@@ -35171,6 +35270,98 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "0hx0w6o": {
+      "id": "0hx0w6o",
+      "panel": "Punch List",
+      "project": "SPS G1B Renewal",
+      "title": "Service Proving - ex.Vent depth and size at proposed connection point, also confirm inlet of existing Vent in wet well - measure from ground",
+      "detail": "",
+      "team": "Site",
+      "priority": "High",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-10-06",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-10-05T19:31:27.048Z",
+      "updatedAt": "2026-10-05T19:37:13.733Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "3zx29fr": {
+      "id": "3zx29fr",
+      "panel": "Punch List",
+      "project": "SPS G1B Renewal",
+      "title": "Mark out concrete demo extents and Mesh off retained assets in prep for Demo",
+      "detail": "",
+      "team": "Site",
+      "priority": "High",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-10-06",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-10-05T19:33:40.201Z",
+      "updatedAt": "2026-10-05T19:33:40.201Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "kpgb5ly": {
+      "id": "kpgb5ly",
+      "panel": "Punch List",
+      "project": "SPS G1B Renewal",
+      "title": "Service Proving - Identify and mark all UG elec and relevant existing services",
+      "detail": "",
+      "team": "Site",
+      "priority": "High",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-10-06",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-10-05T19:35:31.154Z",
+      "updatedAt": "2026-10-05T19:35:31.154Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
+    },
+    "y19hhzc": {
+      "id": "y19hhzc",
+      "panel": "Punch List",
+      "project": "SPS G1B Renewal",
+      "title": "Setup Compound Fencing",
+      "detail": "",
+      "team": "Site",
+      "priority": "High",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "2026-10-06",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 1,
+      "createdAt": "2026-10-05T19:46:30.743Z",
+      "updatedAt": "2026-10-05T19:46:30.743Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -35231,5 +35422,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-09-23T07:01:56.464Z"
+  "publishedAt": "2026-10-15T18:50:56.926Z"
 }
