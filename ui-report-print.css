@@ -79,3 +79,29 @@
     border-radius: 0;
   }
 }
+
+/* F2: the standalone Punch List is a flowing checklist, not one unbreakable
+   card. Client/full-board reports retain the accepted F1 presentation. */
+@media print {
+  body[data-print="panel"] #panelsGrid .card.print-this[data-card="punchlist"] {
+    break-inside: auto;
+    overflow: visible;
+  }
+  body[data-print="panel"] .print-this[data-card="punchlist"] .card-head {
+    break-inside: avoid;
+    break-after: avoid;
+  }
+  body[data-print="panel"] .print-this[data-card="punchlist"] .card-body {
+    overflow: visible;
+  }
+  body[data-print="panel"] .print-this[data-card="punchlist"] .photo-appendix :is(.ap-head, .ap-label) {
+    break-inside: avoid;
+    break-after: avoid;
+  }
+  body[data-print="panel"] .print-this[data-card="punchlist"] .photo-appendix .ap-group {
+    break-inside: auto;
+  }
+  body[data-print="panel"] .print-this[data-card="punchlist"] .photo-appendix .ap-photo {
+    break-inside: avoid;
+  }
+}
