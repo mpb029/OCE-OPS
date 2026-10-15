@@ -1,0 +1,52 @@
+/* IFC-only inspection controls; no board, form or reporting layout changes. */
+#ifcPanel { padding:14px; border-top:1px solid #d8e2eb; background:#f5f8fb; color:#203b53; font:14px/1.45 var(--font-body,system-ui); }
+#ifcPanel[hidden] { display:none !important; }
+.ifc-heading { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.ifc-heading h3 { margin:0; font-size:16px; }
+.ifc-heading small { margin-left:auto; }
+.ifc-tools { display:flex; flex-wrap:wrap; align-items:center; gap:8px; margin:8px 0; }
+#ifcPanel button,#ifcPanel select,#ifcPanel input:not([type=checkbox]):not([type=range]) { min-height:44px; border:1px solid #bdcddd; border-radius:6px; background:#fff; padding:7px 10px; font:inherit; color:#203b53; max-width:100%; }
+#ifcPanel button { cursor:pointer; }
+#ifcPanel button:hover { background:#e8f1f8; }
+#ifcPanel button:disabled { opacity:.5; cursor:default; }
+#ifcPanel input[type=checkbox] { width:21px; height:21px; flex:0 0 21px; accent-color:#236795; }
+#ifcPanel input[type=range] { min-height:44px; min-width:100px; flex:1; accent-color:#236795; }
+#ifcPanel label { display:flex; align-items:center; gap:8px; }
+#ifcPanel :focus-visible { outline:3px solid #65a5d7; outline-offset:2px; }
+.ifc-layout { display:grid; grid-template-columns:minmax(240px,1fr) minmax(220px,1fr); gap:14px; }
+.ifc-tree { max-height:350px; overflow:auto; overscroll-behavior:contain; background:white; border:1px solid #d8e2eb; border-radius:6px; }
+.ifc-group { border-bottom:1px solid #e1e8ef; }
+.ifc-group summary { padding:8px; cursor:pointer; min-height:44px; font-weight:650; overflow-wrap:anywhere; }
+.ifc-group-controls { display:flex; gap:8px; justify-content:space-between; padding:0 8px 6px; }
+.ifc-element { display:flex; gap:6px; align-items:center; padding:3px 8px; border-top:1px solid #eef2f5; }
+#ifcPanel .ifc-element button { text-align:left; border:0; flex:1; font-size:13px; overflow-wrap:anywhere; }
+#ifcPanel .ifc-element button[aria-pressed=true] { background:#dbeefa; color:#113e61; box-shadow:inset 3px 0 #2375ac; }
+.ifc-detail { min-width:0; }
+#ifcProperties { max-height:350px; overflow:auto; overflow-wrap:anywhere; padding:10px; background:#fff; border:1px solid #d8e2eb; border-radius:6px; }
+#ifcProperties h4 { margin:0 0 6px; font-size:15px; }
+#ifcProperties dl { display:grid; grid-template-columns:minmax(90px,.8fr) minmax(100px,1.2fr); margin:8px 0; gap:5px 10px; font-size:13px; }
+#ifcProperties dt { color:#496278; } #ifcProperties dd { margin:0; white-space:pre-wrap; }
+#ifcProperties summary { cursor:pointer; min-height:36px; padding:7px 0; font-weight:650; }
+.ifc-note { margin:8px 0; font-size:12px; color:#526b80; }
+.ifc-warning { padding:8px; border-left:3px solid #b96e13; background:#fff4df; }
+#ifcSearch { width:100%; margin-bottom:8px; }
+#ifcPanel .ifc-save { flex:1; min-width:140px; }
+#ifcPanel [hidden] { display:none !important; }
+.model-collapsed #ifcPanel { display:none !important; }
+@media (min-width:1150px) {
+  #modelCard.ifc-present:not(.model-collapsed) { display:grid; grid-template-columns:minmax(0,1fr) 340px; }
+  #modelCard.ifc-present>.card-head,#modelCard.ifc-present>#modelList { grid-column:1/-1; }
+  #modelCard.ifc-present>#modelStage { grid-column:1; grid-row:2; min-height:530px; height:min(76vh,720px); }
+  #modelCard.ifc-present>#ifcPanel { grid-column:2; grid-row:2; border-left:1px solid #d8e2eb; border-top:0; max-height:max(530px,min(76vh,720px)); overflow:auto; }
+  #modelCard.ifc-present .ifc-layout { display:block; }
+  #modelCard.ifc-present .ifc-tree { max-height:250px; }
+  #modelCard.ifc-present #ifcProperties { max-height:240px; }
+  .sp-site[data-sp-view=both] #modelCard.ifc-present { display:block; }
+  .sp-site[data-sp-view=both] #modelCard.ifc-present>#modelStage { height:var(--sp-height,400px); min-height:0; }
+  .sp-site[data-sp-view=both] #modelCard.ifc-present>#ifcPanel { max-height:none; }
+  #modelCard.ifc-present:fullscreen { display:grid; grid-template-rows:auto minmax(0,1fr) auto; }
+  #modelCard.ifc-present:fullscreen>#modelStage { height:100%; min-height:0; }
+  #modelCard.ifc-present:fullscreen>#ifcPanel { max-height:100%; min-height:0; }
+}
+@media (max-width:680px) { .ifc-layout { grid-template-columns:1fr; } #ifcPanel { padding:10px; } .ifc-tree { max-height:260px; } }
+@media print { #ifcPanel { display:none !important; } }
