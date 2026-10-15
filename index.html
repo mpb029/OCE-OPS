@@ -933,6 +933,10 @@ body.locked { overflow: hidden; }
 .model-tag { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--muted); background: var(--paper); border: 1px solid var(--hairline); border-radius: 4px; padding: 1px 5px; }
 .model-del { flex: 0 0 auto; border: none; background: transparent; color: var(--faint); font-size: 16px; width: 26px; height: 26px; border-radius: 5px; cursor: pointer; }
 .model-del:hover { background: var(--surface); color: var(--stop); }
+/* IFC feedback stays with its permitted model row, including partial failures. */
+.model-row:has(.model-import-status) { flex-wrap: wrap; }
+.model-import-status { flex-basis: 100%; padding: 4px 8px; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
+.model-import-status[data-error="true"] { color: #a52c24; }
 
 /* block-style item fields (RFIs, Incidents) */
 .list .fb { display: flex; flex-direction: column; gap: 5px; margin-top: 5px; }
@@ -1118,9 +1122,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           <span class="spacer"></span>
           <button class="tool-btn model-disclosure" id="btnModelToggle" aria-expanded="true" aria-controls="modelStage modelList" title="Expand or collapse the 3D viewer"><i class="fa-solid fa-chevron-up"></i><span>Close viewer</span></button>
           <div class="model-tools" id="modelTools">
-            <button class="tool-btn" id="btnModelUpload" title="View a 3D model (.stl/.glb/.gltf) this session"><i class="fa-solid fa-file-import"></i><span class="lbl">Add file</span></button>
+            <button class="tool-btn" id="btnModelUpload" title="View a 3D model (.ifc/.obj/.stl/.glb/.gltf) this session"><i class="fa-solid fa-file-import"></i><span class="lbl">Add file</span></button>
             <button class="tool-btn" id="btnModelUrl" title="Add a hosted 3D model URL (shared with everyone)"><i class="fa-solid fa-link"></i><span class="lbl">Add URL</span></button>
-            <input type="file" id="fileModel" class="hidden-file" accept=".stl,.obj,.glb,.gltf,model/stl,model/obj,model/gltf-binary,model/gltf+json" />
+            <input type="file" id="fileModel" class="hidden-file" accept=".ifc,.stl,.obj,.glb,.gltf,model/stl,model/obj,model/gltf-binary,model/gltf+json" />
           </div>
         </div>
         <div class="model-stage" id="modelStage">
@@ -2290,7 +2294,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   let sessionModels = {};          // id -> { name, url, fmt, visible, upAxis } for files added this session (not published)
   let three = null;                // { scene, camera, renderer, controls, grid, current }
 
-  const modelFmt = (s) => { const m = /\.(glb|gltf|stl|obj)(\?|#|$)/i.exec(s || ""); return m ? m[1].toLowerCase() : ""; };
+  const modelFmt = (s) => { const m = /\.(glb|gltf|stl|obj|ifc)(\?|#|$)/i.exec(s || ""); return m ? m[1].toLowerCase() : ""; };
 
   // Lazily load three.js + the loaders/controls we need (r128 attaches everything to the global THREE).
   function ensureThree() {
@@ -2331,6 +2335,32 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   const loadedObjs = {};                    // model id -> loaded Object3D (cached)
+  // IFC imports and feedback are transient viewer resources, never board data.
+  const ifcImports = new Map(), modelFeedback = new Map();
+  function setModelFeedback(model, text, error = false) {
+    const current = modelRecord(model.id);
+    if (!current || current.url !== model.url) return;
+    modelFeedback.set(model.id, {text, error});
+    const node = document.querySelector('[data-model-status="' + CSS.escape(model.id) + '"]');
+    if (node) { node.textContent = text; node.dataset.error = String(error); }
+  }
+  function disposeModelObject(object) {
+    if (!object) return;
+    if (object.parent) object.parent.remove(object);
+    const geometries = new Set(), materials = new Set(), textures = new Set();
+    object.traverse((part) => {
+      if (part.geometry) geometries.add(part.geometry);
+      for (const material of (Array.isArray(part.material) ? part.material : [part.material])) {
+        if (!material) continue; materials.add(material);
+        Object.values(material).forEach((value) => { if (value?.isTexture) textures.add(value); });
+      }
+    });
+    geometries.forEach((value) => value.dispose()); materials.forEach((value) => value.dispose()); textures.forEach((value) => value.dispose());
+  }
+  function releaseModel(id) {
+    ifcImports.get(id)?.abort(); ifcImports.delete(id); modelFeedback.delete(id);
+    disposeModelObject(loadedObjs[id]); delete loadedObjs[id];
+  }
   const defaultUpAxis = (fmt) => (fmt === "stl" || fmt === "obj") ? "z" : "y";
   function applyUpAxis(obj, upAxis) { obj.rotation.x = (upAxis === "z") ? -Math.PI / 2 : 0; }
 
@@ -2374,7 +2404,19 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       const grey = () => new THREE.MeshStandardMaterial({ color: 0xb9c2c9, metalness: 0.08, roughness: 0.78, side: THREE.DoubleSide });
       return new Promise((res, rej) => {
         const done = (obj) => { applyUpAxis(obj, m.upAxis || defaultUpAxis(fmt)); loadedObjs[m.id] = obj; res(obj); };
-        if (fmt === "stl") new THREE.STLLoader().load(m.url, (geo) => { geo.computeVertexNormals(); const g = new THREE.Group(); g.add(new THREE.Mesh(geo, grey())); done(g); }, undefined, rej);
+        if (fmt === "ifc") {
+          const controller = new AbortController(); ifcImports.set(m.id, controller);
+          setModelFeedback(m, "Loading IFC…");
+          import('./ifc-loader.js').then(({loadIFCModel}) => loadIFCModel(m.url, THREE, {
+            signal:controller.signal, progress:(text) => setModelFeedback(m, text)
+          })).then((object) => {
+            setModelFeedback(m, object.userData.ifc.schema + " · " + object.userData.ifc.parts + " geometry parts"); done(object);
+          }).catch((error) => {
+            if (error.name !== "AbortError") setModelFeedback(m, "IFC import failed: " + error.message, true);
+            rej(error);
+          }).finally(() => { if (ifcImports.get(m.id) === controller) ifcImports.delete(m.id); });
+        }
+        else if (fmt === "stl") new THREE.STLLoader().load(m.url, (geo) => { geo.computeVertexNormals(); const g = new THREE.Group(); g.add(new THREE.Mesh(geo, grey())); done(g); }, undefined, rej);
         else if (fmt === "obj") new THREE.OBJLoader().load(m.url, (obj) => { obj.traverse((c) => { if (c.isMesh) { c.material = grey(); if (c.geometry && c.geometry.computeVertexNormals) c.geometry.computeVertexNormals(); } }); done(obj); }, undefined, rej);
         else new THREE.GLTFLoader().load(m.url, (gltf) => done(gltf.scene || (gltf.scenes && gltf.scenes[0])), undefined, rej);
       });
@@ -2443,12 +2485,13 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     if (!list) return;
     const editor = sync.audience === "editor";
     const models = allModels();
-    if (!models.length) { list.innerHTML = editor ? `<div class="model-hint">Add a 3D model (<b>.stl</b>, .obj, .glb or .gltf) with the buttons above. Upload views it here for you now; a hosted <b>URL</b> is shared with site &amp; clients.</div>` : ""; return; }
+    if (!models.length) { list.innerHTML = editor ? `<div class="model-hint">Add a 3D model (<b>.ifc</b>, .stl, .obj, .glb or .gltf) with the buttons above. Upload views it here for you now; a hosted <b>URL</b> is shared with site &amp; clients.</div>` : ""; return; }
     list.innerHTML = models.map((m) => `
       <div class="model-row">
         <label class="model-name"><input type="checkbox" data-model-toggle="${m.id}" ${m.visible ? "checked" : ""} /> <i class="fa-solid fa-cube"></i> <span>${esc(m.name)}</span>${m.session ? ' <span class="model-tag">session</span>' : ""}</label>
         ${editor ? `<button class="model-flip" data-model-flip="${m.id}" title="Flip up-axis (fix orientation)"><i class="fa-solid fa-arrows-up-down"></i></button>` : ""}
         ${editor ? `<button class="model-del" data-model-del="${m.id}" title="Remove model">&times;</button>` : ""}
+        ${m.fmt === "ifc" ? `<span class="model-import-status" role="status" data-model-status="${esc(m.id)}" data-error="${!!modelFeedback.get(m.id)?.error}">${esc(modelFeedback.get(m.id)?.text || "IFC2x3 / IFC4")}</span>` : ""}
       </div>`).join("");
     list.querySelectorAll("[data-model-toggle]").forEach((c) => c.onchange = () => toggleModel(c.getAttribute("data-model-toggle"), c.checked));
     list.querySelectorAll("[data-model-flip]").forEach((b) => b.onclick = () => flipUpAxis(b.getAttribute("data-model-flip")));
@@ -2477,9 +2520,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
   function addModelUrl(url, name) {
     url = (url || "").trim();
-    if (!/^https?:\/\//i.test(url)) { toast("Enter a full https URL to a .stl / .obj / .glb / .gltf file", true); return; }
+    if (!/^https?:\/\//i.test(url)) { toast("Enter a full https URL to a .ifc / .stl / .obj / .glb / .gltf file", true); return; }
     const fmt = modelFmt(url);
-    if (!fmt) { toast("That should be a .stl, .obj, .glb or .gltf file URL", true); return; }
+    if (!fmt) { toast("That should be a .ifc, .stl, .obj, .glb or .gltf file URL", true); return; }
     state.models = state.models || [];
     state.models.push({ id: uid(), name: (name || "").trim() || "Model", url: url, fmt: fmt, visible: true });
     save(); renderModels();
@@ -2487,7 +2530,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   function promptModelUrl() {
-    const url = window.prompt("Paste the URL of a hosted 3D model (.stl, .obj, .glb or .gltf).\n\nTip: commit the file to your repo (e.g. /models/site.stl) then use:\nhttps://mpb029.github.io/OCE-OPS/models/site.stl");
+    const url = window.prompt("Paste the URL of a hosted 3D model (.ifc, .stl, .obj, .glb or .gltf).\n\nTip: commit the file to your repo (e.g. /models/site.ifc) then use:\nhttps://mpb029.github.io/OCE-OPS/models/site.ifc");
     if (url == null) return;
     const name = window.prompt("Name for this model:", "Site model");
     if (name == null) return;
@@ -2496,15 +2539,14 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
   function addModelFile(file) {
     const fmt = modelFmt(file.name);
-    if (!fmt) { toast("Please choose a .stl, .obj, .glb or .gltf file", true); return; }
-    sessionModels[uid()] = { name: file.name.replace(/\.(glb|gltf|stl|obj)$/i, ""), url: URL.createObjectURL(file), fmt: fmt, visible: true };
+    if (!fmt) { toast("Please choose a .ifc, .stl, .obj, .glb or .gltf file", true); return; }
+    sessionModels[uid()] = { name: file.name.replace(/\.(glb|gltf|stl|obj|ifc)$/i, ""), url: URL.createObjectURL(file), fmt: fmt, visible: true };
     renderModels();
-    toast("Model loaded (this session only \u2014 add a hosted URL to share it)");
+    toast((fmt === "ifc" ? "Importing IFC" : "Model loaded") + " (this session only \u2014 add a hosted URL to share it)");
   }
 
   function removeModel(id) {
-    if (three && loadedObjs[id] && loadedObjs[id].parent) three.scene.remove(loadedObjs[id]);
-    delete loadedObjs[id];
+    releaseModel(id);
     if (sessionModels[id]) { try { URL.revokeObjectURL(sessionModels[id].url); } catch (e) {} delete sessionModels[id]; }
     else { state.models = (state.models || []).filter((m) => m.id !== id); save(); }
     renderModels();
@@ -3959,10 +4001,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         }
         // Commit: no candidate model loads are started on a failed import.
         sync.dirty = true;
-        Object.keys(loadedObjs).forEach((id) => {
+        new Set([...Object.keys(loadedObjs), ...ifcImports.keys()]).forEach((id) => {
           // Session uploads are unchanged and retain their cached geometry.
           if (sessionModels[id]) return;
-          const obj = loadedObjs[id]; if (obj.parent) obj.parent.remove(obj); delete loadedObjs[id];
+          releaseModel(id);
         });
         closeModal("importModal");
         renderModels(); updatePublishUI(); setSyncStatus(); loadWeather();
@@ -4981,8 +5023,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     if (pending) return pending.source === source ? pending.promise
       : pending.promise.catch(() => null).then(() => loadOne(model));
     if (loadedObjs[model.id] && spatialModelSources.get(model.id) !== source) {
-      const previous = loadedObjs[model.id]; if (previous.parent) previous.parent.remove(previous);
-      delete loadedObjs[model.id];
+      releaseModel(model.id);
     }
     spatialModelSources.set(model.id, source);
     const promise = originalLoadOne(model).then((object) => {
@@ -4990,7 +5031,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       // A removed/replaced model may finish loading after the context changed.
       if (!current || modelSource(current) !== source) {
         if (loadedObjs[model.id] === object) delete loadedObjs[model.id];
-        if (object.parent) object.parent.remove(object);
+        disposeModelObject(object);
         return null;
       }
       return object;
