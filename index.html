@@ -305,10 +305,8 @@ body.client .card-head .pbtn { display: none; }
 }
 
 #map { height: 560px; width: 100%; background: #dfe6e3; }
-/* Close the hairline white seam browsers can leave between 256px tiles at fractional display
-   scaling. This is the mild, standard half-pixel overlap only — no image-rendering / retina /
-   animation changes (those caused worse, machine-wide artefacts previously). */
-.leaflet-container .leaflet-tile { width: 256.5px !important; height: 256.5px !important; }
+/* Leaflet owns tile dimensions. Fractional CSS resizing resamples adjacent images
+   and exposes seams; retain the inline size that matches Leaflet's tile grid. */
 .map-hint {
   position: absolute; left: 12px; bottom: 12px; z-index: 600;
   background: rgba(20,32,43,.86); color: #fff;

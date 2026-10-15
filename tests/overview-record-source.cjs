@@ -21,6 +21,9 @@ const highlight = `@media screen {
 `;
 const oldLink = "        const li = el('li'), a = panelLink(panel, item.title || 'Untitled record'); a.className = 'ov-record-link';";
 const newLink = "        const li = el('li'), a = route(item.title || 'Untitled record', panel.id, 'ov-record-link', item.id);";
+// Exact CSS-only reversal keeps every older business/print comparison authoritative.
+const tileBefore = '/* Close the hairline white seam browsers can leave between 256px tiles at fractional display\n   scaling. This is the mild, standard half-pixel overlap only — no image-rendering / retina /\n   animation changes (those caused worse, machine-wide artefacts previously). */\n.leaflet-container .leaflet-tile { width: 256.5px !important; height: 256.5px !important; }';
+const tileAfter = "/* Leaflet owns tile dimensions. Fractional CSS resizing resamples adjacent images\n   and exposes seams; retain the inline size that matches Leaflet's tile grid. */";
 function once(source, from, to, label) {
   assert.equal(source.split(from).length, 2, label + ' must occur exactly once and match its complete approved body');
   return source.replace(from, to);
@@ -28,6 +31,8 @@ function once(source, from, to, label) {
 function normalise(file, source) {
   source = require('./release-default-source.cjs').normalise(file, source);
   source = require('./overview-quick-add-source.cjs').normalise(file, source);
+  if (file === 'index.html' && source.includes(tileAfter))
+    source = once(source, tileAfter, tileBefore, 'Native Leaflet tile dimensions');
   if (file === 'index.html' && (source.includes('oce:record-target') || source.includes(newRecord))) {
     source = once(source, resolver, '', 'G1 record resolver');
     source = once(source, newRecord, oldRecord, 'G1 original record ID');
@@ -38,4 +43,4 @@ function normalise(file, source) {
     source = once(source, newLink, oldLink, 'G1 original-record link');
   return source;
 }
-module.exports = {normalise, oldRecord, newRecord, resolver, highlight, oldLink, newLink};
+module.exports = {normalise, oldRecord, newRecord, resolver, highlight, oldLink, newLink, tileBefore, tileAfter};
