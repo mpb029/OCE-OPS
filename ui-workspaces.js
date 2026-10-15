@@ -268,6 +268,13 @@ function initWorkspaces() {
     enabled = new URL(location.href).searchParams.get('ui') === 'workspaces';
     const url = new URL(location.href);
     const savedEntry = entry();
+    // Record links must not be rejected against the temporary startup board.
+    // The existing read-only adapter stays unavailable until published data is ready.
+    if (enabled && initialRoute && url.searchParams.has('workspaceRecord')) {
+      let ready = false;
+      document.dispatchEvent(new CustomEvent('oce:overview-read',{detail:{accept:() => {ready = true;}}}));
+      if (!ready) { chrome.forEach(el => {el.hidden = true;}); return; }
+    }
     // Do not canonicalise deep links against the temporary, locked startup board.
     if (!project.options.length || body.classList.contains('locked')) { chrome.forEach(el => {el.hidden = true;}); placeholder.replaceChildren(); return; }
     if (enabled && initialRoute) setProject(url.searchParams.get('workspaceProject') || entry()?.project);
