@@ -29,6 +29,7 @@ function once(source, from, to, label) {
   return source.replace(from, to);
 }
 function normalise(file, source) {
+  source = require('./ifc-source.cjs').normalise(file, source);
   source = require('./work-package-source.cjs').normalise(file, source);
   source = require('./release-default-source.cjs').normalise(file, source);
   source = require('./overview-quick-add-source.cjs').normalise(file, source);
