@@ -1,4 +1,7 @@
 /* Stage A changes presentation only. Screen filters never affect report content. */
+@media screen {
+  .ws-enabled .ws-record-target { outline:3px solid #2678b7;outline-offset:-3px;background:#eaf3fb; }
+}
 @media print {
   .ws-chrome { display: none !important; }
 }

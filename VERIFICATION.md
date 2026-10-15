@@ -16,11 +16,11 @@ Use Node.js 24, `npm ci`, Playwright Chromium/Firefox and, for PDF comparisons, 
 | FOCUSED | `npm run verify:focused -- --scope report-refinement` | Both engines test only full-board/weekly-photo report behavior and relevant project/audience/read-only contracts. Four representative Chromium PDFs (before/after for two reports), with complete ordered text and photograph preservation checks. No broad browser suites, 25-report package, galleries or recovery. |
 | FULL | `npm run verify:full` | Complete original and workspace suites in both engines, all mandatory assertions, report comparisons, required screenshots, protected assets and independently verified self-contained recovery. Production release or documented high-risk use only. |
 
-Scopes: `workflow` (FAST source/tooling only), `navigation`, `overview`, `audience`, `editing`, `backup`, `spatial`, `project-spatial`, `field`, `forms`, `print`, `report-refinement`, `punch-client`. Select the affected scope; use multiple scopes only for independently affected workflows. `--plan` prints the exact commands without executing them. Existing standalone test commands remain available.
+Scopes: `workflow` (FAST source/tooling only), `navigation`, `overview`, `overview-navigation`, `audience`, `editing`, `backup`, `spatial`, `project-spatial`, `field`, `forms`, `print`, `report-refinement`, `punch-client`. Select the affected scope; use multiple scopes only for independently affected workflows. `--plan` prints the exact commands without executing them. Existing standalone test commands remain available.
 
-General FOCUSED scopes retain their established common source, audience/project, persistence, navigation and print guards plus five report comparisons. **`report-refinement` and `punch-client` deliberately use their own narrow standalone contracts**: neither broad browser suite nor unrelated deep-link tests run in this scope. Those assertions remain unchanged and mandatory at the production FULL gate. This is task selection, not a waiver of open release issues.
+General FOCUSED scopes retain their established common source, audience/project, persistence, navigation and print guards plus five report comparisons. **`report-refinement`, `punch-client` and `overview-navigation` deliberately use their own narrow standalone contracts**: neither broad browser suite nor unrelated deep-link tests run in this scope. Those assertions remain unchanged and mandatory at the production FULL gate. This is task selection, not a waiver of open release issues.
 
-For precise FAST selection in existing suites use `OCE_STAGE_A_FILTER` and/or `OCE_TEST_FILTER`. A zero-match selection fails. General FOCUSED adds its common guards. Each dedicated report runner always executes its complete small contract set and ignores unrelated suite filters. FULL clears all filters and rejects scoped screenshots and reuse. Partial or failed evidence never satisfies the production gate.
+For precise FAST selection in existing suites use `OCE_STAGE_A_FILTER` and/or `OCE_TEST_FILTER`. A zero-match selection fails. General FOCUSED adds its common guards. Each dedicated standalone runner always executes its complete small contract set and ignores unrelated suite filters. FULL clears all filters and rejects scoped screenshots and reuse. Partial or failed evidence never satisfies the production gate.
 
 ## Stage F1: full-board and weekly-photo reporting
 
@@ -38,9 +38,15 @@ Baseline inspection demonstrated a heading-only Punch List opening page and an o
 
 Future consolidated FULL also requires both F2 browser contracts and their two PDF content comparisons. F2 does not run FULL or resolve STAT-001/NAV-001.
 
+## Stage G1: Overview record navigation
+
+Baseline: F2 `6920ece`. Run `npm run verify:fast -- --scope overview-navigation` during development and `npm run verify:focused -- --scope overview-navigation` at completion. This dedicated scope checks record identity, desktop/keyboard/touch navigation, project/audience changes, stale or restricted targets, Original board and read-only behavior. FAST uses Chromium; FOCUSED uses Chromium and Firefox. Neither runs unrelated suites, PDF comparisons, screenshot galleries or recovery. An isolated demonstration screenshot can be captured manually only if useful.
+
+Future production FULL includes the same ten navigation contracts in each engine, in addition to every existing mandatory assertion. G1 does not run FULL or investigate STAT-001/NAV-001 unless directly blocked by them.
+
 ## Scoped captures and receipts
 
-Use `--shots` only when a changed screen needs evidence, for example `npm run verify:fast -- --scope navigation --shots '^editor-tablet-drawer\.png$'`. Existing workspace captures use `{editor|site|client}-{desktop|tablet|mobile}-{route}.png`; forms use `stage-d-{desktop|tablet|mobile}.png`; project-spatial uses `stage-e-{desktop|tablet|mobile}.png`. Both dedicated report scopes reject `--shots` because each delivers two PDF comparisons. Omitting `--shots` captures no extra gallery. Original assertion-generated failure/workflow images remain evidence.
+Use `--shots` only when a changed screen needs evidence, for example `npm run verify:fast -- --scope navigation --shots '^editor-tablet-drawer\.png$'`. Existing workspace captures use `{editor|site|client}-{desktop|tablet|mobile}-{route}.png`; forms use `stage-d-{desktop|tablet|mobile}.png`; project-spatial uses `stage-e-{desktop|tablet|mobile}.png`. The `overview-navigation` scope rejects `--shots`; both dedicated report scopes reject `--shots` because each delivers two PDF comparisons. Omitting `--shots` captures no extra gallery. Original assertion-generated failure/workflow images remain evidence.
 
 Every invocation creates a fresh `test-results/verification/<level>-<commit>-<unique>/` directory with `verification.json`. It never appends filtered results to old accepted evidence. `OCE_VERIFY_OUTPUT` sets an alternative parent; `OCE_PYTHON` selects Python; `OCE_BROWSER` selects Chromium only. Receipts record commit, filters/commands, source/input hashes, browser/tool/platform fingerprints and artifact hashes. Dirty development work is labelled. FULL requires a clean committed checkout throughout.
 
@@ -54,7 +60,7 @@ This saves duplicate testing after documentation-only changes. It does not reche
 
 ## CI and production acceptance
 
-Ordinary PR open/reopen/update events run FAST in the current affected scope (F2: `punch-client`). Small scoped artifacts remain for seven days. No recovery, comprehensive PDFs or screenshot gallery is generated by default. CI never automatically retries failed assertions.
+Ordinary PR open/reopen/update events run FAST in the current affected scope (G1: `overview-navigation`). Small scoped artifacts remain for seven days. No recovery, comprehensive PDFs or screenshot gallery is generated by default. CI never automatically retries failed assertions.
 
 Adding `verification:focused` explicitly requests FOCUSED on the exact PR head. Adding `verification:full` explicitly requests FULL **only for the consolidated release or a documented high-risk reason**. Each label-add event runs once; later pushes remain FAST. Workflow dispatch provides level/scope/branch choices once the workflow is on the default branch. FULL checkout uses the actual PR head, fetches main, retains complete evidence for 30 days and validates the gate. Permissions remain `contents: read`; there is no deployment, publishing, ready-for-review or merge job.
 

@@ -23,6 +23,7 @@ function initWorkspaces() {
   if (!grid || !project || !wrap) return;
   let enabled = false, active = 'all', cards = [], available = [], collapsed = false;
   let restoring = false, initialRoute = true, pending = false, scrollTimer, resizeFrame;
+  let highlightedRecord = null, highlightTimer;
   let lastProject = project.value, drawerReturn = null, poppedURL = '', lastLayout = '';
   const desktop = matchMedia('(min-width: 1200px)');
   const phone = matchMedia('(max-width: 680px)');
@@ -59,9 +60,11 @@ function initWorkspaces() {
     if (['#panelsGrid','#summaryCard','#prodStatsCard'].includes(hash)) return 'all';
     return null;
   };
-  function routeURL(workspace, target = '', optIn = true) {
+  function routeURL(workspace, target = '', optIn = true, record = '') {
     const url = new URL(location.href);
     url.searchParams.set('ui',optIn ? 'workspaces' : 'classic');
+    if (optIn && record) url.searchParams.set('workspaceRecord',record);
+    else url.searchParams.delete('workspaceRecord');
     if (optIn) {
       url.searchParams.set('workspace',workspace);
       if (project.value) url.searchParams.set('workspaceProject',project.value);
@@ -79,8 +82,9 @@ function initWorkspaces() {
     else if (targetWorkspace(url.hash)) url.hash = '';
     return url;
   }
-  function link(text, workspace, target, cls = '') {
-    const a = element('a',cls,text); a.href = routeURL(workspace,target).href;
+  function link(text, workspace, target, cls = '', record = '') {
+    const a = element('a',cls,text); a.href = routeURL(workspace,target,true,record).href;
+    if (record) a.dataset.wsRecord = record;
     a.dataset.wsRoute = workspace; if (target) a.dataset.wsTarget = target; return a;
   }
 
@@ -212,9 +216,9 @@ function initWorkspaces() {
     const d = destinations.find(d => d.id === active);
     cards.forEach(c => c.toggleAttribute('data-ws-suppressed',active !== 'all' && !d.panels.includes(c.dataset.card)));
     placeholder.hidden = active !== 'overview';
-    if (active === 'overview') window.OCEOverview.render(placeholder,(label,id,cls) => {
+    if (active === 'overview') window.OCEOverview.render(placeholder,(label,id,cls,record) => {
       const target = ['summaryCard','prodStatsCard','mapCard'].includes(id) ? '#'+id : '#activity-'+id;
-      return link(label,targetWorkspace(target),target,cls);
+      return link(label,targetWorkspace(target),target,cls,record);
     });
     else placeholder.replaceChildren();
     renderNavigation();
@@ -230,14 +234,34 @@ function initWorkspaces() {
     restoring = false;
   }
   function scrollToRoute(target, y, focus) {
+    const href = location.href;
     requestAnimationFrame(() => {
-      const el = usableTarget(target || '');
-      if (typeof y === 'number' && !focus) scrollTo(0,y);
+      if (href !== location.href) return;
+      const panel = usableTarget(target || '');
+      const recordId = new URL(location.href).searchParams.get('workspaceRecord');
+      let record = null;
+      if (panel?.dataset.card && recordId) document.dispatchEvent(new CustomEvent('oce:record-target', {
+        detail:{panelId:panel.dataset.card,recordId,accept:node => {record = node;}}
+      }));
+      const el = record || panel;
+      if (panel?.dataset.card && recordId) field.expand(panel);
+      clearRecordHighlight();
+      if (record) {
+        highlightedRecord = record; record.classList.add('ws-record-target');
+        highlightTimer = setTimeout(clearRecordHighlight,2400);
+      } else if (recordId) {
+        const url = new URL(location.href); url.searchParams.delete('workspaceRecord');
+        history.replaceState(history.state,'',url);
+      }
+      if (typeof y === 'number' && !focus && !recordId) scrollTo(0,y);
       else if (el) {
         if (!field.scrollTarget(el)) el.scrollIntoView({block:'start'});
         if (focus) { el.tabIndex = -1; el.focus({preventScroll:true}); }
       } else { scrollTo(0,y || 0); if (focus) title.focus({preventScroll:true}); }
     });
+  }
+  function clearRecordHighlight() {
+    clearTimeout(highlightTimer); highlightedRecord?.classList.remove('ws-record-target'); highlightedRecord = null;
   }
   function refresh() {
     pending = false;
@@ -257,7 +281,7 @@ function initWorkspaces() {
     lastProject = project.value;
     present();
     if (enabled) {
-      const canonical = routeURL(active,target ? url.hash : '');
+      const canonical = routeURL(active,target ? url.hash : '',true,target ? url.searchParams.get('workspaceRecord') : '');
       if (!target && /^#activity-|^#modelCard$/.test(url.hash)) canonical.hash = '';
       history.replaceState({...history.state,oceWorkspace:{workspace:active,project:lastProject,scrollY:entry()?.scrollY || 0,target:target ? url.hash : ''}},'',canonical);
       if (initialRoute) scrollToRoute(target ? url.hash : '',savedEntry?.scrollY,false);
@@ -267,9 +291,9 @@ function initWorkspaces() {
   function scheduleRefresh() {
     if (!pending) { pending = true; queueMicrotask(refresh); }
   }
-  function navigate(workspace, target = '', optIn = true) {
-    clearTimeout(scrollTimer); remember(); closeDrawer();
-    const url = routeURL(workspace,target,optIn);
+  function navigate(workspace, target = '', optIn = true, record = '') {
+    clearTimeout(scrollTimer); clearRecordHighlight(); remember(); closeDrawer();
+    const url = routeURL(workspace,target,optIn,record);
     history.pushState({...history.state,oceWorkspace:{workspace,project:project.value,scrollY:0,target}},'',url);
     refresh(); scrollToRoute(target,0,optIn);
   }
@@ -279,14 +303,15 @@ function initWorkspaces() {
     if (a === optIn) { event.preventDefault(); navigate('overview'); return; }
     if (a === original) { event.preventDefault(); navigate('all','',false); return; }
     if (!enabled) return;
-    if (a.dataset.wsRoute) { event.preventDefault(); navigate(a.dataset.wsRoute,a.dataset.wsTarget || ''); return; }
+    if (a.dataset.wsRoute) { event.preventDefault(); navigate(a.dataset.wsRoute,a.dataset.wsTarget || '',true,a.dataset.wsRecord || ''); return; }
     const url = new URL(a.href,location.href);
     if (url.origin === location.origin && url.pathname === location.pathname && usableTarget(url.hash)) {
-      event.preventDefault(); navigate(targetWorkspace(url.hash),url.hash);
+      event.preventDefault(); navigate(targetWorkspace(url.hash),url.hash,true,url.searchParams.get('workspaceRecord') || '');
     }
   });
   project.addEventListener('change',() => {
     if (!enabled || restoring) return;
+    clearRecordHighlight();
     remember();
     history.pushState({...history.state,oceWorkspace:{workspace:active,project:project.value,scrollY:scrollY,target:''}},'',routeURL(active));
     lastProject = project.value; scheduleRefresh();
@@ -411,14 +436,15 @@ function initFieldPresentation() {
   window.visualViewport?.addEventListener('resize',viewport);
   window.visualViewport?.addEventListener('scroll',viewport);
   addEventListener('resize',viewport);
-  return {scrollTarget(target){
-    if(!active || !target.hasAttribute('data-card')) return false;
+  return {expand:card=>disclosure(card,true),scrollTarget(target){
+    const card = target.closest('[data-card]');
+    if(!active || !card) return false;
     // Align after stylesheet/fonts and their layout frame. An earlier document
     // limit can clamp an initial anchor while viewer/layout sizing is pending.
     const request=++alignment,href=location.href;
     layoutReady.then(()=>document.fonts.ready).then(()=>requestAnimationFrame(()=>{
       if(request!==alignment || !active || !target.isConnected || href!==location.href) return;
-      const margin=parseFloat(getComputedStyle(target).scrollMarginTop) || 0;
+      const margin=(parseFloat(getComputedStyle(card).scrollMarginTop) || 0) + (target === card ? 0 : card.querySelector('.card-head').getBoundingClientRect().height + 8);
       scrollTo(0,Math.max(0,scrollY+target.getBoundingClientRect().top-margin));
     }));
     return true;
