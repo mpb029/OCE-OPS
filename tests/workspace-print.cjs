@@ -5,6 +5,7 @@ const {start,open,output,root}=require('./harness.cjs');
 const directory=path.join(output,'workspace-pdfs');fs.mkdirSync(directory,{recursive:true});
 const command=async(p,id)=>{if(!await p.locator('#'+id).isVisible())await p.locator('#headerMenu summary').click();await p.locator('#'+id).click();};
 const evidence=[];
+const {additions:wpPrintAdditions}=require('./work-package-parity.cjs');
 (async()=>{
  const env=await start();
  try{
@@ -40,10 +41,11 @@ const evidence=[];
      const panels=await p.locator('[data-card]:visible').evaluateAll(es=>es.map(e=>e.dataset.card));
      if(mode==='report')assert.equal(panels.length,21);else if(mode!=='client')assert.equal(panels.length,1);
      if(mode==='client'){assert.equal(await p.locator('.map-card').isVisible(),false);assert.equal(await p.locator('#weatherCard').isVisible(),false);}
+     const workPackageAdditions=await wpPrintAdditions(p);
      await p.pdf({path:path.join(directory,`${route}-${mode}.pdf`),format:'A4',printBackground:true});
      await p.emulateMedia({media:'screen'});await p.evaluate(()=>dispatchEvent(new Event('afterprint')));
      assert.deepEqual(run.network.errors,[]);assert.equal(run.network.writes.length,0);
-     evidence.push({mode,route,panels,printLayout,status:'PASS'});console.log(`PASS PDF ${route}/${mode}`);
+     evidence.push({mode,route,panels,printLayout,workPackageAdditions,status:'PASS'});console.log(`PASS PDF ${route}/${mode}`);
     }finally{await run.close();}
    }
   }

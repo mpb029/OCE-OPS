@@ -97,6 +97,8 @@ async function check(name,fn){try{await fn();results.push({name,status:'PASS'});
     const stale=new URL(href);stale.searchParams.set('workspaceProject','east');const before=await state(p);await oldLink(p,stale.href);
     await p.waitForFunction(()=>document.body.dataset.workspace==='operations');assert.equal(await p.locator('#projSelect').inputValue(),'east');
     assert.equal(await p.locator('.ws-record-target').count(),0);assert.equal(await row(p,'dailyWorks',data.panels.dailyWorks[0].main).count(),0);assert.equal(await row(p,'dailyWorks',data.panels.dailyWorks[2].main).count(),1);
+    // Route focus is applied in requestAnimationFrame after the workspace becomes visible.
+    await p.waitForFunction(()=>document.activeElement===document.getElementById('activity-dailyWorks'));
     assert.equal(await p.locator('#activity-dailyWorks').evaluate(e=>document.activeElement===e),true);await noWrites(run,before);
    }finally{await run.close();}
   });

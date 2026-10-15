@@ -6,7 +6,7 @@ const {execFileSync}=require('node:child_process');
 module.exports=function(root,output){
  const git=args=>execFileSync('git',args,{cwd:root,maxBuffer:10e6}).toString().trim();
  const ref=process.env.OCE_MAIN_REF||'origin/main';
- const assets=git(['ls-tree','-r','--name-only',ref]).split('\n').filter(p=>p==='data.json'||/^(files|aerial)\//.test(p)||/\.(obj|stl|glb|gltf|geojson|png|jpe?g|gif|webp|pdf|tiff?)$/i.test(p));
+ const assets=git(['ls-tree','-r','--name-only',ref]).split('\n').filter(p=>p==='data.json'||/^(files|aerial)\//.test(p)||/\.(ifc|obj|stl|glb|gltf|geojson|png|jpe?g|gif|webp|pdf|tiff?)$/i.test(p));
  assert.ok(assets.includes('data.json'));
  assert.equal(git(['diff','--name-only',ref,'--',...assets]),'','Latest main data or an attachment was modified');
  const sha256=crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'data.json'),'utf8').replace(/\r\n/g,'\n')).digest('hex');
