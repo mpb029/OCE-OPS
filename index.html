@@ -4546,7 +4546,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       .filter((p) => sync.audience === "editor" || panelVisOf(p.id)[sync.audience]).map((p) => ({
         id: p.id, title: p.title,
         items: sortItemsForDisplay(visiblePanelItems(p.id)).filter((it) => !isResolved(it)).map((it) => ({
-          title: text(it.main), detail: text(it.sub), project: text(projName(effProj(it))),
+          id: text(it.id), title: text(it.main), detail: text(it.sub), project: text(projName(effProj(it))),
           labels: [p.dateRange ? plain(rangeBadge(it.startDate, it.endDate)) : "",
             p.kind === "dated" ? plain(dueBadge(it.due, false)) : "",
             fmtDay(it.dateAssigned) ? "Assigned " + fmtDay(it.dateAssigned) : "", plain(reqBadge(it.dateRequired, false)),
@@ -4562,6 +4562,17 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         fields: [...node.querySelectorAll(".sf")].map((field) => [field.querySelector(".sf-l").textContent, field.querySelector(".sf-v").textContent])
       }));
     event.detail.accept({projects:summaries, multipleProjects:inScope.length > 1, panels, stats});
+  });
+  // G1: resolve only a currently permitted record to its original rendered row.
+  document.addEventListener("oce:record-target", (event) => {
+    if (!remoteResolved || editLocked || typeof event.detail?.accept !== "function") return;
+    const { panelId, recordId } = event.detail;
+    const panel = PANELS.find((p) => p.id === panelId);
+    if (!panel || (sync.audience !== "editor" && !panelVisOf(panelId)[sync.audience])) return;
+    const card = document.querySelector('.card[data-card="' + panelId + '"]');
+    if (!card) return;
+    const index = sortItemsForDisplay(visiblePanelItems(panelId)).findIndex((it) => String(it.id) === recordId);
+    if (index >= 0) event.detail.accept(card.querySelectorAll('.card-body > .list > li')[index] || null);
   });
   // END B1 read-only adapter.
 

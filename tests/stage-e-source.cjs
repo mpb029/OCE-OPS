@@ -27,7 +27,7 @@ function once(source, from, to, label) {
   return source.replace(from, to);
 }
 function normalise(file, source) {
-  source = source.replace(/\r\n/g, '\n');
+  source = require('./overview-record-source.cjs').normalise(file, source);
   if (file === 'index.html') {
     if(source.includes(printLink))source=once(source,printLink,'','Stage F1 print stylesheet');
     assert.equal(source.split(start).length, 2, 'One Stage E adapter start');

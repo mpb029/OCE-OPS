@@ -28,7 +28,7 @@ window.OCEOverview = Object.freeze({
     const list = panel => {
       const ul = el('ul','ov-list');
       for (const item of panel.items.slice(0,3)) {
-        const li = el('li'), a = panelLink(panel, item.title || 'Untitled record'); a.className = 'ov-record-link';
+        const li = el('li'), a = route(item.title || 'Untitled record', panel.id, 'ov-record-link', item.id);
         li.append(a);
         if (item.detail) li.append(el('p','ov-detail',item.detail));
         const meta = el('div','ov-meta');

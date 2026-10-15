@@ -1,6 +1,6 @@
 const {test}=require('node:test'), assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
-const {options,plan,childEnv,suite,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha}=require('./verify.cjs');
+const {options,plan,childEnv,suite,overviewNavigation,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha}=require('./verify.cjs');
 
 test('FAST workflow runs no browsers, PDFs, screenshots or recovery by default',()=>{
   assert.deepEqual(plan(options(['fast'],{})),[]);
@@ -35,6 +35,22 @@ test('existing general scopes retain FAST filters and FOCUSED audience, persiste
     assert.ok(focused.some(s=>s.id===engine+'-workspaces'));
   }
   assert.ok(!focused.some(s=>/recovery|screenshots|workspace-pdf/.test(s.id)));
+});
+test('Overview navigation runs a bounded interaction contract in both engines without report or broad suites',()=>{
+  const inherited={OCE_TEST_FILTER:'^Production stat:',OCE_STAGE_A_FILTER:'^Deep links'};
+  const fast=plan(options(['fast','--scope','overview-navigation'],inherited));
+  assert.deepEqual(fast,[{id:'chromium-overview-navigation',engine:'chromium',file:'tests/overview-navigation.cjs',args:[],filter:''}]);
+  const focused=plan(options(['focused','--scope','overview-navigation'],inherited));
+  assert.deepEqual(focused.map(s=>s.id),['chromium-overview-navigation','firefox-overview-navigation']);
+  assert.ok(focused.every(s=>s.file==='tests/overview-navigation.cjs' && s.args.length===0 && s.filter===''));
+  assert.throws(()=>options(['focused','--scope','overview-navigation','--shots','anything'],{}));
+  assert.throws(()=>options(['full','--scope','overview-navigation'],{}));
+});
+test('Overview navigation receipts reject stale, incomplete, duplicate and failed contracts',()=>{
+  const result={commit:'head',endCommit:'head',engine:'chromium',fullRun:true,worktreeClean:true,tests:Array.from({length:10},(_,i)=>({name:'Overview record '+i,status:'PASS'}))};
+  overviewNavigation(result,'chromium','head',true);
+  for(const change of [{commit:'old'},{endCommit:'new'},{engine:'firefox'},{fullRun:false},{worktreeClean:false},{tests:[]},{tests:result.tests.slice(1)},{tests:result.tests.map((t,i)=>i?t:{...t,status:'FAIL'})},{tests:result.tests.map(()=>result.tests[0])}])
+    assert.throws(()=>overviewNavigation({...result,...change},'chromium','head',true));
 });
 test('report refinement runs only affected report checks and two representative comparisons',()=>{
   const inherited={OCE_TEST_FILTER:'^Production stat:',OCE_STAGE_A_FILTER:'^Deep links'};
@@ -125,12 +141,27 @@ test('Stage E source allowance reverses only exact integration edits and preserv
     }
   }
 });
+test('G1 source allowance preserves historical source and rejects duplicate or altered navigation extensions',()=>{
+  const {execFileSync}=require('node:child_process'),root=path.resolve(__dirname,'..');
+  const {normalise,resolver,newRecord,highlight,newLink}=require('./overview-record-source.cjs');
+  for(const [file,addition] of [['index.html',resolver],['ui-workspaces.css',highlight],['ui-overview.js',newLink]]) {
+    const baseline=execFileSync('git',['show','6920ece:'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n');
+    const current=fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n');
+    assert.equal(normalise(file,current),baseline,file+' original source preserved');
+    assert.throws(()=>normalise(file,current+addition),file+' duplicate allowance');
+    assert.throws(()=>normalise(file,current.replace(addition,addition.replace(/.$/m,' '))),file+' altered allowance');
+    assert.notEqual(normalise(file,current+'\n// unrelated change'),baseline,file+' unrelated change remains visible');
+  }
+  const current=fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/\r\n/g,'\n');
+  assert.throws(()=>normalise('index.html',current.replace(resolver,'')));
+  assert.throws(()=>normalise('index.html',current.replace(newRecord,'')));
+});
 test('FULL includes complete suites, both PDF comparisons, three Stage E captures, model inspection and standalone recovery',()=>{
   const steps=plan(options(['full'],{OCE_TEST_FILTER:'nothing',OCE_STAGE_A_FILTER:'nothing',OCE_SCREENSHOT_FILTER:'nothing'}));
-  assert.equal(steps.length,17);assert.ok(steps.every(s=>s.filter===''));
+  assert.equal(steps.length,19);assert.ok(steps.every(s=>s.filter===''));
   for(const id of ['chromium-regression','chromium-workspaces','firefox-regression','firefox-workspaces',
     'report-comparison','workspace-pdfs','workspace-pdf-comparison','project-spatial-screenshots',
-    'model-evidence','complete-recovery','recovery-verification','chromium-report-refinement','firefox-report-refinement','report-refinement-comparison','chromium-punch-client','firefox-punch-client','punch-client-comparison']) assert.ok(steps.some(s=>s.id===id));
+    'model-evidence','complete-recovery','recovery-verification','chromium-overview-navigation','firefox-overview-navigation','chromium-report-refinement','firefox-report-refinement','report-refinement-comparison','chromium-punch-client','firefox-punch-client','punch-client-comparison']) assert.ok(steps.some(s=>s.id===id));
   assert.equal(steps.find(s=>s.id==='project-spatial-screenshots').file,'tests/capture-project-spatial.cjs');
   assert.deepEqual(steps.find(s=>s.id==='model-evidence').args,['--no-screenshots']);
   assert.ok(!steps.some(s=>['tests/capture-workspaces.cjs','tests/capture.cjs'].includes(s.file)));
