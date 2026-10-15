@@ -1,6 +1,6 @@
 const {test}=require('node:test'), assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
-const {options,plan,childEnv,suite,reportRefinement,reportComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha}=require('./verify.cjs');
+const {options,plan,childEnv,suite,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha}=require('./verify.cjs');
 
 test('FAST workflow runs no browsers, PDFs, screenshots or recovery by default',()=>{
   assert.deepEqual(plan(options(['fast'],{})),[]);
@@ -46,6 +46,29 @@ test('report refinement runs only affected report checks and two representative 
   assert.ok(!focused.some(s=>/regression|workspaces|recovery|screenshots/.test(s.id)));
   assert.throws(()=>options(['focused','--scope','report-refinement','--shots','anything'],{}));
 });
+test('Punch List and Client scope runs only two affected reports, with four PDFs at FOCUSED',()=>{
+  const inherited={OCE_TEST_FILTER:'^Production stat:',OCE_STAGE_A_FILTER:'^Deep links'};
+  const fast=plan(options(['fast','--scope','punch-client'],inherited));
+  assert.deepEqual(fast,[{id:'chromium-punch-client',engine:'chromium',file:'tests/punch-client-reports.cjs',args:[],filter:''}]);
+  const focused=plan(options(['focused','--scope','punch-client'],inherited));
+  assert.deepEqual(focused.map(s=>s.id),['chromium-punch-client','punch-client-comparison','firefox-punch-client']);
+  assert.deepEqual(focused[0].args,['--pdf']);assert.deepEqual(focused[2].args,[]);
+  assert.ok(!focused.some(s=>/report-refinement|regression|workspaces|recovery|screenshots/.test(s.id)));
+  assert.throws(()=>options(['focused','--scope','punch-client','--shots','anything'],{}));
+  assert.throws(()=>options(['full','--scope','punch-client'],{}));
+});
+test('Punch List and Client evidence rejects stale, partial or failed checks and missing content/images',()=>{
+  const result={commit:'head',endCommit:'head',engine:'chromium',pdfs:true,tests:Array.from({length:25},(_,i)=>({name:'report '+i,status:'PASS'}))};
+  punchClient(result,'chromium','head',true);
+  for(const change of [{commit:'old'},{endCommit:'new'},{engine:'firefox'},{pdfs:false},{tests:[]},{tests:result.tests.slice(1)},{tests:result.tests.map((t,i)=>i?t:{...t,status:'FAIL'})}])
+    assert.throws(()=>punchClient({...result,...change},'chromium','head',true));
+  const comparisons=['punchlist','client'].map(mode=>({mode,sameContent:true,photosPreserved:true}));
+  punchClientComparisons(comparisons);
+  assert.throws(()=>punchClientComparisons(comparisons.slice(1)));
+  assert.throws(()=>punchClientComparisons([comparisons[0],comparisons[0]]));
+  for(const change of [{sameContent:false},{photosPreserved:false}])
+    assert.throws(()=>punchClientComparisons([comparisons[0],{...comparisons[1],...change}]));
+});
 test('report evidence rejects failed/stale checks, missing photos/content and unrelated pagination changes',()=>{
   const result={commit:'head',endCommit:'head',engine:'chromium',pdfs:true,tests:Array.from({length:25},(_,i)=>({name:'report '+i,status:'PASS'}))};
   reportRefinement(result,'chromium','head',true);
@@ -58,6 +81,8 @@ test('report evidence rejects failed/stale checks, missing photos/content and un
     assert.throws(()=>reportComparisons([comparisons[0],{...comparisons[1],...change}]));
   historicalPrintComparisons([{report:'report',sameContent:true,photosPreserved:true,sameTextOnEveryPage:false},{report:'dailyWorks',sameTextOnEveryPage:true}],2);
   historicalPrintComparisons([{report:'client',sameContent:true,photosPreserved:true,sameTextOnEveryPage:false}],1);
+  historicalPrintComparisons([{report:'punchlist',sameContent:true,photosPreserved:true,sameTextOnEveryPage:false}],1);
+  assert.throws(()=>historicalPrintComparisons([{report:'punchlist',sameContent:true,photosPreserved:false,sameTextOnEveryPage:true}],1));
   assert.throws(()=>historicalPrintComparisons([{report:'client',sameContent:false,photosPreserved:true,sameTextOnEveryPage:true}],1));
   assert.throws(()=>historicalPrintComparisons([{report:'dailyWorks',sameContent:true,sameTextOnEveryPage:false}],1));
   assert.throws(()=>historicalPrintComparisons([{report:'photos',sameContent:false,sameTextOnEveryPage:true}],1));
@@ -102,10 +127,10 @@ test('Stage E source allowance reverses only exact integration edits and preserv
 });
 test('FULL includes complete suites, both PDF comparisons, three Stage E captures, model inspection and standalone recovery',()=>{
   const steps=plan(options(['full'],{OCE_TEST_FILTER:'nothing',OCE_STAGE_A_FILTER:'nothing',OCE_SCREENSHOT_FILTER:'nothing'}));
-  assert.equal(steps.length,14);assert.ok(steps.every(s=>s.filter===''));
+  assert.equal(steps.length,17);assert.ok(steps.every(s=>s.filter===''));
   for(const id of ['chromium-regression','chromium-workspaces','firefox-regression','firefox-workspaces',
     'report-comparison','workspace-pdfs','workspace-pdf-comparison','project-spatial-screenshots',
-    'model-evidence','complete-recovery','recovery-verification','chromium-report-refinement','firefox-report-refinement','report-refinement-comparison']) assert.ok(steps.some(s=>s.id===id));
+    'model-evidence','complete-recovery','recovery-verification','chromium-report-refinement','firefox-report-refinement','report-refinement-comparison','chromium-punch-client','firefox-punch-client','punch-client-comparison']) assert.ok(steps.some(s=>s.id===id));
   assert.equal(steps.find(s=>s.id==='project-spatial-screenshots').file,'tests/capture-project-spatial.cjs');
   assert.deepEqual(steps.find(s=>s.id==='model-evidence').args,['--no-screenshots']);
   assert.ok(!steps.some(s=>['tests/capture-workspaces.cjs','tests/capture.cjs'].includes(s.file)));

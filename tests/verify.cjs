@@ -19,6 +19,7 @@ const scopes = {
   field: ['^CRUD parity: (dailyWorks|upcoming|deliveries|punchlist|rfis),|^Production stat:', '^Field usability:|^Workspace CRUD'],
   forms: ['^CRUD parity: (dailyWorks|rfis|variations|incidents|deliveries|qualityTesting|punchlist),|^Production stat:|^Settings editing:', '^Forms and Settings:'],
   'report-refinement': ['', ''],
+  'punch-client': ['', ''],
   print: ['^Print parity:|^Client report parity:|^Punch print:', '^Full-board and single-panel print']
 };
 const common = [
@@ -48,8 +49,8 @@ function options(argv, env = process.env) {
   if (opts.reuse) assert.equal(level, 'focused', 'Evidence reuse is only for FOCUSED');
   const filters = scopes[opts.scope].map((value, i) => env[i ? 'OCE_STAGE_A_FILTER' : 'OCE_TEST_FILTER'] || value);
   if (level === 'full') opts.filters = ['', ''];
-  else opts.filters = filters.map((value, i) => level === 'focused' && opts.scope !== 'report-refinement' ? [value,common[i]].filter(Boolean).join('|') : value);
-  if (opts.scope === 'report-refinement') {
+  else opts.filters = filters.map((value, i) => level === 'focused' && !['report-refinement','punch-client'].includes(opts.scope) ? [value,common[i]].filter(Boolean).join('|') : value);
+  if (['report-refinement','punch-client'].includes(opts.scope)) {
     assert.ok(!opts.shots, 'Report refinement produces only its two representative PDF comparisons');
     opts.filters = ['', '']; // This standalone scope owns report/audience guards, not unrelated suites.
   }
@@ -61,6 +62,13 @@ function options(argv, env = process.env) {
 function plan(opts) {
   const steps = [];
   const add = (id, engine, file, args=[], filter='') => steps.push({id,engine,file,args,filter});
+  if (opts.scope === 'punch-client') {
+    for (const engine of opts.level === 'fast' ? ['chromium'] : ['chromium','firefox']) {
+      add(engine+'-punch-client',engine,'tests/punch-client-reports.cjs',engine === 'chromium' && opts.level === 'focused' ? ['--pdf'] : []);
+      if (engine === 'chromium' && opts.level === 'focused') add('punch-client-comparison',engine,'tests/compare-punch-client.py');
+    }
+    return steps;
+  }
   if (opts.scope === 'report-refinement') {
     for (const engine of opts.level === 'fast' ? ['chromium'] : ['chromium','firefox']) {
       add(engine+'-report-refinement',engine,'tests/report-refinement.cjs',engine === 'chromium' && opts.level === 'focused' ? ['--pdf'] : []);
@@ -77,6 +85,9 @@ function plan(opts) {
     add('chromium-report-refinement','chromium','tests/report-refinement.cjs',['--pdf']);
     add('firefox-report-refinement','firefox','tests/report-refinement.cjs');
     add('report-refinement-comparison','chromium','tests/compare-report-refinement.py');
+    add('chromium-punch-client','chromium','tests/punch-client-reports.cjs',['--pdf']);
+    add('firefox-punch-client','firefox','tests/punch-client-reports.cjs');
+    add('punch-client-comparison','chromium','tests/compare-punch-client.py');
     add('workspace-pdfs','chromium','tests/workspace-print.cjs');
     add('workspace-pdf-comparison','chromium','tests/compare-workspace-print.py');
     add('project-spatial-screenshots','chromium','tests/capture-project-spatial.cjs');
@@ -137,12 +148,26 @@ function reportComparisons(results) {
     if(mode==='photos')assert.equal(matches[0].firstPhotoPage,1,'Weekly opening page must contain a photograph');
   }
 }
+function punchClient(report, engine, commit, pdfs) {
+  assert.equal(report.commit,commit);assert.equal(report.endCommit,commit);
+  assert.equal(report.engine,engine);assert.equal(report.pdfs,pdfs);
+  assert.equal(report.tests.length,25,'All Punch List and Client report contracts required');
+  assert.ok(report.tests.every(t=>t.status==='PASS'),'Every report assertion must pass');
+}
+function punchClientComparisons(results) {
+  assert.equal(results.length,2,'Both Punch List and Client comparisons required');
+  for(const mode of ['punchlist','client']) {
+    const matches=results.filter(r=>r.mode===mode);
+    assert.equal(matches.length,1);assert.equal(matches[0].sameContent,true);
+    assert.equal(matches[0].photosPreserved,true);
+  }
+}
 function historicalPrintComparisons(results,count) {
   assert.equal(results.length,count);
   for(const result of results) {
     const mode=result.report || result.family;
-    assert.ok(['report','photos','client'].includes(mode) ? result.sameContent === true && result.photosPreserved === true : result.sameTextOnEveryPage === true,
-      'Preserve complete content/order; pagination may change only for full-board and weekly photos');
+    assert.ok(['report','photos','client','punchlist'].includes(mode) ? result.sameContent === true && result.photosPreserved === true : result.sameTextOnEveryPage === true,
+      'Preserve complete content/order; pagination may change only for full-board, weekly photos and Punch List');
   }
 }
 
@@ -250,6 +275,8 @@ function fullEvidence(directory, receipt, commit, main) {
   }
   for(const engine of ['chromium','firefox'])reportRefinement(read(path.join(directory,engine,'report-refinement-results.json')),engine,commit,engine==='chromium');
   reportComparisons(read(path.join(chrome,'report-refinement-comparison.json')));
+  for(const engine of ['chromium','firefox'])punchClient(read(path.join(directory,engine,'punch-client-results.json')),engine,commit,engine==='chromium');
+  punchClientComparisons(read(path.join(chrome,'punch-client-comparison.json')));
   const shots=read(path.join(chrome,'screenshots/manifest.json'));
   projectSpatialScreenshots(shots,path.join(chrome,'screenshots'),commit);
   const recovery=read(path.join(directory,'recovery/recovery-manifest.json'));
@@ -298,6 +325,8 @@ async function main(argv) {
         suite(read(path.join(target,step.file.endsWith('regression.cjs')?'regression-results.json':'stage-a-results.json')),step.engine,opts.level==='full',commit);
       if (step.file === 'tests/report-refinement.cjs') reportRefinement(read(path.join(target,'report-refinement-results.json')),step.engine,commit,step.args.includes('--pdf'));
       if (step.file === 'tests/compare-report-refinement.py') reportComparisons(read(path.join(target,'report-refinement-comparison.json')));
+      if (step.file === 'tests/punch-client-reports.cjs') punchClient(read(path.join(target,'punch-client-results.json')),step.engine,commit,step.args.includes('--pdf'));
+      if (step.file === 'tests/compare-punch-client.py') punchClientComparisons(read(path.join(target,'punch-client-comparison.json')));
       result.status='PASS';
     }
     receipt.endCommit=git(['rev-parse','HEAD']);assert.equal(receipt.endCommit,commit);
@@ -309,5 +338,5 @@ async function main(argv) {
   finally {receipt.completedAt=new Date().toISOString();write(path.join(directory,'verification.json'),receipt);}
   console.log('PASS '+opts.level.toUpperCase()+' — '+directory);
 }
-module.exports={options,plan,childEnv,suite,reportRefinement,reportComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
+module.exports={options,plan,childEnv,suite,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.message);process.exitCode=1;});
