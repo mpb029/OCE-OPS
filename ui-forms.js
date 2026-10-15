@@ -26,7 +26,7 @@
     const area = item.querySelector('.modal-body');
     const fields = [
       ['record','Record',['fldFolder','fldProject','fldRef',byId('fMain').closest('.field'),'fldSub']],
-      ['details','Additional details',['fldExtras','fldCustom']],
+      ['details','Additional details',['fldExtras','fldCustom','fldWPReadiness']],
       ['planning','Planning & status',['fldTeam','fldDue','fldPct','fldPriority','fldStatus','fldRange','fldDates','fldWStatus','fldDone']],
       ['photos','Photos',['fldPhotos']],
       ['visibility','Audience visibility',[area.querySelector('.vis-field')]]

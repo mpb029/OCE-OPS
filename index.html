@@ -304,6 +304,19 @@ body.client .card-head .pbtn { display: none; }
   max-width: 190px;
 }
 
+#fldWPReadiness { grid-column: 1 / -1; min-width: 0; }
+.wp-prerequisites { border: 1px solid #ccd7e2; border-radius: 7px; padding: 12px; margin: 14px 0; min-width: 0; }
+.wp-prerequisites legend { font-weight: 600; padding: 0 5px; }
+.wp-prerequisites .chkline { min-height: 44px; padding: 6px 0; overflow-wrap: anywhere; }
+.wp-help { font-size: 13px; line-height: 1.5; color: #506176; margin: 0 0 8px; }
+#wpReadinessError { color: #962c24; font-size: 14px; line-height: 1.5; }
+.wp-readiness { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid #d4dfe8; border-radius: 6px; font-size: 14px; line-height: 1.55; color: #24374a; font-weight: 400; }
+.wp-go, .wp-no-go { display: inline-block; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 8px; }
+.wp-go { color: #17623e; background: #e8f4ec; }
+.wp-no-go { color: #922c23; background: #fff0ed; }
+.wp-reasons, .wp-prerequisite-note, .wp-constraints { display: block; margin-top: 6px; overflow-wrap: anywhere; }
+.wp-reasons > span { display: block; }
+.wp-constraints, .wp-prerequisite-note { white-space: pre-wrap; }
 #map { height: 560px; width: 100%; background: #dfe6e3; }
 /* Leaflet owns tile dimensions. Fractional CSS resizing resamples adjacent images
    and exposes seams; retain the inline size that matches Leaflet's tile grid. */
@@ -1222,6 +1235,27 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         </div>
         <div id="fldExtras"></div>
         <div id="fldCustom"></div>
+        <div id="fldWPReadiness" style="display:none">
+          <div class="field">
+            <label for="fMaterialsStatus">Materials status</label>
+            <select id="fMaterialsStatus">
+              <option value="unconfirmed">Unconfirmed</option>
+              <option value="available">Available</option>
+              <option value="unavailable">Unavailable</option>
+              <option value="not-required">Not Required</option>
+            </select>
+          </div>
+          <fieldset class="field wp-prerequisites">
+            <legend>Prerequisite Work Packages</legend>
+            <p class="wp-help">Select packages from this project. Each must be marked Completed; percentage complete alone does not confirm completion.</p>
+            <div id="fWPPrerequisites"></div>
+          </fieldset>
+          <div class="field">
+            <label for="fWPConstraints">Hold-up / Constraints</label>
+            <textarea id="fWPConstraints" rows="3" placeholder="Optional notes; these do not change GO / NO GO"></textarea>
+          </div>
+          <p id="wpReadinessError" role="alert" tabindex="-1" hidden></p>
+        </div>
         <div class="field" id="fldDue" style="display:none">
           <label id="lblDue">Due date</label>
           <input type="date" id="fDue" />
@@ -1717,6 +1751,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       removedAt: opts.removed ? now : (prev.removedAt || ""),
       removedReason: opts.removed ? (opts.reason || "removed") : (prev.removedReason || "")
     };
+    if (pid === "workPackages") {
+      // Optional readiness fields travel with the existing history entry; no second record store.
+      ["materialsStatus", "prerequisiteIds", "constraints"].forEach((key) => {
+        if (it[key] !== undefined) state.history[it.id][key] = Array.isArray(it[key]) ? it[key].slice() : it[key];
+      });
+    }
   }
 
   function fmtDay(s) {
@@ -3420,7 +3460,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           const pct = Math.max(0, Math.min(100, parseInt(it.pct, 10) || 0));
           txt = `<span class="txt"><span class="main">${numTag}${refTag}${esc(it.main)}</span>`
               + `<span class="pbar"><span style="width:${pct}%"></span></span>`
-              + `<span class="sub">${pct}% complete</span></span>`;
+              + `<span class="sub">${pct}% complete</span>${p.id === "workPackages" ? workPackageReadinessHtml(it) : ""}</span>`;
         } else {
           txt = `<span class="txt"><span class="main">${numTag}${refTag}${esc(it.main)}</span>`
               + `${detail ? `<span class="sub">${esc(detail)}</span>` : ""}`
@@ -3606,7 +3646,103 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     });
   }
 
+  /* WP1: derived readiness over authoritative Work Package records only. */
+  const WP_MATERIALS = { unconfirmed: "Unconfirmed", available: "Available", unavailable: "Unavailable", "not-required": "Not Required" };
+  const wpMaterials = (it) => it.materialsStatus === undefined ? "unconfirmed" : it.materialsStatus;
+  const wpComplete = (it) => it.wstatus !== "cancelled" && (it.done === true || it.wstatus === "completed");
+  function wpLookup(id) {
+    const matches = (state.panels.workPackages || []).filter((it) => it.id === id);
+    return typeof id === "string" && id.trim() && matches.length === 1 ? matches[0] : null;
+  }
+  function wpDependencyIssues(root) {
+    const issues = [], active = new Set(), visited = new Set(), stack = [{ item: root }];
+    const issue = (item, reason, dependency) => issues.push({ item, reason, dependency });
+    while (stack.length) {
+      const { item, exit } = stack.pop();
+      if (exit) { active.delete(item); visited.add(item); continue; }
+      if (active.has(item)) { issue(item, "Circular prerequisite dependency"); continue; }
+      if (visited.has(item)) continue;
+      active.add(item); stack.push({ item, exit: true });
+      const ids = item.prerequisiteIds === undefined ? [] : item.prerequisiteIds;
+      if (!Array.isArray(ids)) { issue(item, "Invalid prerequisite list"); continue; }
+      const seen = new Set();
+      for (const id of ids) {
+        if (typeof id !== "string" || !id.trim()) { issue(item, "Invalid prerequisite ID"); continue; }
+        if (id === item.id) { issue(item, "A package cannot depend on itself"); continue; }
+        if (seen.has(id)) { issue(item, "Duplicate prerequisite"); continue; }
+        seen.add(id);
+        // Substitute the unsaved form draft when checking whether an edit creates a cycle.
+        const saved = wpLookup(id), dependency = saved && id === root.id ? root : saved;
+        if (!dependency) { issue(item, "Missing or ambiguous prerequisite: " + id); continue; }
+        if (!projById(effProj(item)) || !projById(effProj(dependency))) { issue(item, "Prerequisite project is missing or invalid", dependency); continue; }
+        if (effProj(dependency) !== effProj(item)) { issue(item, "Prerequisite belongs to a different project", dependency); continue; }
+        stack.push({ item: dependency });
+      }
+    }
+    return issues;
+  }
+  function wpMayShowDetails(it) {
+    if (sync.audience === "editor") return true;
+    return panelVisOf("workPackages")[sync.audience] && itemVis(it)[sync.audience] &&
+      projInScope(effProj(it)) && sortItemsForDisplay([it]).length > 0;
+  }
+  function workPackageReadinessHtml(it) {
+    const status = wpMaterials(it), reasons = [];
+    if (status !== "available" && status !== "not-required") {
+      reasons.push(status === "unavailable" ? "Materials unavailable" : status === "unconfirmed" ? "Materials unconfirmed" : "Invalid materials status");
+    }
+    const editor = sync.audience === "editor";
+    const hiddenReason = "A prerequisite is incomplete or cannot be validated; details are not available in this view.";
+    wpDependencyIssues(it).forEach(({ item, reason, dependency }) => {
+      // Invalid links can contain IDs belonging to another project; never expose them to viewers.
+      reasons.push(editor ? (item === it ? reason : (item.main || "Prerequisite") + ": " + reason) : hiddenReason);
+    });
+    const details = [];
+    const ids = Array.isArray(it.prerequisiteIds) ? [...new Set(it.prerequisiteIds)] : [];
+    ids.forEach((id) => {
+      const dep = wpLookup(id);
+      if (!dep || dep === it || effProj(dep) !== effProj(it)) return;
+      const permitted = wpMayShowDetails(dep), complete = wpComplete(dep);
+      if (!complete) reasons.push(permitted ? (dep.main || "Prerequisite") + (dep.wstatus === "cancelled" ? ": cancelled, not completed" : ": not completed") : hiddenReason);
+      if (permitted) {
+        const note = typeof dep.constraints === "string" && dep.constraints ? " — " + dep.constraints : "";
+        details.push(`<span class="wp-prerequisite-note">${esc(dep.main || "Prerequisite")}: ${complete ? "Completed" : "Not completed"}${esc(note)}</span>`);
+      }
+    });
+    const blockers = [...new Set(reasons)], go = blockers.length === 0;
+    const notes = typeof it.constraints === "string" && it.constraints ? `<span class="wp-constraints"><strong>Hold-up / Constraints:</strong> ${esc(it.constraints)}</span>` : "";
+    const materialLabel = Object.hasOwn(WP_MATERIALS, status) ? WP_MATERIALS[status] : "Invalid status";
+    return `<span class="wp-readiness"><strong class="${go ? "wp-go" : "wp-no-go"}">${go ? "GO" : "NO GO"}</strong><span>Materials: ${esc(materialLabel)}</span>` +
+      (blockers.length ? `<span class="wp-reasons">${blockers.map((reason) => `<span>${esc(reason)}</span>`).join("")}</span>` : "") + details.join("") + notes + `</span>`;
+  }
+  function wpSelectedPrerequisites() {
+    return [...document.querySelectorAll('#fWPPrerequisites input:checked')].map((el) => el.value);
+  }
+  function renderWPPrerequisites(selected) {
+    const project = document.getElementById("fProject").value;
+    const ids = selected === undefined ? [] : Array.isArray(selected) ? selected : [null];
+    const shown = new Set();
+    const choice = (id, title, checked) => `<label class="chkline"><input type="checkbox" name="wpPrerequisite" value="${esc(typeof id === "string" ? id : "")}" ${checked ? "checked" : ""} /> <span>${esc(title)}</span></label>`;
+    const rows = (state.panels.workPackages || []).filter((it) => it.id !== editingItem.id && effProj(it) === project && wpLookup(it.id) === it).map((it) => {
+      shown.add(it.id);
+      return choice(it.id, (it.main || "Untitled package") + (wpComplete(it) ? " · Completed" : it.wstatus === "cancelled" ? " · Cancelled" : ""), ids.includes(it.id));
+    });
+    const seen = new Set();
+    ids.forEach((id) => {
+      if (!shown.has(id) || seen.has(id)) rows.push(choice(id, "Invalid prerequisite — " + (typeof id === "string" && id ? id : "malformed selection") + " (uncheck to remove)", true));
+      seen.add(id);
+    });
+    document.getElementById("fWPPrerequisites").innerHTML = rows.join("") || '<p class="wp-help">No other Work Packages in this project. Materials alone determine readiness.</p>';
+  }
+  function wpFormError(message) {
+    const error = document.getElementById("wpReadinessError");
+    error.textContent = message; error.hidden = !message;
+    if (message) error.focus();
+  }
+  /* End WP1 derived readiness. */
+
   function openItemModal(panelId, itemId) {
+    if (panelId === "workPackages" && (sync.audience !== "editor" || editLocked)) return;
     const p = panelById(panelId);
     const kind = panelKind(p);
     editingItem = { panel: panelId, id: itemId };
@@ -3618,6 +3754,15 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     psel.innerHTML = projects().map((pr) => `<option value="${pr.id}">${esc(pr.name)}</option>`).join("");
     psel.value = it.project || (currentProject !== "all" ? currentProject : ((projects()[0] || {}).id || DEFAULT_PROJ));
     document.getElementById("fldProject").style.display = "";
+    document.getElementById("fldWPReadiness").style.display = panelId === "workPackages" ? "" : "none";
+    wpFormError("");
+    psel.onchange = null;
+    if (panelId === "workPackages") {
+      document.getElementById("fMaterialsStatus").value = wpMaterials(it);
+      document.getElementById("fWPConstraints").value = typeof it.constraints === "string" ? it.constraints : "";
+      renderWPPrerequisites(it.prerequisiteIds);
+      psel.onchange = () => { renderWPPrerequisites(wpSelectedPrerequisites()); wpFormError(""); };
+    }
 
     const showRef = !!p.hasRef;
     document.getElementById("fldRef").style.display = showRef ? "" : "none";
@@ -3750,6 +3895,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
   function saveItem() {
     const { panel, id } = editingItem;
+    if (panel === "workPackages" && (sync.audience !== "editor" || editLocked)) return;
     const p = panelById(panel);
     const kind = panelKind(p);
     const main = document.getElementById("fMain").value.trim();
@@ -3787,6 +3933,25 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     }
 
     if (p.photos) data.photos = modalPhotos.slice();
+
+    if (panel === "workPackages") {
+      const existing = id ? state.panels[panel].find((it) => it.id === id) : null;
+      if (id && !existing) { wpFormError("This Work Package is no longer available. Close the form and refresh the panel."); return; }
+      const materialsStatus = document.getElementById("fMaterialsStatus").value;
+      const prerequisiteIds = wpSelectedPrerequisites(), constraints = document.getElementById("fWPConstraints").value;
+      if (!Object.hasOwn(WP_MATERIALS, materialsStatus)) { wpFormError("Select a valid materials status."); return; }
+      const draft = { ...existing, ...data, id, prerequisiteIds };
+      const issues = wpDependencyIssues(draft);
+      if (issues.length) { wpFormError(issues.map(({ reason }) => reason).join(". ")); return; }
+      if (existing && effProj(existing) !== effProj(draft)) {
+        const incoming = (state.panels.workPackages || []).find((it) => it.id !== id && Array.isArray(it.prerequisiteIds) && it.prerequisiteIds.includes(id) && effProj(it) !== effProj(draft));
+        if (incoming) { wpFormError("This package is a prerequisite for " + incoming.main + ". Remove that dependency before changing its project."); return; }
+      }
+      // Leave untouched legacy/default fields absent; explicit values use the existing save path.
+      if (materialsStatus !== "unconfirmed" || existing?.materialsStatus !== undefined) data.materialsStatus = materialsStatus;
+      if (prerequisiteIds.length || existing?.prerequisiteIds !== undefined) data.prerequisiteIds = prerequisiteIds;
+      if (constraints || existing?.constraints !== undefined) data.constraints = constraints;
+    }
 
     let saved;
     if (id) { saved = state.panels[panel].find((x) => x.id === id); Object.assign(saved, data); }
