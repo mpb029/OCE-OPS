@@ -47,6 +47,26 @@ window.OCEOverview = Object.freeze({
       return section;
     };
 
+    // G2: shortcuts invoke the original Add controls; all form logic stays there.
+    if (!document.body.matches('.viewer,.locked')) {
+      const actions = el('div','ov-add-actions'); actions.setAttribute('role','group'); actions.setAttribute('aria-label','Quick Add');
+      for (const [id,label] of [['dailyWorks','New Daily Work'],['upcoming','New Scheduled Work'],['issuesDelays','New Issue / Delay']]) {
+        if (!panelById(id)) continue;
+        const button = el('button','ov-add-action',label); button.type = 'button'; button.dataset.ovAdd = id;
+        button.addEventListener('click',() => {
+          if (!button.isConnected || container.hidden || document.body.matches('.viewer,.locked')) return;
+          let current;
+          document.dispatchEvent(new CustomEvent('oce:overview-read',{detail:{accept:value => {current = value;}}}));
+          if (!current?.panels.some(panel => panel.id === id)) return;
+          const original = document.querySelector('#panelsGrid [data-add="'+id+'"]');
+          if (!original || original.disabled) return;
+          button.focus({preventScroll:true}); original.click();
+        });
+        actions.append(button);
+      }
+      if (actions.childElementCount) container.append(actions);
+    }
+    // END G2 Quick Add.
     const briefing = el('details','ov-card ov-briefing'); briefing.open = expanded; briefing.dataset.context = context;
     const toggle = el('summary','ov-briefing-toggle'), briefingTitle = el('span','ov-briefing-title');
     briefingTitle.append(el('strong','','Project briefing'),el('span','ov-note','Recorded status, milestones & outlook'));
