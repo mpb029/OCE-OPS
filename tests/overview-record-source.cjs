@@ -26,7 +26,7 @@ function once(source, from, to, label) {
   return source.replace(from, to);
 }
 function normalise(file, source) {
-  source = source.replace(/\r\n/g, '\n');
+  source = require('./overview-quick-add-source.cjs').normalise(file, source);
   if (file === 'index.html' && (source.includes('oce:record-target') || source.includes(newRecord))) {
     source = once(source, resolver, '', 'G1 record resolver');
     source = once(source, newRecord, oldRecord, 'G1 original record ID');
