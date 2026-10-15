@@ -61,7 +61,7 @@ function fixture() {
  return data;
 }
 
-async function open(env, { version = 'after', width = 1440, height = 900, audience = '', data = fixture(), token = false, touch = false, liveClock = false, workArea = 'root' } = {}) {
+async function open(env, { version = 'after', width = 1440, height = 900, audience = '', data = fixture(), token = false, touch = false, liveClock = false, workArea = 'root', ui = 'classic' } = {}) {
  const context = await env.browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, ...(engine==='chromium'?{isMobile:touch}:{}), hasTouch: touch, locale: 'en-AU', timezoneId: 'Australia/Brisbane', acceptDownloads: true });
  const network = { writes: [], errors: [], console: [], failed: [], sharedReads: 0, publishFailure: false };
  const page = await context.newPage();
@@ -111,6 +111,8 @@ async function open(env, { version = 'after', width = 1440, height = 900, audien
  });
  const target = new URL(`${env.url}/${version}/index.html${audience}`);
  if (env.workspaces && version === 'after') { target.searchParams.set('ui','workspaces'); if(!target.searchParams.has('workspace'))target.searchParams.set('workspace','all'); }
+ // Historical suites exercise classic explicitly; release tests use ui:null for real URL defaults.
+ else if (version === 'after' && ui !== null && !target.searchParams.has('ui')) target.searchParams.set('ui',ui);
  await page.goto(target.href, { waitUntil: 'domcontentloaded', timeout: 60000 });
  // Board readiness is independent of continuously loading third-party map tiles.
  await page.waitForFunction(() => window.__opsTest?.ready && document.querySelector('#panelsGrid .card'));

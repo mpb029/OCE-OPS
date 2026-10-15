@@ -94,6 +94,10 @@ function plan(opts) {
   if (opts.level === 'full') {
     add('chromium-overview-navigation','chromium','tests/overview-navigation.cjs');
     add('firefox-overview-navigation','firefox','tests/overview-navigation.cjs');
+    add('chromium-overview-quick-add','chromium','tests/overview-quick-add.cjs');
+    add('firefox-overview-quick-add','firefox','tests/overview-quick-add.cjs');
+    add('chromium-release-default','chromium','tests/release-default.cjs');
+    add('firefox-release-default','firefox','tests/release-default.cjs');
     add('chromium-report-refinement','chromium','tests/report-refinement.cjs',['--pdf']);
     add('firefox-report-refinement','firefox','tests/report-refinement.cjs');
     add('report-refinement-comparison','chromium','tests/compare-report-refinement.py');
@@ -152,6 +156,33 @@ function overviewNavigation(report, engine, commit, full = false) {
   assert.equal(new Set(report.tests.map(t=>t.name)).size,10,'Distinct Overview navigation contracts required');
   assert.ok(report.tests.every(t=>t.status==='PASS'),'Every Overview navigation assertion must pass');
   if (full) {assert.equal(report.fullRun,true);assert.equal(report.worktreeClean,true);}
+}
+
+const quickAddInputs=['index.html','ui-overview.js','ui-overview.css','ui-workspaces.js','ui-workspaces.css','ui-forms.js','ui-forms.css','tests/harness.cjs','tests/workspace-fixture.cjs','tests/overview-record-source.cjs','tests/overview-quick-add-source.cjs','tests/overview-quick-add.cjs'];
+const releaseDefaultInputs=['index.html','ui-workspaces.js','ui-workspaces.css','ui-overview.js','ui-overview.css','tests/harness.cjs','tests/workspace-fixture.cjs','tests/release-default.cjs','tests/release-default-source.cjs'];
+function exactSourceHashes(report,files,label) {
+  assert.equal(report.inputsUnchanged,true);
+  assert.deepEqual(Object.keys(report.sourceHashes).sort(),[...files].sort(),'All '+label+' source inputs required');
+  for(const file of files)assert.equal(report.sourceHashes[file],sha(fs.readFileSync(path.join(root,file))),label+' source changed: '+file);
+}
+function overviewQuickAdd(report, engine, commit, full = false) {
+  assert.equal(report.commit,commit);assert.equal(report.endCommit,commit);
+  assert.equal(report.engine,engine);
+  assert.equal(report.tests.length,8,'All Quick Add contracts required');
+  assert.equal(new Set(report.tests.map(t=>t.name)).size,8,'Distinct Quick Add contracts required');
+  assert.ok(report.tests.every(t=>t.name.startsWith('G2 ')&&t.status==='PASS'),'Every Quick Add assertion must pass');
+  assert.equal(report.passed,8);assert.equal(report.failed,0);
+  exactSourceHashes(report,quickAddInputs,'Quick Add');
+  if(full)assert.equal(report.worktreeClean,true);
+}
+function releaseDefault(report, engine, commit, full = false) {
+  assert.equal(report.commit,commit);assert.equal(report.endCommit,commit);assert.equal(report.engine,engine);
+  assert.equal(report.tests.length,6,'All release default contracts required');
+  assert.equal(new Set(report.tests.map(t=>t.name)).size,6,'Distinct release default contracts required');
+  assert.ok(report.tests.every(t=>t.name.startsWith('Release default:')&&t.status==='PASS'),'Every release default assertion must pass');
+  assert.equal(report.passed,6);assert.equal(report.failed,0);
+  exactSourceHashes(report,releaseDefaultInputs,'Release default');
+  if(full)assert.equal(report.worktreeClean,true);
 }
 
 function reportRefinement(report, engine, commit, pdfs) {
@@ -291,6 +322,8 @@ function fullEvidence(directory, receipt, commit, main) {
   for (const engine of ['chromium','firefox']) for (const file of ['regression-results.json','stage-a-results.json'])
     suite(read(path.join(directory,engine,file)),engine,true,commit);
   for(const engine of ['chromium','firefox'])overviewNavigation(read(path.join(directory,engine,'overview-navigation/results.json')),engine,commit,true);
+  for(const engine of ['chromium','firefox'])overviewQuickAdd(read(path.join(directory,engine,'overview-quick-add/results.json')),engine,commit,true);
+  for(const engine of ['chromium','firefox'])releaseDefault(read(path.join(directory,engine,'release-default/results.json')),engine,commit,true);
   const chrome=path.join(directory,'chromium');
   for (const [file,count] of [['print-comparison.json',5],['workspace-pdfs/comparison-results.json',20]]) {
     historicalPrintComparisons(read(path.join(chrome,file)),count);
@@ -331,7 +364,7 @@ async function main(argv) {
   try {
     basic(directory);
     const toolingLog=path.join(directory,'tooling-tests.log'), descriptor=fs.openSync(toolingLog,'w');
-    try {execFileSync(process.execPath,['--test','tests/verify.test.cjs'],{cwd:root,stdio:['ignore',descriptor,descriptor]});}
+    try {execFileSync(process.execPath,['--test','tests/verify.test.cjs','tests/overview-quick-add-source.cjs','tests/release-default-source.cjs'],{cwd:root,stdio:['ignore',descriptor,descriptor]});}
     finally {fs.closeSync(descriptor);process.stdout.write(fs.readFileSync(toolingLog));}
     receipt.inputs=inputs(steps);
     if (opts.reuse) {
@@ -346,6 +379,8 @@ async function main(argv) {
       if (step.file === 'tests/regression.cjs' || step.file === 'tests/workspaces.cjs')
         suite(read(path.join(target,step.file.endsWith('regression.cjs')?'regression-results.json':'stage-a-results.json')),step.engine,opts.level==='full',commit);
       if (step.file === 'tests/overview-navigation.cjs') overviewNavigation(read(path.join(target,'overview-navigation/results.json')),step.engine,commit,opts.level==='full');
+      if (step.file === 'tests/overview-quick-add.cjs') overviewQuickAdd(read(path.join(target,'overview-quick-add/results.json')),step.engine,commit,opts.level==='full');
+      if (step.file === 'tests/release-default.cjs') releaseDefault(read(path.join(target,'release-default/results.json')),step.engine,commit,opts.level==='full');
       if (step.file === 'tests/report-refinement.cjs') reportRefinement(read(path.join(target,'report-refinement-results.json')),step.engine,commit,step.args.includes('--pdf'));
       if (step.file === 'tests/compare-report-refinement.py') reportComparisons(read(path.join(target,'report-refinement-comparison.json')));
       if (step.file === 'tests/punch-client-reports.cjs') punchClient(read(path.join(target,'punch-client-results.json')),step.engine,commit,step.args.includes('--pdf'));
@@ -361,5 +396,5 @@ async function main(argv) {
   finally {receipt.completedAt=new Date().toISOString();write(path.join(directory,'verification.json'),receipt);}
   console.log('PASS '+opts.level.toUpperCase()+' — '+directory);
 }
-module.exports={options,plan,childEnv,suite,overviewNavigation,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
+module.exports={options,plan,childEnv,suite,overviewNavigation,overviewQuickAdd,releaseDefault,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.message);process.exitCode=1;});

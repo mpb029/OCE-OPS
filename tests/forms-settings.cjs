@@ -101,7 +101,7 @@ module.exports = async (env,check) => {
   const adapter=fs.readFileSync(path.join(root,'ui-forms.js'),'utf8');
   assert.doesNotMatch(adapter,/\bfetch\s*\(|localStorage\s*\.|sessionStorage\s*\.|__opsTest|shareableState|\.setView\s*\(|\bstate\./,'Presentation must not read or write operational state');
   const loader="  // Stage D: load presentation only; existing forms and handlers stay authoritative.\n  const formsScript = document.createElement('script');\n  formsScript.src = 'ui-forms.js'; document.head.append(formsScript);\n";
-  const workspace=fs.readFileSync(path.join(root,'ui-workspaces.js'),'utf8').replace(/\r\n/g,'\n');
+  const workspace=require('./release-default-source.cjs').workspace(fs.readFileSync(path.join(root,'ui-workspaces.js'),'utf8').replace(/\r\n/g,'\n'));
   assert.equal(workspace.split(loader).length,2,'One explicit presentation-only loader');
   assert.equal(workspace.replace(loader,''),execFileSync('git',['show',baseline+':ui-workspaces.js'],{cwd:root,encoding:'utf8'}).replace(/\r\n/g,'\n'));
  });

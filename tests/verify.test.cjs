@@ -1,6 +1,6 @@
 const {test}=require('node:test'), assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),os=require('node:os');
-const {options,plan,childEnv,suite,overviewNavigation,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha}=require('./verify.cjs');
+const {options,plan,childEnv,suite,overviewNavigation,overviewQuickAdd,releaseDefault,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha}=require('./verify.cjs');
 
 test('FAST workflow runs no browsers, PDFs, screenshots or recovery by default',()=>{
   assert.deepEqual(plan(options(['fast'],{})),[]);
@@ -156,18 +156,34 @@ test('G1 source allowance preserves historical source and rejects duplicate or a
   assert.throws(()=>normalise('index.html',current.replace(resolver,'')));
   assert.throws(()=>normalise('index.html',current.replace(newRecord,'')));
 });
+test('Quick Add acceptance rejects stale, dirty, partial, failed or source-mismatched evidence',()=>{
+  const files=['index.html','ui-overview.js','ui-overview.css','ui-workspaces.js','ui-workspaces.css','ui-forms.js','ui-forms.css','tests/harness.cjs','tests/workspace-fixture.cjs','tests/overview-record-source.cjs','tests/overview-quick-add-source.cjs','tests/overview-quick-add.cjs'];
+  const sourceHashes=Object.fromEntries(files.map(file=>[file,sha(fs.readFileSync(path.join(__dirname,'..',file)))]));
+  const report={commit:'head',endCommit:'head',engine:'chromium',inputsUnchanged:true,worktreeClean:true,sourceHashes,passed:8,failed:0,tests:Array.from({length:8},(_,i)=>({name:'G2 contract '+i,status:'PASS'}))};
+  overviewQuickAdd(report,'chromium','head',true);
+  for(const change of [{commit:'old'},{endCommit:'new'},{engine:'firefox'},{inputsUnchanged:false},{worktreeClean:false},{passed:7},{failed:1},{tests:report.tests.slice(1)},{tests:report.tests.map(()=>report.tests[0])},{tests:report.tests.map((t,i)=>i?t:{...t,status:'FAIL'})},{sourceHashes:{}},{sourceHashes:{...sourceHashes,'index.html':'changed'}},{sourceHashes:{...sourceHashes,'extra.js':'unexpected'}}])
+    assert.throws(()=>overviewQuickAdd({...report,...change},'chromium','head',true));
+});
 test('FULL includes complete suites, both PDF comparisons, three Stage E captures, model inspection and standalone recovery',()=>{
   const steps=plan(options(['full'],{OCE_TEST_FILTER:'nothing',OCE_STAGE_A_FILTER:'nothing',OCE_SCREENSHOT_FILTER:'nothing'}));
-  assert.equal(steps.length,19);assert.ok(steps.every(s=>s.filter===''));
+  assert.equal(steps.length,23);assert.ok(steps.every(s=>s.filter===''));
   for(const id of ['chromium-regression','chromium-workspaces','firefox-regression','firefox-workspaces',
     'report-comparison','workspace-pdfs','workspace-pdf-comparison','project-spatial-screenshots',
-    'model-evidence','complete-recovery','recovery-verification','chromium-overview-navigation','firefox-overview-navigation','chromium-report-refinement','firefox-report-refinement','report-refinement-comparison','chromium-punch-client','firefox-punch-client','punch-client-comparison']) assert.ok(steps.some(s=>s.id===id));
+    'model-evidence','complete-recovery','recovery-verification','chromium-overview-navigation','firefox-overview-navigation','chromium-overview-quick-add','firefox-overview-quick-add','chromium-release-default','firefox-release-default','chromium-report-refinement','firefox-report-refinement','report-refinement-comparison','chromium-punch-client','firefox-punch-client','punch-client-comparison']) assert.ok(steps.some(s=>s.id===id));
   assert.equal(steps.find(s=>s.id==='project-spatial-screenshots').file,'tests/capture-project-spatial.cjs');
   assert.deepEqual(steps.find(s=>s.id==='model-evidence').args,['--no-screenshots']);
   assert.ok(!steps.some(s=>['tests/capture-workspaces.cjs','tests/capture.cjs'].includes(s.file)));
   assert.throws(()=>options(['full','--reuse','old'],{}));assert.throws(()=>options(['full','--shots','mobile'],{}));
   assert.throws(()=>options(['full','--scope','navigation'],{}));
   assert.throws(()=>options(['full','--scope','report-refinement'],{}));
+});
+test('Release default acceptance requires complete, clean, exact-source evidence in the requested engine',()=>{
+  const files=['index.html','ui-workspaces.js','ui-workspaces.css','ui-overview.js','ui-overview.css','tests/harness.cjs','tests/workspace-fixture.cjs','tests/release-default.cjs','tests/release-default-source.cjs'];
+  const sourceHashes=Object.fromEntries(files.map(file=>[file,sha(fs.readFileSync(path.join(__dirname,'..',file)))]));
+  const report={commit:'head',endCommit:'head',engine:'firefox',inputsUnchanged:true,worktreeClean:true,sourceHashes,passed:6,failed:0,tests:Array.from({length:6},(_,i)=>({name:'Release default: contract '+i,status:'PASS'}))};
+  releaseDefault(report,'firefox','head',true);
+  for(const change of [{commit:'old'},{endCommit:'new'},{engine:'chromium'},{inputsUnchanged:false},{worktreeClean:false},{passed:5},{failed:1},{tests:report.tests.slice(1)},{tests:report.tests.map(()=>report.tests[0])},{tests:report.tests.map((t,i)=>i?t:{...t,status:'FAIL'})},{sourceHashes:{}},{sourceHashes:{...sourceHashes,'index.html':'changed'}},{sourceHashes:{...sourceHashes,'extra.js':'unexpected'}}])
+    assert.throws(()=>releaseDefault({...report,...change},'firefox','head',true));
 });
 test('children cannot inherit unrelated filters, stale output paths, main overrides or Chromium into Firefox',()=>{
   const inherited={OCE_TEST_FILTER:'x',OCE_STAGE_A_FILTER:'y',OCE_SCREENSHOT_FILTER:'z',OCE_BROWSER:'chrome.exe',OCE_MAIN_REF:'old',OCE_TEST_OUTPUT:'stale'};
