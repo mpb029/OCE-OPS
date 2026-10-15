@@ -1,0 +1,73 @@
+/* Stage D only: Original board removes all d-* enhancements. */
+@media screen {
+  .d-form.modal-back { top:var(--d-visible-top,0px);bottom:auto;height:var(--d-visible-height,100dvh);padding:16px; }
+  .d-form.modal-back .modal { max-height:calc(var(--d-visible-height,100dvh) - 32px);width:100%;border:1px solid #c7d4df;box-shadow:0 24px 80px #071e3b45; }
+  #itemModal.d-form .modal { max-width:820px; }
+  #settingsModal.d-form .modal { max-width:1056px; }
+  .d-form .modal-head { min-height:64px;padding:12px 20px;color:#17344f;background:#f8fafc;gap:12px; }
+  .d-form .modal-head > span { line-height:1.4; }
+  .d-form .modal-close { min-height:44px;min-width:44px; }
+  .d-form .modal-body { min-height:0;padding:20px;scroll-padding:12px; }
+  #itemModal.d-form .modal-body { display:block; }
+  .d-form .field { margin:0;min-width:0;position:relative; }
+  .d-form .field label { color:#344e65;font-size:14px;line-height:1.5;font-weight:600; }
+  .d-form input:not([type=checkbox]):not([type=range]),.d-form select,.d-form textarea { min-height:44px;font:400 16px/1.5 var(--font-body);border-color:#aebfce;background:#fff; }
+  .d-form textarea { min-height:100px; }
+  .d-form input[type=checkbox] { width:20px;height:20px;flex:0 0 20px;accent-color:#24629a; }
+  .d-form .chkline { display:flex;align-items:center;gap:10px;min-height:44px;margin:0;font-weight:500; }
+  .d-form .btn { min-height:44px;justify-content:center; }
+  .d-form :is(input,select,textarea,button,a):focus-visible { outline:3px solid #3e87c6;outline-offset:2px; }
+  .d-form .modal-foot { padding:12px 20px;align-items:center;gap:12px;flex-shrink:0;background:#f8fafc; }
+  .d-form .modal-foot .btn { min-width:96px;flex-shrink:0; }
+  .d-save-note { margin:0 auto 0 0;max-width:330px;color:#506478;font-size:13px;line-height:1.5; }
+  .d-form-section { padding:0 0 20px;margin:0 0 20px;border-bottom:1px solid #dce5ec; }
+  .d-form-section:last-child { margin-bottom:0;padding-bottom:0;border:0; }
+  .d-section-title { font:650 14px/1.5 var(--font-body);color:#173c5b;margin:0 0 14px;letter-spacing:.01em; }
+  .d-section-fields { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px 20px; }
+  .d-section-fields > :is(#fldSub,#fldExtras,#fldCustom,#fldRange,#fldPhotos,.vis-field),.d-section-fields > .field:has(#fMain) { grid-column:1/-1; }
+  .d-section-fields #fldExtras,.d-section-fields #fldCustom { gap:16px 20px; }
+  .d-section-fields #fldExtras .field:has(textarea) { grid-column:1/-1; }
+  .d-form [hidden] { display:none!important; }
+  .d-required { position:absolute;right:0;top:2px;font-size:12px;color:#506478; }
+  .d-form [aria-invalid=true] { border:2px solid #b33e36!important; }
+  .d-field-error { color:#a32d26;font-size:14px;line-height:1.5;margin:8px 0 0; }
+  .d-form .vis-field { padding:12px 16px;border:1px solid #d6e2ec;border-radius:8px;background:#f6f9fc; }
+  .d-form .vis-field > label:first-child { margin-bottom:4px; }
+  .d-settings-frame { display:flex;min-height:0;overflow:hidden; }
+  .d-settings-nav { flex:0 0 184px;padding:16px 12px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;background:#f1f5f9;border-right:1px solid #d7e2ec; }
+  .d-settings-nav a { min-height:44px;padding:10px 12px;border-radius:6px;font-size:14px;font-weight:600;line-height:1.5;color:#234862;text-decoration:none; }
+  .d-settings-nav a:hover,.d-settings-nav a:focus { color:#124a76;background:#deebf5; }
+  .d-settings-frame .modal-body { flex:1;min-width:0; }
+  .d-settings-section { padding:0 0 24px;margin:24px 0;border-bottom:1px solid #dce5ec; }
+  .d-settings-section:last-child { border:0;margin-bottom:0; }
+  .d-settings-section .d-section-title { font-size:17px;margin-bottom:16px; }
+  .d-settings-section > .field,.d-settings-section > .field-row { margin-bottom:16px; }
+  .d-settings-section > .set-section:first-of-type { display:none; }
+  .d-settings-section > p { font-size:14px!important;line-height:1.55; }
+  .d-settings-note { color:#3c5368;background:#edf4fa;border-left:3px solid #6c97bc;padding:12px 14px;font-size:13px;line-height:1.55;margin:0 0 16px; }
+  .d-form :is(.proj-row,.client-row) { gap:10px; }
+  .d-form .proj-row .proj-clients .chkline { min-height:44px;font-size:14px; }
+  .d-form .proj-row .proj-del,.d-form .client-row .proj-del,.d-form .client-row .mini-btn,.d-form .sf-del { min-width:44px;min-height:44px;flex-basis:44px; }
+  #summaryModal.d-form .modal-body,#statModal.d-form .modal-body,#markerModal.d-form .modal-body { gap:16px 20px; }
+  #statModal.d-form .field,#markerModal.d-form .field { margin-bottom:16px; }
+  @media(max-width:800px) {
+    .d-form.modal-back { padding:8px; }
+    .d-form.modal-back .modal { max-height:calc(var(--d-visible-height,100dvh) - 16px); }
+    .d-settings-frame { flex-direction:column; }
+    .d-settings-nav { flex:0 0 auto;flex-direction:row;padding:8px;gap:4px;overflow-x:auto;border-right:0;border-bottom:1px solid #d7e2ec; }
+    .d-settings-nav a { white-space:nowrap; }
+  }
+  @media(max-width:580px) {
+    .d-form .modal-head { min-height:56px;padding:8px 12px;font-size:16px; }
+    .d-form .modal-body { padding:16px; }
+    .d-section-fields { grid-template-columns:minmax(0,1fr);gap:14px; }
+    .d-form-section { margin-bottom:16px;padding-bottom:16px; }
+    .d-form .modal-foot { padding:8px 12px;gap:8px;flex-wrap:wrap; }
+    .d-save-note { flex-basis:100%;max-width:none;font-size:12px; }
+    .d-form .modal-foot .btn { flex:1;min-width:80px; }
+    .d-form .field-row { grid-template-columns:minmax(0,1fr);gap:14px; }
+    .d-form .linkrow { flex-wrap:wrap; }
+    .d-form .linkrow input { min-width:0;flex-basis:160px; }
+  }
+  @media(max-height:520px) { .d-form .modal-foot .d-save-note { display:none; } }
+}

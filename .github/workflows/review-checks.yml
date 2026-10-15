@@ -1,0 +1,83 @@
+name: OCE-OPS review checks
+run-name: OCE-OPS ${{ inputs.level || (github.event.action == 'labeled' && github.event.label.name == 'verification:full' && 'full') || (github.event.action == 'labeled' && github.event.label.name == 'verification:focused' && 'focused') || 'fast' }} — ${{ github.event.pull_request.head.sha || github.sha }}
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, labeled]
+  workflow_dispatch:
+    inputs:
+      level:
+        description: Verification level (FULL only for production release or justified high-risk changes)
+        type: choice
+        options: [fast, focused, full]
+        default: fast
+      scope:
+        description: Affected workflow (FULL always tests everything)
+        type: choice
+        options: [navigation, overview, overview-navigation, workflow, audience, editing, backup, spatial, project-spatial, field, forms, print, report-refinement, punch-client]
+        default: overview-navigation
+
+permissions:
+  contents: read
+
+concurrency:
+  group: review-${{ github.event.pull_request.number || github.ref }}-${{ github.event.action == 'labeled' && github.event.label.name || inputs.level || 'fast' }}
+  cancel-in-progress: true
+
+jobs:
+  verification:
+    # Label events permit explicit FULL checks before the workflow reaches main.
+    # Adding a label runs once; subsequent pushes remain FAST. Re-add for a new FULL run.
+    if: github.event.action != 'labeled' || contains(fromJSON('["verification:full","verification:focused"]'), github.event.label.name)
+    name: ${{ (inputs.level == 'full' || (github.event.action == 'labeled' && github.event.label.name == 'verification:full')) && 'FULL' || (inputs.level == 'focused' || (github.event.action == 'labeled' && github.event.label.name == 'verification:focused')) && 'FOCUSED' || 'FAST' }} verification
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      VERIFY_LEVEL: ${{ inputs.level || (github.event.action == 'labeled' && github.event.label.name == 'verification:full' && 'full') || (github.event.action == 'labeled' && github.event.label.name == 'verification:focused' && 'focused') || 'fast' }}
+      VERIFY_SCOPE: ${{ inputs.scope || 'overview-navigation' }}
+      LIBGL_ALWAYS_SOFTWARE: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci
+      - name: Install only the required browser engines
+        run: |
+          if [ "$VERIFY_LEVEL" = fast ]; then
+            npx playwright install --with-deps chromium
+          else
+            npx playwright install --with-deps chromium firefox
+          fi
+      - if: env.VERIFY_LEVEL == 'full' || (env.VERIFY_LEVEL == 'focused' && env.VERIFY_SCOPE != 'overview-navigation')
+        run: python -m pip install pypdf==6.10.0
+      - name: Refresh the operational baseline
+        run: git fetch origin main
+      - name: Run selected verification (no automatic assertion retries)
+        run: |
+          if [ "$VERIFY_LEVEL" = full ]; then
+            xvfb-run --auto-servernum npm run verify:full
+          else
+            xvfb-run --auto-servernum npm run "verify:$VERIFY_LEVEL" -- --scope "$VERIFY_SCOPE"
+          fi
+      - name: Validate complete acceptance evidence at this exact commit
+        if: env.VERIFY_LEVEL == 'full'
+        run: |
+          git fetch origin main
+          for directory in test-results/verification/full-*; do
+            npm run verify:gate -- --evidence "$directory"
+          done
+      - name: Retain scoped evidence (large recovery package only for FULL)
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: ${{ env.VERIFY_LEVEL }}-${{ github.event.pull_request.head.sha || github.sha }}-attempt-${{ github.run_attempt }}
+          path: test-results/verification/
+          retention-days: ${{ env.VERIFY_LEVEL == 'full' && 30 || 7 }}
+          compression-level: ${{ env.VERIFY_LEVEL == 'full' && 0 || 6 }}
+          if-no-files-found: error

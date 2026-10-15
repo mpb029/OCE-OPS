@@ -4,6 +4,29 @@ A single-page, static dashboard for a civil/water construction work area. It run
 entirely in the browser, so it hosts straight off **GitHub Pages** with no server,
 database, or build step.
 
+**Phase 1.1 interface review:** see [refinements, isolated repairs and current evidence](docs/phase1.1/REVIEW.md).
+This feature branch is for review only; merge and deployment require the owner's approval.
+
+### Actual runtime structure
+
+The active application logic and original screen/print styles are inline in root
+`index.html`. Phase 1 adds `ui-v2.css` (screen only) and `ui-v2.js` (presentation,
+responsive commands and dialog focus). Root `app.js` and `styles.css` are legacy
+files and are not loaded by this page. Leaflet, proj4, Three.js, GeoRaster and JSZip
+are loaded from their existing CDNs. Operational state remains in `data.json` and
+browser storage. There is no mandatory package installation or build step.
+
+### Optional isolated regression checks
+
+With Node.js and Git installed, run `npm ci`, `npx playwright install chromium`,
+then `npm test`. The harness serves the current checkout and the recorded Git
+baseline locally, uses a cloned in-memory dataset, and intercepts every GitHub API
+write. It never edits `data.json` or uses real publishing credentials. Weather is
+a deterministic fixture; map/3D libraries are real. Internet is needed for CDNs.
+Results and PDFs go to ignored `test-results/`. Run `npm run screenshots -- before`
+and `npm run screenshots -- after` for review captures. `OCE_BROWSER` can select an
+installed Chromium executable, and `OCE_TEST_OUTPUT` can select an output folder.
+
 It shows:
 
 - An interactive **work-area map** (Leaflet) that loads features exported from QGIS
@@ -22,9 +45,13 @@ It shows:
 2. Upload these files, keeping the folder structure:
    ```
    index.html
-   css/styles.css
-   js/app.js
-   data/workarea.geojson
+   ui-v2.css
+   ui-v2.js
+   data.json                 # preserve the existing operational file
+   files/                    # preserve attachments
+   aerial/                   # preserve imagery tiles
+   workarea.geojson
+   G4N.obj
    README.md
    ```
 3. In the repo: **Settings → Pages → Build and deployment → Source: Deploy from a
@@ -35,6 +62,10 @@ It shows:
 > the GeoJSON from loading (browser security). Either push to GitHub Pages, or run a
 > quick local server: `python3 -m http.server` then open `http://localhost:8000`.
 > Markers still work either way — only the auto-load of the repo's GeoJSON needs a server.
+
+The base loader now reads root `workarea.geojson`, with `data/workarea.geojson` as
+a fallback when the root file is missing. The existing root file is a sample
+work area near Rainbow Beach; its contents are preserved for owner review.
 
 ---
 
@@ -53,9 +84,9 @@ coordinate values). To force it, use **Settings → Imported GeoJSON coordinate 
 **Two ways to get features onto the map:**
 
 1. **Base layer (auto-loads for everyone):** export your main layer as
-   **`data/workarea.geojson`** in the repo. It loads on every visit as "Work area".
+   **`workarea.geojson`** in the repo. It loads on every visit as "Work area".
    - QGIS: Right-click layer → **Export → Save Features As…** → Format **GeoJSON** →
-     CRS **EPSG:28356** (or 4326) → save as `data/workarea.geojson`.
+     CRS **EPSG:28356** (or 4326) → save as `workarea.geojson`.
 2. **Add more layers in the app:** click **Add layers** on the map toolbar and select
    **one or more** GeoJSON files at once. Each becomes its own named, colour-coded layer
    with a show/hide/remove panel top-right of the map. These layers are **saved with the
@@ -64,7 +95,7 @@ coordinate values). To force it, use **Settings → Imported GeoJSON coordinate 
 
 > Tip: uploaded layers travel inside `data.json`, so keep them sensibly sized (simplify
 > dense layers in QGIS first). A very large permanent base map is lighter committed as
-> `data/workarea.geojson`.
+> `workarea.geojson`.
 
 Attribute columns (Asset, Stage, Status, etc.) appear in each feature's pop-up. A column
 named `Asset` or `name` is used as the heading.
@@ -82,7 +113,7 @@ named `Asset` or `name` is used as the heading.
   **Delivery**, **Laydown Area**, **Plant / equipment** (excavator), **Site compound**,
   **Traffic control** (cone), and **Hazard**. Click any pin later to read, **Edit**, or
   **Delete**, and to set who can see it.
-- **Panels:** each has a **+** to add and pen/bin icons on hover to edit/remove. Special
+- **Panels:** each has a **+** to add and visible pen/bin controls to edit/remove. Special
   panels: **Punch List** takes a **due date** plus a **priority** (High / Medium / Low badge);
   **Meetings/Site Visits** take a **due date** (overdue items flag red); **Work Packages**
   take a **% complete** and show a progress bar. Multi-field panels: **Incoming Deliveries**
@@ -158,7 +189,7 @@ named `Asset` or `name` is used as the heading.
   The report header carries the **Offaly Civil logo** and the title names the selected project,
   e.g. *Offaly Civil Engineering — Client Report — Tin Can Bay Watermain*.
 - **Who-sees-what:** two levels, both with tappable **S** (site) / **C** (client) chips
-  (green = shown):
+  (tinted = shown; green for site, blue for client in the Phase 1 interface):
   - **Whole panel** — chips in each panel's header. Master switch per audience: turn a
     panel's **C** on to let the client see it, off to hide the whole panel. Site sees
     every panel by default; the client sees a panel only once you switch its **C** on.
@@ -225,7 +256,13 @@ stay on your machine until you connect and Publish.
 
 This is *near* real-time, not instant-to-the-second: after you Publish, the supervisor
 sees it on their next refresh (within ~45s), give or take a few seconds for GitHub's
-cache. **Export/Import** still works as a manual backup if you ever want a local snapshot.
+cache. **Export** produces a local JSON snapshot. The separate Phase 1.1 Import repair
+validates the backup, restores projects, clients, models, history, panel metadata and
+summaries, and retains unknown/legacy fields through export/import and local reloads.
+Storage or rendering failures roll back the board. Restoring is local and marks the
+board unpublished; publishing still requires the existing explicit Publish action.
+Backups contain attachment URLs, not binary attachment files. Publishing retains its
+existing explicit field list; unknown extension keys remain in local backups.
 
 ---
 

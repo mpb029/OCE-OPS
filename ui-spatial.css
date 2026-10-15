@@ -1,0 +1,85 @@
+/* C1: screen-only Site & Models presentation. Original board and reports inherit
+   no spatial layout overrides. Hidden viewers retain measurable original nodes. */
+.sp-chrome, .sp-tool-label { display: none; }
+@media screen {
+  .sp-site .sp-chrome { display: inline-flex; }
+  .sp-site .sp-chrome[hidden], .sp-site .ws-shortcuts [hidden] { display: none; }
+  .sp-site .ws-heading { margin-bottom: 14px; }
+  .sp-site .ws-shortcuts { padding-bottom: 16px; align-items: center; }
+  .sp-site .ws-shortcuts a, .sp-site #spBoth { min-height: 44px; font-size: 14px; }
+  .sp-site .ws-shortcuts [data-sp-current], .sp-site #spBoth[aria-pressed="true"] { color: #fff; background: #205c8b; border-color: #205c8b; }
+  .sp-site .spatial-column { position: relative; gap: 20px; align-items: start; }
+  .sp-site #mapCard, .sp-site #modelCard { min-width: 0; width: 100%; grid-row: auto; grid-column: auto; }
+  .sp-site [data-sp-hidden] { position: absolute !important; left: -100000px; top: 0; width: 100%; visibility: hidden; pointer-events: none; }
+  .sp-site .card-head { padding: 12px 16px; gap: 8px; flex-wrap: wrap; }
+  .sp-site .card-head .ttl { font-size: 16px; flex-basis: auto; }
+  .sp-site .tool-btn, .sp-site .cat-select { min-height: 44px; font-size: 14px; }
+  .sp-site .mobile-map-toggle { display: inline-flex; margin-left: 0; }
+  .sp-site #spLayers { margin-left: auto; }
+  .sp-site .map-toolbar { padding: 10px 12px; gap: 8px 12px; }
+  .sp-site .map-toolbar .grp { width: auto; gap: 8px; }
+  .sp-site .map-toolbar .sep { display: none; }
+  .sp-site #map { height: var(--sp-height,400px); }
+  .sp-site #spMapTools { display: none; }
+  .sp-site .map-hint { position: static; max-width: none; border-radius: 0; padding: 9px 14px; font-size: 13px; background: #eef4f8; color: #304e68; line-height: 1.5; }
+  .sp-site .map-hint b { color: #205c8b; }
+  .sp-site .mobile-map-collapsed .map-toolbar, .sp-site .mobile-map-collapsed .map-hint { display: none !important; }
+  .sp-site .mobile-map-collapsed #map { position: absolute !important; inset: 0 0 auto; visibility: hidden; pointer-events: none; }
+  .sp-site #mapCard:not([data-sp-layers-open]) .layer-ctl { display: none !important; }
+  .sp-site .layer-ctl { width: 320px; max-width: calc(100vw - 110px); max-height: min(330px,calc(var(--sp-height,400px) - 20px)); overflow-y: auto; overscroll-behavior: contain; border: 1px solid #b8cbdc; }
+  .sp-site .layer-ctl .lc-head { position: sticky; top: 0; z-index: 2; padding: 8px 10px; font-size: 14px; gap: 8px; }
+  .sp-site .layer-ctl .lc-head > i { display: none; }
+  .sp-site .layer-ctl .lc-row { padding: 8px 10px; font-size: 14px; }
+  .sp-site .layer-ctl .lc-main { gap: 6px; }
+  .sp-site .layer-ctl .lc-name { display: flex; align-items: center; min-height: 44px; line-height: 1.45; cursor: pointer; }
+  .sp-site .layer-ctl .lc-swatch { width: 10px; height: 10px; }
+  .sp-site .layer-ctl input[type="checkbox"] { width: 22px; height: 22px; }
+  .sp-site .layer-ctl .lc-zoom, .sp-site .layer-ctl .lc-remove, .sp-site .layer-ctl .lc-color { width: 44px; height: 44px; flex-shrink: 0; }
+  .sp-site .layer-ctl .lc-w, .sp-site .layer-ctl .lc-dash, .sp-site .layer-ctl .lc-clear { min-height: 44px; min-width: 44px; font-size: 14px; }
+  .sp-site .layer-ctl .lc-sl { font-size: 14px; gap: 6px; }
+  .sp-site .layer-ctl .lc-style { padding-left: 0; margin-top: 6px; }
+  .sp-site .sp-layer-close { margin-left: auto; }
+  .sp-site .leaflet-control-zoom a { width: 44px; height: 44px; line-height: 44px; }
+  .sp-site #modelCard .model-tools { width: auto; margin-left: auto; }
+  .sp-site #modelCard .model-disclosure { min-height: 44px; font-size: 14px; }
+  .sp-site #modelStage { height: var(--sp-height,400px); }
+  .sp-site #modelCard .model-list { padding: 12px 16px; }
+  .sp-site .model-hint, .sp-site .model-name { font-size: 14px; line-height: 1.6; }
+  .sp-site .model-name { min-height: 44px; }
+  .sp-site .model-flip, .sp-site .model-del { width: 44px; height: 44px; flex-shrink: 0; }
+  .sp-site .model-toolbar { top: auto; bottom: 10px; left: 10px; right: 10px; max-width: none; gap: 2px; justify-content: space-between; }
+  .sp-site .model-toolbar .mt { width: auto; min-width: 44px; height: 54px; flex: 1; gap: 3px; padding: 6px 2px; }
+  .sp-site .sp-tool-label { display: block; font: 500 13px var(--font-body); }
+  .sp-site .model-empty { font-size: 15px; }
+  .sp-site #modelCard:has(.model-hint) #modelStage { height: 176px; }
+  .sp-site #modelCard:fullscreen { display: flex; visibility: visible; position: static !important; }
+  .sp-site #modelCard:fullscreen #modelStage { height: auto; flex: 1; }
+  .sp-site button:focus-visible, .sp-site .lc-name:focus-visible { outline: 3px solid #70afe1; outline-offset: 2px; }
+  @media (min-width: 1200px) {
+    .sp-site[data-sp-view="both"] .spatial-column { display: grid; grid-template-columns: minmax(0,1.12fr) minmax(0,1fr); }
+    .sp-site[data-sp-view="both"] #modelCard .model-tools { flex-basis: 100%; margin-left: 0; }
+    .sp-site[data-sp-view="both"] #mapCard .map-toolbar { min-height: 108px; }
+  }
+  @media (max-width: 1199px) {
+    .sp-site .wrap { padding-top: 16px; }
+    .sp-site .ws-heading { margin-bottom: 10px; }
+    .sp-site .ws-description { font-size: 14px; }
+  }
+  @media (max-width: 680px) {
+    .sp-site .topbar .brand { padding-top: 12px; }
+    .sp-site .topbar .proj-picker { grid-column: 1; }
+    .sp-site .topbar .topbar-actions { grid-column: 2; }
+    .sp-site .header-meta { padding-bottom: 8px; }
+    .sp-site .ws-scope { font-size: 14px; }
+    .sp-site .ws-description { font-size: 13px; }
+    .sp-site .card-head { padding: 10px 12px; }
+    .sp-site #spMapTools { display: inline-flex; margin-left: auto; }
+    .sp-site #mapCard:not([data-sp-tools-open]) .map-toolbar > .grp:has(#btnAddMode),
+    .sp-site #mapCard:not([data-sp-tools-open]) .map-toolbar > .grp:has(#btnLoadGeo) { display: none; }
+    .sp-site .layer-ctl { max-width: calc(100vw - 60px); }
+    .sp-site .map-toolbar .grp:first-child { flex-basis: 100%; }
+    .sp-site .map-toolbar .cat-select { width: 100px; }
+    .sp-site #modelCard .model-tools { width: 100%; margin: 0; }
+    .sp-site .model-toolbar { left: 6px; right: 6px; bottom: 6px; }
+  }
+}

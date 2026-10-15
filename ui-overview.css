@@ -1,0 +1,117 @@
+/* Screen-only B2 presentation. Original print styles and panel nodes are untouched. */
+/* G2: compact shortcuts to the existing Add forms. */
+@media screen {
+  .ov-add-actions { display:flex;flex-wrap:wrap;gap:8px; }
+  .ov-add-action { min-height:44px;padding:8px 14px;border:1px solid #b8cde0;border-radius:6px;background:#fff;color:#1b5b8e;font:600 14px/1.4 var(--font-body);cursor:pointer; }
+  .ov-add-action:hover { background:#edf5fc;border-color:#2678b7; }
+  .ov-add-action:focus-visible { outline:3px solid #3189d4;outline-offset:2px; }
+  body.viewer .ov-add-actions,body.locked .ov-add-actions { display:none; }
+  @media(max-width:680px) {
+    .ov-add-actions { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr); }
+    .ov-add-action { padding:8px 4px; }
+  }
+}
+/* END G2 Quick Add. */
+@media screen {
+  .ws-overview { display:grid; gap:20px; color:#15334b; }
+  .ws-overview[hidden] { display:none; }
+  .ov-card { min-width:0; background:#fff; border:1px solid #d5e1ed; border-radius:12px; overflow:hidden; }
+  .ws-overview h2,.ws-overview h3,.ws-overview p,.ws-overview dl,.ws-overview dd { margin:0; }
+  .ws-overview h2 { font-size:18px; line-height:1.4; font-weight:650; }
+  .ws-overview h3 { font-size:15px; line-height:1.5; font-weight:600; }
+  .ov-note,.ov-detail { color:#526b80; font-size:14px; line-height:1.6; }
+  .ov-detail { overflow-wrap:anywhere; white-space:pre-line; }
+  .ov-link { display:inline-flex; align-items:center; min-height:44px; font-size:14px; font-weight:600; color:#1b5fa8; text-decoration:none; }
+  .ov-link:hover,.ov-record-link:hover { text-decoration:underline; }
+  .ws-overview a:focus-visible,.ws-overview summary:focus-visible { outline:3px solid #3189d4; outline-offset:-3px; border-radius:4px; }
+  .ov-briefing { border-top:3px solid #2c6697; }
+  .ov-briefing-toggle { display:flex; align-items:center; gap:14px; padding:12px 22px; cursor:pointer; min-height:48px; box-sizing:border-box; list-style:none; }
+  .ov-briefing-toggle::-webkit-details-marker { display:none; }
+  .ov-briefing-toggle:hover { background:#f4f8fc; }
+  .ov-briefing-title { display:flex; flex-wrap:wrap; align-items:baseline; gap:4px 16px; flex:1; min-width:0; }
+  .ov-briefing-title strong { font-size:16px; line-height:1.5; font-weight:650; }
+  .ov-disclosure-icon { width:9px; height:9px; border:solid #35638a; border-width:0 2px 2px 0; transform:rotate(45deg); margin:0 3px 5px; flex-shrink:0; }
+  .ov-briefing[open]>.ov-briefing-toggle .ov-disclosure-icon { transform:rotate(225deg); margin:5px 3px 0; }
+  .ov-briefing[open]>.ov-briefing-toggle { border-bottom:1px solid #dce6ef; }
+  .ov-briefing[open]>.ov-briefing-toggle>.ov-rag { display:none; }
+  .ov-summary { display:grid; grid-template-columns:1.1fr 1fr; border:0; border-radius:0; }
+  .ov-summary+.ov-summary { border-top:1px solid #ccdce9; }
+  .ov-summary-intro { padding:16px 24px; }
+  .ov-eyebrow { font-size:12px; font-weight:650; letter-spacing:.06em; line-height:1.6; text-transform:uppercase; color:#4c667e; }
+  .ov-summary h2 { margin-top:8px; font-size:20px; overflow-wrap:anywhere; }
+  .ov-stage { margin-top:8px!important; font-size:15px; font-weight:600; }
+  .ov-summary .ov-detail { margin-top:6px; }
+  .ov-rag { display:inline-block; margin-left:14px; padding:4px 9px; border-radius:5px; letter-spacing:.04em; font-size:12px; font-weight:650; line-height:1.5; flex-shrink:0; }
+  .ov-briefing-toggle .ov-rag { margin-left:0; }
+  .ov-rag[data-rag=GREEN] { background:#e7f4ec;color:#216440; }
+  .ov-rag[data-rag=AMBER] { background:#fff1ce;color:#785100; }
+  .ov-rag[data-rag=RED] { background:#fdeae8;color:#a6302b; }
+  .ov-summary-facts { display:grid; grid-template-columns:1fr 1fr; gap:24px; padding:24px; align-content:center; border-left:1px solid #e2eaf1; }
+  .ov-summary-facts dd { margin-top:8px; font-size:16px; font-weight:600; line-height:1.6; overflow-wrap:anywhere; }
+  .ov-outlook { grid-column:1/-1; border-top:1px solid #e2eaf1; background:#f8fafc; }
+  .ov-outlook summary { cursor:pointer; padding:14px 28px; font-size:14px; font-weight:600; min-height:48px; box-sizing:border-box; }
+  .ov-outlook dl { padding:0 28px 18px; }
+  .ov-outlook dl>div { display:grid; grid-template-columns:190px 1fr; gap:16px; padding:10px 0; border-top:1px solid #e2eaf1; font-size:14px; line-height:1.6; }
+  .ov-outlook dt { color:#526b80; }.ov-outlook dd { white-space:pre-line; overflow-wrap:anywhere; }
+  .ov-quick { display:grid; grid-template-columns:repeat(var(--ov-count),minmax(0,1fr)); gap:10px; }
+  .ov-quick-label { grid-column:1/-1; color:#526b80; font-size:13px; line-height:1.5; }
+  .ov-metric { display:flex; align-items:center; gap:12px; min-height:76px; padding:14px 16px; border:1px solid #d5e1ed; border-radius:8px; background:#fff; color:#15334b; text-decoration:none; box-sizing:border-box; }
+  .ov-metric-label { font-size:14px; line-height:1.45; font-weight:600; flex:1; min-width:0; overflow-wrap:anywhere; }
+  .ov-metric strong { font-size:26px; font-weight:650; line-height:1.2; font-variant-numeric:tabular-nums; }
+  .ov-arrow { color:#436680; font-size:16px; }
+  .ov-metric:hover { border-color:#3189d4; background:#fafdff; }
+  .ov-columns { display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start; }
+  .ov-section-head { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 22px; border-bottom:1px solid #e2eaf1; background:#f9fbfd; }
+  .ov-section-head .ov-link { flex-shrink:0; }
+  .ov-section-head .ov-note { margin-top:5px; }
+  .ov-list { list-style:none; padding:0; margin:0; }
+  .ov-list>li { padding:10px 22px 18px; border-bottom:1px solid #e8eef4; }
+  .ov-list>li:last-child { border-bottom:0; }
+  .ov-record-link { display:flex; align-items:center; min-height:44px; color:#173e60; font-size:16px; font-weight:600; line-height:1.5; text-decoration:none; overflow-wrap:anywhere; }
+  .ov-meta { display:flex; gap:6px; flex-wrap:wrap; margin-top:10px; }
+  .ov-tag,.ov-project-tag { padding:4px 8px; border-radius:4px; font-size:14px; line-height:1.5; background:#edf4fb; color:#27577f; overflow-wrap:anywhere; }
+  .ov-project-tag { background:#f0f3f6;color:#516576; }
+  .ov-empty,.ov-list-foot { padding:18px 22px; color:#526b80; font-size:14px; line-height:1.6; }
+  .ov-attention-group { border-bottom:1px solid #e2eaf1; }.ov-attention-group:last-child { border-bottom:0; }
+  .ov-attention-group h3 { padding:5px 22px 0; }
+  .ov-stats { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:22px; padding:22px; }
+  .ov-stat-value { font-size:24px; font-weight:650; padding:12px 0; line-height:1.4; }
+  .ov-bar { height:7px; border-radius:5px; background:#e5edf5; overflow:hidden; margin-bottom:14px; }.ov-bar span { display:block; height:100%; background:#2c70b9; }
+  .ov-stat dl>div { display:flex; gap:12px; justify-content:space-between; font-size:14px; line-height:1.8; }.ov-stat dt { color:#526b80; }
+  .ov-footer { display:flex; align-items:center; justify-content:space-between; gap:24px; padding:2px 4px 20px; }.ov-footer .ov-link { flex-shrink:0; }
+  @media(max-width:1199px) {
+    .ws-enabled[data-workspace="overview"] .wrap { padding-top:16px; }
+    .ws-enabled[data-workspace="overview"] .ws-heading { margin-bottom:16px; }
+    .ws-enabled[data-workspace="overview"] .ws-description { display:none; }
+    .ws-enabled[data-workspace="overview"] #wsTitle { margin-bottom:0; }
+    .ov-summary { grid-template-columns:1fr; }.ov-summary-intro { padding:20px 22px 4px; }
+    .ov-summary-facts { padding:14px 22px 20px; border-left:0; }
+    .ov-columns { grid-template-columns:1fr; }.ov-quick { grid-template-columns:repeat(2,minmax(0,1fr)); }
+    .ov-metric { min-height:64px; padding:10px 14px; }
+    .ov-briefing-title { display:block; }.ov-briefing-title .ov-note { display:block; }
+  }
+  @media(max-width:680px) {
+    .ws-enabled[data-workspace="overview"] .topbar { gap:8px; }
+    .ws-enabled[data-workspace="overview"] .brand { padding:12px 0 2px; }
+    .ws-enabled[data-workspace="overview"] .proj-picker { grid-column:1; }
+    .ws-enabled[data-workspace="overview"] .topbar-actions { grid-column:2; }
+    .ws-enabled[data-workspace="overview"] .header-meta { padding:6px 0 8px; min-height:36px; }
+    .ws-enabled[data-workspace="overview"] .ws-heading { align-items:center; gap:12px; margin-bottom:14px; }
+    .ws-overview { gap:14px; }.ov-summary h2 { font-size:19px; }
+    .ov-briefing-toggle { padding:12px 16px; gap:10px; }
+    .ov-briefing-title .ov-note { font-size:13px; }
+    .ov-summary-intro { padding:18px 18px 0; }.ov-summary-facts { padding:10px 18px 18px; gap:18px; }
+    .ov-summary-facts dd { font-size:15px; }
+    .ov-section-head { padding:12px 16px; gap:8px; flex-wrap:wrap; }.ov-list>li { padding:8px 16px 16px; }
+    .ov-section-head>div { flex:1; min-width:170px; }
+    .ov-section-head h2 { font-size:17px; }
+    .ov-section-head .ov-note { font-size:13px; }
+    .ov-metric { padding:10px 12px; gap:8px; }.ov-metric strong { font-size:24px; }.ov-arrow { display:none; }
+    .ov-outlook summary { padding:14px 18px; }.ov-outlook dl { padding:0 18px 14px; }.ov-outlook dl>div { grid-template-columns:1fr; gap:3px; }
+    .ov-footer { display:block; }.ov-footer .ov-link { margin-top:8px; }
+  }
+}
+/* Release: retain the complete first record touch target below Quick Add on desktop. */
+@media screen and (min-width:1200px) {
+  .ws-overview { gap:16px; }
+}

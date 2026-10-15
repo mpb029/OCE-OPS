@@ -1005,6 +1005,15 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 }
 
 </style>
+  <!-- Phase 1 screen design. Existing print styles and application logic stay in this file. -->
+  <link rel="stylesheet" href="ui-v2.css" media="screen" />
+  <script src="ui-v2.js" defer></script>
+  <link rel="stylesheet" href="ui-workspaces.css" />
+  <link rel="stylesheet" href="ui-project-spatial.css" />
+  <link rel="stylesheet" href="ui-report-print.css" media="print" />
+  <link rel="stylesheet" href="ui-overview.css" />
+  <script src="ui-overview.js" defer></script>
+  <script src="ui-workspaces.js" defer></script>
 </head>
 <body>
 
@@ -1036,19 +1045,25 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       <label for="projSelect" title="Project"><i class="fa-solid fa-folder-tree"></i></label>
       <select id="projSelect" title="Select project"></select>
     </div>
-    <div class="topbar-spacer"></div>
-    <div id="syncPill" class="sync-pill" style="display:none"></div>
-    <div class="clock">
-      <div class="day" id="clockDay">&mdash;</div>
-      <div class="date" id="clockDate">&mdash;</div>
-    </div>
     <div class="topbar-actions">
-      <button class="icon-btn" id="btnPrint" title="Print the dashboard as a report"><i class="fa-solid fa-print"></i><span>Print</span></button>
       <button class="icon-btn pub-connect" id="btnPublish" title="Publish your changes so the site supervisor can see them"><i class="fa-solid fa-cloud-arrow-up"></i><span>Connect</span></button>
-      <button class="icon-btn" id="btnSettings" title="Project, weather location &amp; publishing"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
-      <button class="icon-btn" id="btnExport" title="Download all dashboard data as a backup file"><i class="fa-solid fa-download"></i><span>Export</span></button>
-      <button class="icon-btn" id="btnImport" title="Load a previously exported backup file"><i class="fa-solid fa-upload"></i><span>Import</span></button>
+      <div class="header-secondary" id="headerSecondary">
+        <button class="icon-btn" id="btnPrint" title="Print the dashboard as a report"><i class="fa-solid fa-print"></i><span>Print</span></button>
+        <button class="icon-btn" id="btnSettings" title="Project, weather location &amp; publishing"><i class="fa-solid fa-gear"></i><span>Settings</span></button>
+      </div>
+      <details class="header-menu" id="headerMenu">
+        <summary class="icon-btn" aria-label="Board actions"><i class="fa-solid fa-ellipsis"></i><span>Actions</span><i class="fa-solid fa-chevron-down"></i></summary>
+        <div class="header-action-list" id="headerActionList">
+          <button class="icon-btn" id="btnExport" title="Download all dashboard data as a backup file"><i class="fa-solid fa-download"></i><span>Export backup</span></button>
+          <button class="icon-btn" id="btnImport" title="Load a previously exported backup file"><i class="fa-solid fa-upload"></i><span>Import backup</span></button>
+        </div>
+      </details>
       <input type="file" id="fileImport" class="hidden-file" accept="application/json,.json" />
+    </div>
+    <div class="header-meta">
+      <nav class="board-nav" aria-label="Board sections"><a href="#overview" class="nav-overview">Overview</a><a href="#panelsGrid">All panels <i class="fa-solid fa-arrow-down"></i></a></nav>
+      <div id="syncPill" class="sync-pill" role="status" aria-live="polite" style="display:none"></div>
+      <div class="clock"><div class="day" id="clockDay">&mdash;</div><div class="date" id="clockDate">&mdash;</div></div>
     </div>
   </header>
   <div class="hazard"></div>
@@ -1065,7 +1080,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <!-- ============================ BODY ============================ -->
   <div class="wrap">
 
-    <div class="grid-main">
+    <div class="grid-main" id="overview">
+
+      <div class="spatial-column">
 
       <!-- ---------- MAP ---------- -->
       <section class="card map-card">
@@ -1097,10 +1114,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       </section>
 
       <!-- ---------- 3D MODEL VIEWER (below the map) ---------- -->
-      <section class="card" id="modelCard" style="margin-top:18px; display:none">
+      <section class="card" id="modelCard" style="display:none">
         <div class="card-head">
           <span class="ttl"><span class="tag" style="background:#0f9b8e"><i class="fa-solid fa-cube"></i></span>3D Models</span>
           <span class="spacer"></span>
+          <button class="tool-btn model-disclosure" id="btnModelToggle" aria-expanded="true" aria-controls="modelStage modelList" title="Expand or collapse the 3D viewer"><i class="fa-solid fa-chevron-up"></i><span>Close viewer</span></button>
           <div class="model-tools" id="modelTools">
             <button class="tool-btn" id="btnModelUpload" title="View a 3D model (.stl/.glb/.gltf) this session"><i class="fa-solid fa-file-import"></i><span class="lbl">Add file</span></button>
             <button class="tool-btn" id="btnModelUrl" title="Add a hosted 3D model URL (shared with everyone)"><i class="fa-solid fa-link"></i><span class="lbl">Add URL</span></button>
@@ -1120,9 +1138,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         </div>
         <div class="model-list" id="modelList"></div>
       </section>
+      </div>
 
       <!-- ---------- RIGHT COLUMN: status + weather + stats ---------- -->
-      <div>
+      <div class="overview-column">
         <section class="card" id="summaryCard" style="margin-bottom:18px">
           <div class="card-head">
             <span class="ttl"><span class="tag" style="background:#6b4fb0"><i class="fa-solid fa-clipboard-check"></i></span>Project Status</span>
@@ -1159,6 +1178,23 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     <div class="grid-panels" id="panelsGrid"><!-- rendered by JS --></div>
 
     <div class="foot" id="footNote"></div>
+  </div>
+
+  <!-- Backup replacement is local and requires a saved recovery copy. -->
+  <div class="modal-back" id="importModal">
+    <div class="modal">
+      <div class="modal-head"><i class="fa-solid fa-file-import"></i><span>Restore a backup</span></div>
+      <div class="modal-body">
+        <p id="importFileName"></p>
+        <p>This replaces this browser's entire board: projects, clients, activities, files and photo references, visibility, settings, history, map layers and saved model references.</p>
+        <p id="importWarning"><strong>Unpublished local changes will be replaced.</strong> Save the current board below before continuing.</p>
+        <p>Your GitHub connection stays unchanged. Imported data stays local until you explicitly Publish. Session-only uploads are not included in JSON backups; keep their original files.</p>
+        <button type="button" class="btn" id="importBackup">Download current board backup</button>
+        <p><label class="chkline"><input type="checkbox" id="importBackupSaved" disabled /> I have saved the recovery backup.</label></p>
+        <p class="help">To undo a successful restore, use Import with this recovery file. JSON backups retain attachment links; they do not embed attachment files.</p>
+      </div>
+      <div class="modal-foot"><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn primary" id="importConfirm" disabled>Replace local board</button></div>
+    </div>
   </div>
 
   <!-- ============================ ITEM MODAL ============================ -->
@@ -1849,6 +1885,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       const d = defaultState();
       // shallow-merge to tolerate older saves
       const merged = {
+        ...parsed, // retain forward-compatible backup fields across local reloads
         settings: Object.assign({}, d.settings, parsed.settings),
         clients: (parsed.clients && parsed.clients.length) ? parsed.clients
           : [ { id: DEFAULT_CLIENT, name: "Client", key: "client" } ],
@@ -2308,9 +2345,20 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     const center = box.getCenter(new THREE.Vector3());
     const maxDim = Math.max(size.x, size.y, size.z) || 1;
     const cam = three.camera, controls = three.controls;
-    cam.near = maxDim / 1000; cam.far = maxDim * 1000; cam.updateProjectionMatrix();
-    const d = maxDim * 1.9;
-    cam.position.set(center.x + d, center.y + d * 0.7, center.z + d);
+    // Fit all eight bounds corners to the actual viewport/FOV, with 15% breathing room.
+    // A fixed max-dimension multiplier made long pipe networks needlessly tiny.
+    three.resize();
+    const direction = new THREE.Vector3(1, 0.7, 1).normalize();
+    cam.position.copy(center).add(direction); cam.lookAt(center);
+    const rotation = cam.quaternion.clone().invert();
+    const tanY = Math.tan(THREE.MathUtils.degToRad(cam.fov / 2)), tanX = tanY * cam.aspect;
+    let distance = 0;
+    for (const x of [box.min.x, box.max.x]) for (const y of [box.min.y, box.max.y]) for (const z of [box.min.z, box.max.z]) {
+      const corner = new THREE.Vector3(x, y, z).sub(center).applyQuaternion(rotation);
+      distance = Math.max(distance, corner.z + Math.abs(corner.x) / tanX, corner.z + Math.abs(corner.y) / tanY);
+    }
+    cam.near = maxDim / 10000; cam.far = maxDim * 100; cam.updateProjectionMatrix();
+    cam.position.copy(center).addScaledVector(direction, Math.max(distance * 1.15, maxDim * 0.1));
     controls.target.copy(center); controls.update();
     if (three.grid) three.scene.remove(three.grid);
     three.grid = new THREE.GridHelper(maxDim * 3, 24, 0x6b7a88, 0x424c56);
@@ -2608,11 +2656,13 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   function loadWorkArea() {
-    fetch("data/workarea.geojson", { cache: "no-store" })
+    fetch("workarea.geojson", { cache: "no-store" })
+      // Older installations used data/. Keep that path as a 404-only fallback.
+      .then((r) => r.status === 404 ? fetch("data/workarea.geojson", { cache: "no-store" }) : r)
       .then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
       .then((d) => { reportGeo(addGeoJSON(d, true), "Work area"); })
       .catch(() => {
-        setMapHint(`No <b>data/workarea.geojson</b> loaded yet — use <b>Load GeoJSON</b> to open your QGIS export, or drop the file into the repo's <b>data/</b> folder.`);
+        setMapHint(`No work-area GeoJSON loaded — use <b>Add layers</b> to open your QGIS export, or place <b>workarea.geojson</b> in the repository root (legacy <b>data/</b> is also supported).`);
       });
   }
 
@@ -2626,13 +2676,20 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   function fitFeatures() {
-    const groups = [];
-    if (geoLayer && repoVisible) groups.push(geoLayer);
-    (state.mapLayers || []).forEach((ml) => { if (ml.type !== "tiles" && userLayers[ml.id]) groups.push(userLayers[ml.id]); });
-    if (markerLayer && markerLayer.getLayers().length) groups.push(markerLayer);
-    if (!groups.length) return;
-    const fg = L.featureGroup(groups);
-    try { map.fitBounds(fg.getBounds().pad(0.2)); } catch (e) {}
+    if (!map) return;
+    const bounds = L.latLngBounds([]);
+    function include(layer) {
+      if (!layer || !map.hasLayer(layer)) return;
+      // LayerGroup has no getBounds; descend into its visible marker children.
+      if (layer.eachLayer) layer.eachLayer(include);
+      else if (layer.getBounds) { const b = layer.getBounds(); if (b && b.isValid()) bounds.extend(b); }
+      else if (layer.getLatLng) bounds.extend(layer.getLatLng());
+    }
+    if (repoVisible) include(geoLayer);
+    include(markerLayer);
+    Object.values(userLayers).forEach(include);
+    Object.values(rasterLayers).forEach((r) => include(r.layer));
+    if (bounds.isValid()) map.fitBounds(bounds.pad(0.2), { maxZoom: map.getMaxZoom() });
   }
 
   function setMapHint(html) {
@@ -3500,6 +3557,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         state.panelVis[pid][who] = !state.panelVis[pid][who];
         touchPanel(pid); save(); renderPanels();
       }));
+    // Stage A presentation hook: the original renderer remains authoritative.
+    document.dispatchEvent(new Event("oce:panels-rendered"));
   }
 
   let editingItem = { panel: null, id: null };
@@ -3828,27 +3887,161 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   function importData(file) {
     const fr = new FileReader();
     fr.onload = () => {
+      let candidate;
       try {
-        const parsed = JSON.parse(fr.result);
-        state = {
-          settings: Object.assign(defaultState().settings, parsed.settings),
-          base: parsed.base || "street",
-          markers: parsed.markers || [],
-          stats: parsed.stats || [],
-          panels: Object.assign(defaultState().panels, parsed.panels),
-          mapLayers: parsed.mapLayers || [],
-          panelVis: parsed.panelVis || {}
-        };
-        save();
-        renderHeader(); renderStats(); renderPanels(); renderMarkers();
-        if (map) renderUserLayers();
-        loadWeather();
-        if (map) map.setView([state.settings.loc.lat, state.settings.loc.lng]);
+        candidate = normaliseBackup(JSON.parse(fr.result));
       } catch (e) {
-        alert("That file couldn't be read as a dashboard backup. Make sure it's a JSON file exported from this dashboard.");
+        alert("Backup was not imported. Your current board is unchanged. " + e.message); return;
       }
+      const saved = document.getElementById("importBackupSaved");
+      const confirm = document.getElementById("importConfirm");
+      let recovery;
+      saved.checked = false; saved.disabled = true; confirm.disabled = true;
+      document.getElementById("importFileName").textContent = "Selected backup: " + file.name;
+      saved.onchange = () => { confirm.disabled = !saved.checked; };
+      document.getElementById("importBackup").onclick = () => {
+        try {
+          recovery = JSON.stringify(state);
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(new Blob([recovery], { type: "application/json" }));
+          a.download = "offaly-ops-before-import-" + new Date().toISOString().replace(/[:.]/g, "-") + ".json";
+          a.click(); setTimeout(() => URL.revokeObjectURL(a.href), 60000);
+          saved.disabled = false;
+        } catch (e) { alert("Recovery backup could not be downloaded. The board is unchanged. " + e.message); }
+      };
+      confirm.onclick = () => {
+        if (!saved.checked || !recovery) return;
+        if (sync.busy || JSON.stringify(state) !== recovery) {
+          alert("The board changed or publishing is in progress. Cancel and restart Import to save a fresh recovery backup."); return;
+        }
+        let previous;
+        const refreshBoard = () => {
+          renderHeader(); renderStats(); renderPanels(); renderProjectSelect(); renderProjectSummary();
+          updatePublishUI(); setSyncStatus();
+        };
+        try {
+          previous = {
+            state, project: currentProject, sync: { ...sync },
+            storage: [STORE_KEY, PROJ_KEY, DIRTY_KEY].map((key) => [key, localStorage.getItem(key)]),
+            layers: [], userLayers, markers: markerLayer ? markerLayer.getLayers() : [],
+            center: map && map.getCenter(), zoom: map && map.getZoom()
+          };
+          if (map) map.eachLayer((layer) => previous.layers.push(layer));
+          state = candidate;
+          if (currentProject !== "all" && !projects().some((p) => p.id === currentProject)) currentProject = "all";
+          // Complete fallible storage/map/board work before touching the model scene.
+          localStorage.setItem(STORE_KEY, JSON.stringify(candidate));
+          localStorage.setItem(PROJ_KEY, currentProject);
+          localStorage.setItem(DIRTY_KEY, "1");
+          refreshBoard();
+          if (map) { applyBase(); renderUserLayers(); renderMarkers(); map.setView([state.settings.loc.lat, state.settings.loc.lng], map.getZoom(), { animate: false }); }
+        } catch (e) {
+          let restored = true;
+          if (previous) {
+            state = previous.state; currentProject = previous.project; Object.assign(sync, previous.sync);
+            // Attempt each restoration independently, including when one storage key fails.
+            for (const [key, raw] of previous.storage) {
+              try { if (localStorage.getItem(key) !== raw) raw === null ? localStorage.removeItem(key) : localStorage.setItem(key, raw); }
+              catch (restoreError) { restored = false; }
+            }
+            try {
+              if (map) {
+                map.eachLayer((layer) => { if (!previous.layers.includes(layer)) map.removeLayer(layer); });
+                userLayers = previous.userLayers;
+                markerLayer.clearLayers(); previous.markers.forEach((layer) => markerLayer.addLayer(layer));
+                previous.layers.forEach((layer) => { if (!map.hasLayer(layer)) map.addLayer(layer); });
+                map.setView(previous.center, previous.zoom, { animate: false }); renderLayerControl();
+              }
+              syncBaseBtn(); refreshBoard();
+            } catch (restoreError) { restored = false; console.error("Could not refresh after a failed import", restoreError); }
+          }
+          closeModal("importModal");
+          alert((restored ? "Backup was not imported. Your current board is unchanged. " : "Backup was not imported, but browser recovery was incomplete. Keep this tab open; your downloaded pre-import backup can restore the original board. ") + e.message);
+          return;
+        }
+        // Commit: no candidate model loads are started on a failed import.
+        sync.dirty = true;
+        Object.keys(loadedObjs).forEach((id) => {
+          // Session uploads are unchanged and retain their cached geometry.
+          if (sessionModels[id]) return;
+          const obj = loadedObjs[id]; if (obj.parent) obj.parent.remove(obj); delete loadedObjs[id];
+        });
+        closeModal("importModal");
+        renderModels(); updatePublishUI(); setSyncStatus(); loadWeather();
+        toast("Backup restored locally — review before publishing");
+      };
+      openModal("importModal");
     };
+    fr.onerror = () => alert("Backup could not be read. Your current board is unchanged.");
     fr.readAsText(file);
+  }
+
+  function normaliseBackup(parsed) {
+    const object = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
+    const fail = (name) => { throw new Error("Invalid backup field: " + name); };
+    if (!object(parsed) || !object(parsed.settings) || !object(parsed.panels)) fail("settings / panels");
+    const arrays = ["clients", "projects", "markers", "stats", "mapLayers", "models"];
+    arrays.forEach((name) => {
+      if (parsed[name] !== undefined && (!Array.isArray(parsed[name]) || !parsed[name].every(object))) fail(name);
+    });
+    const text = (v) => typeof v === "string" && v.trim().length > 0;
+    const records = (items, name) => {
+      const ids = new Set();
+      items.forEach((item) => {
+        if (!text(item.id) || ids.has(item.id) || ["__proto__", "constructor", "prototype"].includes(item.id)) fail(name + ".id (missing or duplicate)");
+        ids.add(item.id);
+        if (item.vis !== undefined && (!object(item.vis) || ["site", "client"].some((k) => item.vis[k] !== undefined && typeof item.vis[k] !== "boolean"))) fail(name + ".vis");
+        if (item.visible !== undefined && typeof item.visible !== "boolean") fail(name + ".visible");
+        if (item.project !== undefined && typeof item.project !== "string") fail(name + ".project");
+      });
+    };
+    arrays.forEach((name) => records(parsed[name] || [], name));
+    ["clients", "projects"].forEach((name) => {
+      // Missing collections are valid older exports; an explicitly empty collection
+      // is rejected instead of being silently repopulated on the next reload.
+      if (parsed[name] && !parsed[name].length) fail(name + " must contain at least one record");
+      (parsed[name] || []).forEach((item) => { if (!text(item.name)) fail(name + ".name"); });
+    });
+    (parsed.clients || []).forEach((client) => { if (!text(client.key)) fail("clients.key"); });
+    ["panelVis", "panelMeta", "history", "projectSummary"].forEach((name) => {
+      if (parsed[name] !== undefined && !object(parsed[name])) fail(name);
+      Object.values(parsed[name] || {}).forEach((record) => { if (!object(record)) fail(name + " record"); });
+    });
+    Object.keys(parsed.panels).forEach((name) => {
+      const items = parsed.panels[name];
+      if (!Array.isArray(items) || !items.every(object)) fail("panels." + name);
+      records(items, "panels." + name);
+      items.forEach((item) => {
+        if (item.main !== undefined && typeof item.main !== "string") fail("panels." + name + ".main");
+        if (PANELS.some((p) => p.id === name) && name !== "documents" && !text(item.main)) fail("panels." + name + ".main");
+        if (name === "documents" && (!text(item.name) || !text(item.url))) fail("documents.name / url");
+        if (item.x !== undefined && !object(item.x)) fail("panels." + name + ".x");
+        if (item.photos !== undefined && (!Array.isArray(item.photos) || !item.photos.every((photo) => object(photo) && text(photo.url)))) fail("photos.url");
+      });
+    });
+    (parsed.stats || []).forEach((stat) => { if (stat.fields !== undefined && (!Array.isArray(stat.fields) || !stat.fields.every(object))) fail("stats.fields"); });
+    (parsed.projects || []).forEach((project) => { if (project.clients !== undefined && (!Array.isArray(project.clients) || !project.clients.every(text))) fail("projects.clients"); });
+    (parsed.models || []).forEach((model) => { if (!text(model.url) || (model.upAxis !== undefined && !["y", "z"].includes(model.upAxis))) fail("models.url / upAxis"); });
+    (parsed.mapLayers || []).forEach((layer) => {
+      if (layer.style !== undefined && !object(layer.style)) fail("mapLayers.style");
+      if (layer.type === "tiles") { if (!text(layer.url) || !["{z}", "{x}", "{y}"].every((part) => layer.url.includes(part))) fail("mapLayers.url"); }
+      else {
+        if (!object(layer.data)) fail("mapLayers.data");
+        // Parse off-map so invalid geometry cannot tear down the current layers.
+        try { L.geoJSON(layer.data); } catch (e) { fail("mapLayers.data geometry"); }
+      }
+    });
+    (parsed.markers || []).forEach((marker) => { if (!Number.isFinite(marker.lat) || !Number.isFinite(marker.lng)) fail("marker coordinates"); });
+    if (parsed.settings.loc !== undefined && (!object(parsed.settings.loc) || !Number.isFinite(parsed.settings.loc.lat) || !Number.isFinite(parsed.settings.loc.lng))) fail("settings.loc");
+    if (parsed.base !== undefined && !["street", "sat"].includes(parsed.base)) fail("base");
+    const d = defaultState();
+    return {
+      ...d, ...parsed,
+      settings: { ...d.settings, ...parsed.settings },
+      panels: { ...d.panels, ...parsed.panels },
+      clients: parsed.clients || d.clients,
+      projects: parsed.projects || [{ id: DEFAULT_PROJ, name: parsed.settings.projectName || "Main project", clients: [DEFAULT_CLIENT] }]
+    };
   }
 
   /* =======================================================================
@@ -4337,6 +4530,58 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     preloadPrintImages().then(() => setTimeout(() => window.print(), 250));
   }
 
+  // BEGIN B1 read-only adapter. Original filters/formatters remain authoritative.
+  document.addEventListener("oce:overview-read", (event) => {
+    if (!remoteResolved || editLocked || typeof event.detail?.accept !== "function") return;
+    const text = (value) => value == null ? "" : String(value);
+    const plain = (html) => { const node = document.createElement("span"); node.innerHTML = html; return node.textContent.trim(); };
+    const inScope = projects().filter((p) => projInScope(p.id));
+    const summaries = inScope.filter((p) => sync.audience === "editor" || sumHasContent((state.projectSummary || {})[p.id])).map((p) => {
+      const s = (state.projectSummary || {})[p.id] || {};
+      return { id: text(p.id), name: text(p.name), status: SUM_STATUS[s.status]?.rag || "", stage: text(s.stage),
+        note: text(s.statusComment), milestone: text(s.milestone), completion: text(compValue(s)),
+        outlook: SUM_ROWS.filter(([key]) => !["stage", "milestone"].includes(key) && s[key]).map(([key, label]) => [label, text(s[key])]) };
+    });
+    const panels = orderedPanels().filter((p) => ["dailyWorks", "upcoming", "issuesDelays", "qualityTesting", "punchlist", "incidents"].includes(p.id))
+      .filter((p) => sync.audience === "editor" || panelVisOf(p.id)[sync.audience]).map((p) => ({
+        id: p.id, title: p.title,
+        items: sortItemsForDisplay(visiblePanelItems(p.id)).filter((it) => !isResolved(it)).map((it) => ({
+          id: text(it.id), title: text(it.main), detail: text(it.sub), project: text(projName(effProj(it))),
+          labels: [p.dateRange ? plain(rangeBadge(it.startDate, it.endDate)) : "",
+            p.kind === "dated" ? plain(dueBadge(it.due, false)) : "",
+            fmtDay(it.dateAssigned) ? "Assigned " + fmtDay(it.dateAssigned) : "", plain(reqBadge(it.dateRequired, false)),
+            wstatusDef(it.wstatus)?.label, priorityDef(p, it.priority)?.label, statusDef(p, it.status)?.label, teamDef(it.team)?.label].filter(Boolean)
+        }))
+      }));
+    // Reuse renderStats' audience-filtered presentation, including legacy target/frequency handling.
+    // Copy text and bar width only: never clone IDs, controls, handlers or mutable records.
+    const stats = document.getElementById("prodStatsCard").style.display === "none" ? null
+      : [...document.querySelectorAll("#statGrid > .stat")].map((node) => ({
+        label: node.querySelector(".lbl").textContent, value: node.querySelector(".tgt")?.textContent || "",
+        bar: node.querySelector(".bar span")?.style.width || "",
+        fields: [...node.querySelectorAll(".sf")].map((field) => [field.querySelector(".sf-l").textContent, field.querySelector(".sf-v").textContent])
+      }));
+    event.detail.accept({projects:summaries, multipleProjects:inScope.length > 1, panels, stats});
+  });
+  // G1: resolve only a currently permitted record to its original rendered row.
+  document.addEventListener("oce:record-target", (event) => {
+    if (!remoteResolved || editLocked || typeof event.detail?.accept !== "function") return;
+    const { panelId, recordId } = event.detail;
+    const panel = PANELS.find((p) => p.id === panelId);
+    if (!panel || (sync.audience !== "editor" && !panelVisOf(panelId)[sync.audience])) return;
+    const card = document.querySelector('.card[data-card="' + panelId + '"]');
+    if (!card) return;
+    const index = sortItemsForDisplay(visiblePanelItems(panelId)).findIndex((it) => String(it.id) === recordId);
+    if (index >= 0) event.detail.accept(card.querySelectorAll('.card-body > .list > li')[index] || null);
+  });
+  // END B1 read-only adapter.
+
+  // Stage A viewport adapter: resize existing instances without fitting or saving.
+  document.addEventListener("oce:workspace-reveal", () => {
+    if (map && document.getElementById("map").getClientRects().length) map.invalidateSize({ animate: false });
+    if (three && document.getElementById("modelStage").getClientRects().length) three.resize();
+  });
+
   function setViewerMode(audience) {
     sync.audience = audience;
     sync.viewer = audience !== "editor";
@@ -4630,6 +4875,186 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("btnPublish").onclick = () => { hasToken() ? publish() : openSettings(); };
     startSync();
   }
+
+  // BEGIN E project spatial adapter.
+  // Spatial project metadata is optional. Unlike task/marker effProj(), an absent
+  // or empty assignment means Global. Original records and save paths own it.
+  function spatialInScope(record) {
+    return !!record && !editLocked && (!record.project || projInScope(record.project));
+  }
+  const spatialLayerRecord = (id, kind) => kind === "raster" ? rasterLayers[id]
+    : (state.mapLayers || []).find((record) => record.id === id);
+  function spatialAssignment(record, id, kind) {
+    const label = document.createElement("label"); label.className = "sp-project-assignment";
+    const title = document.createElement("span"); title.textContent = "Project";
+    const select = document.createElement("select");
+    select.setAttribute(kind === "model" ? "data-model-project" : "data-lc-project", id);
+    select.setAttribute("aria-label", "Project for " + (record.name || "spatial asset"));
+    select.append(new Option("Global (all projects)", ""));
+    projects().forEach((project) => select.append(new Option(project.name, project.id)));
+    if (record.project && !projById(record.project)) select.append(new Option("Unavailable project", record.project));
+    select.value = record.project || "";
+    select.onchange = () => {
+      if (sync.audience !== "editor" || editLocked) return;
+      const current = kind === "model" ? modelRecord(id) : spatialLayerRecord(id, kind);
+      if (!current || (select.value && !projById(select.value))) return;
+      const restoreFocus = document.activeElement === select;
+      if (select.value) current.project = select.value; else delete current.project;
+      if (kind !== "raster" && !(kind === "model" && sessionModels[id])) save();
+      refreshSpatialScope();
+      if (restoreFocus) {
+        const selector = kind === "model" ? "data-model-project" : "data-lc-project";
+        const replacement = document.querySelector(`[${selector}="${CSS.escape(id)}"]`);
+        const fallbackIds = kind === "model" ? ["btnModelUpload"] : ["spLayers", "btnFit"];
+        const fallback = fallbackIds.map((key) => document.getElementById(key)).find((el) => el?.getClientRects().length
+          && (el.id !== "spLayers" || layerCtlEl?.style.display !== "none"));
+        (replacement || fallback)?.focus({preventScroll:true});
+      }
+    };
+    label.append(title, select); return label;
+  }
+  function syncMapScope() {
+    if (!map) return;
+    const show = (record, layer) => {
+      if (!layer) return;
+      const eligible = spatialInScope(record) && record.visible !== false;
+      if (eligible && !map.hasLayer(layer)) layer.addTo(map);
+      else if (!eligible && map.hasLayer(layer)) map.removeLayer(layer);
+    };
+    (state.mapLayers || []).forEach((record) => show(record, userLayers[record.id]));
+    Object.values(rasterLayers).forEach((record) => show(record, record.layer));
+  }
+  const originalRenderLayerControl = renderLayerControl;
+  renderLayerControl = function () {
+    syncMapScope(); originalRenderLayerControl();
+    if (!layerCtlEl) return;
+    layerCtlEl.querySelectorAll("[data-lc-toggle]").forEach((toggle) => {
+      const id = toggle.getAttribute("data-lc-toggle"), kind = toggle.getAttribute("data-lc-kind");
+      if (id === "__repo__") return; // Preserved repository sample stays Global.
+      const record = spatialLayerRecord(id, kind), row = toggle.closest(".lc-row");
+      if (!spatialInScope(record)) { row.remove(); return; }
+      if (sync.audience === "editor") row.append(spatialAssignment(record, id, kind));
+    });
+    // Clear retains its original all-records behaviour; make that scope explicit.
+    const clear = layerCtlEl.querySelector("[data-lc-clear]");
+    if (clear && (state.mapLayers || []).some((record) => record.project)) {
+      clear.textContent = "Clear all projects";
+      clear.title = "Remove all added layers, including other projects and session files";
+    }
+    if (!layerCtlEl.querySelector(".lc-row")) { layerCtlEl.style.display = "none"; layerCtlEl.innerHTML = ""; }
+  };
+  // Reuse cached Leaflet layers on context/assignment/visibility changes. The
+  // original builder still handles actual geometry, imagery and styling edits.
+  const originalRenderUserLayers = renderUserLayers;
+  let spatialLayerSource = null;
+  renderUserLayers = function () {
+    if (!map) return;
+    const records = state.mapLayers || [];
+    const source = JSON.stringify(records.map((r) => [r.id,r.type,r.url,r.maxNativeZoom,r.opacity,r.attribution,r.data,r.color,r.style]));
+    if (source !== spatialLayerSource || records.some((r) => !userLayers[r.id])) {
+      spatialLayerSource = source; originalRenderUserLayers();
+    } else renderLayerControl();
+  };
+  const originalToggleRaster = toggleRaster;
+  toggleRaster = function (id, show) {
+    if (rasterLayers[id]) rasterLayers[id].visible = show;
+    originalToggleRaster(id, show); syncMapScope();
+  };
+  const originalToggleUserLayer = toggleUserLayer;
+  toggleUserLayer = function (id, show) { originalToggleUserLayer(id, show); syncMapScope(); };
+  const originalFitFeatures = fitFeatures;
+  fitFeatures = function () { syncMapScope(); originalFitFeatures(); };
+
+  const originalAllModels = allModels;
+  allModels = function () { return originalAllModels().filter((model) => spatialInScope(modelRecord(model.id))); };
+  const originalRenderModelList = renderModelList;
+  renderModelList = function () {
+    originalRenderModelList();
+    if (sync.audience !== "editor" || editLocked) return;
+    document.querySelectorAll("#modelList [data-model-toggle]").forEach((toggle) => {
+      const id = toggle.getAttribute("data-model-toggle"), record = modelRecord(id);
+      if (record) toggle.closest(".model-row").append(spatialAssignment(record, id, "model"));
+    });
+  };
+  const originalLoadOne = loadOne, spatialLoads = new Map(), spatialModelSources = new Map();
+  const modelSource = (record) => JSON.stringify([record.url,record.fmt || modelFmt(record.url)]);
+  loadOne = function (model) {
+    const source = modelSource(model), pending = spatialLoads.get(model.id);
+    if (pending) return pending.source === source ? pending.promise
+      : pending.promise.catch(() => null).then(() => loadOne(model));
+    if (loadedObjs[model.id] && spatialModelSources.get(model.id) !== source) {
+      const previous = loadedObjs[model.id]; if (previous.parent) previous.parent.remove(previous);
+      delete loadedObjs[model.id];
+    }
+    spatialModelSources.set(model.id, source);
+    const promise = originalLoadOne(model).then((object) => {
+      const current = modelRecord(model.id);
+      // A removed/replaced model may finish loading after the context changed.
+      if (!current || modelSource(current) !== source) {
+        if (loadedObjs[model.id] === object) delete loadedObjs[model.id];
+        if (object.parent) object.parent.remove(object);
+        return null;
+      }
+      return object;
+    }).finally(() => { if (spatialLoads.get(model.id)?.promise === promise) spatialLoads.delete(model.id); });
+    spatialLoads.set(model.id, {source, promise}); return promise;
+  };
+  let spatialSceneRevision = 0, spatialRequestFrame = false, spatialViewEstablished = false;
+  syncScene = function () {
+    const revision = ++spatialSceneRevision;
+    const models = allModels(), visible = models.filter((model) => model.visible);
+    const ids = new Set(visible.map((model) => model.id));
+    const shouldFrame = spatialRequestFrame || !spatialViewEstablished; spatialRequestFrame = false;
+    const empty = document.getElementById("modelEmpty"), toolbar = document.getElementById("modelToolbar");
+    Object.entries(loadedObjs).forEach(([id, object]) => {
+      if (!ids.has(id) && object.parent) object.parent.remove(object);
+    });
+    if (!visible.length) {
+      if (empty) { empty.style.display = ""; empty.textContent = models.length ? "No models shown — tick one below." : "No 3D model added yet."; }
+      if (toolbar) toolbar.style.display = "none";
+      return;
+    }
+    if (empty && visible.some((model) => !loadedObjs[model.id])) { empty.style.display = ""; empty.textContent = "Loading…"; }
+    Promise.all(visible.map((model) => loadOne(model).then((object) => {
+      const current = modelRecord(model.id);
+      if (!object || revision !== spatialSceneRevision || !spatialInScope(current) || current.visible === false) return;
+      applyUpAxis(object, current.upAxis || defaultUpAxis(current.fmt || modelFmt(current.url)));
+      if (!object.parent) three.scene.add(object);
+    }).catch((error) => console.warn("model load failed", model.name, error)))).then(() => {
+      if (revision !== spatialSceneRevision) return;
+      const shown = visible.some((model) => loadedObjs[model.id]?.parent === three?.scene);
+      if (empty) { empty.style.display = shown ? "none" : ""; if (!shown) empty.textContent = "Model could not be loaded. Check its URL or file."; }
+      if (toolbar) toolbar.style.display = shown ? "" : "none";
+      if (shown && shouldFrame) { frameAll(); spatialViewEstablished = true; }
+    });
+  };
+  // Explicit import/toggle/remove actions retain their existing Fit behaviour.
+  // Project changes and ordinary rerenders leave the inspection camera alone.
+  const originalAddModelFile = addModelFile, originalAddModelUrl = addModelUrl;
+  const originalToggleModel = toggleModel, originalRemoveModel = removeModel;
+  addModelFile = function (...args) { spatialRequestFrame = true; originalAddModelFile(...args); spatialRequestFrame = false; };
+  addModelUrl = function (...args) { spatialRequestFrame = true; originalAddModelUrl(...args); spatialRequestFrame = false; };
+  toggleModel = function (...args) { spatialRequestFrame = true; originalToggleModel(...args); spatialRequestFrame = false; };
+  removeModel = function (...args) { spatialRequestFrame = true; originalRemoveModel(...args); spatialRequestFrame = false; };
+  const originalRenderModels = renderModels;
+  renderModels = function () {
+    renderLayerControl();
+    originalRenderModels();
+    if (!allModels().length) { renderModelList(); syncScene(); }
+  };
+  function refreshSpatialScope() { renderLayerControl(); renderModels(); }
+  // Do not hook renderProjectSelect: backup restoration calls it before its
+  // fallible storage/map transaction commits. Model work must stay post-commit.
+  const originalAddProject = addProject, originalRemoveProject = removeProject;
+  addProject = function (name) { originalAddProject(name); refreshSpatialScope(); };
+  removeProject = function (id) { originalRemoveProject(id); refreshSpatialScope(); };
+  const originalRemoveClient = removeClient;
+  removeClient = function (id) { originalRemoveClient(id); refreshSpatialScope(); };
+  document.addEventListener("change", (event) => {
+    // Bubble after the authoritative project-picker handler updates its state.
+    if (event.target.matches("#projSelect,[data-proj-name],[data-pc]")) refreshSpatialScope();
+  });
+  // END E project spatial adapter.
 
   if (document.readyState === "loading")
     document.addEventListener("DOMContentLoaded", init);
