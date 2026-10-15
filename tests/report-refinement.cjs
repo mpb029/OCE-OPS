@@ -60,7 +60,7 @@ const snapshot=p=>p.evaluate(()=>{
 (async()=>{
  await check('F1 exact source boundary: only the print stylesheet link added to Stage E runtime',()=>{
   const before=git(['show','76cb688:index.html']).replace(/\r\n/g,'\n');
-  const after=fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/\r\n/g,'\n');
+  const after=require('./overview-record-source.cjs').normalise('index.html',fs.readFileSync(path.join(root,'index.html'),'utf8'));
   const links=[...after.matchAll(/^[ \t]*<link[^\n]*href="ui-report-print\.css"[^\n]*>\n/gm)];
   assert.equal(links.length,1);assert.match(links[0][0],/media="print"/);
   assert.equal(after.replace(links[0][0],'').trim(),before.trim());

@@ -10,6 +10,7 @@ const write = (file, value) => fs.writeFileSync(file, JSON.stringify(value, null
 const scopes = {
   workflow: ['', ''],
   overview: ['^Source contract:', '^Overview(:| refinement:)'],
+  'overview-navigation': ['', ''],
   navigation: ['', '^Opt-in,|^Navigation 768×1024|^Keyboard and discoverable drawer 768×1024'],
   audience: ['^Audience parity', '^Audience compatibility|^Absent whole workspace|^Empty permitted'],
   editing: ['^CRUD parity: (dailyWorks|rfis),|^Production stat:', '^Workspace CRUD'],
@@ -49,10 +50,14 @@ function options(argv, env = process.env) {
   if (opts.reuse) assert.equal(level, 'focused', 'Evidence reuse is only for FOCUSED');
   const filters = scopes[opts.scope].map((value, i) => env[i ? 'OCE_STAGE_A_FILTER' : 'OCE_TEST_FILTER'] || value);
   if (level === 'full') opts.filters = ['', ''];
-  else opts.filters = filters.map((value, i) => level === 'focused' && !['report-refinement','punch-client'].includes(opts.scope) ? [value,common[i]].filter(Boolean).join('|') : value);
+  else opts.filters = filters.map((value, i) => level === 'focused' && !['report-refinement','punch-client','overview-navigation'].includes(opts.scope) ? [value,common[i]].filter(Boolean).join('|') : value);
   if (['report-refinement','punch-client'].includes(opts.scope)) {
     assert.ok(!opts.shots, 'Report refinement produces only its two representative PDF comparisons');
     opts.filters = ['', '']; // This standalone scope owns report/audience guards, not unrelated suites.
+  }
+  if (opts.scope === 'overview-navigation') {
+    assert.ok(!opts.shots, 'Overview navigation runs only its targeted interaction contracts');
+    opts.filters = ['', ''];
   }
   opts.filters.filter(Boolean).forEach(value => new RegExp(value));
   if (opts.shots) new RegExp(opts.shots);
@@ -62,6 +67,11 @@ function options(argv, env = process.env) {
 function plan(opts) {
   const steps = [];
   const add = (id, engine, file, args=[], filter='') => steps.push({id,engine,file,args,filter});
+  if (opts.scope === 'overview-navigation') {
+    for (const engine of opts.level === 'fast' ? ['chromium'] : ['chromium','firefox'])
+      add(engine+'-overview-navigation',engine,'tests/overview-navigation.cjs');
+    return steps;
+  }
   if (opts.scope === 'punch-client') {
     for (const engine of opts.level === 'fast' ? ['chromium'] : ['chromium','firefox']) {
       add(engine+'-punch-client',engine,'tests/punch-client-reports.cjs',engine === 'chromium' && opts.level === 'focused' ? ['--pdf'] : []);
@@ -82,6 +92,8 @@ function plan(opts) {
     if (engine === 'chromium' && ['focused','full'].includes(opts.level)) add('report-comparison',engine,'tests/compare-print.py');
   }
   if (opts.level === 'full') {
+    add('chromium-overview-navigation','chromium','tests/overview-navigation.cjs');
+    add('firefox-overview-navigation','firefox','tests/overview-navigation.cjs');
     add('chromium-report-refinement','chromium','tests/report-refinement.cjs',['--pdf']);
     add('firefox-report-refinement','firefox','tests/report-refinement.cjs');
     add('report-refinement-comparison','chromium','tests/compare-report-refinement.py');
@@ -131,6 +143,15 @@ function suite(report, engine, full, commit) {
     assert.equal(report.worktreeClean, true);
     assert.ok(report.tests.length >= (report.environment ? 83 : 104), 'Incomplete acceptance suite');
   }
+}
+
+function overviewNavigation(report, engine, commit, full = false) {
+  assert.equal(report.commit,commit);assert.equal(report.endCommit,commit);
+  assert.equal(report.engine,engine);
+  assert.equal(report.tests.length,10,'All Overview navigation contracts required');
+  assert.equal(new Set(report.tests.map(t=>t.name)).size,10,'Distinct Overview navigation contracts required');
+  assert.ok(report.tests.every(t=>t.status==='PASS'),'Every Overview navigation assertion must pass');
+  if (full) {assert.equal(report.fullRun,true);assert.equal(report.worktreeClean,true);}
 }
 
 function reportRefinement(report, engine, commit, pdfs) {
@@ -269,6 +290,7 @@ function fullEvidence(directory, receipt, commit, main) {
   assert.deepEqual(receipt.steps.map(s=>[s.id,s.status]),expected.map(s=>[s.id,'PASS']));
   for (const engine of ['chromium','firefox']) for (const file of ['regression-results.json','stage-a-results.json'])
     suite(read(path.join(directory,engine,file)),engine,true,commit);
+  for(const engine of ['chromium','firefox'])overviewNavigation(read(path.join(directory,engine,'overview-navigation/results.json')),engine,commit,true);
   const chrome=path.join(directory,'chromium');
   for (const [file,count] of [['print-comparison.json',5],['workspace-pdfs/comparison-results.json',20]]) {
     historicalPrintComparisons(read(path.join(chrome,file)),count);
@@ -323,6 +345,7 @@ async function main(argv) {
       await execute(step,target,path.join(directory,step.id+'.log'));
       if (step.file === 'tests/regression.cjs' || step.file === 'tests/workspaces.cjs')
         suite(read(path.join(target,step.file.endsWith('regression.cjs')?'regression-results.json':'stage-a-results.json')),step.engine,opts.level==='full',commit);
+      if (step.file === 'tests/overview-navigation.cjs') overviewNavigation(read(path.join(target,'overview-navigation/results.json')),step.engine,commit,opts.level==='full');
       if (step.file === 'tests/report-refinement.cjs') reportRefinement(read(path.join(target,'report-refinement-results.json')),step.engine,commit,step.args.includes('--pdf'));
       if (step.file === 'tests/compare-report-refinement.py') reportComparisons(read(path.join(target,'report-refinement-comparison.json')));
       if (step.file === 'tests/punch-client-reports.cjs') punchClient(read(path.join(target,'punch-client-results.json')),step.engine,commit,step.args.includes('--pdf'));
@@ -338,5 +361,5 @@ async function main(argv) {
   finally {receipt.completedAt=new Date().toISOString();write(path.join(directory,'verification.json'),receipt);}
   console.log('PASS '+opts.level.toUpperCase()+' — '+directory);
 }
-module.exports={options,plan,childEnv,suite,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
+module.exports={options,plan,childEnv,suite,overviewNavigation,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.message);process.exitCode=1;});

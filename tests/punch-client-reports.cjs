@@ -61,7 +61,7 @@ const snapshot=p=>p.evaluate(()=>{
 });
 (async()=>{
  await check('F2 source boundary: original runtime and F1 print styles preserved',()=>{
-  assert.equal(fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/\r\n/g,'\n'),git(['show',base+':index.html']).replace(/\r\n/g,'\n'));
+  assert.equal(require('./overview-record-source.cjs').normalise('index.html',fs.readFileSync(path.join(root,'index.html'),'utf8')),git(['show',base+':index.html']).replace(/\r\n/g,'\n'));
   assert.ok(fs.readFileSync(path.join(root,'ui-report-print.css'),'utf8').replace(/\r\n/g,'\n').startsWith(baselineCSS.replace(/\r\n/g,'\n').trimEnd()));
  });
  const env=await start();
