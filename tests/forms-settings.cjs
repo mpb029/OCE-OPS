@@ -26,9 +26,16 @@ async function cancel(p,modal) {
  await p.waitForFunction(id=>!document.getElementById(id).classList.contains('open'),modal);
 }
 const controls = (p,id) => p.locator('#'+id).evaluate(modal=>{
- const nodes=[...modal.querySelectorAll('input,select,textarea')];
+ const wpPrerequisite=e=>e.matches('#fWPPrerequisites input[type="checkbox"][name="wpPrerequisite"]');
+ const nodes=[...modal.querySelectorAll('input,select,textarea')].filter(e=>{
+  if(!wpPrerequisite(e))return true;
+  if(!e.closest('#fldWPReadiness')||!__opsTest.state.panels.workPackages.some(it=>it.id===e.value))throw new Error('Unexpected Work Package prerequisite control');
+  // The shared form retains generated choices after leaving Work Packages.
+  // Compare every visible choice by its stable record ID, not its generated DOM ID.
+  return !!e.getClientRects().length;
+ });
  return nodes.map((e,index)=>({
-  key:e.dataset.fx?'extra:'+e.dataset.fx:e.id&&!/^ui-field-|^d-field-/.test(e.id)?e.id:Object.entries(e.dataset).map(([k,v])=>k+'='+v).join('|')||e.className+'#'+index,
+  key:wpPrerequisite(e)?'wpPrerequisite:'+e.value:e.dataset.fx?'extra:'+e.dataset.fx:e.id&&!/^ui-field-|^d-field-/.test(e.id)?e.id:Object.entries(e.dataset).map(([k,v])=>k+'='+v).join('|')||e.className+'#'+index,
   tag:e.tagName,type:e.type,value:e.getClientRects().length?e.value:undefined,checked:e.getClientRects().length?e.checked:undefined,readOnly:e.readOnly,disabled:e.disabled,required:e.required,
   min:e.getAttribute('min'),max:e.getAttribute('max'),step:e.getAttribute('step'),pattern:e.getAttribute('pattern'),multiple:e.multiple,
   visible:!!e.getClientRects().length,options:e.getClientRects().length&&e.options?[...e.options].map(o=>[o.value,o.text]):undefined
