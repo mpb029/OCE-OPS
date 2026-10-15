@@ -400,7 +400,7 @@ async function accessChecks(env) {
  });
  await check('Read-only polling: remote update after 45 seconds and viewer ordering',async()=>{
   const run=await open(env,{audience:'?crew=test-site'});const p=run.page;try{
-   const reads=run.network.sharedReads;run.data.publishedAt='2026-10-13T00:01:00.000Z';run.data.panels.dailyWorks.push({id:'remote-poll-item',main:'REMOTE POLL TEST',vis:{site:true,client:false}});run.data.panelMeta.dailyWorks={updated:'2026-10-13T00:01:00.000Z'};
+   const reads=run.network.sharedReads,nextPublished=new Date(Date.parse(run.data.publishedAt)+60000).toISOString();run.data.publishedAt=nextPublished;run.data.panels.dailyWorks.push({id:'remote-poll-item',main:'REMOTE POLL TEST',vis:{site:true,client:false}});run.data.panelMeta.dailyWorks={updated:nextPublished};
    await p.clock.fastForward(46000);await p.waitForFunction(()=>__opsTest.state.panels.dailyWorks.some(i=>i.id==='remote-poll-item'));
    assert.ok(run.network.sharedReads>reads);assert.match(await p.locator('[data-card="dailyWorks"]').innerText(),/REMOTE POLL TEST/);assert.equal(await p.locator('[data-card]').first().getAttribute('data-card'),'dailyWorks');
   }finally{await run.close();}
