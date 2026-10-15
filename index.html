@@ -1060,6 +1060,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <link rel="stylesheet" href="ui-project-spatial.css" />
   <link rel="stylesheet" href="ui-report-print.css" media="print" />
   <link rel="stylesheet" href="ui-overview.css" />
+  <link rel="stylesheet" href="ifc-controls.css" />
   <script src="ui-overview.js" defer></script>
   <script src="ui-workspaces.js" defer></script>
 </head>
@@ -2367,6 +2368,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   /* ==================== 3D model viewer (below the map) ================= */
   let sessionModels = {};          // id -> { name, url, fmt, visible, upAxis } for files added this session (not published)
   let three = null;                // { scene, camera, renderer, controls, grid, current }
+  let ifcInspector = null;         // Lazy, read-only viewer controls; never part of board data.
 
   const modelFmt = (s) => { const m = /\.(glb|gltf|stl|obj|ifc)(\?|#|$)/i.exec(s || ""); return m ? m[1].toLowerCase() : ""; };
 
@@ -2420,6 +2422,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
   function disposeModelObject(object) {
     if (!object) return;
+    object.userData.ifcDetach?.();
     if (object.parent) object.parent.remove(object);
     const geometries = new Set(), materials = new Set(), textures = new Set();
     object.traverse((part) => {
@@ -2433,6 +2436,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
   function releaseModel(id) {
     ifcImports.get(id)?.abort(); ifcImports.delete(id); modelFeedback.delete(id);
+    ifcInspector?.remove(id);
     disposeModelObject(loadedObjs[id]); delete loadedObjs[id];
   }
   const defaultUpAxis = (fmt) => (fmt === "stl" || fmt === "obj") ? "z" : "y";
@@ -2441,7 +2445,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   function frameAll() {
     if (!three) return;
     const box = new THREE.Box3(); let any = false;
-    Object.keys(loadedObjs).forEach((id) => { const o = loadedObjs[id]; if (o && o.parent) { o.updateMatrixWorld(true); box.expandByObject(o); any = true; } });
+    Object.keys(loadedObjs).forEach((id) => { const o = loadedObjs[id]; if (o && o.parent) {
+      o.updateMatrixWorld(true); o.traverseVisible(part => { if (part.geometry) {
+        if (!part.geometry.boundingBox) part.geometry.computeBoundingBox();
+        box.union(part.geometry.boundingBox.clone().applyMatrix4(part.matrixWorld)); any = true;
+      }});
+    }});
     if (!any || !isFinite(box.min.x)) return;
     const size = box.getSize(new THREE.Vector3());
     const center = box.getCenter(new THREE.Vector3());
@@ -2483,8 +2492,17 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           setModelFeedback(m, "Loading IFC…");
           import('./ifc-loader.js').then(({loadIFCModel}) => loadIFCModel(m.url, THREE, {
             signal:controller.signal, progress:(text) => setModelFeedback(m, text)
-          })).then((object) => {
-            setModelFeedback(m, object.userData.ifc.schema + " · " + object.userData.ifc.parts + " geometry parts"); done(object);
+          })).then(async (object) => {
+            try {
+              const {createIFCInspector} = await import('./ifc-controls.js');
+              if (controller.signal.aborted) throw new DOMException('IFC import cancelled.', 'AbortError');
+              if (!ifcInspector) ifcInspector = createIFCInspector({THREE, viewer:three, getModels:allModels});
+              applyUpAxis(object, m.upAxis || defaultUpAxis(fmt));
+              ifcInspector.register(m, object);
+              const info=object.userData.ifc, unavailable=info.unsupported.length;
+              setModelFeedback(m, info.schema + " · " + info.elements.length + " elements · " + info.groups.length + " groups" + (unavailable ? " · " + unavailable + " unavailable/partial" : ""));
+              done(object);
+            } catch (error) { disposeModelObject(object); throw error; }
           }).catch((error) => {
             if (error.name !== "AbortError") setModelFeedback(m, "IFC import failed: " + error.message, true);
             rej(error);
@@ -5424,6 +5442,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     Object.entries(loadedObjs).forEach(([id, object]) => {
       if (!ids.has(id) && object.parent) object.parent.remove(object);
     });
+    ifcInspector?.sync();
     if (!visible.length) {
       if (empty) { empty.style.display = ""; empty.textContent = models.length ? "No models shown — tick one below." : "No 3D model added yet."; }
       if (toolbar) toolbar.style.display = "none";
@@ -5440,7 +5459,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       const shown = visible.some((model) => loadedObjs[model.id]?.parent === three?.scene);
       if (empty) { empty.style.display = shown ? "none" : ""; if (!shown) empty.textContent = "Model could not be loaded. Check its URL or file."; }
       if (toolbar) toolbar.style.display = shown ? "" : "none";
-      if (shown && shouldFrame) { frameAll(); spatialViewEstablished = true; }
+      const restoredView=ifcInspector?.sync();
+      if (shown && shouldFrame) { if (!restoredView) frameAll(); spatialViewEstablished = true; }
     });
   };
   // Explicit import/toggle/remove actions retain their existing Fit behaviour.
