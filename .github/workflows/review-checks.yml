@@ -14,8 +14,8 @@ on:
       scope:
         description: Affected workflow (FULL always tests everything)
         type: choice
-        options: [navigation, overview, workflow, audience, editing, backup, spatial, project-spatial, field, forms, print, report-refinement, punch-client]
-        default: punch-client
+        options: [navigation, overview, overview-navigation, workflow, audience, editing, backup, spatial, project-spatial, field, forms, print, report-refinement, punch-client]
+        default: overview-navigation
 
 permissions:
   contents: read
@@ -34,7 +34,7 @@ jobs:
     timeout-minutes: 40
     env:
       VERIFY_LEVEL: ${{ inputs.level || (github.event.action == 'labeled' && github.event.label.name == 'verification:full' && 'full') || (github.event.action == 'labeled' && github.event.label.name == 'verification:focused' && 'focused') || 'fast' }}
-      VERIFY_SCOPE: ${{ inputs.scope || 'punch-client' }}
+      VERIFY_SCOPE: ${{ inputs.scope || 'overview-navigation' }}
       LIBGL_ALWAYS_SOFTWARE: '1'
     steps:
       - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
@@ -54,7 +54,7 @@ jobs:
           else
             npx playwright install --with-deps chromium firefox
           fi
-      - if: env.VERIFY_LEVEL != 'fast'
+      - if: env.VERIFY_LEVEL == 'full' || (env.VERIFY_LEVEL == 'focused' && env.VERIFY_SCOPE != 'overview-navigation')
         run: python -m pip install pypdf==6.10.0
       - name: Refresh the operational baseline
         run: git fetch origin main
