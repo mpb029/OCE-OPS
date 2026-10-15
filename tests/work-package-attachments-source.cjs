@@ -11,7 +11,7 @@ const blocks = [
   [
     "  /* WP2: draft files use the existing uploader and record persistence, only after Save. */",
     "  /* End WP2 attachment handling. */\n\n",
-    "48f3fca0d74464cf345bafb56ccf0aaf38d039ae8b530b32f2a5491e7d9970c6"
+    "11421a389c7d60465c368b28b2ab1c6d309aa9179cbc8ee060d1cd5a9ec239d0"
   ],
   [
     "  /* WP2: one permitted record, rendered through the existing native panel print path. */",

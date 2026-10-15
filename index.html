@@ -4664,7 +4664,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       wpUploading = false; controls.forEach(([el, disabled]) => el.disabled = disabled); modal.removeAttribute('aria-busy');
       renderWPAttachments();
     }
-    if (succeeded) { closeModal("itemModal"); toast("Work Package and attachments saved — Publish separately to share"); }
+    if (succeeded) closeModal("itemModal");
   }
   // Existing Cancel/backdrop/Escape handlers remove .open directly. Guard only WP uploads.
   document.addEventListener('click', (event) => {
