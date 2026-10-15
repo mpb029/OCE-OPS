@@ -1,4 +1,17 @@
 /* Screen-only B2 presentation. Original print styles and panel nodes are untouched. */
+/* G2: compact shortcuts to the existing Add forms. */
+@media screen {
+  .ov-add-actions { display:flex;flex-wrap:wrap;gap:8px; }
+  .ov-add-action { min-height:44px;padding:8px 14px;border:1px solid #b8cde0;border-radius:6px;background:#fff;color:#1b5b8e;font:600 14px/1.4 var(--font-body);cursor:pointer; }
+  .ov-add-action:hover { background:#edf5fc;border-color:#2678b7; }
+  .ov-add-action:focus-visible { outline:3px solid #3189d4;outline-offset:2px; }
+  body.viewer .ov-add-actions,body.locked .ov-add-actions { display:none; }
+  @media(max-width:680px) {
+    .ov-add-actions { display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr) minmax(0,1fr); }
+    .ov-add-action { padding:8px 4px; }
+  }
+}
+/* END G2 Quick Add. */
 @media screen {
   .ws-overview { display:grid; gap:20px; color:#15334b; }
   .ws-overview[hidden] { display:none; }
