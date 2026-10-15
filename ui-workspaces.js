@@ -1,5 +1,5 @@
 /* Stage A navigation only. The existing runtime owns every record, card and action.
- * Opt in with ?ui=workspaces; remove it or choose Original board to opt out.
+ * Workspaces are the default; ?ui=classic or Original board restores the original view.
  * Read permitted cards AFTER renderPanels; never read or write operational state.
  */
 function initWorkspaces() {
@@ -99,7 +99,7 @@ function initWorkspaces() {
   const nav = element('nav','ws-destinations'); nav.id = 'wsDestinations'; nav.setAttribute('aria-label','Workspaces');
   const footer = element('div','ws-sidebar-footer');
   const original = element('a','ws-original','Original board'); original.id = 'wsOriginal'; original.href = routeURL('all','',false).href;
-  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Stage C2 · opt-in workspaces'));
+  original.prepend(icon('arrow-left')); footer.append(original,element('p','','Operations workspace'));
   sidebar.append(brand,menu,nav,footer); body.append(sidebar);
   const shade = button('Close navigation','wsShade'); shade.className = 'ws-chrome ws-shade'; shade.tabIndex = -1; shade.hidden = true; body.append(shade);
 
@@ -265,7 +265,7 @@ function initWorkspaces() {
   }
   function refresh() {
     pending = false;
-    enabled = new URL(location.href).searchParams.get('ui') === 'workspaces';
+    enabled = new URL(location.href).searchParams.get('ui') !== 'classic';
     const url = new URL(location.href);
     const savedEntry = entry();
     // Record links must not be rejected against the temporary startup board.
@@ -326,7 +326,7 @@ function initWorkspaces() {
   addEventListener('popstate',() => {
     clearTimeout(scrollTimer);
     const saved = entry(); const url = new URL(location.href);
-    if (url.searchParams.get('ui') === 'workspaces') setProject(url.searchParams.get('workspaceProject') || saved?.project);
+    if (url.searchParams.get('ui') !== 'classic') setProject(url.searchParams.get('workspaceProject') || saved?.project);
     refresh(); poppedURL = location.href;
     if (enabled) scrollToRoute(saved?.target || url.hash,saved?.scrollY,false);
   });
