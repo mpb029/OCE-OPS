@@ -78,8 +78,10 @@ function reverse(source,patches,label){
 }
 function defaults(source){return reverse(source,defaultPatches,'Release default');}
 function workspace(source){return reverse(defaults(source),g1Patches,'Approved G1 navigation');}
+const overviewSpacing='/* Release: retain the complete first record touch target below Quick Add on desktop. */\n@media screen and (min-width:1200px) {\n  .ws-overview { gap:16px; }\n}\n';
+function overview(source){return reverse(source,[['',overviewSpacing]],'Release desktop Overview spacing');}
 function normalise(file,source){return sourcePatches[file]?reverse(source,sourcePatches[file],file+' read wrapper'):source;}
-module.exports={defaults,workspace,normalise,defaultPatches,g1Patches,sourcePatches};
+module.exports={defaults,workspace,overview,normalise,defaultPatches,g1Patches,sourcePatches,overviewSpacing};
 if(require.main===module){
  const test=require('node:test'),fs=require('node:fs'),path=require('node:path'),{execFileSync}=require('node:child_process');
  const root=path.resolve(__dirname,'..'),git=ref=>execFileSync('git',['show',ref+':ui-workspaces.js'],{cwd:root,encoding:'utf8'}).replace(/\r\n/g,'\n');
@@ -94,5 +96,14 @@ if(require.main===module){
   assert.equal(workspace(source),git('6920ece'));
   for(const [,after]of g1Patches){assert.throws(()=>reverse(git('cfdcdd2').replace(after,''),g1Patches,'G1'));assert.throws(()=>reverse(git('cfdcdd2')+after,g1Patches,'G1'));}
   assert.notEqual(workspace(source+'\n// unrelated edit'),git('6920ece'));
+ });
+ test('Release desktop spacing is exactly reversible to approved G2 CSS',()=>{
+  const source=fs.readFileSync(path.join(root,'ui-overview.css'),'utf8').replace(/\r\n/g,'\n');
+  const baseline=execFileSync('git',['show','949f1d6:ui-overview.css'],{cwd:root,encoding:'utf8'}).replace(/\r\n/g,'\n');
+  assert.equal(overview(source),baseline);
+  assert.throws(()=>overview(source.replace(overviewSpacing,'')));
+  assert.throws(()=>overview(source+overviewSpacing));
+  assert.throws(()=>overview(source.replace(overviewSpacing,overviewSpacing.replace('gap:16px','gap:15px'))));
+  assert.notEqual(overview(source+'\n/* unrelated edit */'),baseline);
  });
 }

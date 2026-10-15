@@ -39,6 +39,7 @@ const additions = {
 };
 function normalise(file, source) {
   source = source.replace(/\r\n/g, '\n');
+  if (file === 'ui-overview.css') source = require('./release-default-source.cjs').overview(source);
   if (additions[file]) {
     assert.equal(source.split(additions[file]).length, 2, file + ' G2 addition must occur once and match its complete approved body');
     return source.replace(additions[file], '');
