@@ -22,7 +22,10 @@ const sourcePatches = {
   'tests/overview-refinement.cjs': [[read, normalRead]],
   'tests/spatial-usability.cjs': [[read, normalRead]],
   'tests/field-usability.cjs': [[read, normalRead]],
-  'tests/forms-settings.cjs': [[read, normalRead]],
+  'tests/forms-settings.cjs': [[read, normalRead],
+  // Exact dynamic prerequisite control snapshot extension; all original controls remain compared.
+  [" const nodes=[...modal.querySelectorAll('input,select,textarea')];\n", " const wpPrerequisite=e=>e.matches('#fWPPrerequisites input[type=\"checkbox\"][name=\"wpPrerequisite\"]');\n const nodes=[...modal.querySelectorAll('input,select,textarea')].filter(e=>{\n  if(!wpPrerequisite(e))return true;\n  if(!e.closest('#fldWPReadiness')||!__opsTest.state.panels.workPackages.some(it=>it.id===e.value))throw new Error('Unexpected Work Package prerequisite control');\n  // The shared form retains generated choices after leaving Work Packages.\n  // Compare every visible choice by its stable record ID, not its generated DOM ID.\n  return !!e.getClientRects().length;\n });\n"],
+  ["  key:e.dataset.fx?'extra:'+e.dataset.fx:e.id&&!/^ui-field-|^d-field-/.test(e.id)?e.id:Object.entries(e.dataset).map(([k,v])=>k+'='+v).join('|')||e.className+'#'+index,\n", "  key:wpPrerequisite(e)?'wpPrerequisite:'+e.value:e.dataset.fx?'extra:'+e.dataset.fx:e.id&&!/^ui-field-|^d-field-/.test(e.id)?e.id:Object.entries(e.dataset).map(([k,v])=>k+'='+v).join('|')||e.className+'#'+index,\n"]],
   'tests/workspaces.cjs': [
     [indexRead, "require('./stage-e-source.cjs').normalise('index.html'," + indexRead + ')'],
     ["  await require('./forms-settings.cjs')(env,check);", "  await require('./forms-settings.cjs')(env,check);\n  await require('./project-spatial.cjs')(env,check);"]
