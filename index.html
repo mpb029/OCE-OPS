@@ -304,7 +304,53 @@ body.client .card-head .pbtn { display: none; }
   max-width: 190px;
 }
 
+#fldWPReadiness { grid-column: 1 / -1; min-width: 0; }
+.wp-prerequisites { border: 1px solid #ccd7e2; border-radius: 7px; padding: 12px; margin: 14px 0; min-width: 0; }
+.wp-prerequisites legend { font-weight: 600; padding: 0 5px; }
+.wp-prerequisites .chkline { min-height: 44px; padding: 6px 0; overflow-wrap: anywhere; }
+.wp-help { font-size: 13px; line-height: 1.5; color: #506176; margin: 0 0 8px; }
+#wpReadinessError { color: #962c24; font-size: 14px; line-height: 1.5; }
+.wp-readiness { display: block; margin-top: 8px; padding: 10px 12px; border: 1px solid #d4dfe8; border-radius: 6px; font-size: 14px; line-height: 1.55; color: #24374a; font-weight: 400; }
+.wp-go, .wp-no-go { display: inline-block; font-weight: 700; padding: 2px 8px; border-radius: 4px; margin-right: 8px; }
+.wp-go { color: #17623e; background: #e8f4ec; }
+.wp-no-go { color: #922c23; background: #fff0ed; }
+.wp-reasons, .wp-prerequisite-note, .wp-constraints { display: block; margin-top: 6px; overflow-wrap: anywhere; }
+.wp-reasons > span { display: block; }
+.wp-constraints, .wp-prerequisite-note { white-space: pre-wrap; }
 #map { height: 560px; width: 100%; background: #dfe6e3; }
+/* WP2 attachment presentation and the single-record print scope. */
+.wp-attachment { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; width: 100%; padding: 10px 0; border-bottom: 1px solid #dce4eb; overflow-wrap: anywhere; }
+.wp-attachment-info { flex: 1 1 160px; min-width: 0; }
+.wp-attachment-info small { display: block; color: #506176; font-size: 12px; }
+.wp-attachment-preview { width: 86px; height: 70px; object-fit: contain; border: 1px solid #dce4eb; background: #f3f6f9; }
+.wp-attachment button, .wp-attachment a, .wp-sheet-action { min-height: 44px; }
+.wp-attachment a { display: inline-flex; align-items: center; }
+.wp-attachments { display: block; flex-basis: 100%; min-width: 0; width: 100%; }
+#wpAttachmentNotice { width: 100%; font-size: 14px; line-height: 1.5; color: #364c61; }
+@media print {
+  [data-wp-print], [data-wp-download] { display: none !important; }
+  body.wp-sheet-print .card.print-this { border: 0 !important; break-inside: auto; }
+  body.wp-sheet-print .card.print-this > .card-head,
+  body.wp-sheet-print .card.print-this .card-body > :not(#wpPrintSheet) { display: none !important; }
+  body.wp-sheet-print .card.print-this .card-body { padding: 0; }
+  #wpPrintSheet { font: 11pt/1.45 Arial, sans-serif; color: #23374a; }
+  #wpPrintSheet h1 { font-size: 19pt; margin: 0 0 3mm; }
+  #wpPrintSheet h2 { font-size: 12pt; border-bottom: 1px solid #becbd6; padding-bottom: 2mm; margin: 5mm 0 3mm; break-after: avoid; }
+  #wpPrintSheet .wp-sheet-meta { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 2mm 8mm; margin: 0; }
+  #wpPrintSheet .wp-sheet-meta div { break-inside: avoid; }
+  #wpPrintSheet dt { font-size: 9pt; font-weight: bold; color: #506176; }
+  #wpPrintSheet dd { margin: 0; overflow-wrap: anywhere; }
+  #wpPrintSheet .wp-readiness { font-size: 10pt; }
+  #wpPrintSheet .wp-reasons > span { break-inside: avoid; }
+  #wpPrintSheet figure { margin: 0 0 4mm; break-inside: avoid; }
+  #wpPrintSheet figure img { display: block; width: 100%; height: auto; max-height: 72mm; object-fit: contain; }
+  #wpPrintSheet figcaption { font-size: 9pt; padding-top: 2mm; overflow-wrap: anywhere; }
+  #wpPrintSheet table { width: 100%; border-collapse: collapse; font-size: 9pt; table-layout: fixed; }
+  #wpPrintSheet th, #wpPrintSheet td { padding: 2mm; border-bottom: 1px solid #d1d9e0; text-align: left; overflow-wrap: anywhere; vertical-align: top; }
+  #wpPrintSheet tr { break-inside: avoid; }
+  #wpPrintSheet thead { display: table-header-group; }
+}
+/* End WP2 presentation. */
 /* Leaflet owns tile dimensions. Fractional CSS resizing resamples adjacent images
    and exposes seams; retain the inline size that matches Leaflet's tile grid. */
 .map-hint {
@@ -1222,6 +1268,27 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         </div>
         <div id="fldExtras"></div>
         <div id="fldCustom"></div>
+        <div id="fldWPReadiness" style="display:none">
+          <div class="field">
+            <label for="fMaterialsStatus">Materials status</label>
+            <select id="fMaterialsStatus">
+              <option value="unconfirmed">Unconfirmed</option>
+              <option value="available">Available</option>
+              <option value="unavailable">Unavailable</option>
+              <option value="not-required">Not Required</option>
+            </select>
+          </div>
+          <fieldset class="field wp-prerequisites">
+            <legend>Prerequisite Work Packages</legend>
+            <p class="wp-help">Select packages from this project. Each must be marked Completed; percentage complete alone does not confirm completion.</p>
+            <div id="fWPPrerequisites"></div>
+          </fieldset>
+          <div class="field">
+            <label for="fWPConstraints">Hold-up / Constraints</label>
+            <textarea id="fWPConstraints" rows="3" placeholder="Optional notes; these do not change GO / NO GO"></textarea>
+          </div>
+          <p id="wpReadinessError" role="alert" tabindex="-1" hidden></p>
+        </div>
         <div class="field" id="fldDue" style="display:none">
           <label id="lblDue">Due date</label>
           <input type="date" id="fDue" />
@@ -1281,6 +1348,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           <label>Photos</label>
           <div class="photo-strip" id="photoStrip"></div>
           <button type="button" class="btn" id="btnAddPhoto"><i class="fa-solid fa-camera"></i> Add photo</button>
+          <p id="wpAttachmentNotice" role="status" hidden></p>
         </div>
         <div class="field vis-field">
           <label>Visible to</label>
@@ -1717,6 +1785,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       removedAt: opts.removed ? now : (prev.removedAt || ""),
       removedReason: opts.removed ? (opts.reason || "removed") : (prev.removedReason || "")
     };
+    if (pid === "workPackages") {
+      // Optional readiness fields travel with the existing history entry; no second record store.
+      ["materialsStatus", "prerequisiteIds", "constraints", "attachments"].forEach((key) => {
+        if (it[key] !== undefined) state.history[it.id][key] = Array.isArray(it[key]) ? it[key].slice() : it[key];
+      });
+    }
   }
 
   function fmtDay(s) {
@@ -3420,7 +3494,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           const pct = Math.max(0, Math.min(100, parseInt(it.pct, 10) || 0));
           txt = `<span class="txt"><span class="main">${numTag}${refTag}${esc(it.main)}</span>`
               + `<span class="pbar"><span style="width:${pct}%"></span></span>`
-              + `<span class="sub">${pct}% complete</span></span>`;
+              + `<span class="sub">${pct}% complete</span>${p.id === "workPackages" ? workPackageReadinessHtml(it) : ""}</span>`;
         } else {
           txt = `<span class="txt"><span class="main">${numTag}${refTag}${esc(it.main)}</span>`
               + `${detail ? `<span class="sub">${esc(detail)}</span>` : ""}`
@@ -3466,12 +3540,13 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
                <button class="e" data-edit="${p.id}:${it.id}" title="Edit"><i class="fa-solid fa-pen"></i></button>
                <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
              </span>` : "";
-        const photos = p.photos ? itemPhotosHtml(it, p.printSheet ? "inline" : "") : "";
+        const photos = p.id === "workPackages" ? wpAttachmentsHtml(it) : p.photos ? itemPhotosHtml(it, p.printSheet ? "inline" : "") : "";
+        const wpPrint = p.id === "workPackages" ? `<button class="btn wp-sheet-action" data-wp-print="${esc(it.id)}">Print Work Package</button>` : "";
         const sheet = p.printSheet
           ? `<span class="print-sheet print-only"><span class="tickbox"></span><span class="cmt-line">Comments:</span></span>`
           : "";
         const liClass = [resolved ? "done" : "", it.wstatus === "cancelled" ? "cancelled" : ""].filter(Boolean).join(" ");
-        return `<li class="${liClass}"><span class="marker" style="background:${p.color}"></span>${txt}${team}${range}${due}${asg}${req}${wstat}${doneBadge}${prio}${stat}${chips}${acts}${photos}${sheet}</li>`;
+        return `<li class="${liClass}"><span class="marker" style="background:${p.color}"></span>${txt}${team}${range}${due}${asg}${req}${wstat}${doneBadge}${prio}${stat}${chips}${acts}${wpPrint}${photos}${sheet}</li>`;
       }).join("");
       const emptyMsg = kind === "files"
         ? `No files yet.${editor ? ` <button data-empty-add="${p.id}">Attach a file</button>` : ""}`
@@ -3513,6 +3588,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       }));
     grid.querySelectorAll("[data-print-panel]").forEach((b) =>
       b.addEventListener("click", () => printPanel(b.getAttribute("data-print-panel"))));
+    grid.querySelectorAll("[data-wp-print]").forEach((b) => b.addEventListener("click", () => printWorkPackage(b.dataset.wpPrint)));
+    grid.querySelectorAll("[data-wp-download]").forEach((b) => b.addEventListener("click", () => {
+      const it = wpPermittedItem(b.dataset.wpDownload), file = it && wpAttachmentEntries(it)[Number(b.dataset.wpFile)];
+      if (file && wpFileUrl(file.meta.url)) downloadFileReference(file.meta);
+    }));
     grid.querySelectorAll("[data-photo-report]").forEach((b) =>
       b.addEventListener("click", () => openPhotoPrint(b.getAttribute("data-photo-report"))));
     grid.querySelectorAll("[data-dl]").forEach((b) =>
@@ -3606,7 +3686,104 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     });
   }
 
+  /* WP1: derived readiness over authoritative Work Package records only. */
+  const WP_MATERIALS = { unconfirmed: "Unconfirmed", available: "Available", unavailable: "Unavailable", "not-required": "Not Required" };
+  const wpMaterials = (it) => it.materialsStatus === undefined ? "unconfirmed" : it.materialsStatus;
+  const wpComplete = (it) => it.wstatus !== "cancelled" && (it.done === true || it.wstatus === "completed");
+  function wpLookup(id) {
+    const matches = (state.panels.workPackages || []).filter((it) => it.id === id);
+    return typeof id === "string" && id.trim() && matches.length === 1 ? matches[0] : null;
+  }
+  function wpDependencyIssues(root) {
+    const issues = [], active = new Set(), visited = new Set(), stack = [{ item: root }];
+    const issue = (item, reason, dependency) => issues.push({ item, reason, dependency });
+    while (stack.length) {
+      const { item, exit } = stack.pop();
+      if (exit) { active.delete(item); visited.add(item); continue; }
+      if (active.has(item)) { issue(item, "Circular prerequisite dependency"); continue; }
+      if (visited.has(item)) continue;
+      active.add(item); stack.push({ item, exit: true });
+      const ids = item.prerequisiteIds === undefined ? [] : item.prerequisiteIds;
+      if (!Array.isArray(ids)) { issue(item, "Invalid prerequisite list"); continue; }
+      const seen = new Set();
+      for (const id of ids) {
+        if (typeof id !== "string" || !id.trim()) { issue(item, "Invalid prerequisite ID"); continue; }
+        if (id === item.id) { issue(item, "A package cannot depend on itself"); continue; }
+        if (seen.has(id)) { issue(item, "Duplicate prerequisite"); continue; }
+        seen.add(id);
+        // Substitute the unsaved form draft when checking whether an edit creates a cycle.
+        const saved = wpLookup(id), dependency = saved && id === root.id ? root : saved;
+        if (!dependency) { issue(item, "Missing or ambiguous prerequisite: " + id); continue; }
+        if (!projById(effProj(item)) || !projById(effProj(dependency))) { issue(item, "Prerequisite project is missing or invalid", dependency); continue; }
+        if (effProj(dependency) !== effProj(item)) { issue(item, "Prerequisite belongs to a different project", dependency); continue; }
+        stack.push({ item: dependency });
+      }
+    }
+    return issues;
+  }
+  function wpMayShowDetails(it) {
+    if (sync.audience === "editor") return true;
+    return panelVisOf("workPackages")[sync.audience] && itemVis(it)[sync.audience] &&
+      projInScope(effProj(it)) && sortItemsForDisplay([it]).length > 0;
+  }
+  function workPackageReadinessHtml(it) {
+    const status = wpMaterials(it), reasons = [];
+    if (status !== "available" && status !== "not-required") {
+      reasons.push(status === "unavailable" ? "Materials unavailable" : status === "unconfirmed" ? "Materials unconfirmed" : "Invalid materials status");
+    }
+    const editor = sync.audience === "editor";
+    const hiddenReason = "A prerequisite is incomplete or cannot be validated; details are not available in this view.";
+    wpDependencyIssues(it).forEach(({ item, reason, dependency }) => {
+      // Invalid links can contain IDs belonging to another project; never expose them to viewers.
+      reasons.push(editor ? (item === it ? reason : (item.main || "Prerequisite") + ": " + reason) : hiddenReason);
+    });
+    const details = [];
+    const ids = Array.isArray(it.prerequisiteIds) ? [...new Set(it.prerequisiteIds)] : [];
+    ids.forEach((id) => {
+      const dep = wpLookup(id);
+      if (!dep || dep === it || effProj(dep) !== effProj(it)) return;
+      const permitted = wpMayShowDetails(dep), complete = wpComplete(dep);
+      if (!complete) reasons.push(permitted ? (dep.main || "Prerequisite") + (dep.wstatus === "cancelled" ? ": cancelled, not completed" : ": not completed") : hiddenReason);
+      if (permitted) {
+        const note = typeof dep.constraints === "string" && dep.constraints ? " — " + dep.constraints : "";
+        details.push(`<span class="wp-prerequisite-note">${esc(dep.main || "Prerequisite")}: ${complete ? "Completed" : "Not completed"}${esc(note)}</span>`);
+      }
+    });
+    const blockers = [...new Set(reasons)], go = blockers.length === 0;
+    const notes = typeof it.constraints === "string" && it.constraints ? `<span class="wp-constraints"><strong>Hold-up / Constraints:</strong> ${esc(it.constraints)}</span>` : "";
+    const materialLabel = Object.hasOwn(WP_MATERIALS, status) ? WP_MATERIALS[status] : "Invalid status";
+    return `<span class="wp-readiness"><strong class="${go ? "wp-go" : "wp-no-go"}">${go ? "GO" : "NO GO"}</strong><span>Materials: ${esc(materialLabel)}</span>` +
+      (blockers.length ? `<span class="wp-reasons">${blockers.map((reason) => `<span>${esc(reason)}</span>`).join("")}</span>` : "") + details.join("") + notes + `</span>`;
+  }
+  function wpSelectedPrerequisites() {
+    return [...document.querySelectorAll('#fWPPrerequisites input:checked')].map((el) => el.value);
+  }
+  function renderWPPrerequisites(selected) {
+    const project = document.getElementById("fProject").value;
+    const ids = selected === undefined ? [] : Array.isArray(selected) ? selected : [null];
+    const shown = new Set();
+    const choice = (id, title, checked) => `<label class="chkline"><input type="checkbox" name="wpPrerequisite" value="${esc(typeof id === "string" ? id : "")}" ${checked ? "checked" : ""} /> <span>${esc(title)}</span></label>`;
+    const rows = (state.panels.workPackages || []).filter((it) => it.id !== editingItem.id && effProj(it) === project && wpLookup(it.id) === it).map((it) => {
+      shown.add(it.id);
+      return choice(it.id, (it.main || "Untitled package") + (wpComplete(it) ? " · Completed" : it.wstatus === "cancelled" ? " · Cancelled" : ""), ids.includes(it.id));
+    });
+    const seen = new Set();
+    ids.forEach((id) => {
+      if (!shown.has(id) || seen.has(id)) rows.push(choice(id, "Invalid prerequisite — " + (typeof id === "string" && id ? id : "malformed selection") + " (uncheck to remove)", true));
+      seen.add(id);
+    });
+    document.getElementById("fWPPrerequisites").innerHTML = rows.join("") || '<p class="wp-help">No other Work Packages in this project. Materials alone determine readiness.</p>';
+  }
+  function wpFormError(message) {
+    const error = document.getElementById("wpReadinessError");
+    error.textContent = message; error.hidden = !message;
+    if (message) error.focus();
+  }
+  /* End WP1 derived readiness. */
+
   function openItemModal(panelId, itemId) {
+    if (wpUploading) return;
+    if (panelId === "workPackages" && (sync.audience !== "editor" || editLocked)) return;
     const p = panelById(panelId);
     const kind = panelKind(p);
     editingItem = { panel: panelId, id: itemId };
@@ -3618,6 +3795,15 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     psel.innerHTML = projects().map((pr) => `<option value="${pr.id}">${esc(pr.name)}</option>`).join("");
     psel.value = it.project || (currentProject !== "all" ? currentProject : ((projects()[0] || {}).id || DEFAULT_PROJ));
     document.getElementById("fldProject").style.display = "";
+    document.getElementById("fldWPReadiness").style.display = panelId === "workPackages" ? "" : "none";
+    wpFormError("");
+    psel.onchange = null;
+    if (panelId === "workPackages") {
+      document.getElementById("fMaterialsStatus").value = wpMaterials(it);
+      document.getElementById("fWPConstraints").value = typeof it.constraints === "string" ? it.constraints : "";
+      renderWPPrerequisites(it.prerequisiteIds);
+      psel.onchange = () => { renderWPPrerequisites(wpSelectedPrerequisites()); wpFormError(""); };
+    }
 
     const showRef = !!p.hasRef;
     document.getElementById("fldRef").style.display = showRef ? "" : "none";
@@ -3739,9 +3925,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("fEnd").value = it.endDate || "";
 
     // photos (punch list, weekly photos)
-    const showPhotos = !!p.photos;
+    const showPhotos = !!p.photos || panelId === "workPackages";
     document.getElementById("fldPhotos").style.display = showPhotos ? "" : "none";
     modalPhotos = showPhotos ? (it.photos || []).map((x) => Object.assign({}, x)) : [];
+    setupWPAttachments(panelId, it);
     renderModalPhotos();
 
     openModal("itemModal");
@@ -3749,7 +3936,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   function saveItem() {
+    if (wpUploading) return;
     const { panel, id } = editingItem;
+    if (panel === "workPackages" && (sync.audience !== "editor" || editLocked)) return;
     const p = panelById(panel);
     const kind = panelKind(p);
     const main = document.getElementById("fMain").value.trim();
@@ -3788,12 +3977,51 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
     if (p.photos) data.photos = modalPhotos.slice();
 
+    if (panel === "workPackages") {
+      const existing = id ? state.panels[panel].find((it) => it.id === id) : null;
+      if (id && !existing) { wpFormError("This Work Package is no longer available. Close the form and refresh the panel."); return; }
+      const materialsStatus = document.getElementById("fMaterialsStatus").value;
+      const prerequisiteIds = wpSelectedPrerequisites(), constraints = document.getElementById("fWPConstraints").value;
+      if (!Object.hasOwn(WP_MATERIALS, materialsStatus)) { wpFormError("Select a valid materials status."); return; }
+      const draft = { ...existing, ...data, id, prerequisiteIds };
+      const issues = wpDependencyIssues(draft);
+      if (issues.length) { wpFormError(issues.map(({ reason }) => reason).join(". ")); return; }
+      if (existing && effProj(existing) !== effProj(draft)) {
+        const incoming = (state.panels.workPackages || []).find((it) => it.id !== id && Array.isArray(it.prerequisiteIds) && it.prerequisiteIds.includes(id) && effProj(it) !== effProj(draft));
+        if (incoming) { wpFormError("This package is a prerequisite for " + incoming.main + ". Remove that dependency before changing its project."); return; }
+      }
+      // Leave untouched legacy/default fields absent; explicit values use the existing save path.
+      if (materialsStatus !== "unconfirmed" || existing?.materialsStatus !== undefined) data.materialsStatus = materialsStatus;
+      if (prerequisiteIds.length || existing?.prerequisiteIds !== undefined) data.prerequisiteIds = prerequisiteIds;
+      if (constraints || existing?.constraints !== undefined) data.constraints = constraints;
+    }
+
+    if (panel === "workPackages") {
+      const existing = id && state.panels[panel].find((it) => it.id === id);
+      const pending = wpAttachmentDraft.some((entry) => entry.file);
+      if (pending && (!hasToken() || !sync.owner || !sync.repo)) { wpFormError("Connect GitHub in Settings before saving attachments. Selected files have not been uploaded."); return; }
+      for (const [key, photo] of [["photos", true], ["attachments", false]]) {
+        const refs = wpAttachmentDraft.filter((entry) => entry.photo === photo && !entry.file).map((entry) => entry.meta);
+        if (refs.length || existing?.[key] !== undefined) data[key] = refs;
+      }
+    }
     let saved;
     if (id) { saved = state.panels[panel].find((x) => x.id === id); Object.assign(saved, data); }
     else { state.panels[panel] = state.panels[panel] || []; saved = Object.assign({ id: uid() }, data); state.panels[panel].push(saved); }
     stampResolved(saved);
     recordHistory(panel, saved);
-    touchPanel(panel); save(); renderPanels(); closeModal("itemModal");
+    if (panel === "workPackages") editingItem.id = saved.id;
+    if (panel === "workPackages" && wpAttachmentDraft.some((entry) => entry.file)) {
+      touchPanel(panel); save(); renderPanels();
+      saveWPAttachments(saved);
+      return;
+    }
+    touchPanel(panel); save(); renderPanels();
+    if (panel === "workPackages" && !wpStored(saved)) {
+      document.getElementById("wpAttachmentNotice").textContent = "Local storage could not retain this Work Package. It remains on this board; retry Save or Export a backup before closing this page.";
+      return;
+    }
+    closeModal("itemModal");
   }
 
   /* =======================================================================
@@ -4015,6 +4243,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         if (name === "documents" && (!text(item.name) || !text(item.url))) fail("documents.name / url");
         if (item.x !== undefined && !object(item.x)) fail("panels." + name + ".x");
         if (item.photos !== undefined && (!Array.isArray(item.photos) || !item.photos.every((photo) => object(photo) && text(photo.url)))) fail("photos.url");
+        if (name === "workPackages" && item.attachments !== undefined && (!Array.isArray(item.attachments) || !item.attachments.every((file) => object(file) && text(file.url)))) fail("workPackages.attachments.url");
       });
     });
     (parsed.stats || []).forEach((stat) => { if (stat.fields !== undefined && (!Array.isArray(stat.fields) || !stat.fields.every(object))) fail("stats.fields"); });
@@ -4343,6 +4572,116 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     });
   }
 
+  /* WP2: draft files use the existing uploader and record persistence, only after Save. */
+  let wpAttachmentDraft = [], wpUploading = false;
+  function wpAttachmentEntries(it) {
+    return (Array.isArray(it.photos) ? it.photos : []).map((meta) => ({ meta, photo: true }))
+      .concat((Array.isArray(it.attachments) ? it.attachments : []).map((meta) => ({ meta, photo: false })));
+  }
+  function wpFileUrl(value) {
+    try { const url = new URL(value || "", document.baseURI); return value && ["http:", "https:", "blob:"].includes(url.protocol) ? url.href : ""; }
+    catch (_) { return ""; }
+  }
+  function wpPermittedItem(id) {
+    if (editLocked || (sync.audience !== "editor" && !panelVisOf("workPackages")[sync.audience])) return null;
+    return sortItemsForDisplay(visiblePanelItems("workPackages")).find((it) => it.id === id) || null;
+  }
+  function wpAttachmentMarkup(entry, actions) {
+    const meta = entry.meta, url = wpFileUrl(entry.preview || meta.url);
+    return `<span class="wp-attachment">` +
+      (entry.photo && url ? `<img class="wp-attachment-preview" src="${esc(url)}" alt="${esc(meta.name || "Photograph")}" />` : `<i class="fa-solid ${fileIcon(meta.mime || "", meta.name)}" aria-hidden="true"></i>`) +
+      `<span class="wp-attachment-info">${esc(meta.name || "Attachment")}<small>${esc(meta.mime || "File")} · ${humanSize(meta.size)}${entry.file ? " · Pending Save" : ""}</small></span>` +
+      (url ? `<a href="${esc(url)}" target="_blank" rel="noopener">Open</a>` : "") + actions + `</span>`;
+  }
+  function wpAttachmentsHtml(it) {
+    const files = wpAttachmentEntries(it);
+    return files.length ? '<span class="wp-attachments">' + files.map((entry, i) => wpAttachmentMarkup(entry,
+      wpFileUrl(entry.meta.url) ? `<button class="btn" data-wp-download="${esc(it.id)}" data-wp-file="${i}">Download</button>` : "")).join("") + '</span>' : "";
+  }
+  function clearWPDraft() {
+    wpAttachmentDraft.forEach((entry) => { if (entry.preview) URL.revokeObjectURL(entry.preview); });
+    wpAttachmentDraft = [];
+  }
+  function setupWPAttachments(panelId, it) {
+    clearWPDraft();
+    const wp = panelId === "workPackages";
+    if (wp) wpAttachmentDraft = wpAttachmentEntries(it).map((entry) => ({ ...entry, meta: { ...entry.meta } }));
+    document.querySelector('#fldPhotos > label').textContent = wp ? "Photos & Attachments" : "Photos";
+    document.getElementById("btnAddPhoto").innerHTML = '<i class="fa-solid fa-camera"></i> ' + (wp ? "Add photos & files" : "Add photo");
+    document.getElementById("photoAttach").accept = wp ? "" : "image/*";
+    const notice = document.getElementById("wpAttachmentNotice");
+    notice.hidden = !wp;
+    notice.textContent = wp ? "Files upload when you Save. Photos: 15 MB maximum; other files: 25 MB. Cancel discards unsaved selections. Publish remains separate." : "";
+  }
+  function stageWPAttachments(event) {
+    const files = [...(event.target.files || [])]; event.target.value = "";
+    if (wpUploading || sync.audience !== "editor" || editLocked || !document.getElementById("itemModal").classList.contains("open")) return;
+    for (const file of files) {
+      const photo = /^image\//.test(file.type), limit = (photo ? 15 : 25) * 1024 * 1024;
+      if (file.size > limit) { toast(photo ? "Photo too big (15 MB max)" : "That file is too big (25 MB max)", true); continue; }
+      wpAttachmentDraft.push({ file, photo, preview: URL.createObjectURL(file), meta: { name: file.name, mime: file.type || "", size: file.size } });
+    }
+    renderWPAttachments();
+  }
+  function renderWPAttachments() {
+    const wrap = document.getElementById("photoStrip");
+    wrap.innerHTML = wpAttachmentDraft.map((entry, i) => wpAttachmentMarkup(entry,
+      `<button type="button" class="btn" data-wp-remove="${i}" ${wpUploading ? "disabled" : ""}>Remove</button>`)).join("");
+    wrap.querySelectorAll('[data-wp-remove]').forEach((button) => button.onclick = () => {
+      if (wpUploading) return;
+      const [entry] = wpAttachmentDraft.splice(Number(button.dataset.wpRemove), 1);
+      if (entry?.preview) URL.revokeObjectURL(entry.preview);
+      renderWPAttachments();
+    });
+  }
+  function wpStored(it) {
+    try { return JSON.stringify(JSON.parse(localStorage.getItem(STORE_KEY)).panels.workPackages.find((record) => record.id === it.id)) === JSON.stringify(it); }
+    catch (_) { return false; }
+  }
+  async function saveWPAttachments(saved) {
+    const modal = document.getElementById("itemModal"), notice = document.getElementById("wpAttachmentNotice");
+    const controls = [...modal.querySelectorAll('input,select,textarea,button')].map((el) => [el, el.disabled]);
+    wpUploading = true; controls.forEach(([el]) => el.disabled = true); modal.setAttribute('aria-busy', 'true');
+    let succeeded = false;
+    try {
+      if (!wpStored(saved)) throw new Error("Local storage did not save the Work Package. Export a backup before closing this page.");
+      for (const entry of wpAttachmentDraft.filter((file) => file.file)) {
+        notice.textContent = "Work Package saved. Uploading " + entry.file.name + "…";
+        const meta = await ghUploadFile(entry.file, entry.photo ? "files/photos" : "files");
+        const key = entry.photo ? "photos" : "attachments";
+        saved[key] = saved[key] || []; saved[key].push(meta);
+        // Keep successful references even if a later file fails; never delete a shared file.
+        entry.meta = meta; delete entry.file;
+        URL.revokeObjectURL(entry.preview); delete entry.preview;
+        recordHistory("workPackages", saved); touchPanel("workPackages"); save(); renderPanels(); renderWPAttachments();
+        if (!wpStored(saved)) throw new Error("Local storage could not retain an uploaded reference. It remains on this board; Export a backup before closing this page.");
+      }
+      succeeded = true;
+    } catch (error) {
+      notice.textContent = "Upload failed: " + (error.message || error) + " Successful references remain on the Work Package. Pending files remain in this form; retry Save or Cancel to discard only pending files.";
+      toast("Attachment upload stopped — review the message in the form", true);
+    } finally {
+      wpUploading = false; controls.forEach(([el, disabled]) => el.disabled = disabled); modal.removeAttribute('aria-busy');
+      renderWPAttachments();
+    }
+    if (succeeded) closeModal("itemModal");
+  }
+  // Existing Cancel/backdrop/Escape handlers remove .open directly. Guard only WP uploads.
+  document.addEventListener('click', (event) => {
+    const modal = document.getElementById('itemModal');
+    if (wpUploading && (event.target === modal || event.target.closest('#itemModal [data-close]'))) { event.preventDefault(); event.stopImmediatePropagation(); }
+  }, true);
+  document.addEventListener('keydown', (event) => {
+    if (wpUploading && event.key === 'Escape') { event.preventDefault(); event.stopImmediatePropagation(); }
+  }, true);
+  window.addEventListener('beforeunload', (event) => {
+    if (wpUploading) { event.preventDefault(); event.returnValue = ''; }
+  });
+  new MutationObserver(() => {
+    if (!wpUploading && !document.getElementById('itemModal').classList.contains('open')) clearWPDraft();
+  }).observe(document.getElementById('itemModal'), { attributes: true, attributeFilter: ['class'] });
+  /* End WP2 attachment handling. */
+
   /* ---- photos attached to an item (punch list, weekly photos) ---------- */
   let modalPhotos = [];                 // staged photos for the item modal
   function pickItemPhoto() {
@@ -4352,6 +4691,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     inp.value = ""; inp.click();
   }
   function onPhotoPicked(e) {
+    if (editingItem.panel === "workPackages") { stageWPAttachments(e); return; }
     const files = Array.from(e.target.files || []);
     e.target.value = "";
     files.forEach((f) => {
@@ -4366,6 +4706,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     });
   }
   function renderModalPhotos() {
+    if (editingItem.panel === "workPackages") { renderWPAttachments(); return; }
     const wrap = document.getElementById("photoStrip");
     if (!wrap) return;
     wrap.innerHTML = modalPhotos.map((ph, i) =>
@@ -4416,6 +4757,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
   function downloadAttachment(pid, iid) {
     const it = (state.panels[pid] || []).find((x) => x.id === iid);
+    return downloadFileReference(it);
+  }
+  function downloadFileReference(it) {
     if (!it || !it.url) return;
     fetch(it.url, { cache: "no-store" })
       .then((r) => { if (!r.ok) throw new Error(r.status); return r.blob(); })
@@ -4475,6 +4819,38 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.body.setAttribute("data-print", "panel");
     preloadPrintImages().then(() => setTimeout(() => window.print(), 60));
   }
+
+  /* WP2: one permitted record, rendered through the existing native panel print path. */
+  function clearWPPrint() {
+    document.getElementById("wpPrintSheet")?.remove();
+    document.body.classList.remove("wp-sheet-print");
+  }
+  function printWorkPackage(id) {
+    const it = wpPermittedItem(id), card = document.querySelector('.card[data-card="workPackages"] .card-body');
+    if (!it || !card) return;
+    clearWPPrint();
+    const date = (value) => value ? String(value) : "Not recorded";
+    const pct = Math.max(0, Math.min(100, parseInt(it.pct, 10) || 0));
+    const fields = [
+      ["Project", projName(effProj(it)) || effProj(it)], ["Assigned person / team", (teamDef(it.team) || {}).label || it.team || "Unassigned"],
+      ["Completion", pct + "%"], ["Work status", (wstatusDef(it.wstatus) || {}).label || it.wstatus || (it.done ? "Completed" : "Not recorded")],
+      ["Date assigned", date(it.dateAssigned)], ["Date required", date(it.dateRequired)]
+    ];
+    for (const [key, label] of [["due", "Due date"], ["startDate", "Start date"], ["endDate", "End date"], ["resolvedAt", "Resolved at"]]) if (it[key]) fields.push([label, date(it[key])]);
+    const entries = wpAttachmentEntries(it), photos = entries.filter((entry) => entry.photo), files = entries.filter((entry) => !entry.photo);
+    const sheet = document.createElement('article'); sheet.id = 'wpPrintSheet'; sheet.className = 'print-only';
+    sheet.innerHTML = `<h1>${esc(it.main)}</h1><dl class="wp-sheet-meta">${fields.map(([label,value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>` +
+      `<h2>Readiness & prerequisites</h2>${workPackageReadinessHtml(it)}` +
+      (!it.prerequisiteIds || (Array.isArray(it.prerequisiteIds) && !it.prerequisiteIds.length) ? '<p>No prerequisites recorded. Readiness depends on materials confirmation.</p>' : '') +
+      `<h2>Photographs</h2>` + (photos.length ? photos.map(({meta}) => `<figure>${wpFileUrl(meta.url) ? `<img src="${esc(wpFileUrl(meta.url))}" alt="${esc(meta.name || 'Photograph')}" loading="eager" />` : '<p>Photograph reference unavailable.</p>'}<figcaption>${esc(meta.name || 'Photograph')}</figcaption></figure>`).join('') : '<p>No photographs attached.</p>') +
+      `<h2>Attachment register</h2>` + (files.length ? `<table><thead><tr><th>File</th><th>Type / size</th><th>Reference</th></tr></thead><tbody>${files.map(({meta}) => `<tr><td>${esc(meta.name || 'Attachment')}</td><td>${esc(meta.mime || 'File')}<br>${humanSize(meta.size)}</td><td>${wpFileUrl(meta.url) ? `<a href="${esc(wpFileUrl(meta.url))}">${esc(meta.path || meta.url)}</a>` : 'Reference unavailable'}</td></tr>`).join('')}</tbody></table>` : '<p>No other files attached.</p>');
+    card.append(sheet); document.body.classList.add('wp-sheet-print');
+    printPanel('workPackages');
+    document.getElementById('phTitle').textContent = 'Work Package';
+    document.getElementById('phMeta').textContent = 'Offaly Civil Engineering · ' + (projName(effProj(it)) || effProj(it)) + ' · ' + new Date().toLocaleDateString('en-AU');
+  }
+  window.addEventListener('afterprint', clearWPPrint);
+  /* End WP2 single-record printing. */
 
   function printReport() {
     const audienceLabel = sync.audience === "client" ? "Client Report"
