@@ -111,3 +111,7 @@
     .ov-footer { display:block; }.ov-footer .ov-link { margin-top:8px; }
   }
 }
+/* Release: retain the complete first record touch target below Quick Add on desktop. */
+@media screen and (min-width:1200px) {
+  .ws-overview { gap:16px; }
+}
