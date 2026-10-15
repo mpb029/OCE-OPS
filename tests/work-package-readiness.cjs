@@ -36,7 +36,7 @@ async function entry(env,items,options={}){const run=await open(env,{data:board(
    for(const file of ['index.html','ui-forms.js']){
     const current=fs.readFileSync(path.join(root,file),'utf8').replace(/\r\n/g,'\n');
     const before=execFileSync('git',['show','3692d1ec744459333fd2e7d41b8e08abdebaadcf:'+file],{cwd:root,encoding:'utf8',maxBuffer:2e6}).replace(/\r\n/g,'\n');
-    assert.equal(normalise(file,current),before,file+' has only exact WP1 additions');
+    assert.equal(require('./ifc-source.cjs').normalise(file,normalise(file,current)),before,file+' has only exact Work Package and IFC additions');
     assert.notEqual(normalise(file,current+'\n// unrelated edit'),before);
     if(file==='index.html'){
      for(const [start] of blocks){assert.throws(()=>normalise(file,current+start));assert.throws(()=>normalise(file,current.replace(start,start+' altered')));}

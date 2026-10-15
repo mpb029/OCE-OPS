@@ -11,8 +11,12 @@ sys.dont_write_bytecode = True
 spec = importlib.util.spec_from_file_location('report_content', Path(__file__).with_name('compare-report-refinement.py'))
 content = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(content)
+spec = importlib.util.spec_from_file_location('wp_parity', Path(__file__).with_name('work-package-parity.py'))
+wp_parity = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(wp_parity)
 
 folder = Path(os.environ.get('OCE_TEST_OUTPUT', 'test-results'))
+wp_additions = json.loads((folder / 'wp-print-additions.json').read_text())
 results = []
 for mode in ['report', 'dailyWorks', 'punchlist', 'photos', 'client']:
     before = PdfReader(folder / f'before-print-{mode}.pdf')
@@ -24,7 +28,9 @@ for mode in ['report', 'dailyWorks', 'punchlist', 'photos', 'client']:
         original = content.read_pdf(folder / f'before-print-{mode}.pdf')
         actual = content.read_pdf(folder / f'print-{mode}.pdf')
         images = lambda doc: [image['hash'] for page in doc['images'] for image in page]
-        result['sameContent'] = original['text'] == actual['text']
+        permitted = wp_additions[f'print-{mode}.pdf']
+        result['sameContent'] = original['text'] == wp_parity.legacy_text(original['text'], actual['text'], permitted)
+        result['verifiedReadinessAdditions'] = len(permitted)
         result['photosPreserved'] = images(original) == images(actual)
     results.append(result)
     print(json.dumps(result))

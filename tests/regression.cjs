@@ -4,6 +4,12 @@ const assert = require('node:assert/strict');
 const { execFileSync } = require('node:child_process');
 const { root, baseline, original, output, start, open, fixture } = require('./harness.cjs');
 
+const {legacySnapshot, additions: wpPrintAdditions} = require('./work-package-parity.cjs');
+const pdfAdditions = {};
+async function recordPrintAdditions(page, filename) {
+ pdfAdditions[filename] = await wpPrintAdditions(page);
+ fs.writeFileSync(path.join(output,'wp-print-additions.json'),JSON.stringify(pdfAdditions,null,2));
+}
 const results = [], observations = [];
 const startedAt = new Date().toISOString();
 const git = args => execFileSync('git',args,{cwd:root}).toString().trim();
@@ -34,7 +40,7 @@ async function endPrint(page) {
 }
 async function printSnapshot(page) {
  await page.emulateMedia({ media: 'print' });
- return page.evaluate(() => {
+ return legacySnapshot(page, () => page.evaluate(() => {
   const visible = el => !!el && !!el.getClientRects().length && getComputedStyle(el).display !== 'none';
   return {
    mode: document.body.dataset.print,
@@ -45,7 +51,7 @@ async function printSnapshot(page) {
    fonts: getComputedStyle(document.body).fontFamily,
    photos: [...document.querySelectorAll('.photo-folder')].filter(visible).map(el=>el.dataset.folder)
   };
- });
+ }));
 }
 
 async function main() {
@@ -137,7 +143,7 @@ async function main() {
     });
     for(const project of fixture().projects) await check(`Project selection ${project.id}: items and marker scope match baseline`, async () => {
       for(const p of [a,b]) await p.locator('#projSelect').selectOption(project.id);
-      const snap=p=>p.evaluate(()=>({ panels:[...document.querySelectorAll('[data-card]')].map(el=>[el.dataset.card,el.querySelector('.count').textContent,el.querySelector('.card-body').textContent.replace(/\s+/g,' ')]),markers:[...document.querySelectorAll('.leaflet-marker-icon')].map(el=>el.title),summary:document.getElementById('summaryBody').textContent.replace(/\s+/g,' ') }));
+      const snap=p=>legacySnapshot(p,()=>p.evaluate(()=>({ panels:[...document.querySelectorAll('[data-card]')].map(el=>[el.dataset.card,el.querySelector('.count').textContent,el.querySelector('.card-body').textContent.replace(/\s+/g,' ')]),markers:[...document.querySelectorAll('.leaflet-marker-icon')].map(el=>el.title),summary:document.getElementById('summaryBody').textContent.replace(/\s+/g,' ') })));
       assert.deepEqual(await snap(b),await snap(a));
     });
     for(const p of [a,b]) await p.locator('#projSelect').selectOption('all');
@@ -211,7 +217,7 @@ async function main() {
   for (const audience of ['?crew=test-site','?view=test-client-0','?view=test-client-1','?view=unknown']) await check(`Audience parity ${audience}: panels, assignments, read-only controls`, async () => {
     const a=await open(env,{version:'before',audience}),b=await open(env,{audience});
     try {
-      const snap=p=>p.evaluate(()=>({role:__opsTest.sync.audience,clientId:__opsTest.sync.clientId,projects:[...document.querySelector('#projSelect').options].map(o=>({id:o.value,text:o.text})),panels:[...document.querySelectorAll('[data-card]')].map(el=>({id:el.dataset.card,body:el.querySelector('.card-body').textContent.replace(/\s+/g,' ')})),stats:document.querySelector('#statGrid').textContent.replace(/\s+/g,' '),markers:document.querySelectorAll('.leaflet-marker-icon').length}));
+      const snap=p=>legacySnapshot(p,()=>p.evaluate(()=>({role:__opsTest.sync.audience,clientId:__opsTest.sync.clientId,projects:[...document.querySelector('#projSelect').options].map(o=>({id:o.value,text:o.text})),panels:[...document.querySelectorAll('[data-card]')].map(el=>({id:el.dataset.card,body:el.querySelector('.card-body').textContent.replace(/\s+/g,' ')})),stats:document.querySelector('#statGrid').textContent.replace(/\s+/g,' '),markers:document.querySelectorAll('.leaflet-marker-icon').length})));
       assert.deepEqual(await snap(b.page),await snap(a.page));
       for(const selector of ['#btnSettings','#btnImport','#btnPublish','[data-edit]','[data-del]','[data-pvis]','#modelTools']) assert.equal(await b.page.locator(selector+':visible').count(),0,selector);
       await b.page.screenshot({path:path.join(output,audience.includes('crew')?'site-view.png':audience.endsWith('1')?'client-1-view.png':'client-view.png')});
@@ -255,13 +261,14 @@ async function main() {
         if(mode==='punchlist')assert.ok(await b.page.locator('.print-this .print-sheet:visible').count()>0);
         await b.page.screenshot({path:path.join(output,`print-${mode}.png`)});
         await savePDF(a.page,{path:path.join(output,`before-print-${mode}.pdf`),format:'A4',printBackground:true});
+        await recordPrintAdditions(b.page,`print-${mode}.pdf`);
         await savePDF(b.page,{path:path.join(output,`print-${mode}.pdf`),format:'A4',printBackground:true});
       }
     } finally {await a.close();await b.close();}
   });
   await check('Client report parity: same authorized panels, no map or weather', async () => {
     const a=await open(env,{version:'before',audience:'?view=test-client-1'}),b=await open(env,{audience:'?view=test-client-1'});
-    try{for(const run of[a,b])await clickCommand(run.page,'btnPrint');const actual=await printSnapshot(b.page);assert.deepEqual(actual,await printSnapshot(a.page));assert.equal(actual.map,false);assert.equal(actual.weather,false);await savePDF(a.page,{path:path.join(output,'before-print-client.pdf'),format:'A4',printBackground:true});await savePDF(b.page,{path:path.join(output,'print-client.pdf'),format:'A4',printBackground:true});}finally{await a.close();await b.close();}
+    try{for(const run of[a,b])await clickCommand(run.page,'btnPrint');const actual=await printSnapshot(b.page);assert.deepEqual(actual,await printSnapshot(a.page));assert.equal(actual.map,false);assert.equal(actual.weather,false);await savePDF(a.page,{path:path.join(output,'before-print-client.pdf'),format:'A4',printBackground:true});await recordPrintAdditions(b.page,'print-client.pdf');await savePDF(b.page,{path:path.join(output,'print-client.pdf'),format:'A4',printBackground:true});}finally{await a.close();await b.close();}
   });
 
   await spatialChecks(env);

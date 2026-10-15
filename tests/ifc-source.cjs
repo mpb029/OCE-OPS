@@ -38,7 +38,7 @@ if (require.main === module) {
   const current = fs.readFileSync(path.join(root, 'index.html'), 'utf8').replace(/\r\n/g, '\n');
   const baseline = cp.execFileSync('git', ['show', '3692d1ec744459333fd2e7d41b8e08abdebaadcf:index.html'],
     {cwd:root, encoding:'utf8', maxBuffer:5*1024*1024}).replace(/\r\n/g, '\n');
-  assert.equal(normalise('index.html', current), baseline, 'IFC-only changes reverse exactly to main');
+  assert.equal(require('./work-package-source.cjs').normalise('index.html', normalise('index.html', current)), baseline, 'Combined Work Package and IFC changes reverse exactly to main');
   assert.equal(normalise('index.html', baseline), baseline, 'historical source is unchanged');
   assert.equal(require('./overview-record-source.cjs').normalise('index.html', current),
     require('./overview-record-source.cjs').normalise('index.html', baseline), 'earlier source contracts remain authoritative');

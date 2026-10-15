@@ -224,9 +224,9 @@ async function check(name,callback) {
     }
   } finally {
     await env.close();
-    const finalHashes=hashes(),report={commit:initialCommit,cleanAtEnd:!execFileSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).trim(),engine:env.engine,mode:fast?'FAST':'FOCUSED',inputsUnchanged:JSON.stringify(initialHashes)===JSON.stringify(finalHashes),hashes:initialHashes,results};
+    const finalHashes=hashes(),report={commit:initialCommit,endCommit:execFileSync('git',['rev-parse','HEAD'],{cwd:root,encoding:'utf8'}).trim(),cleanAtEnd:!execFileSync('git',['status','--porcelain'],{cwd:root,encoding:'utf8'}).trim(),engine:env.engine,mode:fast?'FAST':'FOCUSED',inputsUnchanged:JSON.stringify(initialHashes)===JSON.stringify(finalHashes),hashes:initialHashes,results};
     fs.writeFileSync(path.join(output,'ifc-import-results.json'),JSON.stringify(report,null,2)+'\n');
-    if(results.some(result=>!result.passed)||!report.inputsUnchanged)process.exitCode=1;
+    if(results.some(result=>!result.passed)||!report.inputsUnchanged||report.endCommit!==initialCommit)process.exitCode=1;
     console.log(`${results.filter(r=>r.passed).length}/${results.length} IFC checks passed (${env.engine})`);
   }
 })().catch(error=>{console.error(error);process.exitCode=1;});

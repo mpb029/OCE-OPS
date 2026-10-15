@@ -98,6 +98,11 @@ function plan(opts) {
     add('firefox-overview-quick-add','firefox','tests/overview-quick-add.cjs');
     add('chromium-release-default','chromium','tests/release-default.cjs');
     add('firefox-release-default','firefox','tests/release-default.cjs');
+    for (const engine of ['chromium','firefox']) {
+      add(engine+'-work-package-readiness',engine,'tests/work-package-readiness.cjs');
+      add(engine+'-work-package-attachments',engine,'tests/work-package-attachments.cjs');
+      add(engine+'-ifc-import',engine,'tests/ifc-import.cjs');
+    }
     add('chromium-report-refinement','chromium','tests/report-refinement.cjs',['--pdf']);
     add('firefox-report-refinement','firefox','tests/report-refinement.cjs');
     add('report-refinement-comparison','chromium','tests/compare-report-refinement.py');
@@ -183,6 +188,33 @@ function releaseDefault(report, engine, commit, full = false) {
   assert.equal(report.passed,6);assert.equal(report.failed,0);
   exactSourceHashes(report,releaseDefaultInputs,'Release default');
   if(full)assert.equal(report.worktreeClean,true);
+}
+
+const workPackageInputs = {
+  WP1:['index.html','ui-forms.js','ui-forms.css','ui-workspaces.js','ui-workspaces.css','tests/harness.cjs','tests/workspace-fixture.cjs','tests/work-package-readiness.cjs','tests/work-package-source.cjs','tests/overview-record-source.cjs'],
+  WP2:['index.html','ui-forms.js','ui-forms.css','tests/work-package-attachments.cjs','tests/work-package-attachments-source.cjs','tests/work-package-source.cjs','tests/harness.cjs','tests/workspace-fixture.cjs']
+};
+function workPackage(report, engine, commit, feature) {
+  assert.ok(workPackageInputs[feature], 'Unknown Work Package contract');
+  assert.equal(report.commit,commit);assert.equal(report.endCommit,commit);
+  assert.equal(report.engine,engine);assert.equal(report.mode,'FOCUSED');assert.equal(report.worktreeClean,true);
+  assert.equal(report.tests.length,9,'All '+feature+' contracts required');
+  assert.equal(new Set(report.tests.map(t=>t.name)).size,9,'Distinct '+feature+' contracts required');
+  assert.ok(report.tests.every(t=>t.name.startsWith(feature+' ')&&t.status==='PASS'),'Every '+feature+' assertion must pass');
+  assert.equal(report.passed,9);assert.equal(report.failed,0);
+  exactSourceHashes(report,workPackageInputs[feature],feature);
+}
+function ifcInputs() {
+  return [...new Set(git(['ls-files','-c','-o','--exclude-standard']).split(/\r?\n/))]
+    .filter(file=>/^(?:index\.html|.*ifc.*\.(?:js|cjs|wasm|ifc)|tests\/fixtures-ifc\/.*|tests\/overview-record-source\.cjs)$/.test(file));
+}
+function ifcImport(report, engine, commit) {
+  assert.equal(report.commit,commit);assert.equal(report.endCommit,commit);
+  assert.equal(report.engine,engine);assert.equal(report.mode,'FOCUSED');assert.equal(report.cleanAtEnd,true);
+  assert.equal(report.results.length,8,'All IFC contracts required');
+  assert.equal(new Set(report.results.map(t=>t.name)).size,8,'Distinct IFC contracts required');
+  assert.ok(report.results.every(t=>typeof t.name==='string'&&t.name.includes('IFC')&&t.passed===true),'Every IFC assertion must pass');
+  exactSourceHashes({...report,sourceHashes:report.hashes},ifcInputs(),'IFC');
 }
 
 function reportRefinement(report, engine, commit, pdfs) {
@@ -324,6 +356,11 @@ function fullEvidence(directory, receipt, commit, main) {
   for(const engine of ['chromium','firefox'])overviewNavigation(read(path.join(directory,engine,'overview-navigation/results.json')),engine,commit,true);
   for(const engine of ['chromium','firefox'])overviewQuickAdd(read(path.join(directory,engine,'overview-quick-add/results.json')),engine,commit,true);
   for(const engine of ['chromium','firefox'])releaseDefault(read(path.join(directory,engine,'release-default/results.json')),engine,commit,true);
+  for(const engine of ['chromium','firefox']) {
+    workPackage(read(path.join(directory,engine,'work-package-readiness/results.json')),engine,commit,'WP1');
+    workPackage(read(path.join(directory,engine,'work-package-attachments/results.json')),engine,commit,'WP2');
+    ifcImport(read(path.join(directory,engine,'ifc-import-results.json')),engine,commit);
+  }
   const chrome=path.join(directory,'chromium');
   for (const [file,count] of [['print-comparison.json',5],['workspace-pdfs/comparison-results.json',20]]) {
     historicalPrintComparisons(read(path.join(chrome,file)),count);
@@ -381,6 +418,9 @@ async function main(argv) {
       if (step.file === 'tests/overview-navigation.cjs') overviewNavigation(read(path.join(target,'overview-navigation/results.json')),step.engine,commit,opts.level==='full');
       if (step.file === 'tests/overview-quick-add.cjs') overviewQuickAdd(read(path.join(target,'overview-quick-add/results.json')),step.engine,commit,opts.level==='full');
       if (step.file === 'tests/release-default.cjs') releaseDefault(read(path.join(target,'release-default/results.json')),step.engine,commit,opts.level==='full');
+      if (step.file === 'tests/work-package-readiness.cjs') workPackage(read(path.join(target,'work-package-readiness/results.json')),step.engine,commit,'WP1');
+      if (step.file === 'tests/work-package-attachments.cjs') workPackage(read(path.join(target,'work-package-attachments/results.json')),step.engine,commit,'WP2');
+      if (step.file === 'tests/ifc-import.cjs') ifcImport(read(path.join(target,'ifc-import-results.json')),step.engine,commit);
       if (step.file === 'tests/report-refinement.cjs') reportRefinement(read(path.join(target,'report-refinement-results.json')),step.engine,commit,step.args.includes('--pdf'));
       if (step.file === 'tests/compare-report-refinement.py') reportComparisons(read(path.join(target,'report-refinement-comparison.json')));
       if (step.file === 'tests/punch-client-reports.cjs') punchClient(read(path.join(target,'punch-client-results.json')),step.engine,commit,step.args.includes('--pdf'));
@@ -396,5 +436,5 @@ async function main(argv) {
   finally {receipt.completedAt=new Date().toISOString();write(path.join(directory,'verification.json'),receipt);}
   console.log('PASS '+opts.level.toUpperCase()+' — '+directory);
 }
-module.exports={options,plan,childEnv,suite,overviewNavigation,overviewQuickAdd,releaseDefault,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
+module.exports={options,plan,childEnv,suite,overviewNavigation,overviewQuickAdd,releaseDefault,workPackage,workPackageInputs,ifcImport,ifcInputs,reportRefinement,reportComparisons,punchClient,punchClientComparisons,historicalPrintComparisons,reusable,formsScreenshots,projectSpatialScreenshots,fullEvidence,sha};
 if(require.main===module)main(process.argv.slice(2)).catch(error=>{console.error(error.message);process.exitCode=1;});
