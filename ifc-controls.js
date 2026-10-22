@@ -178,7 +178,10 @@ export function createIFCInspector({THREE, viewer, getModels}) {
     object.userData.ifcDetach=()=>{if(records.get(model.id)===r){records.delete(model.id);sync();}};
   }
   function sync() {
-    const allowed=new Set(getModels().filter(m=>m.visible).map(m=>m.id));
+    const models=getModels();
+    models.forEach(m=>{const r=records.get(m.id);if(r)r.name=m.name;});
+    for(const option of $('ifcModel')?.options || []) { const r=records.get(option.value);if(r)option.textContent=r.name; }
+    const allowed=new Set(models.filter(m=>m.visible).map(m=>m.id));
     const visible=[...records.values()].filter(r=>allowed.has(r.id)&&r.object.parent===viewer.scene);
     const r=visible.includes(active)?active:visible[0];
     if(!r){active=null;panel.hidden=true;panel.innerHTML='';card.classList.remove('ifc-present');viewer.resize();return;}
