@@ -1326,7 +1326,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         <div class="field" id="fldDates">
           <label class="chkline"><input type="checkbox" id="tglAssigned" /> Date assigned</label>
           <input type="date" id="fAssigned" style="display:none;margin-top:6px" />
-          <label class="chkline" style="margin-top:8px"><input type="checkbox" id="tglRequired" /> Date required</label>
+          <label class="chkline" style="margin-top:8px"><input type="checkbox" id="tglRequired" /> <span id="lblRequired">Date required</span></label>
           <input type="date" id="fRequired" style="display:none;margin-top:6px" />
         </div>
         <div class="field" id="fldWStatus">
@@ -1689,7 +1689,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       statuses: [ { value:"approved", label:"Approved", color:"#1e9e6a" }, { value:"pending", label:"Pending", color:"#e8a100" } ] },
     { id: "variations",    title: "Variations",               icon: "fa-file-invoice-dollar", color: "#8a5a1e", kind: "dated", mainLbl: "Description",  subLbl: "Detail (optional)", dueLbl: "Date", hasRef: true, refLbl: "Variation no.",
       statuses: [ { value:"approved", label:"Approved", color:"#1e9e6a" }, { value:"pending", label:"Pending", color:"#e8a100" } ] },
-    { id: "issuesDelays",  title: "Potential Issues & Delays", icon: "fa-triangle-exclamation", color: "#d2342b", kind: "list", mainLbl: "Issue / potential delay", subLbl: "Mitigation" },
+    { id: "issuesDelays",  title: "Issues and Delays", icon: "fa-triangle-exclamation", color: "#d2342b", kind: "list", mainLbl: "Issue / delay", subLbl: "Mitigation", fieldsBlock: true,
+      extras: [
+        { key: "detail", label: "Details", type: "textarea" },
+        { key: "resolutionOwner", label: "Resolution responsibility", type: "select", options: ["", "Site", "Engineering", "Client", "Supplier"] },
+        { key: "dateRaised", label: "Date raised / identified", type: "date" }
+      ] },
     { id: "rfis", title: "RFIs", icon: "fa-circle-question", color: "#2f6fb0", kind: "list", mainLbl: "RFI reference / subject", noSub: true, fieldsBlock: true,
       extras: [
         { key: "detail", label: "Information requested", type: "textarea" },
@@ -3917,6 +3922,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       else if (fx.type === "select") input = `<select data-fx="${fx.key}">${(fx.options || []).map((o) => `<option value="${esc(o)}" ${o === raw ? "selected" : ""}>${esc(o)}</option>`).join("")}</select>`;
       else input = `<input type="${fx.type || "text"}" data-fx="${fx.key}" value="${esc(raw)}" />`;
       wrap.insertAdjacentHTML("beforeend", `<div class="field"><label>${esc(fx.label)}</label>${input}</div>`);
+      if (panelId === "issuesDelays") {
+        const field = wrap.lastElementChild, control = field.querySelector("[data-fx]");
+        control.id = "issue-" + fx.key; field.querySelector("label").htmlFor = control.id;
+        if (fx.key === "resolutionOwner") control.options[0].textContent = "Unassigned";
+      }
     });
 
     const showDue = kind === "dated";
@@ -3969,6 +3979,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("fAssigned").value = it.dateAssigned || "";
     document.getElementById("fAssigned").style.display = aOn ? "" : "none";
     document.getElementById("tglRequired").checked = rOn;
+    const requiredLabel = panelId === "issuesDelays" ? "Resolution required by" : "Date required";
+    document.getElementById("lblRequired").textContent = requiredLabel;
+    document.getElementById("fRequired").setAttribute("aria-label", requiredLabel);
     document.getElementById("fRequired").value = it.dateRequired || "";
     document.getElementById("fRequired").style.display = rOn ? "" : "none";
     document.getElementById("tglWStatus").checked = wOn;
@@ -4027,10 +4040,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     if (p.priorities && p.priorities.length) data.priority = document.getElementById("fPriority").value;
     if (p.statuses && p.statuses.length) data.status = document.getElementById("fStatus").value;
     if (p.extras && p.extras.length) {
-      const x = {};
+      // Retain any existing issue metadata that this form does not edit.
+      const x = panel === "issuesDelays" ? { ...(state.panels[panel] || []).find((it) => it.id === id)?.x } : {};
       document.querySelectorAll("#fldExtras [data-fx]").forEach((el) => {
         const val = String(el.value).trim();
         if (val) x[el.getAttribute("data-fx")] = val;
+        else delete x[el.getAttribute("data-fx")];
       });
       data.x = x;
     }
@@ -4980,8 +4995,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       .filter((p) => sync.audience === "editor" || panelVisOf(p.id)[sync.audience]).map((p) => ({
         id: p.id, title: p.title,
         items: sortItemsForDisplay(visiblePanelItems(p.id)).filter((it) => !isResolved(it)).map((it) => ({
-          id: text(it.id), title: text(it.main), detail: text(it.sub), project: text(projName(effProj(it))),
+          id: text(it.id), title: text(it.main), detail: p.id === "issuesDelays" ? [text(it.x?.detail), text(it.sub)].filter(Boolean).join(" · ") : text(it.sub), project: text(projName(effProj(it))),
           labels: [p.dateRange ? plain(rangeBadge(it.startDate, it.endDate)) : "",
+            p.id === "issuesDelays" && it.x?.resolutionOwner ? "Resolution: " + text(it.x.resolutionOwner) : "",
+            p.id === "issuesDelays" && fmtDay(it.x?.dateRaised) ? "Raised " + fmtDay(it.x.dateRaised) : "",
             p.kind === "dated" ? plain(dueBadge(it.due, false)) : "",
             fmtDay(it.dateAssigned) ? "Assigned " + fmtDay(it.dateAssigned) : "", plain(reqBadge(it.dateRequired, false)),
             wstatusDef(it.wstatus)?.label, priorityDef(p, it.priority)?.label, statusDef(p, it.status)?.label, teamDef(it.team)?.label].filter(Boolean)
