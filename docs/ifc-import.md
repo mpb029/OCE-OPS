@@ -14,9 +14,15 @@ its IFC Z-up to Three Y-up conversion. `COORDINATE_TO_ORIGIN` is explicitly fals
 parts and separately imported models retain their original relative positions.
 No geographic guessing, per-part recentring or second axis conversion is applied.
 
-Add file remains session-only and uploads nothing. Add URL retains the existing
-saved/shared reference, project filtering and explicit publishing workflow. File
-upload limits, operational records and publishing payload construction are unchanged.
+Upload model accepts a local file up to the existing 25 MB attachment limit,
+uploads through the existing GitHub connection, and saves an ordinary model
+reference for the selected project. Publish board remains explicit and publishes
+all saved board changes. Site and Client project filters apply when they open it.
+Preview only uploads nothing; Share on a preview promotes its existing object
+without resetting the camera or IFC inspection state. Add URL remains available
+for already hosted or larger models. Multi-file GLTF exports need a single GLB
+or an already hosted set of files; this uploader does not upload sidecar files.
+Public-repository files are public: display filters are not file access control.
 
 Limits: current browsers with WebAssembly SIMD/exceptions and network access to
 the pinned parser CDN are required. Large exports can consume substantial memory

@@ -965,7 +965,16 @@ body.locked { overflow: hidden; }
 
 
 /* ===================== 3D model viewer ===================== */
-#modelCard .model-tools { display: flex; gap: 6px; }
+#modelCard .model-tools { display: flex; flex-wrap: wrap; gap: 6px; }
+#btnModelShare { background: #205c8b; color: #fff; border-color: #205c8b; }
+#modelShareModal .modal { max-width: 560px; max-height: calc(100dvh - 32px); }
+#modelShareModal .field label { font-size: 13px; text-transform: none; letter-spacing: 0; }
+#modelShareModal .field input, #modelShareModal .field select { min-width: 0; min-height: 44px; font-size: 16px; }
+#modelShareModal .help, #modelShareStatus { font-size: 14px; line-height: 1.5; overflow-wrap: anywhere; }
+#modelShareStatus[data-error="true"] { color: #a32222; }
+#modelShareModal .modal-foot { flex-wrap: wrap; }
+#modelShareModal .btn { min-height: 44px; }
+#modelShareModal [hidden] { display: none !important; }
 .model-stage { position: relative; width: 100%; height: 340px; background: linear-gradient(180deg,#323b44,#262d34); border-radius: 8px; overflow: hidden; }
 .model-stage .model-canvas { width: 100% !important; height: 100% !important; display: block; }
 .model-empty { position: absolute; inset: 0; display: grid; place-items: center; color: #cdd6de; font-size: 13px; padding: 20px; text-align: center; }
@@ -1171,7 +1180,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           <span class="spacer"></span>
           <button class="tool-btn model-disclosure" id="btnModelToggle" aria-expanded="true" aria-controls="modelStage modelList" title="Expand or collapse the 3D viewer"><i class="fa-solid fa-chevron-up"></i><span>Close viewer</span></button>
           <div class="model-tools" id="modelTools">
-            <button class="tool-btn" id="btnModelUpload" title="View a 3D model (.ifc/.obj/.stl/.glb/.gltf) this session"><i class="fa-solid fa-file-import"></i><span class="lbl">Add file</span></button>
+            <button class="tool-btn" id="btnModelShare" title="Upload a model for Site and Client views, then Publish"><i class="fa-solid fa-cloud-arrow-up"></i><span class="lbl">Upload model</span></button>
+            <button class="tool-btn" id="btnModelUpload" title="Preview a model on this device without uploading or sharing it"><i class="fa-solid fa-file-import"></i><span class="lbl">Preview only</span></button>
             <button class="tool-btn" id="btnModelUrl" title="Add a hosted 3D model URL (shared with everyone)"><i class="fa-solid fa-link"></i><span class="lbl">Add URL</span></button>
             <input type="file" id="fileModel" class="hidden-file" accept=".ifc,.stl,.obj,.glb,.gltf,model/stl,model/obj,model/gltf-binary,model/gltf+json" />
           </div>
@@ -1245,6 +1255,22 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         <p class="help">To undo a successful restore, use Import with this recovery file. JSON backups retain attachment links; they do not embed attachment files.</p>
       </div>
       <div class="modal-foot"><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn primary" id="importConfirm" disabled>Replace local board</button></div>
+    </div>
+  </div>
+
+  <div class="modal-back" id="modelShareModal">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modelShareTitle">
+      <div class="modal-head"><i class="fa-solid fa-cloud-arrow-up"></i><span id="modelShareTitle">Share a 3D model</span></div>
+      <div class="modal-body">
+        <p class="help">Choose a file and project, upload it, then Publish the board so Site and Client viewers can open it.</p>
+        <div class="field"><label for="modelShareFile">Model file · maximum 25 MB</label><input type="file" id="modelShareFile" accept=".ifc,.stl,.obj,.glb,.gltf" /><p class="help" id="modelShareSelected"></p></div>
+        <div class="field"><label for="modelShareName">Model name</label><input id="modelShareName" type="text" /></div>
+        <div class="field"><label for="modelShareProject">Project</label><select id="modelShareProject"></select></div>
+        <p class="help">IFC, STL, OBJ, GLB or self-contained GLTF. For textures and multi-file exports, use a single GLB or the existing Add URL option.</p>
+        <p class="help">Uploads use your connected GitHub repository. Public-repository files are public; project and Client filters control the display, not file access. Removing a model does not delete the uploaded file.</p>
+        <p id="modelShareStatus" role="status" aria-live="polite"></p>
+      </div>
+      <div class="modal-foot"><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn primary" id="modelShareUpload">Upload model</button><button type="button" class="btn primary" id="modelSharePublish" hidden>Publish board</button></div>
     </div>
   </div>
 
@@ -2420,6 +2446,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   const loadedObjs = {};                    // model id -> loaded Object3D (cached)
   // IFC imports and feedback are transient viewer resources, never board data.
   const ifcImports = new Map(), modelFeedback = new Map();
+  // Original files remain transient; only the existing hosted reference is saved.
+  const sessionModelFiles = new Map();
   function setModelFeedback(model, text, error = false) {
     const current = modelRecord(model.id);
     if (!current || current.url !== model.url) return;
@@ -2584,10 +2612,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     if (!list) return;
     const editor = sync.audience === "editor";
     const models = allModels();
-    if (!models.length) { list.innerHTML = editor ? `<div class="model-hint">Add a 3D model (<b>.ifc</b>, .stl, .obj, .glb or .gltf) with the buttons above. Upload views it here for you now; a hosted <b>URL</b> is shared with site &amp; clients.</div>` : ""; return; }
+    if (!models.length) { list.innerHTML = editor ? `<div class="model-hint"><b>Upload model</b> → choose its project → <b>Publish</b> for Site &amp; Client views. <b>Preview only</b> stays on this device. IFC, STL, OBJ, GLB and GLTF are supported.</div>` : ""; return; }
     list.innerHTML = models.map((m) => `
       <div class="model-row">
-        <label class="model-name"><input type="checkbox" data-model-toggle="${m.id}" ${m.visible ? "checked" : ""} /> <i class="fa-solid fa-cube"></i> <span>${esc(m.name)}</span>${m.session ? ' <span class="model-tag">session</span>' : ""}</label>
+        <label class="model-name"><input type="checkbox" data-model-toggle="${m.id}" ${m.visible ? "checked" : ""} /> <i class="fa-solid fa-cube"></i> <span>${esc(m.name)}</span>${m.session ? ' <span class="model-tag">preview only</span>' : ""}</label>
+        ${editor && m.session && sessionModelFiles.has(m.id) ? `<button class="tool-btn" data-model-share="${m.id}" title="Upload this preview for Site and Client views">Share</button>` : ""}
         ${editor ? `<button class="model-flip" data-model-flip="${m.id}" title="Flip up-axis (fix orientation)"><i class="fa-solid fa-arrows-up-down"></i></button>` : ""}
         ${editor ? `<button class="model-del" data-model-del="${m.id}" title="Remove model">&times;</button>` : ""}
         ${m.fmt === "ifc" ? `<span class="model-import-status" role="status" data-model-status="${esc(m.id)}" data-error="${!!modelFeedback.get(m.id)?.error}">${esc(modelFeedback.get(m.id)?.text || "IFC2x3 / IFC4")}</span>` : ""}
@@ -2595,6 +2624,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     list.querySelectorAll("[data-model-toggle]").forEach((c) => c.onchange = () => toggleModel(c.getAttribute("data-model-toggle"), c.checked));
     list.querySelectorAll("[data-model-flip]").forEach((b) => b.onclick = () => flipUpAxis(b.getAttribute("data-model-flip")));
     list.querySelectorAll("[data-model-del]").forEach((b) => b.onclick = () => removeModel(b.getAttribute("data-model-del")));
+    list.querySelectorAll("[data-model-share]").forEach((b) => b.onclick = () => openModelShare(b.getAttribute("data-model-share")));
   }
 
   /* ---- viewer tools (orbit / pan / zoom / reset / fullscreen) ---------- */
@@ -2639,17 +2669,124 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   function addModelFile(file) {
     const fmt = modelFmt(file.name);
     if (!fmt) { toast("Please choose a .ifc, .stl, .obj, .glb or .gltf file", true); return; }
-    sessionModels[uid()] = { name: file.name.replace(/\.(glb|gltf|stl|obj|ifc)$/i, ""), url: URL.createObjectURL(file), fmt: fmt, visible: true };
+    const id = uid();
+    sessionModels[id] = { name: file.name.replace(/\.(glb|gltf|stl|obj|ifc)$/i, ""), url: URL.createObjectURL(file), fmt: fmt, visible: true };
+    sessionModelFiles.set(id, file);
     renderModels();
-    toast((fmt === "ifc" ? "Importing IFC" : "Model loaded") + " (this session only \u2014 add a hosted URL to share it)");
+    toast((fmt === "ifc" ? "Importing IFC" : "Model loaded") + " — preview only. Use Share below the model to upload it.");
   }
 
   function removeModel(id) {
+    sessionModelFiles.delete(id);
     releaseModel(id);
     if (sessionModels[id]) { try { URL.revokeObjectURL(sessionModels[id].url); } catch (e) {} delete sessionModels[id]; }
     else { state.models = (state.models || []).filter((m) => m.id !== id); save(); }
     renderModels();
   }
+
+  let modelShareDraft = null, modelShareBusy = false;
+  const modelShareEl = (id) => document.getElementById(id);
+  function modelShareMessage(text, error = false) {
+    const node = modelShareEl("modelShareStatus"); node.textContent = text; node.dataset.error = String(error);
+  }
+  function openModelShare(id = null) {
+    if (sync.audience !== "editor" || editLocked || modelShareBusy) return;
+    if (sync.busy) { toast("Wait for the current Publish to finish before adding a shared model.", true); return; }
+    if (!sync.owner || !sync.repo || !hasToken()) { openSettings(); toast("Connect GitHub in Settings, then choose Upload model.", true); return; }
+    const record = id ? sessionModels[id] : null, file = id ? sessionModelFiles.get(id) : null;
+    if (id && (!record || !file)) return;
+    modelShareDraft = {id, record, file, opener:document.activeElement};
+    modelShareEl("modelShareModal").querySelectorAll("input,select,button").forEach((el) => el.disabled = false);
+    const input = modelShareEl("modelShareFile"); input.value = ""; input.disabled = !!id;
+    modelShareEl("modelShareSelected").textContent = file ? file.name : "No upload occurs until you press Upload model.";
+    modelShareEl("modelShareName").value = record?.name || "";
+    const project = modelShareEl("modelShareProject"); project.replaceChildren(new Option("Global (all projects)", ""));
+    projects().forEach((p) => project.append(new Option(p.name, p.id)));
+    if (record?.project && !projById(record.project)) project.append(new Option("Unavailable project — choose another", record.project));
+    project.value = record ? record.project || "" : (projById(currentProject) ? currentProject : "");
+    modelShareEl("modelShareUpload").hidden = false; modelShareEl("modelSharePublish").hidden = true;
+    modelShareEl("modelShareModal").querySelector('[data-close]').textContent = "Cancel";
+    modelShareMessage("Publish shares all saved board changes, including this model. Upload alone does not publish the board.");
+    openModal("modelShareModal"); (id ? modelShareEl("modelShareName") : input).focus();
+  }
+  async function uploadSharedModel() {
+    if (sync.audience !== "editor" || editLocked || modelShareBusy || !modelShareDraft || modelShareDraft.saved) return;
+    if (sync.busy) { modelShareMessage("Wait for the current Publish to finish, then upload the model.", true); return; }
+    if (!hasToken() || !sync.owner || !sync.repo) { modelShareMessage("Connect GitHub in Settings before uploading.", true); return; }
+    const draft = modelShareDraft, file = draft.file;
+    const fmt = file && modelFmt(file.name), name = modelShareEl("modelShareName").value.trim();
+    const project = modelShareEl("modelShareProject").value;
+    if (!fmt) { modelShareMessage("Choose an IFC, STL, OBJ, GLB or GLTF model.", true); return; }
+    if (!file.size || file.size > 25 * 1024 * 1024) { modelShareMessage("Choose a non-empty model up to 25 MB. Larger files can still use Preview only or Add URL.", true); return; }
+    if (!name) { modelShareMessage("Enter a model name.", true); modelShareEl("modelShareName").focus(); return; }
+    if (project && !projById(project)) { modelShareMessage("Choose an available project.", true); return; }
+    const modal = modelShareEl("modelShareModal");
+    modelShareBusy = true; modal.setAttribute("aria-busy", "true");
+    const controls = [...modal.querySelectorAll("input,select,button")].map((el) => [el,el.disabled]);
+    controls.forEach(([el]) => el.disabled = true);
+    let uploaded;
+    try {
+      // One-file uploads cannot resolve sidecar binaries/textures. Do not save a broken reference.
+      if (fmt === "gltf") {
+        let json; try { json = JSON.parse(await file.text()); } catch { throw new Error("Invalid GLTF JSON. Export a single GLB or self-contained GLTF."); }
+        if ([...(json.buffers || []), ...(json.images || [])].some((part) => part.uri && !/^data:/i.test(part.uri))) {
+          throw new Error("This GLTF needs external files. Export a single GLB, or host all files together and use Add URL.");
+        }
+      }
+      modelShareMessage("Uploading " + file.name + "… Keep this window open.");
+      uploaded = await ghUploadFile(file, "files/models");
+      // Finish an existing preview load before switching its source reference.
+      if (draft.id) await spatialLoads.get(draft.id)?.promise.catch(() => null);
+      if (sync.audience !== "editor" || editLocked || (project && !projById(project))) throw new Error("The editor or project changed during upload. The file was uploaded but was not added to the board.");
+      if (draft.id && sessionModels[draft.id] !== draft.record) throw new Error("The preview changed during upload. The file was uploaded but was not added to the board.");
+      const id = draft.id || uid(), record = { ...draft.record, id, name, url:uploaded.url, fmt, visible:draft.record?.visible !== false };
+      if (project) record.project = project; else delete record.project;
+      state.models = state.models || []; state.models.push(record);
+      if (draft.id) {
+        // Preserve the exact loaded object, IFC inspection state and camera while promoting a preview.
+        if (loadedObjs[id]) spatialModelSources.set(id, modelSource(record));
+        delete sessionModels[id]; sessionModelFiles.delete(id);
+        URL.revokeObjectURL(draft.record.url);
+      } else spatialRequestFrame = true;
+      save(); renderModels(); spatialRequestFrame = false;
+      modelShareMessage("Model uploaded and saved. Publish board to make it available in the matching Site and Client project views. This publishes all saved board changes.");
+      modelShareEl("modelShareUpload").hidden = true;
+      modelShareEl("modelSharePublish").hidden = false;
+      modal.querySelector('[data-close]').textContent = "Done";
+      draft.saved = true;
+    } catch (error) {
+      modelShareMessage(/401|403/.test(String(error)) ? "Upload rejected. Check your GitHub connection in Settings; your model has not been shared." : (error.message || String(error)), true);
+      if (uploaded) {
+        const link = document.createElement("a"); link.href = uploaded.url; link.textContent = "Open uploaded file"; link.target = "_blank"; link.rel = "noopener";
+        modelShareEl("modelShareStatus").append(" ", link);
+      }
+    } finally {
+      modelShareBusy = false; modal.removeAttribute("aria-busy");
+      controls.forEach(([el,disabled]) => el.disabled = disabled);
+      if (draft.saved) {
+        modal.querySelectorAll("input,select").forEach((el) => el.disabled = true);
+        modelShareEl("modelSharePublish").focus();
+      }
+    }
+  }
+  const shareModal = modelShareEl("modelShareModal");
+  shareModal.addEventListener("click", (event) => {
+    if (event.target === shareModal || event.target.closest("[data-close]")) {
+      if (modelShareBusy) { event.preventDefault(); event.stopImmediatePropagation(); return; }
+      modelShareDraft?.opener?.focus();
+    }
+  }, true);
+  document.addEventListener("keydown", (event) => {
+    if (!shareModal.classList.contains("open")) return;
+    if (event.key === "Escape") {
+      event.preventDefault(); event.stopImmediatePropagation();
+      if (!modelShareBusy) { closeModal("modelShareModal"); modelShareDraft?.opener?.focus(); }
+    } else if (event.key === "Tab") {
+      const focusable = [...shareModal.querySelectorAll("input,select,button,a[href]")].filter((el) => !el.disabled && el.getClientRects().length);
+      const next = event.shiftKey ? focusable.at(-1) : focusable[0];
+      if (!focusable.length || (event.shiftKey ? document.activeElement === focusable[0] : document.activeElement === focusable.at(-1))) { event.preventDefault(); next?.focus(); }
+    }
+  }, true);
 
   function toggleUserLayer(id, show) {
     const ml = (state.mapLayers || []).find((x) => x.id === id);
@@ -5236,6 +5373,19 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("btnLoadGeo").onclick = () => document.getElementById("fileGeo").click();
     document.getElementById("btnImagery").onclick = promptTileLayer;
     document.getElementById("btnModelUpload").onclick = () => document.getElementById("fileModel").click();
+    document.getElementById("btnModelShare").onclick = () => openModelShare();
+    document.getElementById("modelShareUpload").onclick = uploadSharedModel;
+    document.getElementById("modelShareFile").onchange = (event) => {
+      if (!modelShareDraft || modelShareBusy) return;
+      const file = event.target.files[0]; modelShareDraft.file = file || null;
+      modelShareEl("modelShareName").value = file ? file.name.replace(/\.(ifc|stl|obj|glb|gltf)$/i, "") : "";
+      modelShareEl("modelShareSelected").textContent = file ? file.name + " · " + (file.size / 1024 / 1024).toFixed(1) + " MB" : "No file selected.";
+    };
+    document.getElementById("modelSharePublish").onclick = () => {
+      if (sync.audience !== "editor" || editLocked || modelShareBusy || !modelShareDraft?.saved) return;
+      if (sync.busy) { modelShareMessage("The board is already publishing. Wait for it to finish.", true); return; }
+      closeModal("modelShareModal"); publish();
+    };
     document.getElementById("btnModelUrl").onclick = promptModelUrl;
     document.getElementById("fileModel").onchange = (e) => { const f = (e.target.files || [])[0]; if (f) addModelFile(f); e.target.value = ""; };
     document.querySelectorAll("#modelToolbar [data-mtool]").forEach((b) => b.onclick = () => {
