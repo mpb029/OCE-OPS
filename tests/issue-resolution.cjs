@@ -3,14 +3,14 @@ const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('n
 const {execFileSync}=require('node:child_process'),{createHash}=require('node:crypto');
 const {root,output,start,open}=require('./harness.cjs');
 const fixture=require('./workspace-fixture.cjs');
-const fast=process.argv.includes('--fast'),results=[],startedAt=new Date().toISOString();
+const fast=process.argv.includes('--fast'),photosOnly=process.argv.includes('--photos-only'),pdf=process.argv.includes('--pdf'),results=[],startedAt=new Date().toISOString();
 const git=args=>execFileSync('git',args,{cwd:root,encoding:'utf8'}).trim();
 const commit=git(['rev-parse','HEAD']);
 const inputFiles=['index.html','ui-forms.js','ui-forms.css','ui-overview.js','ui-workspaces.js','tests/harness.cjs','tests/workspace-fixture.cjs','tests/issue-resolution.cjs'];
 const digest=file=>createHash('sha256').update(fs.readFileSync(path.join(root,file))).digest('hex');
 const hashes=()=>Object.fromEntries(inputFiles.map(file=>[file,digest(file)]));
 const sourceHashes=hashes(),operationalHash=digest('data.json');
-const owners=['Site','Engineering','Client','Supplier'];
+const owners=['Site','Engineering','Design','Client','Supplier'];
 const detail='Confirm service depth <not approved> & access.\nAwait the recorded survey response.';
 const issue=(id,fields={})=>({id,main:'Issue '+id,sub:'Retained mitigation',project:'default',vis:{site:true,client:true},...fields});
 const board=items=>{const data=fixture();data.panels.issuesDelays=items;data.panelVis.issuesDelays={site:true,client:true};return data;};
@@ -29,11 +29,24 @@ async function noWrites(run,before){if(before)assert.deepEqual(await snapshot(ru
 async function exported(p){if(!await p.locator('#btnExport').isVisible())await p.locator('#headerMenu summary').click();const pending=p.waitForEvent('download');await p.locator('#btnExport').click();return JSON.parse(fs.readFileSync(await(await pending).path(),'utf8'));}
 async function restore(p,data){await p.locator('#fileImport').setInputFiles({name:'issues-synthetic-backup.json',mimeType:'application/json',buffer:Buffer.from(JSON.stringify(data))});const pending=p.waitForEvent('download');await p.locator('#importBackup').click();await pending;await p.locator('#importBackupSaved').check();await p.locator('#importConfirm').click();await p.waitForFunction(()=>!document.getElementById('importModal').classList.contains('open'));}
 async function check(name,fn){try{await fn();results.push({name,status:'PASS'});console.log('PASS '+name);}catch(error){results.push({name,status:'FAIL',error:error.stack});console.error('FAIL '+name+': '+error.stack);}}
+// Reuse the established deterministic workfront-image fixture technique; no live photographs.
+function syntheticPhoto(){
+ const width=800,height=480,raw=Buffer.alloc((width*3+1)*height);
+ for(let y=0;y<height;y++)for(let x=0;x<width;x++){const i=y*(width*3+1)+1+x*3,road=y>220&&y<350,pipe=x>90&&x<710&&y>270&&y<302,c=pipe?[32,122,168]:road?[177,163,139]:y<190?[197,222,235]:[116,148,103];raw[i]=c[0];raw[i+1]=c[1];raw[i+2]=c[2];}
+ const crc=b=>{let n=0xffffffff;for(const v of b){n^=v;for(let i=0;i<8;i++)n=(n>>>1)^((n&1)?0xedb88320:0);}return(n^0xffffffff)>>>0;};
+ const chunk=(name,data)=>{const type=Buffer.from(name),head=Buffer.alloc(4),tail=Buffer.alloc(4);head.writeUInt32BE(data.length);tail.writeUInt32BE(crc(Buffer.concat([type,data])));return Buffer.concat([head,type,data,tail]);};
+ const ihdr=Buffer.alloc(13);ihdr.writeUInt32BE(width);ihdr.writeUInt32BE(height,4);ihdr[8]=8;ihdr[9]=2;
+ return Buffer.concat([Buffer.from([137,80,78,71,13,10,26,10]),chunk('IHDR',ihdr),chunk('IDAT',require('node:zlib').deflateSync(raw)),chunk('IEND',Buffer.alloc(0))]);
+}
+const image=syntheticPhoto(),photoName='Synthetic service crossing.png';
+// Use a fresh URL: the board fixture already decoded its shared 1px image before entry returns.
+const assets=p=>p.route('**/issues-test-photo.png',route=>route.fulfill({contentType:'image/png',body:image}));
 
 (async()=>{
  const env=await start();
  try{
-  await check('Issues: original Add supports four resolution owners, multiline details and dates; Save/reload retain values without publishing',async()=>{
+  if(!photosOnly){
+  await check('Issues: original Add supports five resolution owners, multiline details and dates; Save/reload retain values without publishing',async()=>{
    const run=await entry(env,[]),p=run.page;
    try{
     const before=await snapshot(p);assert.match(await panel(p).locator('.card-head').innerText(),/Issues and Delays/);
@@ -108,9 +121,47 @@ async function check(name,fn){try{await fn();results.push({name,status:'PASS'});
     }finally{await run.close();}
    });
   }
+  }
+  if(!fast){
+   await check('Issues photos: original upload, preview, Save/reload, backup and reference removal retain data without remote deletion',async()=>{
+    const run=await entry(env,[issue('photo',{dateRequired:'2026-10-29',x:{detail,resolutionOwner:'Design',dateRaised:'2026-10-20'}})],{token:true}),p=run.page;await assets(p);
+    await p.route('https://api.github.com/repos/regression-fixture/test-board/contents/files/photos/**',async route=>{
+     const req=route.request();if(req.method()==='GET')return route.fulfill({json:{sha:'test-sha'}});
+     run.network.writes.push({url:req.url(),method:req.method(),body:req.postDataJSON()});
+     return route.fulfill({json:{content:{sha:'test-photo-sha',download_url:env.url+'/issues-test-photo.png'},commit:{sha:'test-commit'}}});
+    });
+    try{
+     await edit(p,'photo');const pending=p.waitForEvent('filechooser');await p.locator('#btnAddPhoto').click();await(await pending).setFiles({name:photoName,mimeType:'image/png',buffer:image});
+     await p.waitForFunction(()=>document.querySelectorAll('#photoStrip .thumb').length===1);await p.waitForFunction(()=>document.querySelector('#photoStrip img')?.naturalWidth===800);
+     assert.equal(run.network.writes.length,1);assert.equal(run.network.writes[0].method,'PUT');assert.match(run.network.writes[0].url,/regression-fixture\/test-board\/contents\/files\/photos\//);
+     await save(p);const saved=(await records(p))[0];assert.equal(saved.photos.length,1);assert.equal(saved.photos[0].name,photoName);assert.equal(saved.x.resolutionOwner,'Design');
+     assert.ok(await row(p,'photo').locator('img').count());await p.reload();await p.waitForFunction(()=>window.__opsTest?.ready);assert.deepEqual((await records(p))[0],saved);
+     const backup=await exported(p);await edit(p,'photo');await p.locator('[data-ph-del]').click();await cancel(p);assert.deepEqual((await records(p))[0],saved);
+     await edit(p,'photo');await p.locator('[data-ph-del]').click();await save(p);assert.deepEqual((await records(p))[0].photos,[]);assert.equal(run.network.writes.length,1,'Reference removal does not delete or upload files');
+     await restore(p,backup);assert.deepEqual((await records(p))[0],saved);assert.deepEqual(run.network.errors,[]);assert.ok(run.network.writes.every(w=>w.method!=='DELETE'));
+    }finally{await run.close();}
+   });
+   await check('Issues report: one permitted record and its photographs print; filters, image loading and cleanup remain intact',async()=>{
+    const photo={name:photoName,mime:'image/png',url:env.url+'/issues-test-photo.png',path:'files/photos/synthetic-crossing.png'};
+    const items=[issue('report',{main:'Issue report',team:'site',wstatus:'inprogress',dateAssigned:'2026-10-20',dateRequired:'2026-10-29',x:{detail,resolutionOwner:'Design',dateRaised:'2026-10-20'},photos:[photo]}),issue('private',{main:'PRIVATE ISSUE MUST NOT PRINT',vis:{site:false,client:false},photos:[{...photo,name:'PRIVATE PHOTO MUST NOT PRINT.png'}]}),issue('east',{main:'EAST ISSUE MUST NOT PRINT',project:'east',photos:[{...photo,name:'EAST PHOTO MUST NOT PRINT.png'}]})];
+    for(const audience of ['','&crew=test-site','&view=test-client-0']){
+     const run=await entry(env,items,{audience:'?ui=workspaces&workspace=quality&workspaceProject=default'+audience}),p=run.page;await assets(p);
+     try{
+      const before=await snapshot(p);if(audience)assert.equal(await p.locator('[data-issue-print="private"],[data-issue-print="east"]').count(),0);
+      await p.locator('[data-issue-print="report"]').click();await p.waitForFunction(()=>window.__printCalls===1);await p.emulateMedia({media:'print'});await p.evaluate(()=>document.fonts.ready);
+      const sheet=p.locator('#wpPrintSheet'),text=await sheet.innerText();assert.equal(await sheet.isVisible(),true);
+      for(const expected of ['North workfront','Issue report','Resolution responsibility','Design','In Progress','2026-10-20','2026-10-29','Site',detail,'Retained mitigation',photoName])assert.ok(text.includes(expected),'Report includes '+expected);
+      assert.equal(await p.locator('#phTitle').innerText(),'Issue / Delay Report');assert.equal(await sheet.locator('img').count(),1);assert.ok(await sheet.locator('img').evaluateAll(imgs=>imgs.every(img=>img.complete&&img.naturalWidth===800)));
+      const visible=await p.locator('body').innerText();for(const restricted of ['PRIVATE ISSUE MUST NOT PRINT','PRIVATE PHOTO MUST NOT PRINT','EAST ISSUE MUST NOT PRINT','EAST PHOTO MUST NOT PRINT','Install watermain · Chainage'])assert.ok(!visible.includes(restricted),restricted+' excluded');
+      if(pdf&&env.engine==='chromium'&&!audience)await p.pdf({path:path.join(output,'representative-issue-report.pdf'),format:'A4',printBackground:true});
+      await p.emulateMedia({media:'screen'});await p.evaluate(()=>dispatchEvent(new Event('afterprint')));assert.equal(await p.locator('#wpPrintSheet').count(),0);assert.equal(await p.locator('body.wp-sheet-print').count(),0);assert.equal(await p.locator('body').getAttribute('data-print'),null);await noWrites(run,before);
+     }finally{await run.close();}
+    }
+   });
+  }
  }finally{
   await env.close();const inputsUnchanged=JSON.stringify(sourceHashes)===JSON.stringify(hashes()),operationalDataUnchanged=operationalHash===digest('data.json');
-  const report={commit,endCommit:git(['rev-parse','HEAD']),engine:env.engine,fast,startedAt,completedAt:new Date().toISOString(),sourceHashes,inputsUnchanged,operationalDataUnchanged,tests:results,passed:results.filter(t=>t.status==='PASS').length,failed:results.filter(t=>t.status==='FAIL').length};
+  const report={commit,endCommit:git(['rev-parse','HEAD']),engine:env.engine,fast,photosOnly,startedAt,completedAt:new Date().toISOString(),sourceHashes,inputsUnchanged,operationalDataUnchanged,tests:results,passed:results.filter(t=>t.status==='PASS').length,failed:results.filter(t=>t.status==='FAIL').length};
   fs.writeFileSync(path.join(output,'issue-resolution-results.json'),JSON.stringify(report,null,2));console.log(JSON.stringify({passed:report.passed,failed:report.failed,inputsUnchanged,operationalDataUnchanged}));if(report.failed||!inputsUnchanged||!operationalDataUnchanged)process.exitCode=1;
  }
 })().catch(error=>{console.error(error);process.exitCode=1;});

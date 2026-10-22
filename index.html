@@ -328,7 +328,7 @@ body.client .card-head .pbtn { display: none; }
 .wp-attachments { display: block; flex-basis: 100%; min-width: 0; width: 100%; }
 #wpAttachmentNotice { width: 100%; font-size: 14px; line-height: 1.5; color: #364c61; }
 @media print {
-  [data-wp-print], [data-wp-download] { display: none !important; }
+  [data-wp-print], [data-wp-download], [data-issue-print] { display: none !important; }
   body.wp-sheet-print .card.print-this { border: 0 !important; break-inside: auto; }
   body.wp-sheet-print .card.print-this > .card-head,
   body.wp-sheet-print .card.print-this .card-body > :not(#wpPrintSheet) { display: none !important; }
@@ -340,6 +340,7 @@ body.client .card-head .pbtn { display: none; }
   #wpPrintSheet .wp-sheet-meta div { break-inside: avoid; }
   #wpPrintSheet dt { font-size: 9pt; font-weight: bold; color: #506176; }
   #wpPrintSheet dd { margin: 0; overflow-wrap: anywhere; }
+  #wpPrintSheet .record-notes { white-space: pre-wrap; overflow-wrap: anywhere; }
   #wpPrintSheet .wp-readiness { font-size: 10pt; }
   #wpPrintSheet .wp-reasons > span { break-inside: avoid; }
   #wpPrintSheet figure { margin: 0 0 4mm; break-inside: avoid; }
@@ -1689,10 +1690,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       statuses: [ { value:"approved", label:"Approved", color:"#1e9e6a" }, { value:"pending", label:"Pending", color:"#e8a100" } ] },
     { id: "variations",    title: "Variations",               icon: "fa-file-invoice-dollar", color: "#8a5a1e", kind: "dated", mainLbl: "Description",  subLbl: "Detail (optional)", dueLbl: "Date", hasRef: true, refLbl: "Variation no.",
       statuses: [ { value:"approved", label:"Approved", color:"#1e9e6a" }, { value:"pending", label:"Pending", color:"#e8a100" } ] },
-    { id: "issuesDelays",  title: "Issues and Delays", icon: "fa-triangle-exclamation", color: "#d2342b", kind: "list", mainLbl: "Issue / delay", subLbl: "Mitigation", fieldsBlock: true,
+    { id: "issuesDelays",  title: "Issues and Delays", icon: "fa-triangle-exclamation", color: "#d2342b", kind: "list", mainLbl: "Issue / delay", subLbl: "Mitigation", fieldsBlock: true, photos: true,
       extras: [
         { key: "detail", label: "Details", type: "textarea" },
-        { key: "resolutionOwner", label: "Resolution responsibility", type: "select", options: ["", "Site", "Engineering", "Client", "Supplier"] },
+        { key: "resolutionOwner", label: "Resolution responsibility", type: "select", options: ["", "Site", "Engineering", "Design", "Client", "Supplier"] },
         { key: "dateRaised", label: "Date raised / identified", type: "date" }
       ] },
     { id: "rfis", title: "RFIs", icon: "fa-circle-question", color: "#2f6fb0", kind: "list", mainLbl: "RFI reference / subject", noSub: true, fieldsBlock: true,
@@ -3606,7 +3607,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
                <button class="d" data-del="${p.id}:${it.id}" title="Remove"><i class="fa-solid fa-trash"></i></button>
              </span>` : "";
         const photos = p.id === "workPackages" ? wpAttachmentsHtml(it) : p.photos ? itemPhotosHtml(it, p.printSheet ? "inline" : "") : "";
-        const wpPrint = p.id === "workPackages" ? `<button class="btn wp-sheet-action" data-wp-print="${esc(it.id)}">Print Work Package</button>` : "";
+        const wpPrint = p.id === "workPackages" ? `<button class="btn wp-sheet-action" data-wp-print="${esc(it.id)}">Print Work Package</button>`
+          : p.id === "issuesDelays" ? `<button class="btn wp-sheet-action" data-issue-print="${esc(it.id)}" title="Print this issue or save as PDF to send to a client or designer">Print issue report</button>` : "";
         const sheet = p.printSheet
           ? `<span class="print-sheet print-only"><span class="tickbox"></span><span class="cmt-line">Comments:</span></span>`
           : "";
@@ -3654,6 +3656,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     grid.querySelectorAll("[data-print-panel]").forEach((b) =>
       b.addEventListener("click", () => printPanel(b.getAttribute("data-print-panel"))));
     grid.querySelectorAll("[data-wp-print]").forEach((b) => b.addEventListener("click", () => printWorkPackage(b.dataset.wpPrint)));
+    grid.querySelectorAll("[data-issue-print]").forEach((b) => b.addEventListener("click", () => printIssue(b.dataset.issuePrint)));
     grid.querySelectorAll("[data-wp-download]").forEach((b) => b.addEventListener("click", () => {
       const it = wpPermittedItem(b.dataset.wpDownload), file = it && wpAttachmentEntries(it)[Number(b.dataset.wpFile)];
       if (file && wpFileUrl(file.meta.url)) downloadFileReference(file.meta);
@@ -4685,8 +4688,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("btnAddPhoto").innerHTML = '<i class="fa-solid fa-camera"></i> ' + (wp ? "Add photos & files" : "Add photo");
     document.getElementById("photoAttach").accept = wp ? "" : "image/*";
     const notice = document.getElementById("wpAttachmentNotice");
-    notice.hidden = !wp;
-    notice.textContent = wp ? "Files upload when you Save. Photos: 15 MB maximum; other files: 25 MB. Cancel discards unsaved selections. Publish remains separate." : "";
+    notice.hidden = !wp && panelId !== "issuesDelays";
+    notice.textContent = wp ? "Files upload when you Save. Photos: 15 MB maximum; other files: 25 MB. Cancel discards unsaved selections. Publish remains separate."
+      : panelId === "issuesDelays" ? "Photos upload to your connected GitHub repository when selected (15 MB maximum). Wait for the previews, then Save. Cancel or Remove does not delete uploaded files. Publish shares the saved issue." : "";
   }
   function stageWPAttachments(event) {
     const files = [...(event.target.files || [])]; event.target.value = "";
@@ -4926,6 +4930,35 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
   window.addEventListener('afterprint', clearWPPrint);
   /* End WP2 single-record printing. */
+
+  // Issues reuse the existing single-record sheet, image preload and native print path.
+  function printIssue(id) {
+    const pid = "issuesDelays";
+    if (editLocked || (sync.audience !== "editor" && !panelVisOf(pid)[sync.audience])) return;
+    const it = sortItemsForDisplay(visiblePanelItems(pid)).find((item) => item.id === id);
+    const card = document.querySelector('.card[data-card="issuesDelays"] .card-body');
+    if (!it || !card) return;
+    clearWPPrint();
+    const recorded = (value) => value ? String(value) : "Not recorded";
+    const fields = [
+      ["Project", projName(effProj(it)) || effProj(it)], ["Record reference", it.id],
+      ["Resolution responsibility", it.x?.resolutionOwner || "Unassigned"],
+      ["Status", (wstatusDef(it.wstatus) || {}).label || it.wstatus || (it.done ? "Completed" : "Not recorded")],
+      ["Date raised / identified", recorded(it.x?.dateRaised)], ["Resolution required by", recorded(it.dateRequired)]
+    ];
+    if (it.team) fields.push(["Assigned team", (teamDef(it.team) || {}).label || it.team]);
+    if (it.dateAssigned) fields.push(["Date assigned", it.dateAssigned]);
+    const photos = Array.isArray(it.photos) ? it.photos : [];
+    const sheet = document.createElement('article'); sheet.id = 'wpPrintSheet'; sheet.className = 'print-only';
+    sheet.innerHTML = `<h1>${esc(it.main)}</h1><dl class="wp-sheet-meta">${fields.map(([label,value]) => `<div><dt>${esc(label)}</dt><dd>${esc(value)}</dd></div>`).join('')}</dl>` +
+      `<h2>Details</h2><p class="record-notes">${esc(recorded(it.x?.detail))}</p>` +
+      `<h2>Mitigation</h2><p class="record-notes">${esc(recorded(it.sub))}</p>` +
+      `<h2>Photographs</h2>` + (photos.length ? photos.map((photo) => `<figure>${wpFileUrl(photo.url) ? `<img src="${esc(wpFileUrl(photo.url))}" alt="${esc(photo.name || 'Photograph')}" loading="eager" />` : '<p>Photograph reference unavailable.</p>'}<figcaption>${esc(photo.name || 'Photograph')}</figcaption></figure>`).join('') : '<p>No photographs attached.</p>');
+    card.append(sheet); document.body.classList.add('wp-sheet-print');
+    printPanel(pid);
+    document.getElementById('phTitle').textContent = 'Issue / Delay Report';
+    document.getElementById('phMeta').textContent = 'Offaly Civil Engineering · ' + (projName(effProj(it)) || effProj(it)) + ' · ' + new Date().toLocaleDateString('en-AU');
+  }
 
   function printReport() {
     const audienceLabel = sync.audience === "client" ? "Client Report"
