@@ -329,6 +329,7 @@ body.client .card-head .pbtn { display: none; }
 #wpAttachmentNotice { width: 100%; font-size: 14px; line-height: 1.5; color: #364c61; }
 @media print {
   [data-wp-print], [data-wp-download], [data-issue-print] { display: none !important; }
+  body.wp-sheet-print:has(.card[data-card="issuesDelays"].print-this) #footNote { display: none !important; }
   body.wp-sheet-print .card.print-this { border: 0 !important; break-inside: auto; }
   body.wp-sheet-print .card.print-this > .card-head,
   body.wp-sheet-print .card.print-this .card-body > :not(#wpPrintSheet) { display: none !important; }

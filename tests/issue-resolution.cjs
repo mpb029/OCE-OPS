@@ -149,7 +149,7 @@ const assets=p=>p.route('**/issues-test-photo.png',route=>route.fulfill({content
      try{
       const before=await snapshot(p);if(audience)assert.equal(await p.locator('[data-issue-print="private"],[data-issue-print="east"]').count(),0);
       await p.locator('[data-issue-print="report"]').click();await p.waitForFunction(()=>window.__printCalls===1);await p.emulateMedia({media:'print'});await p.evaluate(()=>document.fonts.ready);
-      const sheet=p.locator('#wpPrintSheet'),text=await sheet.innerText();assert.equal(await sheet.isVisible(),true);
+      const sheet=p.locator('#wpPrintSheet'),text=await sheet.innerText();assert.equal(await sheet.isVisible(),true);assert.equal(await p.locator('#footNote').isVisible(),false,'Internal local-storage footer does not appear in the issue report');
       for(const expected of ['North workfront','Issue report','Resolution responsibility','Design','In Progress','2026-10-20','2026-10-29','Site',detail,'Retained mitigation',photoName])assert.ok(text.includes(expected),'Report includes '+expected);
       assert.equal(await p.locator('#phTitle').innerText(),'Issue / Delay Report');assert.equal(await sheet.locator('img').count(),1);assert.ok(await sheet.locator('img').evaluateAll(imgs=>imgs.every(img=>img.complete&&img.naturalWidth===800)));
       const visible=await p.locator('body').innerText();for(const restricted of ['PRIVATE ISSUE MUST NOT PRINT','PRIVATE PHOTO MUST NOT PRINT','EAST ISSUE MUST NOT PRINT','EAST PHOTO MUST NOT PRINT','Install watermain · Chainage'])assert.ok(!visible.includes(restricted),restricted+' excluded');
