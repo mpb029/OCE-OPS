@@ -32086,7 +32086,8 @@
       "name": "G1B Aerial",
       "url": "https://mpb029.github.io/OCE-OPS/aerial/{z}/{x}/{y}.png",
       "attribution": "",
-      "visible": true
+      "visible": true,
+      "project": "pi6x8ous"
     }
   ],
   "models": [
@@ -32105,6 +32106,14 @@
       "fmt": "ifc",
       "visible": true,
       "project": "pi6x8ous"
+    },
+    {
+      "id": "wskmt21",
+      "name": "SPS-G12_Rev0_Coordination",
+      "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/models/wclax6q-SPS-G12_Rev0_Coordination.ifc",
+      "fmt": "ifc",
+      "visible": true,
+      "project": "py0cs3dz"
     }
   ],
   "panelVis": {
@@ -35627,7 +35636,7 @@
       "priority": "High",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "2026-10-06",
       "start": "",
       "end": "",
@@ -35635,10 +35644,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-10-05T19:31:27.048Z",
-      "updatedAt": "2026-10-26T05:05:21.404Z",
-      "removed": true,
-      "removedAt": "2026-10-26T05:05:21.404Z",
-      "removedReason": "deleted"
+      "updatedAt": "2026-10-05T19:37:13.733Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     },
     "3zx29fr": {
       "id": "3zx29fr",
@@ -35650,7 +35659,7 @@
       "priority": "High",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "2026-10-06",
       "start": "",
       "end": "",
@@ -35658,10 +35667,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-10-05T19:33:40.201Z",
-      "updatedAt": "2026-10-26T05:05:22.124Z",
-      "removed": true,
-      "removedAt": "2026-10-26T05:05:22.124Z",
-      "removedReason": "deleted"
+      "updatedAt": "2026-10-05T19:33:40.201Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     },
     "kpgb5ly": {
       "id": "kpgb5ly",
@@ -35673,7 +35682,7 @@
       "priority": "High",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "2026-10-06",
       "start": "",
       "end": "",
@@ -35681,10 +35690,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-05T19:35:31.154Z",
-      "updatedAt": "2026-10-26T05:05:22.661Z",
-      "removed": true,
-      "removedAt": "2026-10-26T05:05:22.661Z",
-      "removedReason": "deleted"
+      "updatedAt": "2026-10-05T19:35:31.154Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     },
     "y19hhzc": {
       "id": "y19hhzc",
@@ -35696,7 +35705,7 @@
       "priority": "High",
       "status": "",
       "workStatus": "",
-      "done": true,
+      "done": false,
       "due": "2026-10-06",
       "start": "",
       "end": "",
@@ -35704,10 +35713,10 @@
       "dateRequired": "",
       "photos": 1,
       "createdAt": "2026-10-05T19:46:30.743Z",
-      "updatedAt": "2026-10-26T05:05:23.149Z",
-      "removed": true,
-      "removedAt": "2026-10-26T05:05:23.149Z",
-      "removedReason": "deleted"
+      "updatedAt": "2026-10-05T19:46:30.743Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     },
     "uzx9his": {
       "id": "uzx9his",
@@ -36409,5 +36418,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-10-26T06:00:21.648Z"
+  "publishedAt": "2026-10-28T02:43:14.638Z"
 }
