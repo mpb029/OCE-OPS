@@ -217,7 +217,7 @@ window.OCEWorkfaceControl = function (a) {
     p.coverage=[...document.querySelectorAll('.wfc-coverage-edit')].map(r=>r.read(p));return p;
   }
   function permitError(message) {const el=$('paError');el.textContent=message;el.hidden=false;el.focus();}
-  function savePermit() {
+  async function savePermit() {
     if(!canEdit())return;
     const invalid=invalidInput($('wfcPermitBody'));
     if(invalid){invalid.reportValidity();return permitError('Correct the invalid approval date or numeric field before saving.');}
@@ -229,14 +229,14 @@ window.OCEWorkfaceControl = function (a) {
     const incoming=list(state().panels?.workPackages).some(w=>list(w.workface?.permits?.ids).includes(p.id)&&D.project(w)!==p.project);
     if(incoming)errors.push('Remove cross-project workface links before changing the approval project.');
     if(errors.length)return permitError(errors.join('. '));
-    if(!a.savePermits(candidate))return permitError('Local storage could not save this approval. Nothing was changed. Export existing data and free space before retrying.');
+    if(!await a.savePermits(candidate))return permitError('Local storage could not save this approval. Nothing was changed. Export existing data and free space before retrying.');
     a.closeModal('wfcPermitModal');openRegister(p.project);
   }
-  function removePermit() {
+  async function removePermit() {
     if(!canEdit()||!permitOriginal)return;
     if(JSON.stringify(D.lookup(permits(),permitDraft.id))!==permitOriginal)return permitError('This approval changed while the form was open. Close and reopen it before removing.');
     if(!confirm('Remove this approval reference? Every linked workface will become NO GO until its missing approval is resolved. Documents will not be deleted.'))return;
-    if(!a.savePermits(permits().filter(p=>p.id!==permitDraft.id)))return permitError('Local storage could not save this removal. Nothing was changed.');
+    if(!await a.savePermits(permits().filter(p=>p.id!==permitDraft.id)))return permitError('Local storage could not save this removal. Nothing was changed.');
     a.closeModal('wfcPermitModal');openRegister(registerProject);
   }
   document.addEventListener('click',ev=>{

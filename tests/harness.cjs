@@ -15,7 +15,8 @@ const mime = { '.html': 'text/html', '.css': 'text/css', '.js': 'text/javascript
 
 // These read-only probes exist only in the test server's response, never the deployed app.
 const probe = `window.__opsTest = {
- get ready() { return remoteResolved; },
+ get ready() { return remoteResolved && (typeof integrity === 'undefined' || !integrity || integrity.status().ready); },
+ get integrityStatus() { return typeof integrity === 'undefined' ? null : integrity?.status(); },
  get state() { return state; }, get sync() { return sync; }, get map() { return map; },
  get geoLayer() { return geoLayer; }, get markerLayer() { return markerLayer; },
  get userLayers() { return userLayers; }, get currentProject() { return currentProject; },
@@ -63,7 +64,7 @@ function fixture() {
 
 async function open(env, { version = 'after', width = 1440, height = 900, audience = '', data = fixture(), token = false, touch = false, liveClock = false, workArea = 'root', ui = 'classic' } = {}) {
  const context = await env.browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1, ...(engine==='chromium'?{isMobile:touch}:{}), hasTouch: touch, locale: 'en-AU', timezoneId: 'Australia/Brisbane', acceptDownloads: true });
- const network = { writes: [], errors: [], console: [], failed: [], sharedReads: 0, publishFailure: false };
+ const network = { writes: [], errors: [], console: [], failed: [], sharedReads: 0, publishFailure: false, authoritative:structuredClone(data), sha:'test-sha' };
  const page = await context.newPage();
  page.setDefaultTimeout(12000);
  page.on('pageerror', e => network.errors.push(e.message));
@@ -91,8 +92,16 @@ async function open(env, { version = 'after', width = 1440, height = 900, audien
     if (req.method() !== 'GET') {
       network.writes.push({ url: req.url(), method: req.method(), body: req.postDataJSON() });
       if (network.publishFailure) return route.fulfill({ status: 403, json: { message: 'Test rejection' } });
+      if (/\/contents\/data\.json$/.test(url.pathname)) {
+        const body=req.postDataJSON();
+        if(body.sha!==network.sha)return route.fulfill({status:409,json:{message:'Synthetic revision changed'}});
+        network.authoritative=JSON.parse(Buffer.from(body.content,'base64').toString('utf8'));
+        network.sha='test-sha-'+network.writes.length;
+        return route.fulfill({json:{content:{sha:network.sha},commit:{sha:'test-commit'}}});
+      }
       return route.fulfill({ json: { content: { sha: 'test-sha', download_url: env.url + '/after/tests/' + (/\.png/i.test(req.postDataJSON().message) ? 'fixture-image.png' : 'fixture-file.txt') }, commit: { sha: 'test-commit' } } });
     }
+    if (/\/contents\/data\.json$/.test(url.pathname) || /\/git\/blobs\//.test(url.pathname)) return route.fulfill({json:{sha:network.sha,encoding:'base64',content:Buffer.from(JSON.stringify(network.authoritative)).toString('base64')}});
     return route.fulfill({ json: { sha: 'test-sha' } });
   }
   // Explicitly prevent every external mutation, including accidental production writes.

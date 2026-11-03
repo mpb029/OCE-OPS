@@ -1067,6 +1067,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <!-- Phase 1 screen design. Existing print styles and application logic stay in this file. -->
   <link rel="stylesheet" href="ui-v2.css" media="screen" />
   <link rel="stylesheet" href="workface-control.css" />
+  <link rel="stylesheet" href="board-sync.css" />
+  <script src="board-reconcile.js"></script>
+  <script src="board-storage.js"></script>
+  <script src="board-integrity.js"></script>
+  <script src="board-sync-ui.js"></script>
   <script src="workface-data.js"></script>
   <script src="workface-control.js"></script>
   <script src="ui-v2.js" defer></script>
@@ -1277,6 +1282,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     </div>
   </div>
 
+  <aside id="integrityNotice" role="status" hidden><span id="integrityMessage"></span><button class="btn" id="integrityExport">Export current draft</button><button class="btn" id="integrityReviewButton">Review / recovery</button></aside>
+  <div class="modal-back" id="syncReviewModal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="syncReviewTitle">
+    <div class="modal-head"><span id="syncReviewTitle">Sync &amp; recovery</span></div>
+    <div class="modal-body" id="syncReviewBody"></div>
+    <div class="modal-foot"><button type="button" class="btn" data-close>Cancel / return to editing</button><button type="button" class="btn" id="syncExport">Export current draft</button><button type="button" class="btn primary" id="syncConfirm">Confirm</button></div>
+  </div></div>
   <!-- WFC-001: one shared register; original modal conventions and native print. -->
   <div class="modal-back wfc-modal" id="wfcRegisterModal">
     <div class="modal" role="dialog" aria-modal="true" aria-labelledby="wfcRegisterTitle">
@@ -1639,6 +1650,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         <div class="field">
           <label>Branch</label>
           <input type="text" id="setBranch" placeholder="main" />
+        </div>
+        <div class="field">
+          <label for="setEditorLabel">Change-history label (optional, self-declared)</label>
+          <input type="text" id="setEditorLabel" maxlength="80" autocomplete="off" placeholder="Name / role for this browser" />
+          <p class="wp-help">Included in future Workface / Permit change events. This is not an authenticated identity.</p>
         </div>
 
         <div class="set-section">Share links (read-only)</div>
@@ -2004,13 +2020,16 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   /* ---------- State load / save ----------------------------------------- */
+  let integrity = null, localLoadError = "", localRawAtLoad = null, remoteEditPass = null;
   let state = load();
 
   function load() {
     try {
-      const raw = localStorage.getItem(STORE_KEY);
+      if (audienceContext().audience !== "editor") return defaultState();
+      const raw = localStorage.getItem(STORE_KEY); localRawAtLoad = raw;
       if (!raw) return defaultState();
       const parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== "object" || !parsed.settings || !parsed.panels) throw new Error("Invalid local board");
       const d = defaultState();
       // shallow-merge to tolerate older saves
       const merged = {
@@ -2033,20 +2052,20 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       };
       if (!merged.settings.siteKey) {
         merged.settings.siteKey = genKey();
-        try { localStorage.setItem(STORE_KEY, JSON.stringify(merged)); } catch (e) {}
+        // WFC-002 establishes a journal before persisting any compatibility defaults.
       }
       return merged;
     } catch (e) {
-      console.warn("Could not read saved data, starting fresh.", e);
+      localLoadError = "Local board could not be read. It has not been overwritten. Export or recover the saved draft before editing.";
       return defaultState();
     }
   }
 
   let applyingRemote = false;
   function save() {
-    try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
-    catch (e) { console.warn("Save failed", e); }
-    if (!applyingRemote) markDirty();
+    if (applyingRemote || detectAudience() !== "editor") return Promise.resolve(true);
+    if (!integrity) { sync.dirty = true; return Promise.resolve(false); }
+    return integrity.changed();
   }
 
   const uid = () => Math.random().toString(36).slice(2, 9);
@@ -3040,7 +3059,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("fldMkLetter").style.display = isTie ? "" : "none";
   }
 
-  function saveMarker() {
+  async function saveMarker() {
     const m = state.markers.find((x) => x.id === editingMarkerId);
     if (!m) return;
     m.category = document.getElementById("mkCat").value;
@@ -3051,7 +3070,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       m.letter = document.getElementById("mkLetter").value.toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 2);
     }
     m.vis = { site: document.getElementById("mkVisSite").checked, client: document.getElementById("mkVisClient").checked };
-    save(); renderMarkers(); closeModal("markerModal");
+    await save(); renderMarkers(); closeModal("markerModal");
   }
 
   function deleteMarkerFromModal() {
@@ -3266,7 +3285,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     setTimeout(() => document.getElementById("sLabel").focus(), 30);
   }
 
-  function saveStat() {
+  async function saveStat() {
     const label = document.getElementById("sLabel").value.trim();
     if (!label) { document.getElementById("sLabel").focus(); return; }
     syncStatFieldsFromDOM();
@@ -3287,7 +3306,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     } else {
       state.stats.push(Object.assign({ id: uid() }, data));
     }
-    save(); renderStats(); closeModal("statModal");
+    await save(); renderStats(); closeModal("statModal");
   }
 
   /* =======================================================================
@@ -3452,7 +3471,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("sumScope").value = s.scope || "";
     openModal("summaryModal");
   }
-  function saveSummary() {
+  async function saveSummary() {
     if (!editingSummary) return;
     const g = (id) => document.getElementById(id).value;
     const compType = g("sumCompType");
@@ -3471,7 +3490,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       impacts: g("sumImpacts").trim(),
       scope: g("sumScope").trim()
     };
-    save(); renderProjectSummary(); closeModal("summaryModal");
+    await save(); renderProjectSummary(); closeModal("summaryModal");
   }
 
   function renderProjList() {
@@ -3600,7 +3619,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   // Decide whether the editor page should be locked. The editor URL is the only gated one.
   function evaluateLock(rerender) {
     if (sync.audience !== "editor" && !editLocked) return;      // site/client links are never gated
-    const pass = state.settings.editPass || "";
+    const pass = remoteEditPass ?? (state.settings.editPass || "");
     const openUp = () => {
       const was = editLocked;
       hideLock();
@@ -3625,8 +3644,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     const inp = document.getElementById("lockPass");
     const err = document.getElementById("lockErr");
     const pass = inp ? inp.value : "";
-    if (cyrb53(pass) === state.settings.editPass) {
-      unlockSet(state.settings.editPass);
+    if (cyrb53(pass) === (remoteEditPass ?? state.settings.editPass)) {
+      unlockSet(remoteEditPass ?? state.settings.editPass);
       if (inp) inp.value = "";
       if (err) err.style.display = "none";
       editLocked = false;
@@ -3923,12 +3942,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     recordVisible: (pid, it) => !editLocked && !!panelById(pid) &&
       (sync.audience === "editor" || panelVisOf(pid)[sync.audience]) &&
       visiblePanelItems(pid).includes(it) && sortItemsForDisplay([it]).length > 0,
-    savePermits: (rows) => {
+    savePermits: async (rows) => {
       if (sync.audience !== "editor" || editLocked) return false;
-      // Confirm durable storage before mutating the authoritative register.
-      try { localStorage.setItem(STORE_KEY, JSON.stringify({ ...state, permits: rows })); }
-      catch (error) { return false; }
-      state.permits = rows; touchPanel("workPackages"); save(); renderPanels(); return true;
+      if (!integrity) return false;
+      const next = OCEReconcile.copy(state); next.permits = rows;
+      next.panelMeta = { ...next.panelMeta, workPackages: { updated: new Date().toISOString() } };
+      return integrity.replace(next, { action: "updated", draft: true });
     }
   });
 
@@ -4192,7 +4211,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     setTimeout(() => document.getElementById(showRef ? "fRef" : "fMain").focus(), 30);
   }
 
-  function saveItem() {
+  async function saveItem() {
     if (wpUploading) return;
     const { panel, id } = editingItem;
     if (panel === "workPackages" && (sync.audience !== "editor" || editLocked)) return;
@@ -4284,11 +4303,13 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     recordHistory(panel, saved);
     if (panel === "workPackages") editingItem.id = saved.id;
     if (panel === "workPackages" && wpAttachmentDraft.some((entry) => entry.file)) {
-      touchPanel(panel); save(); renderPanels();
+      touchPanel(panel); const retained = await save(); renderPanels();
+      if (!retained) { wpFormError("Local save failed. Keep this tab open and export the current draft."); return; }
       saveWPAttachments(saved);
       return;
     }
-    touchPanel(panel); save(); renderPanels();
+    touchPanel(panel); const retained = await save(); renderPanels();
+    if (!retained) { toast("Local save failed. Changes remain in memory; use Export or Review / recovery.", true); return; }
     if (panel === "workPackages" && !wpStored(saved)) {
       document.getElementById("wpAttachmentNotice").textContent = "Local storage could not retain this Work Package. It remains on this board; retry Save or Export a backup before closing this page.";
       return;
@@ -4321,11 +4342,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("setRepo").value = sync.repo || r.repo || "";
     document.getElementById("setBranch").value = sync.branch || r.branch || "main";
     document.getElementById("setToken").value = getToken();
+    try { document.getElementById("setEditorLabel").value = localStorage.getItem("offaly_ops_editor_label") || ""; } catch (e) {}
     document.getElementById("linkSite").value = shareBase() + "?crew=" + (s.siteKey || "");
     openModal("settingsModal");
   }
 
-  function saveSettings() {
+  async function saveSettings() {
     const s = state.settings;
     s.projectName = document.getElementById("setProj").value.trim() || "Untitled project";
     s.loc.name = document.getElementById("setLocName").value.trim() || "Site";
@@ -4344,16 +4366,21 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
     // GitHub publishing config
     const token = document.getElementById("setToken").value.trim();
-    try { token ? localStorage.setItem(TOKEN_KEY, token) : localStorage.removeItem(TOKEN_KEY); } catch (e) {}
     const repoCfg = {
       owner: document.getElementById("setOwner").value.trim(),
       repo: document.getElementById("setRepo").value.trim(),
       branch: document.getElementById("setBranch").value.trim() || "main"
     };
-    try { localStorage.setItem(REPO_KEY, JSON.stringify(repoCfg)); } catch (e) {}
+    const repoChanged = ["owner", "repo", "branch"].some(k => repoCfg[k] !== sync[k]);
+    if (!await save()) { toast("Settings remain in memory. Check sync status and export before closing.", true); return; }
+    try {
+      token ? localStorage.setItem(TOKEN_KEY, token) : localStorage.removeItem(TOKEN_KEY);
+      localStorage.setItem(REPO_KEY, JSON.stringify(repoCfg));
+      const label = document.getElementById("setEditorLabel").value.trim();
+      localStorage.setItem("offaly_ops_editor_label", label === token ? "" : label);
+    } catch (e) { toast("Browser storage could not save the connection settings. Keep this form open and retry.", true); return; }
     Object.assign(sync, repoCfg);
-
-    save();
+    if (repoChanged) { await integrity.changed(); toast("Draft saved. Reload to establish a reviewed base for the new repository.", true); }
     renderHeader();
     renderProjectSelect();
     renderPanels();
@@ -4365,7 +4392,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     setViewerMode(detectAudience());
     updatePublishUI();
     setSyncStatus();
-    if (!sync.dirty) loadShared();   // pick up the latest if we just connected
+    if (!repoChanged) integrity?.poll();
     closeModal("settingsModal");
   }
 
@@ -4407,7 +4434,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           saved.disabled = false;
         } catch (e) { alert("Recovery backup could not be downloaded. The board is unchanged. " + e.message); }
       };
-      confirm.onclick = () => {
+      confirm.onclick = async () => {
         if (!saved.checked || !recovery) return;
         if (sync.busy || JSON.stringify(state) !== recovery) {
           alert("The board changed or publishing is in progress. Cancel and restart Import to save a fresh recovery backup."); return;
@@ -4428,11 +4455,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           state = candidate;
           if (currentProject !== "all" && !projects().some((p) => p.id === currentProject)) currentProject = "all";
           // Complete fallible storage/map/board work before touching the model scene.
-          localStorage.setItem(STORE_KEY, JSON.stringify(candidate));
+          // The original render/map preflight runs before committing the integrity journal.
           localStorage.setItem(PROJ_KEY, currentProject);
-          localStorage.setItem(DIRTY_KEY, "1");
+          // Dirty state is committed with the reviewed draft, not in a separate unverified write.
           refreshBoard();
           if (map) { applyBase(); renderUserLayers(); renderMarkers(); map.setView([state.settings.loc.lat, state.settings.loc.lng], map.getZoom(), { animate: false }); }
+          if (!integrity || !await integrity.replace(candidate, { action: "restored", unbased: true, render: false, beforeBoard: previous.state })) throw new Error("Local integrity storage did not accept this backup.");
         } catch (e) {
           let restored = true;
           if (previous) {
@@ -4474,7 +4502,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     fr.readAsText(file);
   }
 
-  function normaliseBackup(parsed) {
+  function normaliseBackup(parsed, { draft = false } = {}) {
     const object = (v) => v !== null && typeof v === "object" && !Array.isArray(v);
     const fail = (name) => { throw new Error("Invalid backup field: " + name); };
     if (!object(parsed) || !object(parsed.settings) || !object(parsed.panels)) fail("settings / panels");
@@ -4533,12 +4561,29 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     (parsed.markers || []).forEach((marker) => { if (!Number.isFinite(marker.lat) || !Number.isFinite(marker.lng)) fail("marker coordinates"); });
     if (parsed.settings.loc !== undefined && (!object(parsed.settings.loc) || !Number.isFinite(parsed.settings.loc.lat) || !Number.isFinite(parsed.settings.loc.lng))) fail("settings.loc");
     if (parsed.base !== undefined && !["street", "sat"].includes(parsed.base)) fail("base");
-    const workfaceErrors = OCEWorkfaceData.validate(parsed);
-    if (workfaceErrors.length) fail(workfaceErrors.join(". "));
+    if (parsed.changeEvents !== undefined) {
+      if (!Array.isArray(parsed.changeEvents)) fail("changeEvents");
+      records(parsed.changeEvents, "changeEvents");
+      parsed.changeEvents.forEach((event) => {
+        if (!text(event.recordId) || !["workPackage", "permit"].includes(event.recordType) || !text(event.project) ||
+            !["created", "updated", "deleted", "restored"].includes(event.action) || !text(event.at) || !Number.isFinite(Date.parse(event.at)) ||
+            !Array.isArray(event.fields) || !event.fields.every(text) || (event.editorLabel !== undefined && typeof event.editorLabel !== "string")) fail("changeEvents entry");
+      });
+    }
+    if (parsed.permits !== undefined) {
+      if (!Array.isArray(parsed.permits) || !parsed.permits.every(object)) fail("permits");
+      records(parsed.permits, "permits");
+    }
+    // A local draft may deliberately retain a missing approval after its removal.
+    // Readiness fails closed; imports and publication still require all references valid.
+    if (!draft) {
+      const workfaceErrors = OCEWorkfaceData.validate(parsed);
+      if (workfaceErrors.length) fail(workfaceErrors.join(". "));
+    }
     const d = defaultState();
     return {
       ...d, ...parsed,
-      settings: { ...d.settings, ...parsed.settings },
+      settings: { ...d.settings, siteKey: "", ...parsed.settings },
       panels: { ...d.panels, ...parsed.panels },
       clients: parsed.clients || d.clients,
       projects: parsed.projects || [{ id: DEFAULT_PROJ, name: parsed.settings.projectName || "Main project", clients: [DEFAULT_CLIENT] }]
@@ -4575,23 +4620,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   function b64utf8(str) { return btoa(unescape(encodeURIComponent(str))); }
 
   function shareableState() {
-    return {
-      settings: state.settings,
-      ...(state.permits !== undefined ? { permits: state.permits } : {}),
-      clients: state.clients || [],
-      projects: state.projects || [],
-      base: state.base,
-      markers: state.markers,
-      stats: state.stats,
-      panels: state.panels,
-      mapLayers: state.mapLayers || [],
-      models: state.models || [],
-      panelVis: state.panelVis || {},
-      panelMeta: state.panelMeta || {},
-      history: state.history || {},
-      projectSummary: state.projectSummary || {},
-      publishedAt: new Date().toISOString()
-    };
+    // Preserve all compatible board fields; credentials remain in their separate browser key.
+    return { ...OCEReconcile.copy(state), publishedAt: new Date().toISOString() };
   }
 
   function markDirty() {
@@ -4605,26 +4635,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     updatePublishUI(); setSyncStatus();
   }
 
-  function applyShared(obj) {
+  function applyShared(obj, integrityManaged = false) {
     const d = defaultState();
     const prevLoc = JSON.stringify(state.settings.loc);
     const prevBase = state.base;
     applyingRemote = true;
-    state.settings = Object.assign({}, d.settings, obj.settings || {});
-    state.clients = (obj.clients && obj.clients.length) ? obj.clients : state.clients;
-    state.projects = (obj.projects && obj.projects.length) ? obj.projects : state.projects;
-    state.base = obj.base || d.base;
-    state.markers = obj.markers || [];
-    state.stats = obj.stats || [];
-    state.panels = Object.assign({}, d.panels, obj.panels || {});
-    state.mapLayers = obj.mapLayers || [];
-    state.models = obj.models || [];
-    if (obj.permits !== undefined) state.permits = obj.permits; else delete state.permits;
-    state.panelVis = obj.panelVis || {};
-    state.panelMeta = obj.panelMeta || {};
-    state.history = Object.assign({}, obj.history || {}, state.history || {});
-    state.projectSummary = obj.projectSummary || state.projectSummary || {};
-    save();                 // persists locally without flagging dirty
+    OCEReconcile.install(state, normaliseBackup(obj, { draft: integrityManaged }));
     applyingRemote = false;
     setLastPublished(obj.publishedAt || null);
     ensureProjects();
@@ -4643,12 +4659,12 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       loadWeather();
       if (map) map.setView([state.settings.loc.lat, state.settings.loc.lng]);
     }
-    markClean();
+    if (!integrityManaged) { sync.dirty = false; updatePublishUI(); setSyncStatus(); }
   }
 
   function setLastPublished(ts) {
     sync.lastPublishedAt = ts || null;
-    try { ts ? localStorage.setItem(PUB_KEY, ts) : localStorage.removeItem(PUB_KEY); } catch (e) {}
+    if (detectAudience() === "editor") try { ts ? localStorage.setItem(PUB_KEY, ts) : localStorage.removeItem(PUB_KEY); } catch (e) {}
   }
 
   // Only accept a remote copy that is strictly newer than what we last published/applied.
@@ -4692,7 +4708,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       if (obj && obj.settings) state.settings.editPass = obj.settings.editPass || "";
       if (!obj) { evaluateLock(true); setSyncStatus(); return; }
       if (sync.dirty) { if (remoteIsNewer(obj)) setLastPublished(obj.publishedAt); evaluateLock(true); setSyncStatus(); return; }
-      if (remoteIsNewer(obj)) applyShared(obj); else evaluateLock(true);
+      // Read-only pages deliberately do not load the editor's local board. Their
+      // first fetch must populate the page even when its timestamp matches that tab.
+      if (detectAudience() !== "editor" || remoteIsNewer(obj)) applyShared(obj); else evaluateLock(true);
       setSyncStatus();
     });
   }
@@ -4711,57 +4729,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     }, POLL_MS);
   }
 
-  // Commit the current board to the repo via the GitHub Contents API.
+  // WFC-002: journalled, SHA-bound publication; no blind whole-board overwrite.
   function publish() {
-    const workfaceErrors = OCEWorkfaceData.validate(state);
-    if (workfaceErrors.length) { toast("Workface data must be corrected before publishing: " + workfaceErrors.join(". "), true); return; }
-    const token = getToken();
-    if (!token) { openSettings(); toast("Connect GitHub first to publish"); return; }
-    if (!sync.owner || !sync.repo) { openSettings(); toast("Set the repo owner/name in Settings"); return; }
-    if (sync.busy) return;
-    sync.busy = true; updatePublishUI();
-
-    const api = `https://api.github.com/repos/${sync.owner}/${sync.repo}/contents/${DATA_PATH}`;
-    const headers = { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" };
-    const payload = shareableState();
-    const body = b64utf8(JSON.stringify(payload, null, 2));
-
-    // Get current sha (needed to update; 404 = file doesn't exist yet -> create)
-    const getSha = fetch(api + "?ref=" + sync.branch + "&t=" + Date.now(), { headers, cache: "no-store" })
-      .then((r) => (r.status === 404 ? null : r.json().then((j) => j.sha)));
-
-    const put = (sha) => fetch(api, {
-      method: "PUT", headers: Object.assign({ "Content-Type": "application/json" }, headers),
-      body: JSON.stringify({
-        message: "Update site board — " + new Date().toLocaleString("en-AU"),
-        content: body, branch: sync.branch, sha: sha || undefined
-      })
-    });
-
-    getSha
-      .then(put)
-      .then((r) => {
-        if (r.status === 409) {            // someone else committed; refetch sha and retry once
-          return getSha.then(put);
-        }
-        return r;
-      })
-      .then((r) => {
-        if (!r.ok) return r.text().then((t) => { throw new Error(r.status + " " + t.slice(0, 140)); });
-        sync.busy = false;
-        setLastPublished(payload.publishedAt);
-        markClean();
-        setSyncStatus();
-        toast("Published — the site supervisor will see it within a minute");
-      })
-      .catch((e) => {
-        sync.busy = false; updatePublishUI();
-        console.warn("publish failed", e);
-        const msg = /401|403/.test(String(e))
-          ? "Publish failed — the access token was rejected. Check it in Settings."
-          : "Publish failed — " + String(e.message || e);
-        toast(msg, true);
-      });
+    if (sync.audience !== "editor" || editLocked) return;
+    if (!hasToken()) { openSettings(); toast("Connect GitHub first to publish"); return; }
+    return integrity?.publish();
   }
 
   /* =======================================================================
@@ -4932,7 +4904,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         // Keep successful references even if a later file fails; never delete a shared file.
         entry.meta = meta; delete entry.file;
         URL.revokeObjectURL(entry.preview); delete entry.preview;
-        recordHistory("workPackages", saved); touchPanel("workPackages"); save(); renderPanels(); renderWPAttachments();
+        recordHistory("workPackages", saved); touchPanel("workPackages"); await save(); renderPanels(); renderWPAttachments();
         if (!wpStored(saved)) throw new Error("Local storage could not retain an uploaded reference. It remains on this board; Export a backup before closing this page.");
       }
       succeeded = true;
@@ -5277,17 +5249,19 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   // Site board uses an unguessable key: ?crew=<siteKey>. It can't be reached by trimming
   // the client link. Any "view"/"client" param resolves to the (least-privileged) client
   // board, so a client editing their own URL can never escalate to the site or editor view.
-  function detectAudience() {
-    sync.viewKey = "";
+  function audienceContext() {
     try {
       const p = new URLSearchParams(window.location.search);
-      if (p.has("crew")) return "site";
-      if (p.has("view") || p.has("client")) { sync.viewKey = p.get("view") || p.get("client") || ""; return "client"; }
+      if (p.has("crew")) return { audience: "site", key: "" };
+      if (p.has("view") || p.has("client")) return { audience: "client", key: p.get("view") || p.get("client") || "" };
     } catch (e) {}
     const h = (window.location.hash || "").toLowerCase();
-    if (h.indexOf("crew") !== -1) return "site";
-    if (h.indexOf("client") !== -1 || h.indexOf("view") !== -1) return "client";
-    return "editor";
+    if (h.indexOf("crew") !== -1) return { audience: "site", key: "" };
+    if (h.indexOf("client") !== -1 || h.indexOf("view") !== -1) return { audience: "client", key: "" };
+    return { audience: "editor", key: "" };
+  }
+  function detectAudience() {
+    const context = audienceContext(); sync.viewKey = context.key; return context.audience;
   }
 
   // Map the ?view=<key> value to a specific client. Unknown/blank keys fall to the default
@@ -5311,6 +5285,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   function setSyncStatus() {
+    if (integrity) { integrity.refresh(); return; }
     const el = document.getElementById("syncPill");
     if (!el) return;
     if (!sync.owner || !sync.repo) { el.style.display = "none"; return; }
@@ -5334,7 +5309,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   // Runs BEFORE the first render so panels/markers filter by the right audience.
   function setupSyncEarly() {
     Object.assign(sync, detectRepo());
-    try { sync.dirty = localStorage.getItem(DIRTY_KEY) === "1"; } catch (e) {}
+    try { sync.dirty = detectAudience() === "editor" && localStorage.getItem(DIRTY_KEY) === "1"; } catch (e) {}
     try { sync.lastPublishedAt = localStorage.getItem(PUB_KEY) || null; } catch (e) {}
     try { const cp = localStorage.getItem(PROJ_KEY); if (cp) currentProject = cp; } catch (e) {}
     ensureProjects();
@@ -5348,8 +5323,25 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
   // Network side — run after the initial render.
   function startSync() {
-    loadShared();
-    startPolling();
+    if (detectAudience() !== "editor") { loadShared(); startPolling(); return; }
+    integrity = OCEBoardSyncUI({
+      sync, path: DATA_PATH, storeKey: STORE_KEY, escape: esc, token: getToken,
+      board: () => state, editorPage: () => detectAudience() === "editor",
+      canReview: () => sync.audience === "editor" && !editLocked,
+      editing: () => !!document.querySelector(".modal-back.open"),
+      setBoard: (board, render) => { if (render) applyShared(board, true); else OCEReconcile.install(state, board); },
+      validate: (board) => normaliseBackup(board), validateDraft: (board) => normaliseBackup(board, { draft: true }), normalise: normaliseBackup,
+      update: updatePublishUI, openModal, closeModal, export: exportData,
+      legacyBoard: () => { try { return localRawAtLoad ? JSON.parse(localRawAtLoad) : null; } catch { return null; } },
+      remoteAccess: (remote) => { remoteEditPass = remote.settings.editPass || ""; remoteResolved = true; evaluateLock(true); },
+      offline: async (preserve) => {
+        const remote = await fetchShared(); remoteResolved = true; if (remote?.settings) remoteEditPass = remote.settings.editPass || "";
+        if (!preserve && !localLoadError && remote) applyShared(remote, true);
+        else evaluateLock(true);
+      }
+    });
+    integrity.start({ localPresent: !!localRawAtLoad, legacyDirty: sync.dirty, loadError: localLoadError }).then(() => { remoteResolved = true; evaluateLock(true); integrity.refresh(); });
+    setInterval(() => integrity.poll(), POLL_MS);
   }
 
   /* ---- toast ----------------------------------------------------------- */
@@ -5378,7 +5370,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     document.getElementById("clockDate").textContent =
       now.toLocaleDateString("en-AU", { day: "2-digit", month: "short", year: "numeric" });
     document.getElementById("footNote").textContent =
-      "Offaly Civil site ops · data saved locally in this browser · use Export to back up · " +
+      (integrity && !integrity.status().localSaved ? "Offaly Civil site ops · check sync status; Export protects the current draft · " : "Offaly Civil site ops · data saved locally in this browser · use Export to back up · ") +
       now.toLocaleTimeString("en-AU", { hour: "2-digit", minute: "2-digit" });
   }
 
