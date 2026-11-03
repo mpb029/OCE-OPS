@@ -1,0 +1,10 @@
+const D=require('../workface-data.js'),fixture=require('./workspace-fixture.cjs');
+const workface=(id,fields={})=>({id,main:'Workface '+id,project:'default',pct:0,materialsStatus:'available',vis:{site:true,client:true},futureField:{retain:true},workface:{version:1,description:'Recorded scope <script>unsafe()</script>',location:'North work area',activity:'Pipe installation',asset:'WM-01',chainageStart:10,chainageEnd:50,plannedStart:'2026-10-13',plannedEnd:'2026-10-15',responsible:'Engineer A',links:[],checks:[],permits:{assessment:'required',ids:['permit-a']}},...fields});
+function board(){
+ const s=fixture();s.panels.workPackages=[workface('a'),workface('b'),{id:'legacy',main:'Legacy package',project:'default',pct:0,materialsStatus:'available',vis:{site:true,client:true}}];
+ s.panels.documents=[{id:'doc-a',name:'Recorded approval.pdf',url:'https://example.invalid/approval.pdf',project:'default',vis:{site:true,client:true}},{id:'doc-secret',name:'SECRET DOCUMENT',url:'https://example.invalid/private.pdf',project:'default',vis:{site:false,client:false}}];
+ s.panels.issuesDelays=[{id:'issue-a',main:'Inspection access',project:'default',wstatus:'inprogress',vis:{site:true,client:true}}];
+ const p={id:'permit-a',project:'default',type:D.types[0],title:'Recorded corridor approval',description:'Synthetic approval, not real authority evidence',issuer:'Synthetic authority',reference:'TEST-001',source:'Synthetic approval letter',responsible:'Engineer B',location:'North work area',activity:'Pipe installation',chainageStart:0,chainageEnd:100,status:'approved',approvalDate:'2026-10-10',effectiveDate:'2026-10-12',expiryDate:'2026-10-20',document:{panel:'documents',id:'doc-a'},conditions:[],coverage:[],vis:{site:true,client:true},futureField:{retain:true}};
+ p.coverage=s.panels.workPackages.slice(0,2).map(w=>({workfaceId:w.id,verified:true,source:'Recorded applicability assessment',reviewer:'Engineer A',date:'2026-10-12',scope:D.coverageScope(p,w)}));s.permits=[p];return s;
+}
+module.exports={board,workface};
