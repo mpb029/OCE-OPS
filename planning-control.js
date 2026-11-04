@@ -95,5 +95,6 @@ window.OCEPlanningControl=function(a){
   function refresh(){document.querySelectorAll('[data-plan-open]').forEach(b=>b.hidden=!a.panelVisible('upcoming'));if($('planningModal').classList.contains('open'))render();if(a.locked()||!a.panelVisible('upcoming')){returnToPlan=false;a.closeModal('planningModal');a.closeModal('planningEditModal');}}
   function viewport(){for(const id of ['planningModal','planningEditModal']){$(id).style.setProperty('--pl-height',(visualViewport?.height||innerHeight)+'px');$(id).style.setProperty('--pl-top',(visualViewport?.offsetTop||0)+'px');}}
   window.visualViewport?.addEventListener('resize',viewport);window.visualViewport?.addEventListener('scroll',viewport);viewport();
-  return {open,formOpen,formRead,formError,refresh};
+  function proposeConstraint(fields){if(!canEdit()||!a.projects().some(p=>p.id===fields.project))return;a.selectProject(fields.project);open();editConstraint();$('pcTitle').value=fields.summary;$('pcSource').value='Private diary '+fields.diaryId+'; explicit office proposal';$('pcIdentified').value=fields.date;for(const [id,values] of [['pcActivities',[fields.activityId]],['pcPackages',[fields.workfaceId]]])for(const option of $(id).options)option.selected=values.includes(option.value);}
+  return {open,formOpen,formRead,formError,refresh,proposeConstraint};
 };

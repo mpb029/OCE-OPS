@@ -1,0 +1,5 @@
+const D=require('../site-diary-data.js'),base=require('./planning-fixture.cjs');
+let sequence=0;const uid=()=>('sd'+(++sequence).toString(36)).padEnd(7,'x'),now=()=> '2026-10-13T00:00:00.000Z';
+function board(){const b=base.board();b.settings.siteKey='synthetic-site-key';b.projects.push({id:'other-diary-project',name:'Other synthetic project',clients:[]});b.panels.upcoming.push(base.activity('hidden-activity',{main:'SECRET PLANNED WORK',vis:{site:false,client:false}}));b.panels.workPackages.push({...base.board().panels.workPackages[0],id:'hidden-workface',main:'SECRET WORKFACE',vis:{site:false,client:false}});return b;}
+function diary(){const r=D.create('default',{uid,now,day:'2026-10-13',deviceId:'synthetic-device'});r.area='North work area';r.preparedBy='Synthetic supervisor';r.supervisor='Recorded engineer';r.shift='Day';const b=board(),a=D.prefill(D.entry('activities',uid),b.panels.upcoming[0],b.panels.workPackages);a.actual='Installed synthetic test pipe; quantity reported only';a.actualQuantity=12;a.status='in-progress';r.activities.push(a);return r;}
+module.exports={board,diary,uid,now};

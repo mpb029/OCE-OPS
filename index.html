@@ -1077,6 +1077,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <script src="planning-data.js"></script>
   <script src="planning-control.js"></script>
   <link rel="stylesheet" href="planning-control.css" />
+  <script src="site-diary-data.js"></script>
+  <script src="site-diary-storage.js"></script>
+  <script src="site-diary-control.js"></script>
+  <link rel="stylesheet" href="site-diary.css" />
   <script src="ui-v2.js" defer></script>
   <link rel="stylesheet" href="ui-workspaces.css" />
   <link rel="stylesheet" href="ui-project-spatial.css" />
@@ -1117,6 +1121,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       <select id="projSelect" title="Select project"></select>
     </div>
     <div class="topbar-actions">
+      <button class="icon-btn" id="btnSiteDiary" hidden><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Site Diary</span></button>
       <button class="icon-btn pub-connect" id="btnPublish" title="Publish your changes so the site supervisor can see them"><i class="fa-solid fa-cloud-arrow-up"></i><span>Connect</span></button>
       <div class="header-secondary" id="headerSecondary">
         <button class="icon-btn" id="btnPrint" title="Print the dashboard as a report"><i class="fa-solid fa-print"></i><span>Print</span></button>
@@ -1307,6 +1312,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     </div>
   </div>
 
+  <!-- WFC-004 private capture is available directly from the Site dashboard. -->
+  <div class="modal-back" id="siteDiaryModal"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="sdTitle">
+    <div class="modal-head"><span id="sdTitle">Site diary</span><div class="sd-tools" id="sdTools"></div></div>
+    <div class="modal-body" id="sdBody"></div><div id="sdMessage" role="status" aria-live="polite"></div><div class="modal-foot" id="sdFoot"></div>
+  </div></div>
   <!-- WFC-003 uses the existing Operations panels and original record forms. -->
   <div class="modal-back pl-modal" id="planningModal"><div class="modal">
     <div class="modal-head"><span>Construction planning &amp; make-ready</span></div>
@@ -1854,16 +1864,16 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   /* ---- project history log (every item, kept even once removed) -------- */
-  function recordHistory(pid, it, opts) {
+  function recordHistory(pid, it, opts, board = state) {
     opts = opts || {};
-    state.history = state.history || {};
+    board.history = board.history || {};
     const p = panelById(pid);
     const now = new Date().toISOString();
-    const prev = state.history[it.id] || {};
+    const prev = board.history[it.id] || {};
     const detail = [it.sub].concat((p && p.extras || [])
       .filter((fx) => it.x && it.x[fx.key] !== undefined && it.x[fx.key] !== "")
       .map((fx) => fx.label + ": " + it.x[fx.key])).filter(Boolean).join(" \u00b7 ");
-    state.history[it.id] = {
+    board.history[it.id] = {
       id: it.id,
       panel: p ? p.title : pid,
       project: projName(effProj(it)) || "",
@@ -1883,11 +1893,11 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       removedAt: opts.removed ? now : (prev.removedAt || ""),
       removedReason: opts.removed ? (opts.reason || "removed") : (prev.removedReason || "")
     };
-    for (const key of ["planning", "allocation"]) if (it[key] !== undefined) state.history[it.id][key] = OCEReconcile.copy(it[key]);
+    for (const key of ["planning", "allocation"]) if (it[key] !== undefined) board.history[it.id][key] = OCEReconcile.copy(it[key]);
     if (pid === "workPackages") {
       // Optional readiness fields travel with the existing history entry; no second record store.
       ["materialsStatus", "prerequisiteIds", "constraints", "attachments", "workface"].forEach((key) => {
-        if (it[key] !== undefined) state.history[it.id][key] = Array.isArray(it[key]) ? it[key].slice() : it[key];
+        if (it[key] !== undefined) board.history[it.id][key] = Array.isArray(it[key]) ? it[key].slice() : it[key];
       });
     }
   }
@@ -1911,9 +1921,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   }
 
   // Mark a panel as recently changed (viewer pages float recently-changed panels to the top).
-  function touchPanel(pid) {
-    state.panelMeta = state.panelMeta || {};
-    state.panelMeta[pid] = { updated: new Date().toISOString() };
+  function touchPanel(pid, board = state) {
+    board.panelMeta = board.panelMeta || {};
+    board.panelMeta[pid] = { updated: new Date().toISOString() };
   }
 
   // Default visibility for items/markers (site sees ops by default; client is opt-in).
@@ -3843,6 +3853,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
     wfc.refreshViews();
     planning.refresh();
+    diary.refresh();
 
     const addOrAttach = (pid) => (panelKind(panelById(pid)) === "files" ? pickFileFor(pid) : openItemModal(pid, null));
     grid.querySelectorAll("[data-add]").forEach((b) =>
@@ -4005,6 +4016,76 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       document.body.classList.add("wp-sheet-print"); printPanel("upcoming"); document.getElementById("phTitle").textContent = title;
     }
   });
+
+  // WFC-004: private diaries never enter state, shareableState or the public board journal.
+  function diaryAccess() {
+    if (!remoteResolved || editLocked || sync.audience === "client") return false;
+    if (sync.audience === "editor") return true;
+    // Possession of the existing Site link is only a local-capture entry gate, not authentication.
+    return sync.audience === "site" && !!state.settings.siteKey &&
+      new URLSearchParams(location.search).get("crew") === state.settings.siteKey;
+  }
+  function diaryBoard() {
+    if (!diaryAccess()) return { projects: [], panels: {}, constraints: [] };
+    const editor = sync.audience === "editor", permitted = new Set(visibleProjects().map(p => p.id));
+    const panels = Object.fromEntries(PANELS.map(p => [p.id, (editor || panelVisOf(p.id)[sync.audience]) ?
+      (state.panels[p.id] || []).filter(it => permitted.has(effProj(it)) && (editor || (itemVis(it)[sync.audience] && sortItemsForDisplay([it]).length))) : []]));
+    return OCEReconcile.copy({ projects: visibleProjects(), panels, constraints: (state.constraints || []).filter(c =>
+      permitted.has(c.project) && (editor || (panelVisOf("upcoming")[sync.audience] && c.vis?.[sync.audience]))) });
+  }
+  function diaryAttachments(project) {
+    const board = diaryBoard(), result = [];
+    for (const [panel, rows] of Object.entries(board.panels)) for (const row of rows.filter(r => effProj(r) === project)) {
+      const assets = [...(row.photos || []), ...(row.attachments || []), ...(panel === "documents" && row.url ? [row] : [])];
+      for (const meta of assets) if (wpFileUrl(meta.url)) result.push({
+        reference: { panel, id: row.id, ...(meta.path ? { path: meta.path } : { url: meta.url }) },
+        meta: { name: meta.name || "Recorded attachment", url: meta.url, ...(meta.path ? { path: meta.path } : {}), mime: meta.mime || "application/octet-stream", size: meta.size || 0 }
+      });
+    }
+    return result;
+  }
+  async function diaryFingerprint(record) {
+    const copy = OCEReconcile.copy(record); if (copy.allocation?.diarySource) delete copy.allocation.diarySource.fingerprint;
+    return OCESiteDiaryStorage.hash(new TextEncoder().encode(OCEReconcile.canonical(copy)));
+  }
+  async function adoptDiaryQuantity(record, activity, fields) {
+    if (!diaryAccess() || sync.audience !== "editor" || !integrity) throw new Error("Unlock the office editor before adopting reported production.");
+    const before = OCEReconcile.copy(state), errors = OCESiteDiaryData.validate(record, { board: before, ready: true });
+    if (errors.length) throw new Error(errors.join(". "));
+    const matches = before.panels.dailyWorks.filter(d => d.allocation?.diarySource?.diaryId === record.id && d.allocation.diarySource.entryId === activity.id);
+    if (matches.length > 1) throw new Error("Duplicate diary-source allocations need explicit review in Daily Works.");
+    const old = matches[0];
+    if (old?.allocation.diarySource.revision >= record.revision) return "duplicate";
+    if (old && old.allocation.diarySource.fingerprint !== await diaryFingerprint(old)) throw new Error("This Daily Works record was changed after adoption. Correct it in its original form; it was not overwritten.");
+    const addition = OCESiteDiaryData.allocation(record, activity, { ...fields, uid, now: () => new Date().toISOString() });
+    const nextRecord = old ? { ...old, ...addition, id: old.id, vis: old.vis, allocation: { ...old.allocation, ...addition.allocation } } : addition;
+    const invalid = OCEPlanningData.allocationErrors(nextRecord, before); if (invalid.length) throw new Error(invalid.join(". "));
+    nextRecord.allocation.diarySource.fingerprint = await diaryFingerprint(nextRecord);
+    const next = OCEReconcile.copy(before);
+    if (old) next.panels.dailyWorks = next.panels.dailyWorks.map(d => d.id === old.id ? nextRecord : d); else next.panels.dailyWorks.push(nextRecord);
+    recordHistory("dailyWorks", nextRecord, {}, next); touchPanel("dailyWorks", next);
+    if (!diaryAccess() || sync.audience !== "editor") throw new Error("Editor access changed; no production was adopted.");
+    if (!await integrity.replace(next, { action: "updated", draft: true, expectedBoard: before })) throw new Error("The board draft was not saved. Review sync/recovery status; the private diary is retained.");
+    return "saved";
+  }
+  const diary = OCESiteDiaryControl({
+    allowed: diaryAccess, role: () => sync.audience, board: diaryBoard,
+    projects: () => diaryAccess() ? visibleProjects() : [], currentProject: () => currentProject,
+    identity: () => JSON.stringify({ owner: sync.owner, repo: sync.repo, branch: sync.branch }),
+    today: id => OCESiteDiaryData.today(projById(id)?.timezone || "Australia/Brisbane"),
+    uid, now: () => new Date().toISOString(), escape: esc, humanSize, panelTitle: id => panelById(id)?.title || id,
+    attachments: diaryAttachments, openModal, closeModal, adopt: adoptDiaryQuantity,
+    propose: fields => planning.proposeConstraint(fields),
+    printSheet: (title, html) => {
+      if (!diaryAccess()) return; clearWPPrint(); document.getElementById("diaryPrintSheet")?.remove();
+      const sheet = document.createElement("article"); sheet.id = "diaryPrintSheet"; sheet.innerHTML = html; document.body.append(sheet);
+      setPrintLogo(); document.getElementById("phTitle").textContent = title;
+      document.getElementById("phMeta").textContent = "Private device diary · recorded identities are self-declared";
+      document.body.removeAttribute("data-print"); document.body.classList.add("diary-sheet-print");
+      preloadPrintImages("#diaryPrintSheet img").then(() => { if (diaryAccess()) window.print(); });
+    }
+  });
+  window.addEventListener("afterprint", () => { document.getElementById("diaryPrintSheet")?.remove(); document.body.classList.remove("diary-sheet-print"); });
 
   /* WP1: derived readiness over authoritative Work Package records only. */
   const WP_MATERIALS = { unconfirmed: "Unconfirmed", available: "Available", unavailable: "Unavailable", "not-required": "Not Required" };
@@ -5078,8 +5159,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
   // Force every image in the print scope to finish loading before the browser snapshots the page.
   // Lazy-loaded photos that were never scrolled into view otherwise print blank.
-  function preloadPrintImages() {
-    const imgs = Array.from(document.querySelectorAll("#panelsGrid img, #summaryCard img, .map-card img"));
+  function preloadPrintImages(selector = "#panelsGrid img, #summaryCard img, .map-card img") {
+    const imgs = Array.from(document.querySelectorAll(selector));
     const waits = imgs.map((img) => {
       try { img.loading = "eager"; } catch (e) {}
       if (img.complete && img.naturalWidth > 0) return Promise.resolve();

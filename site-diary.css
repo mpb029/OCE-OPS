@@ -1,0 +1,55 @@
+/* WFC-004: field diary only; original panels/forms/layout are unchanged. */
+#btnSiteDiary[hidden]{display:none!important}
+#btnSiteDiary{min-height:44px;background:#174775;color:#fff;border-color:#6082a8}
+#siteDiaryModal{z-index:11000;top:var(--sd-top,0);height:var(--sd-height,100dvh);padding:16px}
+#siteDiaryModal>.modal{width:min(1080px,100%);max-width:1080px;max-height:calc(var(--sd-height,100dvh) - 32px);display:flex;flex-direction:column;overflow:hidden}
+#siteDiaryModal .modal-head{flex-shrink:0;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px}
+#siteDiaryModal .modal-body{overflow-y:auto;overscroll-behavior:contain;min-height:0;font-size:16px;line-height:1.5;padding:18px 22px;scroll-padding-bottom:20px}
+#siteDiaryModal .modal-foot{flex-shrink:0;display:flex;flex-wrap:wrap;justify-content:flex-end;gap:10px;background:#f1f5f9;padding:12px 20px}
+#siteDiaryModal .btn,#siteDiaryModal [role=tab]{min-height:44px;padding:10px 15px;white-space:normal;font-size:15px;touch-action:manipulation}
+#siteDiaryModal .btn:focus-visible,#siteDiaryModal input:focus-visible,#siteDiaryModal select:focus-visible,#siteDiaryModal textarea:focus-visible,#siteDiaryModal [role=tab]:focus-visible{outline:3px solid #287acc;outline-offset:2px}
+#siteDiaryModal .sd-tools{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.sd-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 20px;min-width:0}
+.sd-wide{grid-column:1/-1}
+#siteDiaryModal .sd-field{display:flex;flex-direction:column;gap:6px;font-weight:600;color:#19324d;margin:8px 0;min-width:0;font-size:15px}
+#siteDiaryModal input,#siteDiaryModal select,#siteDiaryModal textarea{width:100%;max-width:100%;min-width:0;min-height:46px;padding:10px 12px;font-family:inherit;font-size:16px;font-weight:400;line-height:1.4;color:#182e44;border:1px solid #b8c6d5;border-radius:7px;background:white;box-sizing:border-box}
+#siteDiaryModal textarea{resize:vertical;min-height:82px}
+#siteDiaryModal fieldset{min-width:0;border:1px solid #ccd7e2;border-radius:8px;padding:12px 16px;margin:12px 0 20px}
+#siteDiaryModal legend{font-weight:700;color:#183b61;padding:0 7px}
+#siteDiaryModal fieldset.sd-content-fields{border:0;padding:0;margin:0}
+#siteDiaryModal fieldset[disabled] input,#siteDiaryModal fieldset[disabled] select,#siteDiaryModal fieldset[disabled] textarea{color:#263b50;background:#f4f6f8;opacity:1}
+.sd-notice{background:#edf4fb;border-left:3px solid #326eaa;padding:10px 14px;color:#274d71;font-size:14px}
+.sd-state{font-weight:700;color:#123a63;overflow-wrap:anywhere}
+#sdMessage{padding:10px 20px;background:#eaf4ef;color:#175338;flex-shrink:0;font-size:14px;line-height:1.4;overflow-wrap:anywhere;max-height:22vh;overflow:auto}
+#sdMessage:empty{display:none}
+#sdMessage.sd-error{background:#fff0ed;color:#942e20}
+.sd-tabs{display:flex;gap:6px;overflow-x:auto;padding:8px 0 12px;max-width:100%;scrollbar-width:thin}
+.sd-tabs [role=tab]{border:1px solid #b5c6d8;background:white;border-radius:7px;color:#203e5e;flex:0 0 auto;font-weight:600}
+.sd-tabs [aria-selected=true]{background:#183f69;color:white;border-color:#183f69}
+.sd-register-row{display:flex;align-items:center;justify-content:space-between;gap:14px;border-bottom:1px solid #d8e1e9;padding:15px 0;overflow-wrap:anywhere}
+.sd-register-row small{font-size:14px;color:#4c6076}
+.sd-photo{padding:12px 0 20px;border-bottom:1px solid #cedbe6;overflow-wrap:anywhere}
+.sd-photo img{display:block;width:auto;max-width:100%;max-height:240px;object-fit:contain;border-radius:6px;margin-bottom:10px}
+.sd-photo small{display:block;color:#52667b;font-size:14px}
+#siteDiaryModal .sd-confirm{display:flex;align-items:flex-start;gap:10px;font-size:15px;margin:15px 0}
+#siteDiaryModal .sd-confirm input{width:24px;height:24px;min-height:24px;flex-shrink:0}
+#siteDiaryModal h3{font-size:18px;margin-top:20px;color:#173d63}
+#siteDiaryModal [hidden]{display:none!important}
+#diaryPrintSheet{display:none}
+@media(max-width:700px){#siteDiaryModal{padding:0}#siteDiaryModal>.modal{border-radius:0;max-height:var(--sd-height,100dvh);height:var(--sd-height,100dvh)}#siteDiaryModal .modal-head{padding:12px 14px}#siteDiaryModal .modal-body{padding:12px 14px}#siteDiaryModal .modal-foot{padding:10px 12px;gap:8px}#siteDiaryModal fieldset{padding:10px}.sd-grid{grid-template-columns:minmax(0,1fr);gap:6px}.sd-register-row{align-items:flex-start;flex-direction:column}#sdMessage{padding:10px 14px}}
+@media print{
+ body.diary-sheet-print>*:not(#diaryPrintSheet):not(#printHeader){display:none!important}
+ body.diary-sheet-print #printHeader{display:flex!important}
+ body.diary-sheet-print #diaryPrintSheet{display:block!important;color:#152d43;font:10pt/1.4 Arial,sans-serif;padding:0;width:100%}
+ #diaryPrintSheet h1{font-size:20pt;margin:8pt 0}
+ #diaryPrintSheet h2{font-size:13pt;color:#193f65;border-bottom:1pt solid #becbda;padding-bottom:4pt;margin:14pt 0 6pt;break-after:avoid}
+ #diaryPrintSheet h3{font-size:11pt;break-after:avoid;margin:7pt 0}
+ #diaryPrintSheet dl{display:grid;grid-template-columns:38% 62%;margin:4pt 0;gap:3pt 8pt}
+ #diaryPrintSheet dt{font-weight:bold}#diaryPrintSheet dd{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}
+ #diaryPrintSheet table{border-collapse:collapse;width:100%;table-layout:fixed;margin:5pt 0}
+ #diaryPrintSheet th,#diaryPrintSheet td{border:1pt solid #cad4dd;text-align:left;vertical-align:top;padding:5pt;overflow-wrap:anywhere;white-space:pre-wrap}
+ #diaryPrintSheet thead{display:table-header-group}#diaryPrintSheet tr{break-inside:avoid}
+ #diaryPrintSheet figure{margin:12pt 0;break-inside:avoid}#diaryPrintSheet figure img{display:block;max-width:100%;max-height:65mm;object-fit:contain}
+ #diaryPrintSheet figcaption{font-size:9pt;margin-top:4pt;overflow-wrap:anywhere}
+ #diaryPrintSheet .sd-report-entry{break-inside:auto;margin-bottom:8pt}#diaryPrintSheet p{orphans:3;widows:3}
+}

@@ -42,9 +42,9 @@
       try{assertIdentity();const next=withEvents(observed,a.board(),action);generation++;if(next.changeEvents!==undefined)a.board().changeEvents=next.changeEvents;observed=R.copy(next);error='';notify();return persist();}
       catch(e){error=e.message;notify();return Promise.resolve(false);}
     }
-    function replace(candidate,{action='restored',unbased=false,render=true,beforeBoard,draft=false}={}){
+    function replace(candidate,{action='restored',unbased=false,render=true,beforeBoard,draft=false,expectedBoard}={}){
       const work=async()=>{
-      assertIdentity();(draft&&a.validateDraft?a.validateDraft:a.validate)(candidate);
+      assertIdentity();if(expectedBoard&&!R.equal(a.board(),expectedBoard))throw Error('The board changed during this operation. Review the latest records and try again.');(draft&&a.validateDraft?a.validateDraft:a.validate)(candidate);
       if(localConflict){error='Review the other local draft before importing or replacing records.';notify();return false;}
       if(unbased&&busy)throw Error('Finish the publication before importing a backup.');
       const before={base,sha,generation,observed,operation,pending},next=withEvents(beforeBoard||a.board(),candidate,action);
