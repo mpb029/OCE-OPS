@@ -32098,6 +32098,14 @@
       "fmt": "ifc",
       "visible": false,
       "project": "py0cs3dz"
+    },
+    {
+      "id": "wsna8af",
+      "name": "G12_Proposed",
+      "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/models/0do05da-G12_Proposed.ifc",
+      "fmt": "ifc",
+      "visible": true,
+      "project": "pi6x8ous"
     }
   ],
   "panelVis": {
@@ -36402,5 +36410,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-11-04T22:49:07.897Z"
+  "publishedAt": "2026-11-04T22:49:32.583Z"
 }
