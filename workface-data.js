@@ -121,6 +121,23 @@
     for(const w of packages(s))e.push(...workfaceErrors(w,s));
     return [...new Set(e)];
   }
+  // Shared WP1 dependency validation; the original form and planning use one rule.
+  function dependencyIssues(root,s) {
+    const issues=[],active=new Set(),visited=new Set(),stack=[{item:root}];
+    const issue=(item,reason,dependency)=>issues.push({item,reason,dependency});
+    while(stack.length){
+      const {item,exit}=stack.pop();if(exit){active.delete(item);visited.add(item);continue;}
+      if(active.has(item)){issue(item,'Circular prerequisite dependency');continue;}if(visited.has(item))continue;
+      active.add(item);stack.push({item,exit:true});const ids=item.prerequisiteIds===undefined?[]:item.prerequisiteIds;
+      if(!Array.isArray(ids)){issue(item,'Invalid prerequisite list');continue;}const seen=new Set();
+      for(const id of ids){if(!text(id)){issue(item,'Invalid prerequisite ID');continue;}if(id===item.id){issue(item,'A package cannot depend on itself');continue;}if(seen.has(id)){issue(item,'Duplicate prerequisite');continue;}seen.add(id);
+        const saved=lookup(packages(s),id),dependency=saved&&id===root.id?root:saved;
+        if(!dependency){issue(item,'Missing or ambiguous prerequisite: '+id);continue;}
+        if(!lookup(s.projects,project(item))||!lookup(s.projects,project(dependency))){issue(item,'Prerequisite project is missing or invalid',dependency);continue;}
+        if(project(dependency)!==project(item)){issue(item,'Prerequisite belongs to a different project',dependency);continue;}stack.push({item:dependency});
+      }
+    }return issues;
+  }
   function coverageScope(p,w) {
     const f=w?.workface||{};
     // Evidence is tied to exact recorded scope, not an inferred geographic match.
@@ -174,5 +191,5 @@
     for(const c of list(f.checks)) if(object(c)&&!c.satisfied)reasons.push({text:c.title+(c.responsible?' — '+c.responsible:'')+(c.due?' · required '+c.due:'')});
     return {configured:true,reasons,permits,warnings};
   }
-  return {categories,types,statuses,object,text,list,project,lookup,complete,date,today,days,workfaceErrors,permitErrors,validate,coverageScope,permitGate,evaluate};
+  return {categories,types,statuses,object,text,list,project,lookup,complete,date,today,days,workfaceErrors,permitErrors,validate,dependencyIssues,coverageScope,permitGate,evaluate};
 });

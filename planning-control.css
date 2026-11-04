@@ -1,0 +1,43 @@
+/* WFC-003 scoped, touch-accessible planning tables and forms. */
+.pl-modal .modal { width:min(1450px,calc(100vw - 24px)); max-height:calc(var(--pl-height,100dvh) - 24px); display:flex; flex-direction:column; }
+.pl-modal { top:var(--pl-top,0); height:var(--pl-height,100dvh); }
+#planningEditModal .modal { width:min(940px,calc(100vw - 24px)); }
+.pl-modal .modal-body { min-height:0; overflow:auto; overscroll-behavior:contain; }
+.pl-modal .modal-foot { flex-shrink:0; }
+.pl-modal [hidden],#planningFields [hidden] { display:none!important; }
+.pl-modal .btn,.pl-modal select,.pl-modal input,.pl-tabs button,#planningFields input,#planningFields select { min-height:44px; font-size:15px; }
+.pl-modal input[type=checkbox],#planningFields input[type=checkbox] { min-height:24px; width:24px; accent-color:#2267a0; }
+.pl-modal .chkline,#planningFields .chkline { min-height:44px; display:flex; align-items:center; gap:10px; }
+.pl-filters,.pl-form-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px 18px; }
+#planningEditBody,.pl-form-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+.pl-form-grid>[hidden] { display:none; }
+.pl-form-grid fieldset,.pl-form-grid>details,.pl-form-grid>p,.pl-form-grid>h3,.pl-form-grid>.pl-wide { grid-column:1/-1; min-width:0; }
+.pl-modal .field { margin:0; min-width:0; }
+.pl-modal label,#planningFields label { font-size:14px; font-weight:600; color:#233e58; }
+.pl-modal input,.pl-modal select,.pl-modal textarea,#planningFields input,#planningFields select,#planningFields textarea { width:100%; max-width:100%; box-sizing:border-box; }
+.pl-modal input[type=checkbox],#planningFields input[type=checkbox] { width:24px; flex:0 0 24px; }
+.pl-modal fieldset,#planningFields fieldset { border:1px solid #c7d4e0; border-radius:6px; padding:14px; margin:12px 0; }
+.pl-modal legend,#planningFields legend { color:#16354e; font-weight:700; }
+.pl-tabs,.pl-toolbar { display:flex; flex-wrap:wrap; gap:8px; margin:14px 0; }
+.pl-tabs { border-bottom:2px solid #c6d5e2; padding-bottom:8px; }
+.pl-tabs button { border:1px solid #a9bed1; background:#f2f6f9; color:#1c3e5c; border-radius:4px; padding:8px 12px; font-weight:600; }
+.pl-tabs [aria-selected=true] { background:#173d5e; color:white; border-color:#173d5e; }
+.pl-table-scroll { max-width:100%; overflow:auto; border:1px solid #c7d4df; border-radius:5px; }
+.pl-table { border-collapse:collapse; width:100%; min-width:920px; font-size:14px; line-height:1.5; }
+.pl-table th,.pl-table td { text-align:left; vertical-align:top; padding:12px; border-bottom:1px solid #d5dee6; overflow-wrap:anywhere; max-width:330px; }
+.pl-table thead th { background:#edf3f8; color:#173d5e; position:sticky; top:0; z-index:1; }
+.pl-table small { display:block; font-size:13px; color:#435b70; margin:4px 0; }
+.pl-table p { margin:6px 0; }
+.pl-week th { background:#e2ebf3; color:#153c5b; }
+.pl-actions { min-width:155px; }
+.pl-actions .btn { display:block; margin-bottom:8px; width:100%; }
+.pl-state { display:inline-block; font-size:13px; font-weight:750; padding:4px 8px; border-radius:4px; white-space:nowrap; }
+.pl-ready { background:#dcefe4; color:#17573a; }.pl-blocked { background:#fae5df; color:#8d281b; }.pl-unknown { background:#fff0cf; color:#714a0c; }
+.pl-warning,.pl-error { color:#8e2c1f; font-weight:600; }.pl-error { grid-column:1/-1; }
+.pl-summary { background:#eaf1f7; padding:14px; font-size:16px; color:#173d5e; }
+.pl-notes { white-space:pre-wrap; overflow-wrap:anywhere; }
+.pl-open { min-height:36px; font-size:13px; margin:0 4px; }
+.pl-modal details { margin:8px 0; }.pl-modal summary { min-height:40px; padding:8px 0; cursor:pointer; }
+@media(max-width:1024px) { .pl-filters { grid-template-columns:repeat(2,minmax(0,1fr)); }.pl-table { min-width:850px; }.pl-modal .modal-body { padding:14px; } }
+@media(max-width:560px) { .pl-filters,.pl-form-grid,#planningEditBody { grid-template-columns:1fr; }.pl-modal .modal { width:calc(100vw - 12px); max-height:calc(var(--pl-height,100dvh) - 12px); }.pl-tabs button { flex:1 1 140px; }.pl-toolbar .btn { flex:1 1 150px; } }
+@media print { .pl-modal,.pl-open { display:none!important; }#wpPrintSheet .btn { display:none!important; }#wpPrintSheet .pl-table-scroll { overflow:visible; border:0; }#wpPrintSheet .pl-table { min-width:0; width:100%; }#wpPrintSheet .pl-table thead th { position:static; }#wpPrintSheet .pl-state { white-space:normal; } }

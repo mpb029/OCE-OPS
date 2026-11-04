@@ -1074,6 +1074,9 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <script src="board-sync-ui.js"></script>
   <script src="workface-data.js"></script>
   <script src="workface-control.js"></script>
+  <script src="planning-data.js"></script>
+  <script src="planning-control.js"></script>
+  <link rel="stylesheet" href="planning-control.css" />
   <script src="ui-v2.js" defer></script>
   <link rel="stylesheet" href="ui-workspaces.css" />
   <link rel="stylesheet" href="ui-project-spatial.css" />
@@ -1303,6 +1306,28 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       <div class="modal-foot"><button type="button" class="btn" data-close>Cancel</button><button type="button" class="btn" id="wfcDeletePermit">Remove approval</button><button type="button" class="btn primary" id="wfcSavePermit">Save approval</button></div>
     </div>
   </div>
+
+  <!-- WFC-003 uses the existing Operations panels and original record forms. -->
+  <div class="modal-back pl-modal" id="planningModal"><div class="modal">
+    <div class="modal-head"><span>Construction planning &amp; make-ready</span></div>
+    <div class="modal-body"><div class="pl-filters">
+      <div class="field"><label for="planningProject">Project</label><select id="planningProject"></select></div>
+      <div class="field"><label for="planningFrom">Lookahead from</label><input type="date" id="planningFrom"></div>
+      <div class="field"><label for="planningWeeks">Horizon</label><select id="planningWeeks"><option value="2" >2 weeks</option><option value="3" selected>3 weeks</option><option value="4" >4 weeks</option><option value="5" >5 weeks</option><option value="6" >6 weeks</option></select></div>
+      <div class="field"><label for="planningWeek">Week filter / report week</label><select id="planningWeek"></select></div>
+      <div class="field"><label for="planningArea">Work area</label><input id="planningArea" type="search"></div>
+      <div class="field"><label for="planningSupervisor">Supervisor</label><input id="planningSupervisor" type="search"></div>
+      <div class="field"><label for="planningStatus">Activity status</label><select id="planningStatus"><option value="">All statuses</option><option value="upcoming">Upcoming</option><option value="current">Current planned window</option><option value="delayed">Delayed / not completed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option><option value="undated">Undated</option></select></div>
+      <div class="field"><label for="planningReadiness">Make-ready</label><select id="planningReadiness"><option value="">All states</option><option value="READY">READY</option><option value="NOT READY">NOT READY</option><option value="NOT ASSESSED">NOT ASSESSED</option></select></div>
+    </div><p id="planningRange"></p><div id="planningActions" class="pl-toolbar"></div>
+    <div class="pl-tabs" role="tablist" aria-label="Planning views"><button role="tab" data-plan-tab="lookahead">Rolling Lookahead</button><button role="tab" data-plan-tab="constraints">Constraints / Make-Ready</button><button role="tab" data-plan-tab="weekly">Weekly Commitments</button><button role="tab" data-plan-tab="daily">Daily Allocation</button><button role="tab" data-plan-tab="progress">Progress / Plan Reliability</button></div>
+    <div id="planningBody" role="tabpanel" aria-live="polite"></div></div>
+    <div class="modal-foot"><button class="btn" data-close>Close</button></div>
+  </div></div>
+  <div class="modal-back pl-modal" id="planningEditModal"><div class="modal">
+    <div class="modal-head"><span id="planningEditTitle">Planning record</span></div><div class="modal-body pl-form-grid" id="planningEditBody"></div>
+    <div class="modal-foot"><button class="btn" data-close>Cancel / Close</button><button class="btn btn-primary" id="planningEditSave">Save locally</button></div>
+  </div></div>
   <!-- ============================ ITEM MODAL ============================ -->
   <div class="modal-back" id="itemModal">
     <div class="modal">
@@ -1329,7 +1354,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           <input type="text" id="fSub" placeholder="optional" />
         </div>
         <div id="fldExtras"></div>
-        <div id="fldCustom"></div>
+        <div id="fldCustom"><div id="planningFields"></div></div>
         <div id="fldWPReadiness" style="display:none">
           <div class="field">
             <label for="fMaterialsStatus">Materials status</label>
@@ -1858,6 +1883,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       removedAt: opts.removed ? now : (prev.removedAt || ""),
       removedReason: opts.removed ? (opts.reason || "removed") : (prev.removedReason || "")
     };
+    for (const key of ["planning", "allocation"]) if (it[key] !== undefined) state.history[it.id][key] = OCEReconcile.copy(it[key]);
     if (pid === "workPackages") {
       // Optional readiness fields travel with the existing history entry; no second record store.
       ["materialsStatus", "prerequisiteIds", "constraints", "attachments", "workface"].forEach((key) => {
@@ -3806,6 +3832,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
           <span class="spacer"></span>
           ${pchips}
           <span class="count">${items.length}</span>
+          ${["upcoming","dailyWorks","workPackages"].includes(p.id) ? `<button class="btn pl-open" data-plan-open title="Construction lookahead, constraints and weekly planning">Planning</button>` : ""}
           ${p.photoReport ? `<button class="pbtn photo-report" data-photo-report="${p.id}" title="Print a photo report — choose folders"><i class="fa-solid fa-print"></i></button>` : ""}
           <button class="pbtn" data-print-panel="${p.id}" title="Print this panel"><i class="fa-solid fa-print"></i></button>
           <button class="add" data-add="${p.id}" title="${addTitle}"><i class="fa-solid fa-plus"></i></button>
@@ -3815,6 +3842,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     }).join("");
 
     wfc.refreshViews();
+    planning.refresh();
 
     const addOrAttach = (pid) => (panelKind(panelById(pid)) === "files" ? pickFileFor(pid) : openItemModal(pid, null));
     grid.querySelectorAll("[data-add]").forEach((b) =>
@@ -3951,6 +3979,33 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     }
   });
 
+  const planning = OCEPlanningControl({
+    state: () => state, editor: () => sync.audience === "editor", locked: () => editLocked,
+    audience: () => sync.audience, currentProject: () => currentProject, projects: visibleProjects,
+    projectInScope: projInScope, escape: esc, uid, now: () => new Date().toISOString(),
+    openModal, closeModal, openItem: openItemModal,
+    panelTitle: id => panelById(id)?.title || id,
+    panelVisible: id => !editLocked && (sync.audience === "editor" || panelVisOf(id)[sync.audience]),
+    recordVisible: (pid,it) => !editLocked && !!it && !!panelById(pid) && projInScope(effProj(it)) &&
+      (sync.audience === "editor" || (panelVisOf(pid)[sync.audience] && itemVis(it)[sync.audience] && sortItemsForDisplay([it]).length > 0)),
+    recordLink: (pid,it) => wfc.recordLink(pid,it),
+    sharing: (pid,it,role) => !!panelVisOf(pid)[role] && !!itemVis(it)[role],
+    selectProject: id => { const select = document.getElementById("projSelect"); select.value = id; select.dispatchEvent(new Event("change", { bubbles: true })); },
+    saveBoard: async next => {
+      if (sync.audience !== "editor" || editLocked || !integrity) return false;
+      const errors = OCEPlanningData.validate(next, { refs: false });
+      if (errors.length) throw new Error(errors.join(". "));
+      return integrity.replace(next, { action: "updated", draft: true });
+    },
+    printSheet: (title,html) => {
+      if (editLocked || (sync.audience !== "editor" && !panelVisOf("upcoming")[sync.audience])) return;
+      clearWPPrint(); const sheet = document.createElement("article"); sheet.id = "wpPrintSheet"; sheet.className = "print-only"; sheet.innerHTML = html;
+      sheet.querySelectorAll("details").forEach(detail => detail.open = true);
+      document.querySelector('[data-card="upcoming"] .card-body').append(sheet);
+      document.body.classList.add("wp-sheet-print"); printPanel("upcoming"); document.getElementById("phTitle").textContent = title;
+    }
+  });
+
   /* WP1: derived readiness over authoritative Work Package records only. */
   const WP_MATERIALS = { unconfirmed: "Unconfirmed", available: "Available", unavailable: "Unavailable", "not-required": "Not Required" };
   const wpMaterials = (it) => it.materialsStatus === undefined ? "unconfirmed" : it.materialsStatus;
@@ -3959,33 +4014,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     const matches = (state.panels.workPackages || []).filter((it) => it.id === id);
     return typeof id === "string" && id.trim() && matches.length === 1 ? matches[0] : null;
   }
-  function wpDependencyIssues(root) {
-    const issues = [], active = new Set(), visited = new Set(), stack = [{ item: root }];
-    const issue = (item, reason, dependency) => issues.push({ item, reason, dependency });
-    while (stack.length) {
-      const { item, exit } = stack.pop();
-      if (exit) { active.delete(item); visited.add(item); continue; }
-      if (active.has(item)) { issue(item, "Circular prerequisite dependency"); continue; }
-      if (visited.has(item)) continue;
-      active.add(item); stack.push({ item, exit: true });
-      const ids = item.prerequisiteIds === undefined ? [] : item.prerequisiteIds;
-      if (!Array.isArray(ids)) { issue(item, "Invalid prerequisite list"); continue; }
-      const seen = new Set();
-      for (const id of ids) {
-        if (typeof id !== "string" || !id.trim()) { issue(item, "Invalid prerequisite ID"); continue; }
-        if (id === item.id) { issue(item, "A package cannot depend on itself"); continue; }
-        if (seen.has(id)) { issue(item, "Duplicate prerequisite"); continue; }
-        seen.add(id);
-        // Substitute the unsaved form draft when checking whether an edit creates a cycle.
-        const saved = wpLookup(id), dependency = saved && id === root.id ? root : saved;
-        if (!dependency) { issue(item, "Missing or ambiguous prerequisite: " + id); continue; }
-        if (!projById(effProj(item)) || !projById(effProj(dependency))) { issue(item, "Prerequisite project is missing or invalid", dependency); continue; }
-        if (effProj(dependency) !== effProj(item)) { issue(item, "Prerequisite belongs to a different project", dependency); continue; }
-        stack.push({ item: dependency });
-      }
-    }
-    return issues;
-  }
+  function wpDependencyIssues(root) { return OCEWorkfaceData.dependencyIssues(root, state); }
   function wpMayShowDetails(it) {
     if (sync.audience === "editor") return true;
     return panelVisOf("workPackages")[sync.audience] && itemVis(it)[sync.audience] &&
@@ -4207,6 +4236,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     setupWPAttachments(panelId, it);
     renderModalPhotos();
 
+    planning.formOpen(panelId, it);
     openModal("itemModal");
     setTimeout(() => document.getElementById(showRef ? "fRef" : "fMain").focus(), 30);
   }
@@ -4295,6 +4325,13 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
         const refs = wpAttachmentDraft.filter((entry) => entry.photo === photo && !entry.file).map((entry) => entry.meta);
         if (refs.length || existing?.[key] !== undefined) data[key] = refs;
       }
+    }
+    if (["upcoming", "dailyWorks"].includes(panel)) {
+      try {
+        const field = panel === "upcoming" ? "planning" : "allocation";
+        const extension = planning.formRead(panel, id ? state.panels[panel].find(it => it.id === id) : null, data);
+        if (extension !== undefined) data[field] = extension;
+      } catch (error) { planning.formError(error.message); return; }
     }
     let saved;
     if (id) { saved = state.panels[panel].find((x) => x.id === id); Object.assign(saved, data); }
@@ -4580,6 +4617,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       const workfaceErrors = OCEWorkfaceData.validate(parsed);
       if (workfaceErrors.length) fail(workfaceErrors.join(". "));
     }
+    const planningErrors = OCEPlanningData.validate(parsed, { refs: !draft });
+    if (planningErrors.length) fail(planningErrors.join(". "));
     const d = defaultState();
     return {
       ...d, ...parsed,

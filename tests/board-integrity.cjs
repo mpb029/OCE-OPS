@@ -6,7 +6,16 @@ const sources=['index.html','board-reconcile.js','board-storage.js','board-integ
 const hashes=()=>Object.fromEntries([...sources,'data.json'].map(f=>[f,createHash('sha256').update(fs.readFileSync(path.join(root,f))).digest('hex')])),beforeHashes=hashes();
 const get=p=>p.evaluate(()=>({state:structuredClone(__opsTest.state),status:__opsTest.integrityStatus,storage:localStorage.getItem('offaly_ops_v1')}));
 async function entry(env,opts={}){return open(env,{data:board(),token:true,audience:'?ui=workspaces&workspace=operations&workspaceProject=default',...opts});}
-async function edit(p,id,text){await p.locator('[data-edit="workPackages:'+id+'"]').click();await p.locator('#itemModal.open').waitFor();await p.locator('#fWPConstraints').fill(text);await p.locator('#itemSave').click();}
+async function edit(p,id,text){
+ await p.locator('[data-edit="workPackages:'+id+'"]').click();
+ await p.waitForFunction(()=>document.querySelector('#itemModal.open')&&document.activeElement===document.getElementById('fMain'));
+ await p.locator('#fWPConstraints').fill(text);
+ const generation=await p.evaluate(()=>__opsTest.integrityStatus.generation);
+ await p.locator('#itemSave').click();
+ // A conflict flag can predate this Save. Observe this mutation, including a
+ // memory-only save, before proceeding to Cancel / recovery / export.
+ await p.waitForFunction(({id,text,generation})=>__opsTest.integrityStatus.generation>generation&&__opsTest.state.panels.workPackages.find(r=>r.id===id)?.constraints===text,{id,text,generation});
+}
 async function saved(p){await p.waitForFunction(()=>!document.getElementById('itemModal').classList.contains('open')&&__opsTest.integrityStatus.localSaved);}
 async function publish(p){if(!await p.locator('#btnPublish').isVisible())await p.locator('#headerMenu summary').click();await p.locator('#btnPublish').click();}
 async function idle(p){await p.waitForFunction(()=>!__opsTest.integrityStatus.busy);}
@@ -57,7 +66,7 @@ async function test(name,fn){if(filter&&!filter.test(name))return;try{await fn()
  });
  await test('Tablet recovery: unreadable compatibility copy is retained; explicit choices, touch targets and Cancel remain usable',async()=>{
   const run=await entry(env,{width:768,height:1024,touch:true}),p=run.page;try{
-   await edit(p,'a','Known saved journal copy');await saved(p);await p.evaluate(()=>localStorage.setItem('offaly_ops_v1','{unreadable retained copy'));await edit(p,'a','Latest in-memory copy');await p.waitForFunction(()=>__opsTest.integrityStatus.localConflict);await p.locator('#itemModal [data-close]').click();await p.locator('#integrityReviewButton').click();const download=p.waitForEvent('download');await p.getByRole('button',{name:'Export recovery copies'}).click();const copies=JSON.parse(fs.readFileSync(await(await download).path(),'utf8'));assert.equal(copies.localBoardCopy,'{unreadable retained copy');assert.equal(copies.journal.board.panels.workPackages[0].constraints,'Known saved journal copy');assert.equal(copies.currentDraft.panels.workPackages[0].constraints,'Latest in-memory copy');
+   await edit(p,'a','Known saved journal copy');await saved(p);await p.evaluate(()=>{const key='offaly_ops_v1',oldValue=localStorage.getItem(key),newValue='{unreadable retained copy';localStorage.setItem(key,newValue);dispatchEvent(new StorageEvent('storage',{key,oldValue,newValue,storageArea:localStorage}));});await p.waitForFunction(()=>__opsTest.integrityStatus.localConflict);await edit(p,'a','Latest in-memory copy');await p.waitForFunction(()=>__opsTest.integrityStatus.localConflict);await p.locator('#itemModal [data-close]').click();await p.locator('#integrityReviewButton').click();const download=p.waitForEvent('download');await p.getByRole('button',{name:'Export recovery copies'}).click();const copies=JSON.parse(fs.readFileSync(await(await download).path(),'utf8'));assert.equal(copies.localBoardCopy,'{unreadable retained copy');assert.equal(copies.journal.board.panels.workPackages[0].constraints,'Known saved journal copy');assert.equal(copies.currentDraft.panels.workPackages[0].constraints,'Latest in-memory copy');
    await p.locator('#syncReviewLocal').click();await p.locator('#syncReviewModal.open #syncConflictList').waitFor();for(const select of await p.locator('#syncConflictList select').all())await select.selectOption('local');const save=await p.locator('#syncConfirm').boundingBox();assert.ok(save.height>=44&&save.y>=0&&save.y+save.height<=1024);assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth),768);await p.locator('#syncReviewModal [data-close]').click();await idle(p);assert.equal((await get(p)).storage,'{unreadable retained copy');
    await p.locator('#integrityReviewButton').click();await p.locator('#syncReviewLocal').click();await review(p,'local');assert.equal((await get(p)).state.panels.workPackages[0].constraints,'Latest in-memory copy');assert.equal((await get(p)).status.localSaved,true);assert.equal(run.network.writes.length,0);assert.deepEqual(run.network.errors,[]);
   }finally{await run.close();}

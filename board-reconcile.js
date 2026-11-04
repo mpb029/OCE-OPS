@@ -8,7 +8,7 @@
   const content=board=>{const b=copy(board);if(b)delete b.publishedAt;return b;};
   const sameBoard=(a,b)=>equal(content(a),content(b));
   const ids=a=>Array.isArray(a)&&a.every(v=>object(v)&&typeof v.id==='string'&&v.id.trim())&&new Set(a.map(v=>v.id)).size===a.length;
-  const recordArrays=new Set(['projects','clients','markers','stats','mapLayers','models','permits']);
+  const recordArrays=new Set(['projects','clients','markers','stats','mapLayers','models','permits','constraints','weeklyCommitments']);
   const maps=new Set(['history','panelVis','panelMeta','projectSummary']);
   function merge(base,local,remote,choices={},unknownBase=false){
     const conflicts=[],changes=[],missing=undefined;

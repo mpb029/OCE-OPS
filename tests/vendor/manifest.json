@@ -1,0 +1,398 @@
+{
+  "version": 1,
+  "description": "Test-only exact pinned runtime libraries; production dependencies unchanged.",
+  "packages": [
+    {
+      "name": "leaflet",
+      "version": "1.9.4",
+      "archive": "https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz",
+      "integrity": "sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA=="
+    },
+    {
+      "name": "proj4",
+      "version": "2.11.0",
+      "archive": "https://registry.npmjs.org/proj4/-/proj4-2.11.0.tgz",
+      "integrity": "sha512-SasuTkAx8HnWQHfIyhkdUNJorSJqINHAN3EyMWYiQRVorftz9DHz650YraFgczwgtHOxqnfuDxSNv3C8MUnHeg=="
+    },
+    {
+      "name": "three",
+      "version": "0.128.0",
+      "archive": "https://registry.npmjs.org/three/-/three-0.128.0.tgz",
+      "integrity": "sha512-i0ap/E+OaSfzw7bD1TtYnPo3VEplkl70WX5fZqZnfZsE3k3aSFudqrrC9ldFZfYFkn1zwDmBcdGfiIm/hnbyZA=="
+    },
+    {
+      "name": "@fortawesome/fontawesome-free",
+      "version": "6.5.2",
+      "archive": "https://registry.npmjs.org/@fortawesome/fontawesome-free/-/fontawesome-free-6.5.2.tgz",
+      "integrity": "sha512-hRILoInAx8GNT5IMkrtIt9blOdrqHOnPBH+k70aWUAqPZPgopb9G5EQJFpaBx/S8zp2fC+mPW349Bziuk1o28Q=="
+    }
+  ],
+  "assets": [
+    {
+      "file": "leaflet-1.9.4/dist/leaflet.js",
+      "sha256": "db49d009c841f5ca34a888c96511ae936fd9f5533e90d8b2c4d57596f4e5641a",
+      "bytes": 147552,
+      "contentType": "application/javascript",
+      "urls": [
+        "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      ]
+    },
+    {
+      "file": "leaflet-1.9.4/dist/leaflet.css",
+      "sha256": "a7837102824184820dfa198d1ebcd109ff6d0ff9a2672a074b9a1b4d147d04c6",
+      "bytes": 14806,
+      "contentType": "text/css",
+      "urls": [
+        "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      ]
+    },
+    {
+      "file": "leaflet-1.9.4/dist/images/layers.png",
+      "sha256": "1dbbe9d028e292f36fcba8f8b3a28d5e8932754fc2215b9ac69e4cdecf5107c6",
+      "bytes": 696,
+      "contentType": "image/png",
+      "urls": [
+        "https://unpkg.com/leaflet@1.9.4/dist/images/layers.png"
+      ]
+    },
+    {
+      "file": "leaflet-1.9.4/dist/images/layers-2x.png",
+      "sha256": "066daca850d8ffbef007af00b06eac0015728dee279c51f3cb6c716df7c42edf",
+      "bytes": 1259,
+      "contentType": "image/png",
+      "urls": [
+        "https://unpkg.com/leaflet@1.9.4/dist/images/layers-2x.png"
+      ]
+    },
+    {
+      "file": "leaflet-1.9.4/dist/images/marker-icon.png",
+      "sha256": "574c3a5cca85f4114085b6841596d62f00d7c892c7b03f28cbfa301deb1dc437",
+      "bytes": 1466,
+      "contentType": "image/png",
+      "urls": [
+        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png"
+      ]
+    },
+    {
+      "file": "leaflet-1.9.4/dist/images/marker-icon-2x.png",
+      "sha256": "00179c4c1ee830d3a108412ae0d294f55776cfeb085c60129a39aa6fc4ae2528",
+      "bytes": 2464,
+      "contentType": "image/png",
+      "urls": [
+        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png"
+      ]
+    },
+    {
+      "file": "leaflet-1.9.4/dist/images/marker-shadow.png",
+      "sha256": "264f5c640339f042dd729062cfc04c17f8ea0f29882b538e3848ed8f10edb4da",
+      "bytes": 618,
+      "contentType": "image/png",
+      "urls": [
+        "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png"
+      ]
+    },
+    {
+      "file": "leaflet-1.9.4/LICENSE",
+      "sha256": "53e8dc25862014e4324741ca18fbe3611e11d42ef69f59f86ea8c5389647d4cb",
+      "bytes": 1395,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "leaflet-1.9.4/package.json",
+      "sha256": "f070235e01c500ce19a3c687112f8d401e12abda49acd9f98a553c6f217368fa",
+      "bytes": 3779,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "proj4-2.11.0/dist/proj4.js",
+      "sha256": "4975fbf411fac1842c5b91d362d323d3f01ca0cb52385a2ea219790ffaa20a80",
+      "bytes": 91058,
+      "contentType": "application/javascript",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.11.0/proj4.js"
+      ]
+    },
+    {
+      "file": "proj4-2.11.0/LICENSE.md",
+      "sha256": "d514fd8b286fc00a5c97a29f8a99b73f1a4053bbdd00c400aee5f24a1b6b301e",
+      "bytes": 1454,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "proj4-2.11.0/package.json",
+      "sha256": "52029f4673df21d7376e348eafeccd5b85109983ecf728cf837b209fae35a640",
+      "bytes": 1292,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "three-0.128.0/build/three.min.js",
+      "sha256": "9274bbcec8d96168626c732b5d31c775aa8cfb7eaa0599bec0c175908a2c1ce2",
+      "bytes": 603445,
+      "contentType": "application/javascript",
+      "urls": [
+        "https://unpkg.com/three@0.128.0/build/three.min.js"
+      ]
+    },
+    {
+      "file": "three-0.128.0/examples/js/controls/OrbitControls.js",
+      "sha256": "02bb4ade710f3e607329e37a21f098bc3ac70eb6e33daf8a65e79f4db785e7b2",
+      "bytes": 26375,
+      "contentType": "application/javascript",
+      "urls": [
+        "https://unpkg.com/three@0.128.0/examples/js/controls/OrbitControls.js"
+      ]
+    },
+    {
+      "file": "three-0.128.0/examples/js/loaders/GLTFLoader.js",
+      "sha256": "5c15967ba830918a9caea6338712c994c354bccd4edc4569bde411c3ec06a3e6",
+      "bytes": 96550,
+      "contentType": "application/javascript",
+      "urls": [
+        "https://unpkg.com/three@0.128.0/examples/js/loaders/GLTFLoader.js"
+      ]
+    },
+    {
+      "file": "three-0.128.0/examples/js/loaders/STLLoader.js",
+      "sha256": "c392b93d1331e64082cbd76deb850fe5de11385472a3f4c5b7fe82ba216cb49e",
+      "bytes": 9847,
+      "contentType": "application/javascript",
+      "urls": [
+        "https://unpkg.com/three@0.128.0/examples/js/loaders/STLLoader.js"
+      ]
+    },
+    {
+      "file": "three-0.128.0/examples/js/loaders/OBJLoader.js",
+      "sha256": "e3c4cf3a6b061b6956e8e8d5cc360cf95da456dcced32961f859c8be6849a579",
+      "bytes": 21560,
+      "contentType": "application/javascript",
+      "urls": [
+        "https://unpkg.com/three@0.128.0/examples/js/loaders/OBJLoader.js"
+      ]
+    },
+    {
+      "file": "three-0.128.0/LICENSE",
+      "sha256": "7dddf7c5b8fd10ee654db8857d75d104b5557889aa5a91fc4ca545ea7c07062f",
+      "bytes": 1081,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "three-0.128.0/package.json",
+      "sha256": "d853c404a6a0cf1ba73555da027de3198da9c7464a60cfb7e38984e293c4bfbb",
+      "bytes": 3506,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "fontawesome-6.5.2/css/all.min.css",
+      "sha256": "5ceaaba22d75b58e04150311f596306562a3e595e27ed4b1dfa451b82dda9e50",
+      "bytes": 103009,
+      "contentType": "text/css",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/webfonts/fa-brands-400.woff2",
+      "sha256": "232c6f6a7678304f9efaa26f30b1610debc2ba9f4cd636b5e6751c8d73761b92",
+      "bytes": 117852,
+      "contentType": "font/woff2",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-brands-400.woff2"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/webfonts/fa-brands-400.ttf",
+      "sha256": "e28096fa75a96ac77020155ea3a6dd7312983e84115366d4cf49a0c312ec6d51",
+      "bytes": 209128,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-brands-400.ttf"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/webfonts/fa-regular-400.woff2",
+      "sha256": "c27da6f833431da5aa295c44540bfac0fd8270ba6a3c4346427006d8a7b34b76",
+      "bytes": 25392,
+      "contentType": "font/woff2",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-regular-400.woff2"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/webfonts/fa-regular-400.ttf",
+      "sha256": "9174757efc83e072436e873c22be1663d3c103b0a16d7fb73569af4918d4d351",
+      "bytes": 67860,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-regular-400.ttf"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/webfonts/fa-solid-900.woff2",
+      "sha256": "ae17c16afbea216707b2203ea1cf9bdb45b9bfe47d0f4ae3258ddbc6294dd02f",
+      "bytes": 156400,
+      "contentType": "font/woff2",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.woff2"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/webfonts/fa-solid-900.ttf",
+      "sha256": "b4990d0d0c5f5d38d62e936eea120674e584c7eea8dcee38a975c0cf9a37539b",
+      "bytes": 420332,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-solid-900.ttf"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/webfonts/fa-v4compatibility.woff2",
+      "sha256": "c7a869faca299d15be10a01f19d0765a7c4d46d8922d9b9317235c1e4a6f0982",
+      "bytes": 4792,
+      "contentType": "font/woff2",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-v4compatibility.woff2"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/webfonts/fa-v4compatibility.ttf",
+      "sha256": "ff8f525fb050c5d24519ccc8f5723d85b2e51edd3f9bc6548af55aebadd4f269",
+      "bytes": 10832,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/webfonts/fa-v4compatibility.ttf"
+      ]
+    },
+    {
+      "file": "fontawesome-6.5.2/LICENSE.txt",
+      "sha256": "9b914eae88817d63b576eab5aafde7068c7a1abae125d7cdfb034f1da43a9afc",
+      "bytes": 7427,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "fontawesome-6.5.2/package.json",
+      "sha256": "82ab3a5e02448262215694e20d352b4b5ccca1e918cc4d45af08b8fd01fbbea9",
+      "bytes": 770,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "google-fonts/fonts.css",
+      "sha256": "c321f9ee5599ff42970598e68a3736027b407b5a8b85387a107492b1517d2311",
+      "bytes": 2045,
+      "contentType": "text/css",
+      "urls": [
+        "https://fonts.googleapis.com/css2?family=Saira+Condensed:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-1.ttf",
+      "sha256": "a7fdc993f9f0387caedba4e42521136fa97e4c0837ae6239bf0413ccf8af00c2",
+      "bytes": 128812,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/ibmplexmono/v20/-F63fjptAgt5VM-kVkqdyU8n5ig.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-2.ttf",
+      "sha256": "4fc14a73ca53ba9d32fd759ae1ca1a3133326035d0dd337862b3ee1633cc156e",
+      "bytes": 129916,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3twJ8lc.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-3.ttf",
+      "sha256": "754dfc9d50cf7aabfb6b108d2c2f7d20a3f1f2cc6f6c01640c6728091272cec0",
+      "bytes": 133444,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/ibmplexmono/v20/-F6qfjptAgt5VM-kVkqdyU8n3vAO8lc.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-4.ttf",
+      "sha256": "1b08e7fc267a5c7e1d614100f604b83e7e8a0be241f0f288faa2b3ac93a683ba",
+      "bytes": 324820,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuLyfMZg.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-5.ttf",
+      "sha256": "8c883f63b2c4157d997319f2c8bc6995ed4357ef371940d31ca159004a4aae63",
+      "bytes": 325304,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuI6fMZg.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-6.ttf",
+      "sha256": "e7a1aaf7eda9f2fad4131725fa556265ec75ca7b2d756260173a040363e8d4f7",
+      "bytes": 326048,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/inter/v20/UcCO3FwrK3iLTeHuS_nVMrMxCp50SjIw2boKoduKmMEVuGKYMZg.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-7.ttf",
+      "sha256": "080bca92f4c97ee2d001503f40b4166f8136114eb10719e5112732055a158e87",
+      "bytes": 78476,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/sairacondensed/v12/EJRLQgErUN8XuHNEtX81i9TmEkrnUchg8A.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-8.ttf",
+      "sha256": "e5bcbbc241974eb32bee7136f01a8ca3fbedf6222b4d5cb85039a00ef8bf8431",
+      "bytes": 77468,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/sairacondensed/v12/EJRLQgErUN8XuHNEtX81i9TmEkrnfc9g8A.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/google-font-9.ttf",
+      "sha256": "525a9f130af00d6cd6bb98410e2c8448fa0fc9ecced68b715586757b7d508939",
+      "bytes": 78092,
+      "contentType": "font/ttf",
+      "urls": [
+        "https://fonts.gstatic.com/s/sairacondensed/v12/EJRLQgErUN8XuHNEtX81i9TmEkrnGc5g8A.ttf"
+      ]
+    },
+    {
+      "file": "google-fonts/licenses/inter-OFL.txt",
+      "sha256": "5b9321a4298cfeb6b34354164a1c3afc3db114569984c502b9b35d988fd58c57",
+      "bytes": 4377,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "google-fonts/licenses/sairacondensed-OFL.txt",
+      "sha256": "0e2ccc5da1dd979f08ba82bca2fb61592506a1e58d3cbfc26d904f0db71bd812",
+      "bytes": 4403,
+      "contentType": "text/plain",
+      "urls": []
+    },
+    {
+      "file": "google-fonts/licenses/ibmplexmono-OFL.txt",
+      "sha256": "7e6b2818edbd8f6a01ae80641cc8f16a51080d08fb4e532be3a0b6f74adb07da",
+      "bytes": 4456,
+      "contentType": "text/plain",
+      "urls": []
+    }
+  ],
+  "preparedAt": "2026-11-04T17:57:05.141Z"
+}

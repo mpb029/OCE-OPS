@@ -27,6 +27,7 @@ const probe = `window.__opsTest = {
 };\n`;
 
 async function start() {
+ const offline = process.env.OCE_OFFLINE === '1' ? require('./offline-assets.cjs').create({output,tile:fixtures.pixel}) : null;
  const server = http.createServer((req, res) => {
   if (req.method !== 'GET') { res.writeHead(405); return res.end(); }
   const url = new URL(req.url, 'http://localhost');
@@ -50,7 +51,7 @@ async function start() {
  });
  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
  const browser = await playwright[engine].launch({ headless: true, executablePath: process.env.OCE_BROWSER || undefined, ...(engine==='chromium'?{args:['--use-angle=swiftshader','--enable-unsafe-swiftshader']}:{firefoxUserPrefs:{'webgl.force-enabled':true}}) }).catch(error => { server.close(); throw error; });
- return { browser, engine, url: `http://127.0.0.1:${server.address().port}`, close: async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); } };
+ return { browser, engine, offline, url: `http://127.0.0.1:${server.address().port}`, close: async () => { await browser.close(); await new Promise(resolve => server.close(resolve)); offline?.finish(); } };
 }
 
 function fixture() {
@@ -70,6 +71,7 @@ async function open(env, { version = 'after', width = 1440, height = 900, audien
  page.on('pageerror', e => network.errors.push(e.message));
  page.on('requestfailed', req => network.failed.push({ url: req.url(), error: req.failure()?.errorText }));
  page.on('console', m => { if (m.type() === 'error') network.console.push(m.text()); });
+ if (process.env.OCE_TEST_TRACE) await require('./trace-save.cjs')(context,page,path.resolve(process.env.OCE_TEST_TRACE));
  // Comparisons freeze timestamps; captures allow Date.now to advance for Leaflet fades.
  if (liveClock) await page.clock.setSystemTime(new Date('2026-10-13T00:00:00+10:00'));
  else await page.clock.setFixedTime(new Date('2026-10-13T00:00:00+10:00'));
@@ -80,6 +82,7 @@ async function open(env, { version = 'after', width = 1440, height = 900, audien
  }, { token });
  await context.route('**/*', async route => {
   const req = route.request(), url = new URL(req.url());
+  if (env.offline && ['GET','HEAD'].includes(req.method())) { const local = env.offline.response(url); if (local) return route.fulfill(local); }
   if (url.pathname.endsWith('/workarea.geojson') && workArea !== 'root') {
     if (workArea === 'legacy' && url.pathname.includes('/data/')) return route.fulfill({path:path.join(root,'workarea.geojson'),contentType:'application/json'});
     return route.fulfill({status:404,body:'Missing fixture'});
@@ -116,8 +119,10 @@ async function open(env, { version = 'after', width = 1440, height = 900, audien
     const local = path.resolve(root, fileMatch[1], fileMatch[2]);
     if (local.startsWith(root + path.sep) && fs.existsSync(local)) return route.fulfill({ path: local });
   }
+  if (env.offline && url.origin !== env.url) { env.offline.unexpected(url); return route.abort('blockedbyclient'); }
   return route.continue();
  });
+ if (env.offline) env.offline.report.contexts++;
  const target = new URL(`${env.url}/${version}/index.html${audience}`);
  if (env.workspaces && version === 'after') { target.searchParams.set('ui','workspaces'); if(!target.searchParams.has('workspace'))target.searchParams.set('workspace','all'); }
  // Historical suites exercise classic explicitly; release tests use ui:null for real URL defaults.

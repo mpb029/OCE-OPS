@@ -260,5 +260,5 @@ window.OCEWorkfaceControl = function (a) {
     if(a.locked()||!a.panelVisible('workPackages')){a.closeModal('wfcRegisterModal');a.closeModal('wfcPermitModal');return;}
     if($('wfcRegisterModal').classList.contains('open'))renderRegister();
   }
-  return {assessment,rowHtml,panelHtml,plannedHtml,refreshViews,printHtml:w=>'<h2>Workface Control</h2>'+detailHtml(w,true),formOpen,formRead,formErrors,formProjectChanged};
+  return {recordLink,assessment,rowHtml,panelHtml,plannedHtml,refreshViews,printHtml:w=>'<h2>Workface Control</h2>'+detailHtml(w,true),formOpen,formRead,formErrors,formProjectChanged};
 };
