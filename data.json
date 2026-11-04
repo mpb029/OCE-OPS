@@ -32098,14 +32098,6 @@
       "fmt": "ifc",
       "visible": false,
       "project": "py0cs3dz"
-    },
-    {
-      "id": "ptdjbd1",
-      "name": "SPS-G12_Rev0_Coordination",
-      "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/models/yu2n2rl-SPS-G12_Rev0_Coordination.ifc",
-      "fmt": "ifc",
-      "visible": true,
-      "project": "pi6x8ous"
     }
   ],
   "panelVis": {
@@ -36410,5 +36402,5 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-11-04T22:48:46.362Z"
+  "publishedAt": "2026-11-04T22:49:07.897Z"
 }
