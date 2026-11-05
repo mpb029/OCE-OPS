@@ -72,3 +72,38 @@
  #clientLookaheadPrint .cl-empty { font-size:11pt; padding:4mm; }
  #clientLookaheadPrint button,#clientLookaheadPrint input,#clientLookaheadPrint select { display:none!important; }
 }
+
+/* Published coordination uses the same screen/print projection as the programme. */
+.cl-context-explanation { font-size:13px; line-height:1.5; color:#425b70; margin:12px 0; }
+.cl-coordination { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin:12px 0 22px; }
+.cl-context-card { min-width:0; border:1px solid #cad7e2; background:#fff; }
+.cl-context-card h3 { margin:0; padding:11px 12px; background:#e7eff5; color:#173f60; font-size:16px; }
+.cl-context-scroll { overflow:auto; }
+.cl-context-table { width:100%; min-width:450px; border-collapse:collapse; font-size:14px; line-height:1.45; }
+.cl-context-table th,.cl-context-table td { padding:10px; border:1px solid #d6e0e8; text-align:left; vertical-align:top; overflow-wrap:anywhere; }
+.cl-context-table th { color:#1b3d59; background:#f1f5f9; }
+.cl-context-table small,.cl-context-reference { display:block; margin:3px 0; }
+.cl-context-table small { font-size:13px; color:#425b70; }
+.cl-context-project { display:none; }
+.cl-requirement+.cl-requirement { margin-top:8px; }
+@media(max-width:1199px) { .cl-coordination { grid-template-columns:1fr; } }
+@media print {
+ #clientLookaheadPrint .cl-coordination { display:block; margin:3mm 0; }
+ #clientLookaheadPrint .cl-context-explanation { font-size:9pt; margin:2mm 0; }
+ #clientLookaheadPrint .cl-context-card { border:0; margin:0 0 4mm; break-inside:auto; }
+ #clientLookaheadPrint .cl-context-card h3 { font-size:12pt; padding:2mm 0; background:none; break-after:avoid; }
+ #clientLookaheadPrint .cl-context-scroll { overflow:visible; }
+ #clientLookaheadPrint .cl-context-table { min-width:0; font-size:10pt; }
+ #clientLookaheadPrint .cl-context-table th,#clientLookaheadPrint .cl-context-table td { padding:2mm; }
+ #clientLookaheadPrint .cl-context-table small { font-size:9pt; }
+ #clientLookaheadPrint .cl-context-table tr { break-inside:avoid; }
+ #clientLookaheadPrint .cl-context-table thead { display:table-header-group; }
+ #clientLookaheadPrint .cl-context-project { display:table-row; }
+}
+
+@media print { #clientLookaheadPrint .cl-context-card h3 { display:none; } }
+
+@media print {
+ #clientLookaheadPrint .cl-context-table th,#clientLookaheadPrint .cl-context-table td { padding:1.5mm; }
+ #clientLookaheadPrint .cl-project:only-of-type:has(.cl-coordination)>h2 { display:none; }
+}

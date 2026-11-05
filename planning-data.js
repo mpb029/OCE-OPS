@@ -25,7 +25,7 @@
   }
   function identity(r,s,e,label){if(!text(r.id)||!text(r.project)||!lookup(s.projects,r.project))e.push(label+': stable ID and valid project are required');}
   function quantity(q,u,e,label){if(q!=null&&!text(u))e.push(label+': record the quantity unit');}
-  function clientLookaheadErrors(v){return v===undefined?[]:(!object(v)||v.version!==1||typeof v.enabled!=='boolean'||typeof v.milestone!=='boolean'||typeof v.notes!=='string'||v.notes.length>2000?['Activity: invalid client-lookahead display settings.']:[]);}
+  function clientLookaheadErrors(v){return v===undefined?[]:(!object(v)||v.version!==1||typeof v.enabled!=='boolean'||typeof v.milestone!=='boolean'||typeof v.notes!=='string'||v.notes.length>2000||['shareSubcontractors','sharePermits','shareApprovals'].some(key=>v[key]!==undefined&&typeof v[key]!=='boolean')?['Activity: invalid client-lookahead display settings.']:[]);}
   function activityErrors(a,s,strict=true,day=D.today()){
     if(a.planning===undefined)return [];const p=a.planning,e=[];if(!object(p)||p.version!==1)return ['Activity: unsupported planning structure'];identity(a,s,e,'Activity');e.push(...clientLookaheadErrors(p.clientLookahead));
     fields(p,['workPackageId','location','supervisor','crew','plant','unit','notes'],['actualStart','actualFinish'],['quantity','chainageStart','chainageEnd'],e,'Activity');
