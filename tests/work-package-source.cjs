@@ -15,6 +15,7 @@ const once = (source, from, to) => {
   return source.replace(from, to);
 };
 function normalise(file, source) {
+  source = require('./approved-runtime-source.cjs').normalise(file, source);
   source = require('./work-package-attachments-source.cjs').normalise(file, source);
   source = source.replace(/\r\n/g, '\n');
   if (file === 'ui-forms.js' && source.includes("'fldWPReadiness'"))

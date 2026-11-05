@@ -76,7 +76,7 @@ function reverse(source,patches,label){
  for(const [before,after] of patches){assert.equal(source.split(after).length,2,label+' must match once');source=source.replace(after,before);}
  return source;
 }
-function defaults(source){return reverse(source,defaultPatches,'Release default');}
+function defaults(source){return reverse(require('./approved-runtime-source.cjs').normalise('ui-workspaces.js',source),defaultPatches,'Release default');}
 function workspace(source){return reverse(defaults(source),g1Patches,'Approved G1 navigation');}
 const overviewSpacing='/* Release: retain the complete first record touch target below Quick Add on desktop. */\n@media screen and (min-width:1200px) {\n  .ws-overview { gap:16px; }\n}\n';
 function overview(source){return reverse(source,[['',overviewSpacing]],'Release desktop Overview spacing');}

@@ -1075,8 +1075,10 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   <script src="workface-data.js"></script>
   <script src="workface-control.js"></script>
   <script src="planning-data.js"></script>
+  <script src="planning-lookahead.js"></script>
   <script src="planning-control.js"></script>
   <link rel="stylesheet" href="planning-control.css" />
+  <link rel="stylesheet" href="planning-page.css" />
   <script src="site-diary-data.js"></script>
   <script src="site-diary-storage.js"></script>
   <script src="site-diary-control.js"></script>
@@ -1122,6 +1124,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     </div>
     <div class="topbar-actions">
       <button class="icon-btn" id="btnSiteDiary" hidden><i class="fa-solid fa-book-open" aria-hidden="true"></i><span>Site Diary</span></button>
+          <button type="button" class="btn" id="btnClientLookahead" data-plan-open hidden>Lookahead Programme</button>
       <button class="icon-btn pub-connect" id="btnPublish" title="Publish your changes so the site supervisor can see them"><i class="fa-solid fa-cloud-arrow-up"></i><span>Connect</span></button>
       <div class="header-secondary" id="headerSecondary">
         <button class="icon-btn" id="btnPrint" title="Print the dashboard as a report"><i class="fa-solid fa-print"></i><span>Print</span></button>
@@ -1318,22 +1321,22 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     <div class="modal-body" id="sdBody"></div><div id="sdMessage" role="status" aria-live="polite"></div><div class="modal-foot" id="sdFoot"></div>
   </div></div>
   <!-- WFC-003 uses the existing Operations panels and original record forms. -->
-  <div class="modal-back pl-modal" id="planningModal"><div class="modal">
-    <div class="modal-head"><span>Construction planning &amp; make-ready</span></div>
-    <div class="modal-body"><div class="pl-filters">
+  <section class="planning-page" id="planningModal" aria-label="Planning &amp; Lookaheads" hidden><div class="pl-page-inner">
+    <header class="pl-page-title"><h2>Planning &amp; Lookaheads</h2><button type="button" class="btn" data-plan-action="close" data-close>Back to Operations</button></header>
+    <div class="pl-page-controls" id="planningControls"><div class="pl-primary-filters">
       <div class="field"><label for="planningProject">Project</label><select id="planningProject"></select></div>
       <div class="field"><label for="planningFrom">Lookahead from</label><input type="date" id="planningFrom"></div>
       <div class="field"><label for="planningWeeks">Horizon</label><select id="planningWeeks"><option value="2" >2 weeks</option><option value="3" selected>3 weeks</option><option value="4" >4 weeks</option><option value="5" >5 weeks</option><option value="6" >6 weeks</option></select></div>
+    </div><details id="planningFilterDetails" open><summary>Programme filters</summary><div class="pl-filters">
       <div class="field"><label for="planningWeek">Week filter / report week</label><select id="planningWeek"></select></div>
       <div class="field"><label for="planningArea">Work area</label><input id="planningArea" type="search"></div>
       <div class="field"><label for="planningSupervisor">Supervisor</label><input id="planningSupervisor" type="search"></div>
       <div class="field"><label for="planningStatus">Activity status</label><select id="planningStatus"><option value="">All statuses</option><option value="upcoming">Upcoming</option><option value="current">Current planned window</option><option value="delayed">Delayed / not completed</option><option value="completed">Completed</option><option value="cancelled">Cancelled</option><option value="undated">Undated</option></select></div>
       <div class="field"><label for="planningReadiness">Make-ready</label><select id="planningReadiness"><option value="">All states</option><option value="READY">READY</option><option value="NOT READY">NOT READY</option><option value="NOT ASSESSED">NOT ASSESSED</option></select></div>
-    </div><p id="planningRange"></p><div id="planningActions" class="pl-toolbar"></div>
+    </div></details><p id="planningRange"></p><div id="planningActions" class="pl-toolbar"></div>
     <div class="pl-tabs" role="tablist" aria-label="Planning views"><button role="tab" data-plan-tab="lookahead">Rolling Lookahead</button><button role="tab" data-plan-tab="constraints">Constraints / Make-Ready</button><button role="tab" data-plan-tab="weekly">Weekly Commitments</button><button role="tab" data-plan-tab="daily">Daily Allocation</button><button role="tab" data-plan-tab="progress">Progress / Plan Reliability</button></div>
-    <div id="planningBody" role="tabpanel" aria-live="polite"></div></div>
-    <div class="modal-foot"><button class="btn" data-close>Close</button></div>
-  </div></div>
+    </div><div id="planningBody" role="tabpanel" aria-live="polite"></div>
+  </div></section>
   <div class="modal-back pl-modal" id="planningEditModal"><div class="modal">
     <div class="modal-head"><span id="planningEditTitle">Planning record</span></div><div class="modal-body pl-form-grid" id="planningEditBody"></div>
     <div class="modal-foot"><button class="btn" data-close>Cancel / Close</button><button class="btn btn-primary" id="planningEditSave">Save locally</button></div>
@@ -1931,8 +1934,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
   const itemDefVis = () => ({ site: true, client: true });   // items inherit whatever panel shows them
   const itemVis = (it) => it.vis || itemDefVis();
   const markerVis = (m) => m.vis || defVis();
-  const panelVisOf = (id) => {
-    if (state.panelVis[id]) return state.panelVis[id];
+  const panelVisOf = (id, board = state) => {
+    if (board.panelVis?.[id]) return board.panelVis[id];
     const p = panelById(id);
     return (p && p.clientDefault) ? { site: true, client: true } : defVis();
   };
@@ -1989,6 +1992,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     return (4294967296 * (2097151 & h2) + (h1 >>> 0)).toString(36);
   }
   let editLocked = false;
+  let publishedPlanning = null, publishedPlanningIdentity = "";
   let remoteResolved = false;   // set once we've fetched the published board (so we know if a password is configured)
 
   /* ---------- WMO weather codes ----------------------------------------- */
@@ -3990,7 +3994,18 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     }
   });
 
+
+  // PLN-001: immutable, last-fetched published board; never the editor's local draft.
+  const planningIdentity = () => JSON.stringify({owner:sync.owner,repo:sync.repo,branch:sync.branch});
+  function capturePublishedPlanning(board){try{publishedPlanning=OCEReconcile.copy(normaliseBackup(board));publishedPlanningIdentity=planningIdentity();queueMicrotask(()=>document.dispatchEvent(new Event('oce:planning-published')));}catch{/* A malformed shared response cannot replace the known published source. */}}
+  function planningPublished(){return publishedPlanningIdentity===planningIdentity()?publishedPlanning:null;}
+  function clientPlanningProjection(filters){const board=planningPublished();return OCEClientLookahead.projection(board,{...filters,clientId:sync.audience==='client'?sync.clientId:filters.clientId,assigned:(p,id)=>!!id&&projClientIds(p).includes(id),visible:(pid,row)=>!!board&&!!row&&panelVisOf(pid,board).client===true&&itemVis(row).client===true&&sortItemsForDisplay([row]).length>0});}
+  function printClientPlanning(html,paper){if(editLocked)return;clearWPPrint();document.getElementById('clientLookaheadPrint')?.remove();const sheet=document.createElement('article');sheet.id='clientLookaheadPrint';sheet.innerHTML=html;document.body.append(sheet);setPrintLogo();document.getElementById('phTitle').textContent='Client Lookahead Programme';document.getElementById('phMeta').textContent='Published client-enabled information · not programme approval';document.body.removeAttribute('data-print');document.body.classList.add('client-lookahead-print');document.body.style.page=paper==='a4'?'oce-client-a4':'oce-client-a3';preloadPrintImages('#printHeader img').then(()=>{if(!editLocked&&sheet.isConnected)window.print();});}
+  window.addEventListener('afterprint',()=>{document.getElementById('clientLookaheadPrint')?.remove();document.body.classList.remove('client-lookahead-print');document.body.style.removeProperty('page');});
+
   const planning = OCEPlanningControl({
+    clientProjection: clientPlanningProjection, published: planningPublished, clientId: () => sync.clientId, printClient: printClientPlanning,
+    clientReportOptions: () => { const b=planningPublished(); return (b?.clients||[]).filter(c=>(b.projects||[]).some(p=>projClientIds(p).includes(c.id)&&(currentProject==='all'||currentProject===p.id))); },
     state: () => state, editor: () => sync.audience === "editor", locked: () => editLocked,
     audience: () => sync.audience, currentProject: () => currentProject, projects: visibleProjects,
     projectInScope: projInScope, escape: esc, uid, now: () => new Date().toISOString(),
@@ -4112,25 +4127,31 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       // Invalid links can contain IDs belonging to another project; never expose them to viewers.
       reasons.push(editor ? (item === it ? reason : (item.main || "Prerequisite") + ": " + reason) : hiddenReason);
     });
-    const details = [];
+    const details = [], detailedReasons = new Set();
     const ids = Array.isArray(it.prerequisiteIds) ? [...new Set(it.prerequisiteIds)] : [];
     ids.forEach((id) => {
       const dep = wpLookup(id);
       if (!dep || dep === it || effProj(dep) !== effProj(it)) return;
       const permitted = wpMayShowDetails(dep), complete = wpComplete(dep);
-      if (!complete) reasons.push(permitted ? (dep.main || "Prerequisite") + (dep.wstatus === "cancelled" ? ": cancelled, not completed" : ": not completed") : hiddenReason);
+      if (!complete) {
+        const reason = permitted ? (dep.main || "Prerequisite") + (dep.wstatus === "cancelled" ? ": cancelled, not completed" : ": not completed") : hiddenReason;
+        reasons.push(reason);
+        if (permitted) detailedReasons.add(reason);
+      }
       if (permitted) {
         const note = typeof dep.constraints === "string" && dep.constraints ? " — " + dep.constraints : "";
-        details.push(`<span class="wp-prerequisite-note">${esc(dep.main || "Prerequisite")}: ${complete ? "Completed" : "Not completed"}${esc(note)}</span>`);
+        details.push(`<span class="wp-prerequisite-note">${esc(dep.main || "Prerequisite")}: ${complete ? "Completed" : dep.wstatus === "cancelled" ? "Cancelled, not completed" : "Not completed"}${esc(note)}</span>`);
       }
     });
     const workface = wfc.assessment(it);
     reasons.push(...workface.reasons);
     const blockers = [...new Set(reasons)], go = blockers.length === 0;
+    // The prerequisite detail already explains this blocker and includes its notes.
+    const visibleBlockers = blockers.filter(reason => !detailedReasons.has(reason));
     const notes = typeof it.constraints === "string" && it.constraints ? `<span class="wp-constraints"><strong>Hold-up / Constraints:</strong> ${esc(it.constraints)}</span>` : "";
     const materialLabel = Object.hasOwn(WP_MATERIALS, status) ? WP_MATERIALS[status] : "Invalid status";
     return `<span class="wp-readiness"><strong class="${go ? "wp-go" : "wp-no-go"}">${go ? "GO" : "NO GO"}</strong><span>Materials: ${esc(materialLabel)}</span>` +
-      (blockers.length ? `<span class="wp-reasons">${blockers.map((reason) => `<span>${esc(reason)}</span>`).join("")}</span>` : "") + details.join("") + notes + `<span class="wfc-disclaimer">${workface.configured ? "Integrated planning readiness — not formal authorisation." : "Workface / permit assessment: Not assessed. Legacy materials / prerequisites only."}</span></span>`;
+      (visibleBlockers.length ? `<span class="wp-reasons">${visibleBlockers.map((reason) => `<span>${esc(reason)}</span>`).join("")}</span>` : "") + details.join("") + notes + `<span class="wfc-disclaimer">${workface.configured ? "Integrated planning readiness — not formal authorisation." : "Workface / permit assessment: Not assessed. Legacy materials / prerequisites only."}</span></span>`;
   }
   function wpSelectedPrerequisites() {
     return [...document.querySelectorAll('#fWPPrerequisites input:checked')].map((el) => el.value);
@@ -4319,7 +4340,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
 
     planning.formOpen(panelId, it);
     openModal("itemModal");
-    setTimeout(() => document.getElementById(showRef ? "fRef" : "fMain").focus(), 30);
+    // Focus before the form can accept input; a deferred callback could steal a typed value.
+    document.getElementById(showRef ? "fRef" : "fMain").focus();
   }
 
   async function saveItem() {
@@ -4814,8 +4836,8 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
     const so = sameOriginURL();
     // Only prefer same-origin when we're actually served over http(s) from Pages (not file://).
     const preferSameOrigin = so && /^https?:/i.test(window.location.protocol || (window.location.href || ""));
-    if (!preferSameOrigin) return tryUrl(rawURL());
-    return tryUrl(so).then((obj) => obj ? obj : tryUrl(rawURL()));
+    const result = !preferSameOrigin ? tryUrl(rawURL()) : tryUrl(so).then((obj) => obj ? obj : tryUrl(rawURL()));
+    return result.then(obj => { if (obj) capturePublishedPlanning(obj); return obj; });
   }
 
   // Initial load: apply the repo's data unless we have unpublished edits, and never
@@ -5453,7 +5475,7 @@ body.client .card-head .pbtn.photo-report { display: inline-flex; }
       validate: (board) => normaliseBackup(board), validateDraft: (board) => normaliseBackup(board, { draft: true }), normalise: normaliseBackup,
       update: updatePublishUI, openModal, closeModal, export: exportData,
       legacyBoard: () => { try { return localRawAtLoad ? JSON.parse(localRawAtLoad) : null; } catch { return null; } },
-      remoteAccess: (remote) => { remoteEditPass = remote.settings.editPass || ""; remoteResolved = true; evaluateLock(true); },
+      remoteAccess: (remote) => { capturePublishedPlanning(remote); remoteEditPass = remote.settings.editPass || ""; remoteResolved = true; evaluateLock(true); },
       offline: async (preserve) => {
         const remote = await fetchShared(); remoteResolved = true; if (remote?.settings) remoteEditPass = remote.settings.editPass || "";
         if (!preserve && !localLoadError && remote) applyShared(remote, true);

@@ -155,7 +155,12 @@ test('G1 source allowance preserves historical source and rejects duplicate or a
   }
   const current=fs.readFileSync(path.join(root,'index.html'),'utf8').replace(/\r\n/g,'\n');
   assert.throws(()=>normalise('index.html',current.replace(resolver,'')));
-  assert.throws(()=>normalise('index.html',current.replace(newRecord,'')));
+  // The released Issues detail projection expanded this line; mutate the actual current line too.
+  const accepted = require('./approved-runtime-source.cjs').normalise('index.html',current);
+  assert.throws(()=>normalise('index.html',accepted.replace(newRecord,'')));
+  const currentRecord = current.split('\n').find(line=>line.trim().startsWith('id: text(it.id), title: text(it.main),'));
+  assert.ok(currentRecord, 'Current stable record identity line must exist');
+  assert.throws(()=>normalise('index.html',current.replace(currentRecord,'')));
 });
 test('Quick Add acceptance rejects stale, dirty, partial, failed or source-mismatched evidence',()=>{
   const files=['index.html','ui-overview.js','ui-overview.css','ui-workspaces.js','ui-workspaces.css','ui-forms.js','ui-forms.css','tests/harness.cjs','tests/workspace-fixture.cjs','tests/overview-record-source.cjs','tests/overview-quick-add-source.cjs','tests/overview-quick-add.cjs'];
