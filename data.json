@@ -899,48 +899,6 @@
     ],
     "upcoming": [
       {
-        "id": "8hntvv5",
-        "main": "Drummer St - Connections",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "2026-07-15",
-        "wstatus": "completed"
-      },
-      {
-        "id": "p9exg2z",
-        "main": "Gympie Rd - Connections",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "2026-07-22",
-        "wstatus": "completed"
-      },
-      {
-        "id": "yypahvc",
-        "main": "Dolphin Ave - Connections",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "sub": "",
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "2026-07-27",
-        "wstatus": "completed"
-      },
-      {
         "id": "ysc5x9v",
         "main": "ex. SEW Chamber penetration - SMH.051035",
         "project": "default",
@@ -1177,6 +1135,377 @@
         "startDate": "2026-09-09",
         "endDate": "2026-09-15",
         "resolvedAt": "2026-09-14T05:10:44.585Z"
+      },
+      {
+        "id": "igowuwk",
+        "main": "Assist in G12 - Bypass prep; clean, bung (double ISO), excavate ex.SRM - cut in tee (materials provided by who?)",
+        "project": "pi6x8ous",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Monday 9th Tuesday 10th - Dave (GRC) to confirm availability",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-11-09",
+        "endDate": "2026-11-10",
+        "planning": {
+          "resourceRefs": [],
+          "evidence": [],
+          "notes": "",
+          "version": 1,
+          "workPackageId": "zelnao8",
+          "location": "G12 ",
+          "chainageStart": null,
+          "chainageEnd": null,
+          "supervisor": "Geoff Bugge",
+          "crew": "OCE G12",
+          "plant": "",
+          "quantity": null,
+          "unit": "",
+          "actualStart": "",
+          "actualFinish": "",
+          "baseline": {
+            "source": "",
+            "revision": "",
+            "dataDate": "",
+            "start": "",
+            "finish": "",
+            "quantity": null,
+            "unit": ""
+          },
+          "changes": [],
+          "clientLookahead": {
+            "version": 1,
+            "enabled": true,
+            "milestone": false,
+            "notes": "",
+            "shareSubcontractors": true,
+            "sharePermits": false,
+            "shareApprovals": false
+          }
+        }
+      },
+      {
+        "id": "5rdtuxd",
+        "main": "G1B Pump Commissioning",
+        "project": "py0cs3dz",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Monday 9th Nov",
+        "team": "eng",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-11-09",
+        "endDate": "2026-11-09",
+        "planning": {
+          "resourceRefs": [],
+          "evidence": [
+            {
+              "panel": "rfis",
+              "id": "qq3rikz"
+            }
+          ],
+          "notes": "",
+          "version": 1,
+          "workPackageId": "",
+          "location": "",
+          "chainageStart": null,
+          "chainageEnd": null,
+          "supervisor": "",
+          "crew": "",
+          "plant": "",
+          "quantity": null,
+          "unit": "",
+          "actualStart": "",
+          "actualFinish": "",
+          "baseline": {
+            "source": "",
+            "revision": "",
+            "dataDate": "",
+            "start": "",
+            "finish": "",
+            "quantity": null,
+            "unit": ""
+          },
+          "changes": [],
+          "clientLookahead": {
+            "version": 1,
+            "enabled": true,
+            "milestone": false,
+            "notes": "",
+            "shareSubcontractors": false,
+            "sharePermits": false,
+            "shareApprovals": false
+          }
+        }
+      },
+      {
+        "id": "feagn7k",
+        "main": "G1B - Colorbond Fence installation, final touches to RPZ",
+        "project": "py0cs3dz",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Monday 9th",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-11-09",
+        "endDate": "2026-11-09",
+        "planning": {
+          "resourceRefs": [],
+          "evidence": [],
+          "notes": "",
+          "version": 1,
+          "workPackageId": "",
+          "location": "",
+          "chainageStart": null,
+          "chainageEnd": null,
+          "supervisor": "",
+          "crew": "",
+          "plant": "",
+          "quantity": null,
+          "unit": "",
+          "actualStart": "",
+          "actualFinish": "",
+          "baseline": {
+            "source": "",
+            "revision": "",
+            "dataDate": "",
+            "start": "",
+            "finish": "",
+            "quantity": null,
+            "unit": ""
+          },
+          "changes": []
+        }
+      },
+      {
+        "id": "121vevk",
+        "main": "G12 - Flowmeter and Permanent bypass Install",
+        "project": "pi6x8ous",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Following temp bypass setup and material's onsite",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-11-11",
+        "endDate": "2026-11-17",
+        "planning": {
+          "resourceRefs": [],
+          "evidence": [],
+          "notes": "",
+          "version": 1,
+          "workPackageId": "zelnao8",
+          "location": "G12",
+          "chainageStart": null,
+          "chainageEnd": null,
+          "supervisor": "Geoff Bugge",
+          "crew": "G12 Crew",
+          "plant": "",
+          "quantity": null,
+          "unit": "",
+          "actualStart": "",
+          "actualFinish": "",
+          "baseline": {
+            "source": "",
+            "revision": "",
+            "dataDate": "",
+            "start": "",
+            "finish": "",
+            "quantity": null,
+            "unit": ""
+          },
+          "changes": [],
+          "clientLookahead": {
+            "version": 1,
+            "enabled": true,
+            "milestone": false,
+            "notes": "",
+            "shareSubcontractors": false,
+            "sharePermits": false,
+            "shareApprovals": false
+          }
+        }
+      },
+      {
+        "id": "if1mrhm",
+        "main": "G12 - Vent pole + footing install",
+        "project": "pi6x8ous",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-11-18",
+        "endDate": "2026-11-19",
+        "planning": {
+          "resourceRefs": [],
+          "evidence": [],
+          "notes": "COP",
+          "version": 1,
+          "workPackageId": "099gav8",
+          "location": "G12",
+          "chainageStart": null,
+          "chainageEnd": null,
+          "supervisor": "Geoff Bugge",
+          "crew": "G12 crew",
+          "plant": "",
+          "quantity": null,
+          "unit": "",
+          "actualStart": "",
+          "actualFinish": "",
+          "baseline": {
+            "source": "",
+            "revision": "",
+            "dataDate": "",
+            "start": "",
+            "finish": "",
+            "quantity": null,
+            "unit": ""
+          },
+          "changes": [
+            {
+              "id": "k0gmfca",
+              "at": "2026-11-05T23:08:42.091Z",
+              "reason": "COP",
+              "before": {
+                "start": "2026-11-16",
+                "finish": "2026-11-17",
+                "quantity": null,
+                "unit": "",
+                "baseline": {
+                  "source": "",
+                  "revision": "",
+                  "dataDate": "",
+                  "start": "",
+                  "finish": "",
+                  "quantity": null,
+                  "unit": ""
+                }
+              },
+              "after": {
+                "start": "2026-11-18",
+                "finish": "2026-11-19",
+                "quantity": null,
+                "unit": "",
+                "baseline": {
+                  "source": "",
+                  "revision": "",
+                  "dataDate": "",
+                  "start": "",
+                  "finish": "",
+                  "quantity": null,
+                  "unit": ""
+                }
+              }
+            }
+          ],
+          "clientLookahead": {
+            "version": 1,
+            "enabled": true,
+            "milestone": false,
+            "notes": "COP",
+            "shareSubcontractors": false,
+            "sharePermits": false,
+            "shareApprovals": false
+          }
+        }
+      },
+      {
+        "id": "tetg0l8",
+        "main": "G12 - Switchboard slab and Conduits",
+        "project": "pi6x8ous",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-11-19",
+        "endDate": "2026-11-20",
+        "planning": {
+          "resourceRefs": [],
+          "evidence": [],
+          "notes": "",
+          "version": 1,
+          "workPackageId": "d3wmq9k",
+          "location": "",
+          "chainageStart": null,
+          "chainageEnd": null,
+          "supervisor": "",
+          "crew": "",
+          "plant": "",
+          "quantity": null,
+          "unit": "",
+          "actualStart": "",
+          "actualFinish": "",
+          "baseline": {
+            "source": "",
+            "revision": "",
+            "dataDate": "",
+            "start": "",
+            "finish": "",
+            "quantity": null,
+            "unit": ""
+          },
+          "changes": [
+            {
+              "id": "eeh00ik",
+              "at": "2026-11-05T23:09:14.766Z",
+              "reason": "COP",
+              "before": {
+                "start": "2026-11-18",
+                "finish": "2026-11-20",
+                "quantity": null,
+                "unit": "",
+                "baseline": {
+                  "source": "",
+                  "revision": "",
+                  "dataDate": "",
+                  "start": "",
+                  "finish": "",
+                  "quantity": null,
+                  "unit": ""
+                }
+              },
+              "after": {
+                "start": "2026-11-19",
+                "finish": "2026-11-20",
+                "quantity": null,
+                "unit": "",
+                "baseline": {
+                  "source": "",
+                  "revision": "",
+                  "dataDate": "",
+                  "start": "",
+                  "finish": "",
+                  "quantity": null,
+                  "unit": ""
+                }
+              }
+            }
+          ]
+        }
       }
     ],
     "subbiesToday": [
@@ -2711,244 +3040,6 @@
     ],
     "workPackages": [
       {
-        "id": "d5cnpia",
-        "main": "Tarwhine St - WM Main Alignment Install",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "d0xxr83",
-        "main": "Tarwhine St - WM Connections",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "vbd6odg",
-        "main": "Tarwhine St - Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "ghfh8or",
-        "main": "Dolphin Ave - WM Main Alignment Install",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "pni41mc",
-        "main": "Dolphin Ave - WM Connections",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "wjee2po",
-        "main": "Dolphin Ave - Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "7fyioh5",
-        "main": "Drummer St - WM Main Alignment Install",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "e8hjjb0",
-        "main": "Drummer St - WM Connections",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "ws3j4tf",
-        "main": "Drummer St - Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "a9lultz",
-        "main": "Gympie Rd - WM Main Alignment Install",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "9nxypr4",
-        "main": "Gympie Rd - WM Connections",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "9ezdj40",
-        "main": "Gympie Rd - Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "7jxjwj3",
-        "main": "Widgee Xing Rd - WM Main Alignment Install",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "mx63yfk",
-        "main": "Widgee Xing Rd - WM Connections",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "d1y5rdy",
-        "main": "Widgee Xing Rd - WM Reinstatement",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 50,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "5umff6o",
-        "main": "Cooloola Cove Sludge Pad; Reinstatement and Demob",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 85,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "tyq04m2",
-        "main": "Cooloola Sludge pad - Megaflow Drains",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
         "id": "oaqfkl2",
         "main": "Mobilization",
         "project": "default",
@@ -2962,230 +3053,6 @@
         "dateRequired": "",
         "wstatus": "completed",
         "resolvedAt": "2026-08-04T06:30:37.584Z"
-      },
-      {
-        "id": "h0lj4rs",
-        "main": "Installation PVC DWV Pipe RRJ 225mm SN8 gravity sewer (approximately 200m)",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 95,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "235uk0i",
-        "main": "Construction of three (3) x new precast 1050 manholes",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "1txox7o",
-        "main": "Supply and installation of PVC DWV Pipe RRJ 150mm SN8 gravity sewer (approximately 30m)",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "fiw38rs",
-        "main": "Provision of one (1) new type 'A' house connection for Lot 1 MPH6306 20 Andrew St",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "k5wbk7n",
-        "main": "Extend existing DN300 RCP Stormwater Pipe include placement of existing precast  headwall and nibwall.  Place compacted fill over proposed sewer and reshape  embankment.",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "n5ojxid",
-        "main": "Provision of temporary water supply for properties along Andrew St.",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "k9oxixd",
-        "main": "Supply and Installation of DN150 OPVC SN8 water main",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": false
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": "inprogress"
-      },
-      {
-        "id": "83o0j0c",
-        "main": "Pressure testing of water pipelines in accordance with WSA 03",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "l7kvqcs",
-        "main": "Undertake pressure testing and CCTV of all new gravity sewer lines and manholes by  NATA accredited company.",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "g39p1ec",
-        "main": "Collation of information and preparation of 'As Constructed' drawings in accordance  with GRC standards.",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "p11pttb",
-        "main": "Live Connection works for water mains  including preparation of network intervention plans",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "qps16us",
-        "main": "Decommissioning of redundant manholes and capping of redundant pipes",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "vzaft60",
-        "main": "Reinstatement of hard shoulder along Andrew St as per existing condition",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "p6rqs7c",
-        "main": "VR#02 - New SW alignment",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "j6mmcyr",
-        "main": "VR#02 - New DN1050 SW MH",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
-      },
-      {
-        "id": "hondzmh",
-        "main": "VR#01 - New SEW Property Connection no.20",
-        "project": "default",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 100,
-        "team": "site",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": ""
       },
       {
         "id": "tb7vwss",
@@ -32128,7 +31995,7 @@
       "updated": "2026-08-28T01:50:08.158Z"
     },
     "upcoming": {
-      "updated": "2026-09-14T05:10:44.585Z"
+      "updated": "2026-11-05T23:09:14.769Z"
     },
     "siteInputs": {
       "updated": "2026-09-14T05:10:32.732Z"
@@ -32149,7 +32016,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-11-05T18:16:55.841Z"
+      "updated": "2026-11-05T23:05:31.857Z"
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
@@ -32553,7 +32420,7 @@
     "h0lj4rs": {
       "id": "h0lj4rs",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Installation PVC DWV Pipe RRJ 225mm SN8 gravity sewer (approximately 200m)",
       "detail": "",
       "team": "Site",
@@ -32568,15 +32435,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:10:26.373Z",
-      "updatedAt": "2026-09-03T20:50:00.245Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:25.783Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:25.783Z",
+      "removedReason": "deleted"
     },
     "235uk0i": {
       "id": "235uk0i",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Construction of three (3) x new precast 1050 manholes",
       "detail": "",
       "team": "Site",
@@ -32591,15 +32458,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:11:48.249Z",
-      "updatedAt": "2026-09-15T05:27:43.249Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:25.935Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:25.935Z",
+      "removedReason": "deleted"
     },
     "1txox7o": {
       "id": "1txox7o",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Supply and installation of PVC DWV Pipe RRJ 150mm SN8 gravity sewer (approximately 30m)",
       "detail": "",
       "team": "Site",
@@ -32614,15 +32481,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:00.063Z",
-      "updatedAt": "2026-08-19T05:29:47.020Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:26.120Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:26.120Z",
+      "removedReason": "deleted"
     },
     "fiw38rs": {
       "id": "fiw38rs",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Provision of one (1) new type 'A' house connection for Lot 1 MPH6306 20 Andrew St",
       "detail": "",
       "team": "Site",
@@ -32637,15 +32504,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:21.256Z",
-      "updatedAt": "2026-08-19T05:28:55.350Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:26.288Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:26.288Z",
+      "removedReason": "deleted"
     },
     "k5wbk7n": {
       "id": "k5wbk7n",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Extend existing DN300 RCP Stormwater Pipe include placement of existing precast  headwall and nibwall.  Place compacted fill over proposed sewer and reshape  embankment.",
       "detail": "",
       "team": "Site",
@@ -32660,15 +32527,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:37.576Z",
-      "updatedAt": "2026-08-17T22:45:28.010Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:28.080Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:28.080Z",
+      "removedReason": "deleted"
     },
     "n5ojxid": {
       "id": "n5ojxid",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Provision of temporary water supply for properties along Andrew St.",
       "detail": "",
       "team": "Site",
@@ -32683,15 +32550,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:13:55.675Z",
-      "updatedAt": "2026-08-07T00:05:55.146Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:29.801Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:29.801Z",
+      "removedReason": "deleted"
     },
     "k9oxixd": {
       "id": "k9oxixd",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Supply and Installation of DN150 OPVC SN8 water main",
       "detail": "",
       "team": "Site",
@@ -32706,15 +32573,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:14:23.375Z",
-      "updatedAt": "2026-09-14T05:09:53.415Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:29.988Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:29.988Z",
+      "removedReason": "deleted"
     },
     "83o0j0c": {
       "id": "83o0j0c",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Pressure testing of water pipelines in accordance with WSA 03",
       "detail": "",
       "team": "Site",
@@ -32729,15 +32596,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:14:59.614Z",
-      "updatedAt": "2026-09-15T05:28:05.330Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:30.304Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:30.304Z",
+      "removedReason": "deleted"
     },
     "l7kvqcs": {
       "id": "l7kvqcs",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Undertake pressure testing and CCTV of all new gravity sewer lines and manholes by  NATA accredited company.",
       "detail": "",
       "team": "Site",
@@ -32752,15 +32619,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:16:35.493Z",
-      "updatedAt": "2026-09-14T05:10:02.296Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:30.481Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:30.481Z",
+      "removedReason": "deleted"
     },
     "g39p1ec": {
       "id": "g39p1ec",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Collation of information and preparation of 'As Constructed' drawings in accordance  with GRC standards.",
       "detail": "",
       "team": "Site",
@@ -32775,15 +32642,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:17:31.493Z",
-      "updatedAt": "2026-07-30T23:17:31.493Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:30.637Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:30.637Z",
+      "removedReason": "deleted"
     },
     "p11pttb": {
       "id": "p11pttb",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Live Connection works for water mains  including preparation of network intervention plans",
       "detail": "",
       "team": "Site",
@@ -32798,15 +32665,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-30T23:20:23.764Z",
-      "updatedAt": "2026-07-30T23:20:23.764Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:30.801Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:30.801Z",
+      "removedReason": "deleted"
     },
     "qps16us": {
       "id": "qps16us",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Decommissioning of redundant manholes and capping of redundant pipes",
       "detail": "",
       "team": "Site",
@@ -32821,15 +32688,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-31T00:29:20.426Z",
-      "updatedAt": "2026-07-31T00:29:20.426Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:30.999Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:30.999Z",
+      "removedReason": "deleted"
     },
     "vzaft60": {
       "id": "vzaft60",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "Reinstatement of hard shoulder along Andrew St as per existing condition",
       "detail": "",
       "team": "Site",
@@ -32844,10 +32711,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-07-31T00:29:37.624Z",
-      "updatedAt": "2026-07-31T00:29:37.624Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:31.295Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:31.295Z",
+      "removedReason": "deleted"
     },
     "muvacgs": {
       "id": "muvacgs",
@@ -34784,7 +34651,7 @@
     "9ezdj40": {
       "id": "9ezdj40",
       "panel": "Work Packages",
-      "project": "Regionwide Watermain Renewal",
+      "project": "",
       "title": "Gympie Rd - Reinstatement",
       "detail": "",
       "team": "Site",
@@ -34799,15 +34666,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-20T02:23:33.527Z",
-      "updatedAt": "2026-08-20T02:23:33.527Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:24.355Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:24.355Z",
+      "removedReason": "deleted"
     },
     "7jxjwj3": {
       "id": "7jxjwj3",
       "panel": "Work Packages",
-      "project": "Regionwide Watermain Renewal",
+      "project": "",
       "title": "Widgee Xing Rd - WM Main Alignment Install",
       "detail": "",
       "team": "Site",
@@ -34822,15 +34689,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-20T02:23:40.067Z",
-      "updatedAt": "2026-08-20T02:23:40.067Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:24.692Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:24.692Z",
+      "removedReason": "deleted"
     },
     "d1y5rdy": {
       "id": "d1y5rdy",
       "panel": "Work Packages",
-      "project": "Regionwide Watermain Renewal",
+      "project": "",
       "title": "Widgee Xing Rd - WM Reinstatement",
       "detail": "",
       "team": "Site",
@@ -34845,10 +34712,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-08-20T02:23:46.669Z",
-      "updatedAt": "2026-08-20T02:23:46.669Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:25.270Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:25.270Z",
+      "removedReason": "deleted"
     },
     "x0neu6b": {
       "id": "x0neu6b",
@@ -35060,7 +34927,7 @@
     "p6rqs7c": {
       "id": "p6rqs7c",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "VR#02 - New SW alignment",
       "detail": "",
       "team": "Site",
@@ -35075,15 +34942,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T21:40:54.509Z",
-      "updatedAt": "2026-09-14T05:10:15.969Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:31.486Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:31.486Z",
+      "removedReason": "deleted"
     },
     "j6mmcyr": {
       "id": "j6mmcyr",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "VR#02 - New DN1050 SW MH",
       "detail": "",
       "team": "Site",
@@ -35098,15 +34965,15 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T21:41:14.480Z",
-      "updatedAt": "2026-09-14T05:10:13.201Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:31.664Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:31.664Z",
+      "removedReason": "deleted"
     },
     "hondzmh": {
       "id": "hondzmh",
       "panel": "Work Packages",
-      "project": "G4N Sewer Main Replacement",
+      "project": "",
       "title": "VR#01 - New SEW Property Connection no.20",
       "detail": "",
       "team": "Site",
@@ -35121,10 +34988,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-09-03T21:42:14.268Z",
-      "updatedAt": "2026-09-03T21:42:14.268Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": ""
+      "updatedAt": "2026-11-05T23:05:31.857Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:31.857Z",
+      "removedReason": "deleted"
     },
     "pbegyyr": {
       "id": "pbegyyr",
@@ -36260,6 +36127,810 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "igowuwk": {
+      "id": "igowuwk",
+      "panel": "Scheduled Works",
+      "project": "SPS G12 Renewal",
+      "title": "Assist in G12 - Bypass prep; clean, bung (double ISO), excavate ex.SRM - cut in tee (materials provided by who?)",
+      "detail": "Monday 9th Tuesday 10th - Dave (GRC) to confirm availability",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-11-09",
+      "end": "2026-11-10",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T22:55:18.673Z",
+      "updatedAt": "2026-11-05T23:05:03.056Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": "",
+      "planning": {
+        "resourceRefs": [],
+        "evidence": [],
+        "notes": "",
+        "version": 1,
+        "workPackageId": "zelnao8",
+        "location": "G12 ",
+        "chainageStart": null,
+        "chainageEnd": null,
+        "supervisor": "Geoff Bugge",
+        "crew": "OCE G12",
+        "plant": "",
+        "quantity": null,
+        "unit": "",
+        "actualStart": "",
+        "actualFinish": "",
+        "baseline": {
+          "source": "",
+          "revision": "",
+          "dataDate": "",
+          "start": "",
+          "finish": "",
+          "quantity": null,
+          "unit": ""
+        },
+        "changes": [],
+        "clientLookahead": {
+          "version": 1,
+          "enabled": true,
+          "milestone": false,
+          "notes": "",
+          "shareSubcontractors": true,
+          "sharePermits": false,
+          "shareApprovals": false
+        }
+      }
+    },
+    "5rdtuxd": {
+      "id": "5rdtuxd",
+      "panel": "Scheduled Works",
+      "project": "SPS G1B Renewal",
+      "title": "G1B Pump Commissioning",
+      "detail": "Monday 9th Nov",
+      "team": "Engineering",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-11-09",
+      "end": "2026-11-09",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T22:56:46.796Z",
+      "updatedAt": "2026-11-05T22:58:23.630Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": "",
+      "planning": {
+        "resourceRefs": [],
+        "evidence": [
+          {
+            "panel": "rfis",
+            "id": "qq3rikz"
+          }
+        ],
+        "notes": "",
+        "version": 1,
+        "workPackageId": "",
+        "location": "",
+        "chainageStart": null,
+        "chainageEnd": null,
+        "supervisor": "",
+        "crew": "",
+        "plant": "",
+        "quantity": null,
+        "unit": "",
+        "actualStart": "",
+        "actualFinish": "",
+        "baseline": {
+          "source": "",
+          "revision": "",
+          "dataDate": "",
+          "start": "",
+          "finish": "",
+          "quantity": null,
+          "unit": ""
+        },
+        "changes": [],
+        "clientLookahead": {
+          "version": 1,
+          "enabled": true,
+          "milestone": false,
+          "notes": "",
+          "shareSubcontractors": false,
+          "sharePermits": false,
+          "shareApprovals": false
+        }
+      }
+    },
+    "8hntvv5": {
+      "id": "8hntvv5",
+      "panel": "Scheduled Works",
+      "project": "",
+      "title": "Drummer St - Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-15",
+      "photos": 0,
+      "createdAt": "2026-11-05T22:56:53.956Z",
+      "updatedAt": "2026-11-05T22:56:53.956Z",
+      "removed": true,
+      "removedAt": "2026-11-05T22:56:53.956Z",
+      "removedReason": "deleted"
+    },
+    "p9exg2z": {
+      "id": "p9exg2z",
+      "panel": "Scheduled Works",
+      "project": "",
+      "title": "Gympie Rd - Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-22",
+      "photos": 0,
+      "createdAt": "2026-11-05T22:56:54.700Z",
+      "updatedAt": "2026-11-05T22:56:54.700Z",
+      "removed": true,
+      "removedAt": "2026-11-05T22:56:54.700Z",
+      "removedReason": "deleted"
+    },
+    "yypahvc": {
+      "id": "yypahvc",
+      "panel": "Scheduled Works",
+      "project": "",
+      "title": "Dolphin Ave - Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "Completed",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "2026-07-27",
+      "photos": 0,
+      "createdAt": "2026-11-05T22:56:55.258Z",
+      "updatedAt": "2026-11-05T22:56:55.258Z",
+      "removed": true,
+      "removedAt": "2026-11-05T22:56:55.258Z",
+      "removedReason": "deleted"
+    },
+    "feagn7k": {
+      "id": "feagn7k",
+      "panel": "Scheduled Works",
+      "project": "SPS G1B Renewal",
+      "title": "G1B - Colorbond Fence installation, final touches to RPZ",
+      "detail": "Monday 9th",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-11-09",
+      "end": "2026-11-09",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T22:59:15.694Z",
+      "updatedAt": "2026-11-05T22:59:15.694Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": "",
+      "planning": {
+        "resourceRefs": [],
+        "evidence": [],
+        "notes": "",
+        "version": 1,
+        "workPackageId": "",
+        "location": "",
+        "chainageStart": null,
+        "chainageEnd": null,
+        "supervisor": "",
+        "crew": "",
+        "plant": "",
+        "quantity": null,
+        "unit": "",
+        "actualStart": "",
+        "actualFinish": "",
+        "baseline": {
+          "source": "",
+          "revision": "",
+          "dataDate": "",
+          "start": "",
+          "finish": "",
+          "quantity": null,
+          "unit": ""
+        },
+        "changes": []
+      }
+    },
+    "121vevk": {
+      "id": "121vevk",
+      "panel": "Scheduled Works",
+      "project": "SPS G12 Renewal",
+      "title": "G12 - Flowmeter and Permanent bypass Install",
+      "detail": "Following temp bypass setup and material's onsite",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-11-11",
+      "end": "2026-11-17",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:01:26.618Z",
+      "updatedAt": "2026-11-05T23:06:41.475Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": "",
+      "planning": {
+        "resourceRefs": [],
+        "evidence": [],
+        "notes": "",
+        "version": 1,
+        "workPackageId": "zelnao8",
+        "location": "G12",
+        "chainageStart": null,
+        "chainageEnd": null,
+        "supervisor": "Geoff Bugge",
+        "crew": "G12 Crew",
+        "plant": "",
+        "quantity": null,
+        "unit": "",
+        "actualStart": "",
+        "actualFinish": "",
+        "baseline": {
+          "source": "",
+          "revision": "",
+          "dataDate": "",
+          "start": "",
+          "finish": "",
+          "quantity": null,
+          "unit": ""
+        },
+        "changes": [],
+        "clientLookahead": {
+          "version": 1,
+          "enabled": true,
+          "milestone": false,
+          "notes": "",
+          "shareSubcontractors": false,
+          "sharePermits": false,
+          "shareApprovals": false
+        }
+      }
+    },
+    "if1mrhm": {
+      "id": "if1mrhm",
+      "panel": "Scheduled Works",
+      "project": "SPS G12 Renewal",
+      "title": "G12 - Vent pole + footing install",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-11-18",
+      "end": "2026-11-19",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:03:23.824Z",
+      "updatedAt": "2026-11-05T23:08:42.094Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": "",
+      "planning": {
+        "resourceRefs": [],
+        "evidence": [],
+        "notes": "COP",
+        "version": 1,
+        "workPackageId": "099gav8",
+        "location": "G12",
+        "chainageStart": null,
+        "chainageEnd": null,
+        "supervisor": "Geoff Bugge",
+        "crew": "G12 crew",
+        "plant": "",
+        "quantity": null,
+        "unit": "",
+        "actualStart": "",
+        "actualFinish": "",
+        "baseline": {
+          "source": "",
+          "revision": "",
+          "dataDate": "",
+          "start": "",
+          "finish": "",
+          "quantity": null,
+          "unit": ""
+        },
+        "changes": [
+          {
+            "id": "k0gmfca",
+            "at": "2026-11-05T23:08:42.091Z",
+            "reason": "COP",
+            "before": {
+              "start": "2026-11-16",
+              "finish": "2026-11-17",
+              "quantity": null,
+              "unit": "",
+              "baseline": {
+                "source": "",
+                "revision": "",
+                "dataDate": "",
+                "start": "",
+                "finish": "",
+                "quantity": null,
+                "unit": ""
+              }
+            },
+            "after": {
+              "start": "2026-11-18",
+              "finish": "2026-11-19",
+              "quantity": null,
+              "unit": "",
+              "baseline": {
+                "source": "",
+                "revision": "",
+                "dataDate": "",
+                "start": "",
+                "finish": "",
+                "quantity": null,
+                "unit": ""
+              }
+            }
+          }
+        ],
+        "clientLookahead": {
+          "version": 1,
+          "enabled": true,
+          "milestone": false,
+          "notes": "COP",
+          "shareSubcontractors": false,
+          "sharePermits": false,
+          "shareApprovals": false
+        }
+      }
+    },
+    "tetg0l8": {
+      "id": "tetg0l8",
+      "panel": "Scheduled Works",
+      "project": "SPS G12 Renewal",
+      "title": "G12 - Switchboard slab and Conduits",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-11-19",
+      "end": "2026-11-20",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:04:46.392Z",
+      "updatedAt": "2026-11-05T23:09:14.769Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": "",
+      "planning": {
+        "resourceRefs": [],
+        "evidence": [],
+        "notes": "",
+        "version": 1,
+        "workPackageId": "d3wmq9k",
+        "location": "",
+        "chainageStart": null,
+        "chainageEnd": null,
+        "supervisor": "",
+        "crew": "",
+        "plant": "",
+        "quantity": null,
+        "unit": "",
+        "actualStart": "",
+        "actualFinish": "",
+        "baseline": {
+          "source": "",
+          "revision": "",
+          "dataDate": "",
+          "start": "",
+          "finish": "",
+          "quantity": null,
+          "unit": ""
+        },
+        "changes": [
+          {
+            "id": "eeh00ik",
+            "at": "2026-11-05T23:09:14.766Z",
+            "reason": "COP",
+            "before": {
+              "start": "2026-11-18",
+              "finish": "2026-11-20",
+              "quantity": null,
+              "unit": "",
+              "baseline": {
+                "source": "",
+                "revision": "",
+                "dataDate": "",
+                "start": "",
+                "finish": "",
+                "quantity": null,
+                "unit": ""
+              }
+            },
+            "after": {
+              "start": "2026-11-19",
+              "finish": "2026-11-20",
+              "quantity": null,
+              "unit": "",
+              "baseline": {
+                "source": "",
+                "revision": "",
+                "dataDate": "",
+                "start": "",
+                "finish": "",
+                "quantity": null,
+                "unit": ""
+              }
+            }
+          }
+        ]
+      }
+    },
+    "d5cnpia": {
+      "id": "d5cnpia",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Tarwhine St - WM Main Alignment Install",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:19.561Z",
+      "updatedAt": "2026-11-05T23:05:19.561Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:19.561Z",
+      "removedReason": "deleted"
+    },
+    "d0xxr83": {
+      "id": "d0xxr83",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Tarwhine St - WM Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:20.250Z",
+      "updatedAt": "2026-11-05T23:05:20.250Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:20.250Z",
+      "removedReason": "deleted"
+    },
+    "vbd6odg": {
+      "id": "vbd6odg",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Tarwhine St - Reinstatement",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:20.817Z",
+      "updatedAt": "2026-11-05T23:05:20.817Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:20.817Z",
+      "removedReason": "deleted"
+    },
+    "ghfh8or": {
+      "id": "ghfh8or",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Dolphin Ave - WM Main Alignment Install",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:21.844Z",
+      "updatedAt": "2026-11-05T23:05:21.844Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:21.844Z",
+      "removedReason": "deleted"
+    },
+    "pni41mc": {
+      "id": "pni41mc",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Dolphin Ave - WM Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:22.458Z",
+      "updatedAt": "2026-11-05T23:05:22.458Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:22.458Z",
+      "removedReason": "deleted"
+    },
+    "wjee2po": {
+      "id": "wjee2po",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Dolphin Ave - Reinstatement",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:22.765Z",
+      "updatedAt": "2026-11-05T23:05:22.765Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:22.765Z",
+      "removedReason": "deleted"
+    },
+    "7fyioh5": {
+      "id": "7fyioh5",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Drummer St - WM Main Alignment Install",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:22.988Z",
+      "updatedAt": "2026-11-05T23:05:22.988Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:22.988Z",
+      "removedReason": "deleted"
+    },
+    "e8hjjb0": {
+      "id": "e8hjjb0",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Drummer St - WM Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:23.298Z",
+      "updatedAt": "2026-11-05T23:05:23.298Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:23.298Z",
+      "removedReason": "deleted"
+    },
+    "ws3j4tf": {
+      "id": "ws3j4tf",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Drummer St - Reinstatement",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:23.689Z",
+      "updatedAt": "2026-11-05T23:05:23.689Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:23.689Z",
+      "removedReason": "deleted"
+    },
+    "a9lultz": {
+      "id": "a9lultz",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Gympie Rd - WM Main Alignment Install",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:23.982Z",
+      "updatedAt": "2026-11-05T23:05:23.982Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:23.982Z",
+      "removedReason": "deleted"
+    },
+    "9nxypr4": {
+      "id": "9nxypr4",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Gympie Rd - WM Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:24.176Z",
+      "updatedAt": "2026-11-05T23:05:24.176Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:24.176Z",
+      "removedReason": "deleted"
+    },
+    "mx63yfk": {
+      "id": "mx63yfk",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Widgee Xing Rd - WM Connections",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:25.074Z",
+      "updatedAt": "2026-11-05T23:05:25.074Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:25.074Z",
+      "removedReason": "deleted"
+    },
+    "5umff6o": {
+      "id": "5umff6o",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Cooloola Cove Sludge Pad; Reinstatement and Demob",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:25.470Z",
+      "updatedAt": "2026-11-05T23:05:25.470Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:25.470Z",
+      "removedReason": "deleted"
+    },
+    "tyq04m2": {
+      "id": "tyq04m2",
+      "panel": "Work Packages",
+      "project": "",
+      "title": "Cooloola Sludge pad - Megaflow Drains",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:05:25.607Z",
+      "updatedAt": "2026-11-05T23:05:25.607Z",
+      "removed": true,
+      "removedAt": "2026-11-05T23:05:25.607Z",
+      "removedReason": "deleted"
     }
   },
   "projectSummary": {
@@ -36320,7 +36991,7 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-11-05T22:48:45.438Z",
+  "publishedAt": "2026-11-05T23:09:39.006Z",
   "changeEvents": [
     {
       "id": "8a4f1f50-ced6-4ce8-8725-bfbc07ab711a",
@@ -36860,6 +37531,699 @@
       ],
       "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
       "generation": 46
+    },
+    {
+      "id": "99553b9b-dd36-4b6e-8f13-82fbf9e0f164",
+      "recordId": "d5cnpia",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:19.564Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 68
+    },
+    {
+      "id": "cbf24c3d-fbfa-470e-9acd-d74d2afdff81",
+      "recordId": "d0xxr83",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:20.253Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 69
+    },
+    {
+      "id": "83e29fd7-052b-4b1b-b335-c05dec405c22",
+      "recordId": "vbd6odg",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:20.819Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 70
+    },
+    {
+      "id": "df9ca506-ffa6-4638-9cab-998e05f888d0",
+      "recordId": "ghfh8or",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:21.847Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 71
+    },
+    {
+      "id": "600180e3-8298-4db8-983a-a5cdbbc6702e",
+      "recordId": "pni41mc",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:22.461Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 72
+    },
+    {
+      "id": "49c493d3-7543-4cc4-bd1c-6fe98a8c310e",
+      "recordId": "wjee2po",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:22.768Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 73
+    },
+    {
+      "id": "6af74e9e-62e8-4da9-8deb-cbd7da864417",
+      "recordId": "7fyioh5",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:22.991Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 74
+    },
+    {
+      "id": "1fa87f53-2ab5-4bae-8995-f32dde0ecc0f",
+      "recordId": "e8hjjb0",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:23.301Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 75
+    },
+    {
+      "id": "471299ef-81fc-473a-847b-bfcdcce2cffb",
+      "recordId": "ws3j4tf",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:23.692Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 76
+    },
+    {
+      "id": "94906019-0e06-41cc-ab61-3f9c5077326d",
+      "recordId": "a9lultz",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:23.985Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 77
+    },
+    {
+      "id": "141961a2-69eb-484d-a65a-f647bfa3900a",
+      "recordId": "9nxypr4",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:24.179Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 78
+    },
+    {
+      "id": "ee2e162d-030c-4ee3-a424-ab52041716f4",
+      "recordId": "9ezdj40",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:24.358Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 79
+    },
+    {
+      "id": "9db24a0d-3e87-4005-b2f6-27792b23b538",
+      "recordId": "7jxjwj3",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:24.694Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 80
+    },
+    {
+      "id": "e306c619-0aa3-46b8-a4fb-7a8ba6f6e085",
+      "recordId": "mx63yfk",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:25.076Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 81
+    },
+    {
+      "id": "20933a13-b93d-499e-b64c-02b444ae5978",
+      "recordId": "d1y5rdy",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:25.272Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 82
+    },
+    {
+      "id": "1adc81d9-4a70-4aba-8c0b-596cb4925157",
+      "recordId": "5umff6o",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:25.472Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 83
+    },
+    {
+      "id": "f146cc67-c7f5-4feb-89a7-7fb52fd1360a",
+      "recordId": "tyq04m2",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:25.609Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 84
+    },
+    {
+      "id": "013419e0-6f08-46fe-8bd6-4b903f434638",
+      "recordId": "h0lj4rs",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:25.786Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 85
+    },
+    {
+      "id": "64092978-3761-46a2-b20a-47ba0b6cda09",
+      "recordId": "235uk0i",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:25.937Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 86
+    },
+    {
+      "id": "85ef45f8-6f37-4c73-963e-b84bed2d5bfb",
+      "recordId": "1txox7o",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:26.122Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 87
+    },
+    {
+      "id": "46804eee-768b-49e4-a7d0-d8b7a84ec7b6",
+      "recordId": "fiw38rs",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:26.290Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 88
+    },
+    {
+      "id": "0c2ace89-bcbd-4ef2-9c47-ed72d14efed4",
+      "recordId": "k5wbk7n",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:28.083Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 89
+    },
+    {
+      "id": "5e535276-8145-4fdf-813b-b7f25887f875",
+      "recordId": "n5ojxid",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:29.803Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 90
+    },
+    {
+      "id": "07cdb9fd-d98a-4d8e-aabb-cc60cde0e199",
+      "recordId": "k9oxixd",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:29.991Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 91
+    },
+    {
+      "id": "0e71dcf1-65a8-476b-b5b5-feb4bcc2f1a4",
+      "recordId": "83o0j0c",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:30.306Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 92
+    },
+    {
+      "id": "f4eb74d8-f351-4ab8-80cd-ffc2c1ed42c5",
+      "recordId": "l7kvqcs",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:30.483Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 93
+    },
+    {
+      "id": "b3400243-5895-4413-a126-2296b231acf5",
+      "recordId": "g39p1ec",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:30.639Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 94
+    },
+    {
+      "id": "727cb5cc-4a76-42bf-b892-926e2b1e7f61",
+      "recordId": "p11pttb",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:30.803Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 95
+    },
+    {
+      "id": "d43489fa-21db-4d89-8ad1-df2339c9e8a1",
+      "recordId": "qps16us",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:31.002Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 96
+    },
+    {
+      "id": "bcfea9a8-3f21-45f6-8983-af62b277648f",
+      "recordId": "vzaft60",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:31.298Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 97
+    },
+    {
+      "id": "83e0b99a-a389-4124-af63-e210fe9f73d8",
+      "recordId": "p6rqs7c",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:31.488Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 98
+    },
+    {
+      "id": "beb78892-ed94-4217-ae63-c19e49341b16",
+      "recordId": "j6mmcyr",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:31.666Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 99
+    },
+    {
+      "id": "eabf3e5f-8211-4f02-b6d5-e7cefbd4f44d",
+      "recordId": "hondzmh",
+      "recordType": "workPackage",
+      "project": "default",
+      "action": "deleted",
+      "at": "2026-11-05T23:05:31.859Z",
+      "fields": [
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "pct",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "e8f6a8e24ee95db0bba0378a6d8e41fcd82d21c8",
+      "generation": 100
     }
   ]
 }
