@@ -6,6 +6,7 @@ function initWorkspaces() {
   'use strict';
   const destinations = [
     {id:'overview', title:'Overview', short:'Overview', icon:'house', panels:[]},
+    {id:'planning', title:'Planning & Lookaheads', short:'Planning', icon:'calendar-days', panels:[]},
     {id:'operations', title:'Operations', short:'Works', icon:'helmet-safety', panels:['dailyWorks','upcoming','workPackages','trafficControl']},
     {id:'resources', title:'Resources & Logistics', short:'Resources', icon:'truck', panels:['deliveries','subbiesToday','staffAway','siteInputs','plantTransport','materialPickup']},
     {id:'quality', title:'Quality, Safety & Risk', short:'Quality', icon:'shield-halved', panels:['qualityTesting','punchlist','incidents','issuesDelays']},
@@ -114,6 +115,7 @@ function initWorkspaces() {
   const placeholder = element('section','ws-chrome ws-overview'); placeholder.id = 'wsOverview';
   placeholder.setAttribute('aria-label','Project overview');
   shortcuts.after(placeholder);
+  const planningPage = byId('planningModal'); placeholder.after(planningPage);
   const bottom = element('nav','ws-chrome ws-bottom'); bottom.setAttribute('aria-label','Quick navigation'); body.append(bottom);
   const chrome = [sidebar,heading,shortcuts,placeholder,bottom];
 
@@ -161,8 +163,9 @@ function initWorkspaces() {
     const focusedRoute = nav.contains(focused) ? focused.dataset.wsRoute : null;
     nav.replaceChildren(...available.map(d => {
       const a = link('' ,d.id,'','ws-nav-link');
-      a.setAttribute('aria-label',d.title);
-      a.append(icon(d.icon),element('span','ws-nav-full',d.title),element('span','ws-nav-short',d.short));
+      const navTitle = d.id === 'planning' && body.classList.contains('client') ? 'Lookahead Programme' : d.title;
+      a.setAttribute('aria-label',navTitle);
+      a.append(icon(d.icon),element('span','ws-nav-full',navTitle),element('span','ws-nav-short',d.short));
       a.querySelector('.ws-nav-short').setAttribute('aria-hidden','true');
       if (active === d.id) a.setAttribute('aria-current','page');
       return a;
@@ -170,13 +173,13 @@ function initWorkspaces() {
     if (focusedRoute) nav.querySelector(`[data-ws-route="${focusedRoute}"]`)?.focus({preventScroll:true});
     const destination = destinations.find(d => d.id === active);
     scope.textContent = project.selectedOptions[0]?.textContent || 'Project board';
-    title.textContent = destination.title;
+    title.textContent = active === 'planning' && body.classList.contains('client') ? 'Lookahead Programme' : destination.title;
     const visibleCards = active === 'all' ? cards : cards.filter(c => destination.panels.includes(c.dataset.card));
-    description.textContent = active === 'site' ? 'Map and model tools · Board-wide references' : active === 'overview' ? 'Project status and active work · Open any record in its original panel' : `${visibleCards.length} available ${visibleCards.length === 1 ? 'panel' : 'panels'}${active === 'all' ? ' · Original board layout' : ''}`;
+    description.textContent = active === 'planning' ? (body.classList.contains('client') ? 'Published client-enabled programme · Read only' : 'Rolling lookahead · Make-ready · Weekly commitments · Daily allocation · Plan reliability') : active === 'site' ? 'Map and model tools · Board-wide references' : active === 'overview' ? 'Project status and active work · Open any record in its original panel' : `${visibleCards.length} available ${visibleCards.length === 1 ? 'panel' : 'panels'}${active === 'all' ? ' · Original board layout' : ''}`;
     allLink.hidden = active === 'all'; allLink.href = routeURL('all').href;
     const targets = active === 'site'
       ? [['mapCard','Work Area Map'],...(byId('modelCard')?.style.display !== 'none' ? [['modelCard','3D Models']] : [])]
-      : (active === 'overview' ? [] : visibleCards.map(c => [c.id,c.querySelector('.ttl').textContent.trim()]));
+      : (['overview','planning'].includes(active) ? [] : visibleCards.map(c => [c.id,c.querySelector('.ttl').textContent.trim()]));
     // All Panels keeps quick daily access without repeating a second 21-item navigation list.
     shortcuts.replaceChildren(...targets.filter(([id]) => active !== 'all' || ['activity-dailyWorks','activity-upcoming','activity-issuesDelays'].includes(id)).map(([id,label]) => link(label,targetWorkspace('#'+id) || active,'#'+id)));
     shortcuts.hidden = !shortcuts.childElementCount;
@@ -199,6 +202,8 @@ function initWorkspaces() {
     body.dataset.workspace = enabled ? active : '';
     optIn.hidden = enabled;
     chrome.forEach(el => { el.hidden = !enabled; });
+    planningPage.hidden = !(enabled && active === 'planning');
+    document.dispatchEvent(new CustomEvent('oce:planning-view',{detail:{active:enabled && active === 'planning'}}));
     if (!enabled) {
       placeholder.replaceChildren();
       grid.removeAttribute('data-ws-suppressed'); byId('overview').removeAttribute('data-ws-suppressed');
@@ -211,7 +216,7 @@ function initWorkspaces() {
     history.scrollRestoration = 'manual';
     const padding = getComputedStyle(wrap);
     byId('overview').style.setProperty('--ws-spatial-width',`${wrap.clientWidth - parseFloat(padding.paddingLeft) - parseFloat(padding.paddingRight)}px`);
-    grid.toggleAttribute('data-ws-suppressed',['overview','site'].includes(active));
+    grid.toggleAttribute('data-ws-suppressed',['overview','site','planning'].includes(active));
     byId('overview').toggleAttribute('data-ws-suppressed',!['all','site'].includes(active));
     const d = destinations.find(d => d.id === active);
     cards.forEach(c => c.toggleAttribute('data-ws-suppressed',active !== 'all' && !d.panels.includes(c.dataset.card)));
@@ -270,7 +275,7 @@ function initWorkspaces() {
     const savedEntry = entry();
     // Record links must not be rejected against the temporary startup board.
     // The existing read-only adapter stays unavailable until published data is ready.
-    if (enabled && initialRoute && url.searchParams.has('workspaceRecord')) {
+    if (enabled && initialRoute && (url.searchParams.has('workspaceRecord') || url.searchParams.get('workspace') === 'planning')) {
       let ready = false;
       document.dispatchEvent(new CustomEvent('oce:overview-read',{detail:{accept:() => {ready = true;}}}));
       if (!ready) { chrome.forEach(el => {el.hidden = true;}); return; }
@@ -280,7 +285,7 @@ function initWorkspaces() {
     if (enabled && initialRoute) setProject(url.searchParams.get('workspaceProject') || entry()?.project);
     cards = [...grid.querySelectorAll(':scope > [data-card]')];
     cards.forEach(c => { c.id = 'activity-'+c.dataset.card; });
-    available = destinations.filter(d => !d.panels.length || d.panels.some(permitted));
+    available = destinations.filter(d => d.id === 'planning' ? permitted('upcoming') : (!d.panels.length || d.panels.some(permitted)));
     const target = usableTarget(url.hash);
     const requested = target ? targetWorkspace(url.hash) : (url.searchParams.get('workspace') || 'overview');
     active = available.some(d => d.id === requested) ? requested : 'all';
@@ -316,6 +321,9 @@ function initWorkspaces() {
       event.preventDefault(); navigate(targetWorkspace(url.hash),url.hash,true,url.searchParams.get('workspaceRecord') || '');
     }
   });
+
+  document.addEventListener('oce:workspace-navigate',event=>{const id=event.detail?.workspace;if(!['planning','operations'].includes(id)||body.classList.contains('locked'))return;if(id==='planning'&&!permitted('upcoming'))return;if(enabled&&active===id){present();return;}navigate(id);});
+
   project.addEventListener('change',() => {
     if (!enabled || restoring) return;
     clearRecordHighlight();
