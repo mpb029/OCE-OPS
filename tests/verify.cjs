@@ -401,7 +401,7 @@ async function main(argv) {
   try {
     basic(directory);
     const toolingLog=path.join(directory,'tooling-tests.log'), descriptor=fs.openSync(toolingLog,'w');
-    try {execFileSync(process.execPath,['--test','tests/approved-runtime-source.test.cjs','tests/verify.test.cjs','tests/overview-quick-add-source.cjs','tests/release-default-source.cjs'],{cwd:root,stdio:['ignore',descriptor,descriptor]});}
+    try {execFileSync(process.execPath,['--test','tests/client-lookahead-context.test.cjs','tests/planning-lookahead.test.cjs','tests/approved-runtime-source.test.cjs','tests/verify.test.cjs','tests/overview-quick-add-source.cjs','tests/release-default-source.cjs'],{cwd:root,stdio:['ignore',descriptor,descriptor]});}
     finally {fs.closeSync(descriptor);process.stdout.write(fs.readFileSync(toolingLog));}
     receipt.inputs=inputs(steps);
     if (opts.reuse) {
