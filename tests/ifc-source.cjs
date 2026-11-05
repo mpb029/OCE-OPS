@@ -22,6 +22,7 @@ const patches = [
   ["        disposeModelObject(object);\n", "        if (object.parent) object.parent.remove(object);\n"],
 ];
 function normalise(file, source) {
+  source = require('./approved-runtime-source.cjs').normalise(file, source);
   source = source.replace(/\r\n/g, '\n');
   if (file !== 'index.html' || (!source.includes("import('./ifc-loader.js')") && !source.includes('model-import-status'))) return source;
   patches.forEach(([from, to], index) => {
