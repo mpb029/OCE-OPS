@@ -20,6 +20,11 @@
       "id": "ciu8dcxz",
       "name": "Gympie Regional Council",
       "key": "dx6eywm1"
+    },
+    {
+      "id": "cc86x0us",
+      "name": "SRG Global",
+      "key": "ni3j5ovg"
     }
   ],
   "projects": [
@@ -27,14 +32,16 @@
       "id": "py0cs3dz",
       "name": "SPS G1B Renewal",
       "clients": [
-        "ciu8dcxz"
+        "ciu8dcxz",
+        "cc86x0us"
       ]
     },
     {
       "id": "pi6x8ous",
       "name": "SPS G12 Renewal",
       "clients": [
-        "ciu8dcxz"
+        "ciu8dcxz",
+        "cc86x0us"
       ]
     }
   ],
@@ -36313,7 +36320,7 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-11-05T18:17:05.454Z",
+  "publishedAt": "2026-11-05T22:48:45.438Z",
   "changeEvents": [
     {
       "id": "8a4f1f50-ced6-4ce8-8725-bfbc07ab711a",
