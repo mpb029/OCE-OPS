@@ -3181,144 +3181,28 @@
         "wstatus": ""
       },
       {
-        "id": "uzx9his",
-        "main": "P00 — Project controls, submissions and procurement [WBS 1.1.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
-        "project": "pi6x8ous",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
-        "constraints": ""
-      },
-      {
-        "id": "lpbpdsv",
-        "main": "V01 — Temporary hardstand [WBS 2.1; potential variation — pending authorisation; Draft B 16 Oct 2026, unverified]",
-        "project": "pi6x8ous",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
-        "constraints": ""
-      },
-      {
-        "id": "xwi8sj4",
-        "main": "V02 — Additional cleared access envelope [WBS 2.2; potential variation — pending authorisation; Draft B 16 Oct 2026, unverified]",
-        "project": "pi6x8ous",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
-        "constraints": ""
-      },
-      {
-        "id": "69tq5h0",
-        "main": "V03 — Locally improved truck-access track [WBS 2.3; potential variation — pending authorisation; Draft B 16 Oct 2026, unverified]",
-        "project": "pi6x8ous",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
-        "constraints": ""
-      },
-      {
-        "id": "uxso9ov",
-        "main": "V04 — Contingency access fill connection [WBS 2.4; potential variation — pending authorisation; Draft B 16 Oct 2026, unverified]",
-        "project": "pi6x8ous",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
-        "constraints": ""
-      },
-      {
-        "id": "29nf4jy",
-        "main": "B01 — Established site and verified interfaces [WBS 1.1.2; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
-        "project": "pi6x8ous",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
-        "constraints": ""
-      },
-      {
-        "id": "l3e039p",
-        "main": "B02 — Construction temporary works and external interfaces [WBS 1.1.3; reported base / temporary pumped bypass excluded by U02; Draft B 16 Oct 2026, unverified]",
-        "project": "pi6x8ous",
-        "vis": {
-          "site": true,
-          "client": true
-        },
-        "pct": 0,
-        "team": "",
-        "dateAssigned": "",
-        "dateRequired": "",
-        "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
-        "constraints": ""
-      },
-      {
         "id": "tb7vwss",
-        "main": "B03 — Removed redundant assets and salvage returns [WBS 1.1.4; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B03 — Removed redundant assets and salvage returns",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
           "client": true
         },
-        "pct": 0,
-        "team": "",
+        "pct": 50,
+        "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
-        "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
+        "wstatus": "inprogress",
+        "materialsStatus": "not-required",
+        "prerequisiteIds": [
+          "r0b185b",
+          "d3wmq9k"
+        ],
         "constraints": ""
       },
       {
         "id": "ycm8qla",
-        "main": "B04 — Permanent earthworks and formation [WBS 1.2.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B04 — Permanent earthworks and formation",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -3330,29 +3214,31 @@
         "dateRequired": "",
         "wstatus": "",
         "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
+        "prerequisiteIds": [
+          "r0b185b"
+        ],
         "constraints": ""
       },
       {
         "id": "r0b185b",
-        "main": "B05 — Emergency storage tank and restraint system [WBS 1.3.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B05 — Emergency storage tank and restraint system",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
           "client": true
         },
         "pct": 0,
-        "team": "",
+        "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
-        "materialsStatus": "unconfirmed",
+        "materialsStatus": "unavailable",
         "prerequisiteIds": [],
-        "constraints": ""
+        "constraints": "Supplier delay - TBC (30 NOV or 11 DEC)"
       },
       {
         "id": "lhiuez4",
-        "main": "B06 — DN300 storage connection [WBS 1.3.2; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B06 — DN300 storage connection",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -3364,12 +3250,14 @@
         "dateRequired": "",
         "wstatus": "",
         "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
+        "prerequisiteIds": [
+          "r0b185b"
+        ],
         "constraints": ""
       },
       {
         "id": "6jsnrfz",
-        "main": "B07 — Screened overflow chamber and outlet [WBS 1.3.3; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B07 — Screened overflow chamber and outlet",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -3381,12 +3269,14 @@
         "dateRequired": "",
         "wstatus": "",
         "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
+        "prerequisiteIds": [
+          "r0b185b"
+        ],
         "constraints": ""
       },
       {
         "id": "7l0ye61",
-        "main": "B08 — Renewed wet-well mechanical installation [WBS 1.4.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B08 — Renewed wet-well mechanical installation",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -3403,24 +3293,24 @@
       },
       {
         "id": "zelnao8",
-        "main": "B09 — Flowmeter pit and permanent bypass [WBS 1.4.2; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B09 — Flowmeter pit and permanent bypass",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
           "client": true
         },
         "pct": 0,
-        "team": "",
+        "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
-        "materialsStatus": "unconfirmed",
+        "materialsStatus": "unavailable",
         "prerequisiteIds": [],
-        "constraints": ""
+        "constraints": "Preparing for construction under temporary bypass. Materials expected early next week (9th Nov). Council scheduled in for temp bypass establishment Mon/tues"
       },
       {
         "id": "099gav8",
-        "main": "B10 — Ventilation pole and connections [WBS 1.3.4; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B10 — Ventilation pole and connections",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -3431,13 +3321,15 @@
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
-        "materialsStatus": "unconfirmed",
-        "prerequisiteIds": [],
-        "constraints": ""
+        "materialsStatus": "available",
+        "prerequisiteIds": [
+          "r0b185b"
+        ],
+        "constraints": "RFI pending - Vent pole minor shift, once confirmed can start running out vent line"
       },
       {
         "id": "d3wmq9k",
-        "main": "B11 — Electrical installation and civil interfaces [WBS 1.4.3; reported base / electrical allocation TBC; Draft B 16 Oct 2026, unverified]",
+        "main": "B11 — Electrical installation and civil interfaces",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -3450,11 +3342,11 @@
         "wstatus": "",
         "materialsStatus": "unconfirmed",
         "prerequisiteIds": [],
-        "constraints": ""
+        "constraints": "RFI pending; Switchboard slab and conduit penetrations, SB landing Jan 27"
       },
       {
         "id": "s8m7qf1",
-        "main": "B12 — Raised maintenance holes and Class D covers [WBS 1.2.2; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B12 — Raised maintenance holes and Class D covers",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -3477,18 +3369,18 @@
           "site": true,
           "client": true
         },
-        "pct": 0,
-        "team": "",
+        "pct": 70,
+        "team": "site",
         "dateAssigned": "",
         "dateRequired": "",
         "wstatus": "",
-        "materialsStatus": "unconfirmed",
+        "materialsStatus": "available",
         "prerequisiteIds": [],
         "constraints": ""
       },
       {
         "id": "nvr8mws",
-        "main": "B14 — Permanent driveway, island and road tie-in [WBS 1.2.4; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B14 — Permanent driveway, island and road tie-in",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -3505,7 +3397,7 @@
       },
       {
         "id": "z7ga0gn",
-        "main": "B15 — Commissioned and accepted station [WBS 1.5.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+        "main": "B15 — Commissioned and accepted station",
         "project": "pi6x8ous",
         "vis": {
           "site": true,
@@ -32250,7 +32142,7 @@
       "updated": "2026-08-11T06:04:12.119Z"
     },
     "workPackages": {
-      "updated": "2026-10-15T20:20:03.307Z"
+      "updated": "2026-11-05T18:16:55.841Z"
     },
     "incidents": {
       "updated": "2026-08-20T01:31:13.713Z"
@@ -35728,10 +35620,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.305Z",
-      "updatedAt": "2026-10-15T20:20:03.305Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": "",
+      "updatedAt": "2026-11-05T17:56:22.198Z",
+      "removed": true,
+      "removedAt": "2026-11-05T17:56:22.198Z",
+      "removedReason": "deleted",
       "materialsStatus": "unconfirmed",
       "prerequisiteIds": [],
       "constraints": ""
@@ -35754,10 +35646,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": "",
+      "updatedAt": "2026-11-05T17:56:27.366Z",
+      "removed": true,
+      "removedAt": "2026-11-05T17:56:27.366Z",
+      "removedReason": "deleted",
       "materialsStatus": "unconfirmed",
       "prerequisiteIds": [],
       "constraints": ""
@@ -35780,10 +35672,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": "",
+      "updatedAt": "2026-11-05T17:56:29.027Z",
+      "removed": true,
+      "removedAt": "2026-11-05T17:56:29.027Z",
+      "removedReason": "deleted",
       "materialsStatus": "unconfirmed",
       "prerequisiteIds": [],
       "constraints": ""
@@ -35794,10 +35686,10 @@
       "project": "SPS G12 Renewal",
       "title": "V03 — Locally improved truck-access track [WBS 2.3; potential variation — pending authorisation; Draft B 16 Oct 2026, unverified]",
       "detail": "",
-      "team": "",
+      "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "Completed",
       "done": false,
       "due": "",
       "start": "",
@@ -35806,11 +35698,11 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": "",
-      "materialsStatus": "unconfirmed",
+      "updatedAt": "2026-11-05T18:16:55.841Z",
+      "removed": true,
+      "removedAt": "2026-11-05T18:16:55.841Z",
+      "removedReason": "deleted",
+      "materialsStatus": "available",
       "prerequisiteIds": [],
       "constraints": ""
     },
@@ -35832,10 +35724,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": "",
+      "updatedAt": "2026-11-05T17:57:23.410Z",
+      "removed": true,
+      "removedAt": "2026-11-05T17:57:23.410Z",
+      "removedReason": "deleted",
       "materialsStatus": "unconfirmed",
       "prerequisiteIds": [],
       "constraints": ""
@@ -35858,10 +35750,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": "",
+      "updatedAt": "2026-11-05T17:57:28.156Z",
+      "removed": true,
+      "removedAt": "2026-11-05T17:57:28.156Z",
+      "removedReason": "deleted",
       "materialsStatus": "unconfirmed",
       "prerequisiteIds": [],
       "constraints": ""
@@ -35884,10 +35776,10 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
-      "removed": false,
-      "removedAt": "",
-      "removedReason": "",
+      "updatedAt": "2026-11-05T17:57:31.052Z",
+      "removed": true,
+      "removedAt": "2026-11-05T17:57:31.052Z",
+      "removedReason": "deleted",
       "materialsStatus": "unconfirmed",
       "prerequisiteIds": [],
       "constraints": ""
@@ -35896,12 +35788,12 @@
       "id": "tb7vwss",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B03 — Removed redundant assets and salvage returns [WBS 1.1.4; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B03 — Removed redundant assets and salvage returns",
       "detail": "",
-      "team": "",
+      "team": "Site",
       "priority": "",
       "status": "",
-      "workStatus": "",
+      "workStatus": "In Progress",
       "done": false,
       "due": "",
       "start": "",
@@ -35910,19 +35802,22 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:10:11.228Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
-      "materialsStatus": "unconfirmed",
-      "prerequisiteIds": [],
+      "materialsStatus": "not-required",
+      "prerequisiteIds": [
+        "r0b185b",
+        "d3wmq9k"
+      ],
       "constraints": ""
     },
     "ycm8qla": {
       "id": "ycm8qla",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B04 — Permanent earthworks and formation [WBS 1.2.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B04 — Permanent earthworks and formation",
       "detail": "",
       "team": "",
       "priority": "",
@@ -35936,21 +35831,23 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:09:48.215Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
       "materialsStatus": "unconfirmed",
-      "prerequisiteIds": [],
+      "prerequisiteIds": [
+        "r0b185b"
+      ],
       "constraints": ""
     },
     "r0b185b": {
       "id": "r0b185b",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B05 — Emergency storage tank and restraint system [WBS 1.3.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B05 — Emergency storage tank and restraint system",
       "detail": "",
-      "team": "",
+      "team": "Site",
       "priority": "",
       "status": "",
       "workStatus": "",
@@ -35962,19 +35859,19 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:05:48.626Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
-      "materialsStatus": "unconfirmed",
+      "materialsStatus": "unavailable",
       "prerequisiteIds": [],
-      "constraints": ""
+      "constraints": "Supplier delay - TBC (30 NOV or 11 DEC)"
     },
     "lhiuez4": {
       "id": "lhiuez4",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B06 — DN300 storage connection [WBS 1.3.2; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B06 — DN300 storage connection",
       "detail": "",
       "team": "",
       "priority": "",
@@ -35988,19 +35885,21 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:06:07.817Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
       "materialsStatus": "unconfirmed",
-      "prerequisiteIds": [],
+      "prerequisiteIds": [
+        "r0b185b"
+      ],
       "constraints": ""
     },
     "6jsnrfz": {
       "id": "6jsnrfz",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B07 — Screened overflow chamber and outlet [WBS 1.3.3; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B07 — Screened overflow chamber and outlet",
       "detail": "",
       "team": "",
       "priority": "",
@@ -36014,19 +35913,21 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:06:24.376Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
       "materialsStatus": "unconfirmed",
-      "prerequisiteIds": [],
+      "prerequisiteIds": [
+        "r0b185b"
+      ],
       "constraints": ""
     },
     "7l0ye61": {
       "id": "7l0ye61",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B08 — Renewed wet-well mechanical installation [WBS 1.4.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B08 — Renewed wet-well mechanical installation",
       "detail": "",
       "team": "",
       "priority": "",
@@ -36040,7 +35941,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:07:04.562Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
@@ -36052,9 +35953,9 @@
       "id": "zelnao8",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B09 — Flowmeter pit and permanent bypass [WBS 1.4.2; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B09 — Flowmeter pit and permanent bypass",
       "detail": "",
-      "team": "",
+      "team": "Site",
       "priority": "",
       "status": "",
       "workStatus": "",
@@ -36066,19 +35967,19 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:11:15.674Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
-      "materialsStatus": "unconfirmed",
+      "materialsStatus": "unavailable",
       "prerequisiteIds": [],
-      "constraints": ""
+      "constraints": "Preparing for construction under temporary bypass. Materials expected early next week (9th Nov). Council scheduled in for temp bypass establishment Mon/tues"
     },
     "099gav8": {
       "id": "099gav8",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B10 — Ventilation pole and connections [WBS 1.3.4; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B10 — Ventilation pole and connections",
       "detail": "",
       "team": "",
       "priority": "",
@@ -36092,19 +35993,21 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:12:47.260Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
-      "materialsStatus": "unconfirmed",
-      "prerequisiteIds": [],
-      "constraints": ""
+      "materialsStatus": "available",
+      "prerequisiteIds": [
+        "r0b185b"
+      ],
+      "constraints": "RFI pending - Vent pole minor shift, once confirmed can start running out vent line"
     },
     "d3wmq9k": {
       "id": "d3wmq9k",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B11 — Electrical installation and civil interfaces [WBS 1.4.3; reported base / electrical allocation TBC; Draft B 16 Oct 2026, unverified]",
+      "title": "B11 — Electrical installation and civil interfaces",
       "detail": "",
       "team": "",
       "priority": "",
@@ -36118,19 +36021,19 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:15:03.848Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
       "materialsStatus": "unconfirmed",
       "prerequisiteIds": [],
-      "constraints": ""
+      "constraints": "RFI pending; Switchboard slab and conduit penetrations, SB landing Jan 27"
     },
     "s8m7qf1": {
       "id": "s8m7qf1",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B12 — Raised maintenance holes and Class D covers [WBS 1.2.2; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B12 — Raised maintenance holes and Class D covers",
       "detail": "",
       "team": "",
       "priority": "",
@@ -36144,7 +36047,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:16:01.168Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
@@ -36158,7 +36061,7 @@
       "project": "SPS G12 Renewal",
       "title": "B13 — Stormwater culvert and outlet drainage [WBS 1.2.3; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
       "detail": "",
-      "team": "",
+      "team": "Site",
       "priority": "",
       "status": "",
       "workStatus": "",
@@ -36170,11 +36073,11 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:02:58.349Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
-      "materialsStatus": "unconfirmed",
+      "materialsStatus": "available",
       "prerequisiteIds": [],
       "constraints": ""
     },
@@ -36182,7 +36085,7 @@
       "id": "nvr8mws",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B14 — Permanent driveway, island and road tie-in [WBS 1.2.4; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B14 — Permanent driveway, island and road tie-in",
       "detail": "",
       "team": "",
       "priority": "",
@@ -36196,7 +36099,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:13:39.178Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
@@ -36208,7 +36111,7 @@
       "id": "z7ga0gn",
       "panel": "Work Packages",
       "project": "SPS G12 Renewal",
-      "title": "B15 — Commissioned and accepted station [WBS 1.5.1; reported base / planning draft; Draft B 16 Oct 2026, unverified]",
+      "title": "B15 — Commissioned and accepted station",
       "detail": "",
       "team": "",
       "priority": "",
@@ -36222,7 +36125,7 @@
       "dateRequired": "",
       "photos": 0,
       "createdAt": "2026-10-15T20:20:03.307Z",
-      "updatedAt": "2026-10-15T20:20:03.307Z",
+      "updatedAt": "2026-11-05T18:16:23.788Z",
       "removed": false,
       "removedAt": "",
       "removedReason": "",
@@ -36410,5 +36313,546 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-11-04T22:55:42.855Z"
+  "publishedAt": "2026-11-05T18:17:05.454Z",
+  "changeEvents": [
+    {
+      "id": "8a4f1f50-ced6-4ce8-8725-bfbc07ab711a",
+      "recordId": "uzx9his",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "deleted",
+      "at": "2026-11-05T17:56:22.205Z",
+      "fields": [
+        "constraints",
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "materialsStatus",
+        "pct",
+        "prerequisiteIds",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 11
+    },
+    {
+      "id": "236212f4-1dee-4dd7-9b22-ee6098256102",
+      "recordId": "lpbpdsv",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "deleted",
+      "at": "2026-11-05T17:56:27.370Z",
+      "fields": [
+        "constraints",
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "materialsStatus",
+        "pct",
+        "prerequisiteIds",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 12
+    },
+    {
+      "id": "b6f76abe-8a2e-4c43-9d1f-2176889eae77",
+      "recordId": "xwi8sj4",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "deleted",
+      "at": "2026-11-05T17:56:29.031Z",
+      "fields": [
+        "constraints",
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "materialsStatus",
+        "pct",
+        "prerequisiteIds",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 13
+    },
+    {
+      "id": "8ff8a65c-367c-4376-94e3-37d5be8e6109",
+      "recordId": "69tq5h0",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T17:57:08.572Z",
+      "fields": [
+        "materialsStatus",
+        "pct",
+        "resolvedAt",
+        "team",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 14
+    },
+    {
+      "id": "c37b1e20-cb59-41dc-a0eb-90117c11f44e",
+      "recordId": "uxso9ov",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "deleted",
+      "at": "2026-11-05T17:57:23.414Z",
+      "fields": [
+        "constraints",
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "materialsStatus",
+        "pct",
+        "prerequisiteIds",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 15
+    },
+    {
+      "id": "5913aa51-1a6e-4999-a55f-39eddc9baf07",
+      "recordId": "29nf4jy",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "deleted",
+      "at": "2026-11-05T17:57:28.160Z",
+      "fields": [
+        "constraints",
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "materialsStatus",
+        "pct",
+        "prerequisiteIds",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 16
+    },
+    {
+      "id": "1ff17a88-4a0f-4562-880e-1e1526ac8843",
+      "recordId": "l3e039p",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "deleted",
+      "at": "2026-11-05T17:57:31.056Z",
+      "fields": [
+        "constraints",
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "materialsStatus",
+        "pct",
+        "prerequisiteIds",
+        "project",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 17
+    },
+    {
+      "id": "49d70431-4338-42b8-a8c7-89409dce6f09",
+      "recordId": "tb7vwss",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T17:59:12.492Z",
+      "fields": [
+        "materialsStatus",
+        "pct",
+        "prerequisiteIds",
+        "team",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 18
+    },
+    {
+      "id": "e855a552-f33d-4b87-92da-25c64dd63d7e",
+      "recordId": "tb7vwss",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T17:59:30.207Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 19
+    },
+    {
+      "id": "5cf6535f-4e35-46ed-9856-ff922652d0eb",
+      "recordId": "tb7vwss",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T17:59:51.105Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 20
+    },
+    {
+      "id": "9243aad6-dfc4-4c8a-a8dd-beefe37b6fda",
+      "recordId": "ycm8qla",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:00:18.149Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 21
+    },
+    {
+      "id": "95d412c4-8711-4d2c-b730-177ac8399b3e",
+      "recordId": "r0b185b",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:01:00.318Z",
+      "fields": [
+        "constraints",
+        "materialsStatus",
+        "team"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 22
+    },
+    {
+      "id": "8c041269-7e5b-43b9-96d0-3573eccd0d69",
+      "recordId": "lhiuez4",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:01:24.510Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 23
+    },
+    {
+      "id": "96b1f85b-1e2a-4a6d-9c56-4aaf7b210d22",
+      "recordId": "6jsnrfz",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:01:38.337Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 24
+    },
+    {
+      "id": "b3dfa746-9227-4ce5-a5db-8e7ac128a276",
+      "recordId": "wdnmyoz",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:02:58.354Z",
+      "fields": [
+        "materialsStatus",
+        "pct",
+        "team"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 26
+    },
+    {
+      "id": "4bf9086a-17f6-451c-8116-69939b7af082",
+      "recordId": "tb7vwss",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:04:30.626Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 27
+    },
+    {
+      "id": "3680beb7-672b-40bb-b987-d529a2e2aef4",
+      "recordId": "ycm8qla",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:04:48.320Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 28
+    },
+    {
+      "id": "56c642f1-65be-4c6e-9f88-4a445e49f016",
+      "recordId": "r0b185b",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:05:48.630Z",
+      "fields": [
+        "constraints",
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 29
+    },
+    {
+      "id": "84c45bf8-de37-4784-8dae-731399c19de2",
+      "recordId": "lhiuez4",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:06:07.820Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 30
+    },
+    {
+      "id": "3b296f16-3926-4aad-af08-33e654491f41",
+      "recordId": "6jsnrfz",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:06:24.380Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 31
+    },
+    {
+      "id": "8d18860e-6619-48c4-b2fa-ea189d502489",
+      "recordId": "7l0ye61",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:07:04.566Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 32
+    },
+    {
+      "id": "f144b966-86a3-4f2f-ae4a-10bb1b88450b",
+      "recordId": "zelnao8",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:08:47.955Z",
+      "fields": [
+        "constraints",
+        "main",
+        "materialsStatus",
+        "team"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 33
+    },
+    {
+      "id": "d5ba7355-34a2-4bef-b6d5-a08b63dd22a7",
+      "recordId": "tb7vwss",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:09:09.533Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 34
+    },
+    {
+      "id": "16b88bbe-59b9-442c-957b-c1543f121287",
+      "recordId": "ycm8qla",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:09:41.546Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 36
+    },
+    {
+      "id": "e52410ea-c859-4a73-b944-268a919b43c7",
+      "recordId": "ycm8qla",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:09:48.219Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 37
+    },
+    {
+      "id": "2bbdadd7-04fd-4158-a751-1cc4382dd851",
+      "recordId": "tb7vwss",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:10:11.231Z",
+      "fields": [
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 38
+    },
+    {
+      "id": "10c5c646-b06d-4b9f-bf19-0eb17fbf2b74",
+      "recordId": "zelnao8",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:11:15.677Z",
+      "fields": [
+        "materialsStatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 39
+    },
+    {
+      "id": "bc95eed2-21c1-47a0-ae97-eec8f1b65af2",
+      "recordId": "099gav8",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:12:47.264Z",
+      "fields": [
+        "constraints",
+        "main",
+        "materialsStatus",
+        "prerequisiteIds"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 40
+    },
+    {
+      "id": "ad10b072-43b1-4081-8704-e9952b755340",
+      "recordId": "d3wmq9k",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:13:17.359Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 41
+    },
+    {
+      "id": "d86ae5c7-abf3-4fa9-a215-b3f7be514bd5",
+      "recordId": "nvr8mws",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:13:39.181Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 42
+    },
+    {
+      "id": "6d61ceff-1665-416f-b73f-f9a49d0e9b6b",
+      "recordId": "d3wmq9k",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:15:03.852Z",
+      "fields": [
+        "constraints"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 43
+    },
+    {
+      "id": "7ee379f6-cadc-44f6-9420-d02fe9a16a87",
+      "recordId": "s8m7qf1",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:16:01.172Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 44
+    },
+    {
+      "id": "b604bbcd-e8f9-4396-9d4c-5ccc473fb119",
+      "recordId": "z7ga0gn",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "updated",
+      "at": "2026-11-05T18:16:23.792Z",
+      "fields": [
+        "main"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 45
+    },
+    {
+      "id": "415e0813-6a54-42c9-bc9c-2cae52d2666a",
+      "recordId": "69tq5h0",
+      "recordType": "workPackage",
+      "project": "pi6x8ous",
+      "action": "deleted",
+      "at": "2026-11-05T18:16:55.844Z",
+      "fields": [
+        "constraints",
+        "dateAssigned",
+        "dateRequired",
+        "id",
+        "main",
+        "materialsStatus",
+        "pct",
+        "prerequisiteIds",
+        "project",
+        "resolvedAt",
+        "team",
+        "vis",
+        "wstatus"
+      ],
+      "revision": "b3caccc45ebdf73739828d0f1b4a19914b37da9b",
+      "generation": 46
+    }
+  ]
 }
