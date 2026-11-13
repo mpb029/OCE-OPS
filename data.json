@@ -1506,6 +1506,110 @@
             }
           ]
         }
+      },
+      {
+        "id": "46udt66",
+        "main": "G12 - Penstock Install",
+        "project": "pi6x8ous",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "Under temp bypass arrangement, in parallel to FM works",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-11-13",
+        "endDate": "2026-11-17",
+        "planning": {
+          "resourceRefs": [],
+          "evidence": [],
+          "notes": "",
+          "version": 1,
+          "workPackageId": "7l0ye61",
+          "location": "Wet Well",
+          "chainageStart": null,
+          "chainageEnd": null,
+          "supervisor": "",
+          "crew": "",
+          "plant": "",
+          "quantity": null,
+          "unit": "",
+          "actualStart": "",
+          "actualFinish": "",
+          "baseline": {
+            "source": "",
+            "revision": "",
+            "dataDate": "",
+            "start": "",
+            "finish": "",
+            "quantity": null,
+            "unit": ""
+          },
+          "changes": [],
+          "clientLookahead": {
+            "version": 1,
+            "enabled": true,
+            "milestone": false,
+            "notes": "",
+            "shareSubcontractors": false,
+            "sharePermits": false,
+            "shareApprovals": false
+          }
+        }
+      },
+      {
+        "id": "06f52rm",
+        "main": "G12 -Excavation and prep for Storage Tank install; demo existing, new connection to ex.MH",
+        "project": "pi6x8ous",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "sub": "",
+        "team": "site",
+        "dateAssigned": "",
+        "dateRequired": "",
+        "wstatus": "",
+        "startDate": "2026-11-23",
+        "endDate": "2026-11-27",
+        "planning": {
+          "resourceRefs": [],
+          "evidence": [],
+          "notes": "",
+          "version": 1,
+          "workPackageId": "",
+          "location": "",
+          "chainageStart": null,
+          "chainageEnd": null,
+          "supervisor": "",
+          "crew": "",
+          "plant": "",
+          "quantity": null,
+          "unit": "",
+          "actualStart": "",
+          "actualFinish": "",
+          "baseline": {
+            "source": "",
+            "revision": "",
+            "dataDate": "",
+            "start": "",
+            "finish": "",
+            "quantity": null,
+            "unit": ""
+          },
+          "changes": [],
+          "clientLookahead": {
+            "version": 1,
+            "enabled": true,
+            "milestone": false,
+            "notes": "",
+            "shareSubcontractors": false,
+            "sharePermits": false,
+            "shareApprovals": false
+          }
+        }
       }
     ],
     "subbiesToday": [
@@ -2460,6 +2564,20 @@
         "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/4za3s79-Offaly_Civil_Engineering_26-0925_Gympie_Rd.pdf",
         "sha": "652b28973137032141393827965401bdf6780457",
         "size": 285687,
+        "mime": "application/pdf"
+      },
+      {
+        "id": "3zjsl7o",
+        "uploadedAt": "2026-11-13T05:12:11.062Z",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "name": "SPS-G12 IFC Rev 0.pdf",
+        "path": "files/5v2z3tp-SPS-G12_IFC_Rev_0.pdf",
+        "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/5v2z3tp-SPS-G12_IFC_Rev_0.pdf",
+        "sha": "f16341e41ae0ee4c34ddee138823b34d2c194761",
+        "size": 8229397,
         "mime": "application/pdf"
       }
     ],
@@ -31983,7 +32101,7 @@
       "updated": "2026-09-08T02:35:23.337Z"
     },
     "documents": {
-      "updated": "2026-07-20T03:52:20.818Z"
+      "updated": "2026-11-13T05:12:11.062Z"
     },
     "designChanges": {
       "updated": "2026-07-08T01:11:45.481Z"
@@ -31995,7 +32113,7 @@
       "updated": "2026-08-28T01:50:08.158Z"
     },
     "upcoming": {
-      "updated": "2026-11-05T23:09:14.769Z"
+      "updated": "2026-11-05T23:21:31.262Z"
     },
     "siteInputs": {
       "updated": "2026-09-14T05:10:32.732Z"
@@ -36931,6 +37049,147 @@
       "removed": true,
       "removedAt": "2026-11-05T23:05:25.607Z",
       "removedReason": "deleted"
+    },
+    "46udt66": {
+      "id": "46udt66",
+      "panel": "Scheduled Works",
+      "project": "SPS G12 Renewal",
+      "title": "G12 - Penstock Install",
+      "detail": "Under temp bypass arrangement, in parallel to FM works",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-11-13",
+      "end": "2026-11-17",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:19:51.661Z",
+      "updatedAt": "2026-11-05T23:19:51.661Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": "",
+      "planning": {
+        "resourceRefs": [],
+        "evidence": [],
+        "notes": "",
+        "version": 1,
+        "workPackageId": "7l0ye61",
+        "location": "Wet Well",
+        "chainageStart": null,
+        "chainageEnd": null,
+        "supervisor": "",
+        "crew": "",
+        "plant": "",
+        "quantity": null,
+        "unit": "",
+        "actualStart": "",
+        "actualFinish": "",
+        "baseline": {
+          "source": "",
+          "revision": "",
+          "dataDate": "",
+          "start": "",
+          "finish": "",
+          "quantity": null,
+          "unit": ""
+        },
+        "changes": [],
+        "clientLookahead": {
+          "version": 1,
+          "enabled": true,
+          "milestone": false,
+          "notes": "",
+          "shareSubcontractors": false,
+          "sharePermits": false,
+          "shareApprovals": false
+        }
+      }
+    },
+    "06f52rm": {
+      "id": "06f52rm",
+      "panel": "Scheduled Works",
+      "project": "SPS G12 Renewal",
+      "title": "G12 -Excavation and prep for Storage Tank install; demo existing, new connection to ex.MH",
+      "detail": "",
+      "team": "Site",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "2026-11-23",
+      "end": "2026-11-27",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-05T23:21:18.748Z",
+      "updatedAt": "2026-11-05T23:21:31.262Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": "",
+      "planning": {
+        "resourceRefs": [],
+        "evidence": [],
+        "notes": "",
+        "version": 1,
+        "workPackageId": "",
+        "location": "",
+        "chainageStart": null,
+        "chainageEnd": null,
+        "supervisor": "",
+        "crew": "",
+        "plant": "",
+        "quantity": null,
+        "unit": "",
+        "actualStart": "",
+        "actualFinish": "",
+        "baseline": {
+          "source": "",
+          "revision": "",
+          "dataDate": "",
+          "start": "",
+          "finish": "",
+          "quantity": null,
+          "unit": ""
+        },
+        "changes": [],
+        "clientLookahead": {
+          "version": 1,
+          "enabled": true,
+          "milestone": false,
+          "notes": "",
+          "shareSubcontractors": false,
+          "sharePermits": false,
+          "shareApprovals": false
+        }
+      }
+    },
+    "3zjsl7o": {
+      "id": "3zjsl7o",
+      "panel": "Documents & Files",
+      "project": "",
+      "title": "SPS-G12 IFC Rev 0.pdf",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-13T05:12:11.062Z",
+      "updatedAt": "2026-11-13T05:12:11.062Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -36991,7 +37250,7 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-11-05T23:09:39.006Z",
+  "publishedAt": "2026-11-13T05:12:37.229Z",
   "changeEvents": [
     {
       "id": "8a4f1f50-ced6-4ce8-8725-bfbc07ab711a",
