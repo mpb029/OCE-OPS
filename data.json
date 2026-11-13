@@ -32058,7 +32058,7 @@
       "client": true
     },
     "documents": {
-      "site": false,
+      "site": true,
       "client": true
     },
     "weeklyPhotos": {
@@ -32101,7 +32101,7 @@
       "updated": "2026-09-08T02:35:23.337Z"
     },
     "documents": {
-      "updated": "2026-11-13T05:12:11.062Z"
+      "updated": "2026-11-13T05:17:43.527Z"
     },
     "designChanges": {
       "updated": "2026-07-08T01:11:45.481Z"
@@ -37250,7 +37250,7 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-11-13T05:12:37.229Z",
+  "publishedAt": "2026-11-13T05:17:46.117Z",
   "changeEvents": [
     {
       "id": "8a4f1f50-ced6-4ce8-8725-bfbc07ab711a",
