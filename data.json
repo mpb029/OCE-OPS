@@ -2579,6 +2579,20 @@
         "sha": "f16341e41ae0ee4c34ddee138823b34d2c194761",
         "size": 8229397,
         "mime": "application/pdf"
+      },
+      {
+        "id": "41el54t",
+        "uploadedAt": "2026-11-15T21:19:16.714Z",
+        "vis": {
+          "site": true,
+          "client": true
+        },
+        "name": "Flowmeter_Pit_Steel Marking Plan.pdf",
+        "path": "files/9kf7cz9-Flowmeter_Pit_Steel_Marking_Plan.pdf",
+        "url": "https://raw.githubusercontent.com/mpb029/OCE-OPS/main/files/9kf7cz9-Flowmeter_Pit_Steel_Marking_Plan.pdf",
+        "sha": "728e15bb187ed7981d8a01b3c07f7f1b571ff6b6",
+        "size": 443154,
+        "mime": "application/pdf"
       }
     ],
     "weeklyPhotos": [
@@ -32101,7 +32115,7 @@
       "updated": "2026-09-08T02:35:23.337Z"
     },
     "documents": {
-      "updated": "2026-11-13T05:17:43.527Z"
+      "updated": "2026-11-15T21:19:16.714Z"
     },
     "designChanges": {
       "updated": "2026-07-08T01:11:45.481Z"
@@ -37190,6 +37204,29 @@
       "removed": false,
       "removedAt": "",
       "removedReason": ""
+    },
+    "41el54t": {
+      "id": "41el54t",
+      "panel": "Documents & Files",
+      "project": "",
+      "title": "Flowmeter_Pit_Steel Marking Plan.pdf",
+      "detail": "",
+      "team": "",
+      "priority": "",
+      "status": "",
+      "workStatus": "",
+      "done": false,
+      "due": "",
+      "start": "",
+      "end": "",
+      "dateAssigned": "",
+      "dateRequired": "",
+      "photos": 0,
+      "createdAt": "2026-11-15T21:19:16.714Z",
+      "updatedAt": "2026-11-15T21:19:16.714Z",
+      "removed": false,
+      "removedAt": "",
+      "removedReason": ""
     }
   },
   "projectSummary": {
@@ -37250,7 +37287,7 @@
       "scope": ""
     }
   },
-  "publishedAt": "2026-11-13T05:18:35.809Z",
+  "publishedAt": "2026-11-15T21:19:20.633Z",
   "changeEvents": [
     {
       "id": "8a4f1f50-ced6-4ce8-8725-bfbc07ab711a",
